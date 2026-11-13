@@ -158,10 +158,6 @@
         rotation: 200, scale: 1, ease: 'none',
         scrollTrigger: { trigger: '.dish-wrap', start: 'top bottom', end: 'bottom top', scrub: 0.5 },
       });
-      gsap.fromTo('.dish-tilt', { rotationX: 40 }, {
-        rotationX: 6, ease: 'none',
-        scrollTrigger: { trigger: '.dish-wrap', start: 'top bottom', end: 'center center', scrub: 0.5 },
-      });
     });
   }
 

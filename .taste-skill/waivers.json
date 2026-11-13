@@ -1,0 +1,6 @@
+[
+  { "check": "pinned", "target": "section#vitrine", "reason": "le brief impose la vitrine 3D : plat en rotation au scroll, section tenue le temps de la rotation" },
+  { "check": "effect-kind", "target": "(the page)", "reason": "le brief impose fond #081426 avec micro-grille et halo rouge #E62E2D pour cette agence IA" },
+  { "check": "no-visual", "target": "section#simulateur", "reason": "le visuel de la section est le simulateur interactif lui-même (curseurs, chiffre, barres)" },
+  { "check": "no-visual", "target": "section#tarifs", "reason": "la section est une interface d'onglets tarifaires demandée par le brief, sans image à ajouter" }
+]
