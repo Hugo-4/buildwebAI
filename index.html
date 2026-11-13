@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="fr" data-type="service">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BuildWebAI · Site, réservations et IA pour restaurants et hôtels</title>
+  <meta name="description" content="Canal de vente direct sans commission, standardiste vocal IA 24 h/24 et rappels SMS anti-no-show pour restaurants, hôtels, caves à manger et bars à vins. Audit vidéo offert.">
+  <meta name="page-type" content="service">
+  <meta name="site-kind" content="other">
+  <meta name="theme-color" content="#081426">
+  <link rel="canonical" href="https://buildwebia.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="BuildWebAI · Créez votre canal direct. Automatisez le service.">
+  <meta property="og:description" content="Site ultra-rapide, Click & Collect sans commission, standardiste vocal IA et SMS anti-no-show pour l'hôtellerie-restauration.">
+  <meta property="og:url" content="https://buildwebia.com/">
+  <meta property="og:image" content="https://buildwebia.com/assets/img/salle-service.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23081426'/%3E%3Cpath fill='%23fff' d='M8 6h8v36H8zM16 6h11a8.5 8.5 0 0 1 0 17H16zM16 23h13a9.5 9.5 0 0 1 0 19H16z'/%3E%3Crect x='40' y='36' width='6' height='6' fill='%23E62E2D'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/img/plat-signature.webp">
+
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            night: '#081426',
+            deep: '#0C1C33',
+            line: '#1A2C47',
+            ember: '#E62E2D',
+            mist: '#EEF2F6',
+            steel: '#6A9BC3',
+            steeldk: '#365F82',
+            ink: '#0B1830',
+          },
+          fontFamily: { sans: ['"Space Grotesk"', 'system-ui', 'sans-serif'] },
+          maxWidth: { wrap: '1240px' },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="assets/site.css">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body class="bg-night text-white font-sans antialiased">
+  <a href="#contenu" class="skip-link">Aller au contenu</a>
+
+  <!-- Preloader : assemblage géométrique du B + carré rouge (0,8 s) -->
+  <div id="preloader" aria-hidden="true">
+    <svg class="pre-mark" viewBox="0 0 48 48" width="96" height="96">
+      <rect class="pl-stem" x="8" y="6" width="8" height="36" fill="#fff"/>
+      <path class="pl-top" fill="#fff" fill-rule="evenodd" d="M16 6h11a8.5 8.5 0 0 1 0 17H16zM16 12h10a2.5 2.5 0 0 1 0 5H16z"/>
+      <path class="pl-bot" fill="#fff" fill-rule="evenodd" d="M16 23h13a9.5 9.5 0 0 1 0 19H16zM16 29h12a3.25 3.25 0 0 1 0 6.5H16z"/>
+      <rect class="pl-sq" x="40" y="36" width="6" height="6" fill="#E62E2D"/>
+    </svg>
+  </div>
+
+  <!-- NAV -->
+  <header id="nav" class="fixed inset-x-0 top-0 z-50">
+    <div class="nav-bar mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 lg:h-[72px]">
+      <a href="#top" class="flex items-center gap-2.5 min-h-[44px] brand" aria-label="BuildWebAI, retour en haut">
+        <svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true">
+          <path fill="#fff" fill-rule="evenodd" d="M8 6h8v36H8zM16 6h11a8.5 8.5 0 0 1 0 17H16zM16 12h10a2.5 2.5 0 0 1 0 5H16zM16 23h13a9.5 9.5 0 0 1 0 19H16zM16 29h12a3.25 3.25 0 0 1 0 6.5H16z"/>
+          <rect x="40" y="36" width="6" height="6" fill="#E62E2D"/>
+        </svg>
+        <span class="font-bold tracking-tight text-[17px]">BuildWebAI</span>
+      </a>
+      <nav aria-label="Navigation principale" class="hidden lg:block">
+        <ul class="flex items-center gap-8 text-[15px] font-medium text-white/80">
+          <li><a class="ulink" href="#vitrine">Vitrine</a></li>
+          <li><a class="ulink" href="#simulateur">Simulateur</a></li>
+          <li><a class="ulink" href="#avant-apres">Avant / Après</a></li>
+          <li><a class="ulink" href="#tarifs">Tarifs</a></li>
+        </ul>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="#audit" class="btn btn-ghost hidden sm:inline-flex">Demander l'audit</a>
+        <button id="menuBtn" class="menu-btn lg:hidden" aria-expanded="false" aria-controls="mobileMenu" aria-label="Ouvrir le menu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu lg:hidden" hidden>
+      <ul class="px-4 pt-24 flex flex-col gap-1">
+        <li><a href="#vitrine">Vitrine</a></li>
+        <li><a href="#simulateur">Simulateur</a></li>
+        <li><a href="#avant-apres">Avant / Après</a></li>
+        <li><a href="#tarifs">Tarifs</a></li>
+        <li><a href="#audit">Audit vidéo offert</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="contenu">
+
+    <!-- ============ HERO ============ -->
+    <section id="top" class="hero relative overflow-hidden" data-enter>
+      <div class="grid-bg" aria-hidden="true"></div>
+      <div class="halo" aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 pt-28 lg:pt-28 pb-16 lg:pb-14 grid lg:grid-cols-12 gap-12 lg:gap-10 items-center min-h-[100svh]">
+        <div class="lg:col-span-7">
+          <p class="eyebrow hero-in">Restaurants · Hôtels · Caves à manger · Bars à vins</p>
+          <h1 class="display mt-5 text-[2.6rem] leading-[0.92] sm:text-6xl lg:text-[4.7rem]">
+            <span class="hero-line block"><span class="hero-in block">Créez votre</span></span>
+            <span class="hero-line block"><span class="hero-in block">canal direct<span class="text-ember">.</span></span></span>
+            <span class="hero-line block"><span class="hero-in block text-steel">Automatisez</span></span>
+            <span class="hero-line block"><span class="hero-in block text-steel">le service<span class="text-ember">.</span></span></span>
+          </h1>
+          <p class="hero-in mt-6 lg:mt-7 max-w-[34rem] text-[17px] lg:text-lg leading-relaxed text-white/75">
+            Votre site prend les commandes sans commission, une IA répond au téléphone pendant le coup de feu et un SMS confirme chaque table. Vous gardez Uber Eats et Deliveroo&nbsp;; vous ajoutez le canal qui vous rapporte le plus.
+          </p>
+          <div class="hero-in mt-9 flex flex-col sm:flex-row gap-3">
+            <a href="#audit" class="btn btn-primary">Recevoir mon audit vidéo gratuit</a>
+            <a href="#simulateur" class="btn btn-outline">Calculer mon manque à gagner</a>
+          </div>
+          <dl class="hero-in mt-10 grid grid-cols-3 gap-4 max-w-[34rem] border-t border-white/10 pt-6">
+            <div><dt class="kpi-label">No-shows</dt><dd class="kpi-val">18&nbsp;% → &lt;3&nbsp;%</dd></div>
+            <div><dt class="kpi-label">Temps gagné</dt><dd class="kpi-val">1h30 / jour</dd></div>
+            <div><dt class="kpi-label">Commission</dt><dd class="kpi-val">0&nbsp;%</dd></div>
+          </dl>
+        </div>
+
+        <!-- Simulation d'appel : Standardiste Vocal IA -->
+        <div class="lg:col-span-5 hero-in hero-call">
+          <div class="call-card" aria-label="Simulation : appel pris par le standardiste vocal IA à 20h34">
+            <div class="flex items-center justify-between px-5 pt-5">
+              <div class="flex items-center gap-2.5">
+                <span class="live-dot" aria-hidden="true"></span>
+                <span class="text-[13px] font-medium uppercase tracking-[0.14em] text-white/70">Standardiste vocal IA</span>
+              </div>
+              <span class="clock font-bold text-xl tabular-nums">20:34</span>
+            </div>
+            <div class="mx-5 mt-4 flex items-center gap-3 rounded-xl bg-white/[0.04] border border-white/10 px-3.5 py-2.5 text-[13px] text-white/70">
+              <span class="rush-pill">Coup de feu</span>
+              <span>Salle à 96&nbsp;% · 3 serveurs en service</span>
+            </div>
+
+            <div class="px-5 mt-5 flex items-center gap-4">
+              <div class="caller-ring" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#fff" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-[15px] font-bold">Appel entrant · Client</p>
+                <p class="text-[13px] text-white/60"><span id="callStatus">Décroché par l'IA</span> · <span id="callTimer" class="tabular-nums">00:00</span></p>
+              </div>
+              <div class="wave" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+
+            <ol id="transcript" class="px-5 mt-5 flex flex-col gap-2.5 min-h-[226px]" aria-live="polite">
+              <li class="msg msg-client"><span class="who">Client</span>Bonsoir, vous auriez une table pour quatre demain midi&nbsp;?</li>
+              <li class="msg msg-ai"><span class="who">IA</span>Bonsoir&nbsp;! Il me reste 12h30 en salle ou 13h15 en terrasse. Laquelle vous convient&nbsp;?</li>
+              <li class="msg msg-client"><span class="who">Client</span>12h30, au nom de Martin. Vous avez des plats sans gluten&nbsp;?</li>
+              <li class="msg msg-ai"><span class="who">IA</span>Oui, trois plats de la carte. C'est noté&nbsp;: 4 couverts à 12h30, je vous envoie la confirmation par SMS.</li>
+            </ol>
+
+            <div class="m-5 mt-4 grid grid-cols-2 gap-2 text-[13px]">
+              <div class="result"><span class="tick" aria-hidden="true">✓</span>Table créée · 4 couverts</div>
+              <div class="result"><span class="tick" aria-hidden="true">✓</span>SMS de confirmation envoyé</div>
+              <div class="result"><span class="tick tick-steel" aria-hidden="true">↻</span>Rappel SMS demain 9h30</div>
+              <div class="result"><span class="tick tick-steel" aria-hidden="true">≡</span>Aucun serveur dérangé</div>
+            </div>
+            <div class="flex items-center justify-between border-t border-white/10 px-5 py-3">
+              <p class="text-[12px] text-white/50">Démonstration · conversation type</p>
+              <button id="callToggle" class="mini-btn" aria-pressed="false">Mettre en pause</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VITRINE 3D & WEB ============ -->
+    <section id="vitrine" class="vitrine relative bg-night overflow-hidden">
+      <div class="grid-bg grid-bg--soft" aria-hidden="true"></div>
+      <div class="vitrine-stage relative mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 min-h-[100svh] py-20 lg:py-0 grid lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-5 relative z-10">
+          <p class="eyebrow">Vitrine interactive 3D &amp; web</p>
+          <h2 class="display mt-4 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Votre plat signature donne faim avant la réservation<span class="text-ember">.</span></h2>
+          <p class="mt-6 text-lg leading-relaxed text-white/70 max-w-[30rem]">
+            Un site mobile qui s'affiche avant que le client ne compose votre numéro, vos plats en 3D qu'il fait tourner du doigt, et un bouton Commander qui encaisse en direct par Stripe ou Apple Pay.
+          </p>
+          <a href="#tarifs" class="btn btn-outline mt-8 hidden lg:inline-flex">Voir les formules web</a>
+        </div>
+
+        <div class="lg:col-span-7 relative">
+          <div class="dish-wrap" aria-hidden="true">
+            <div class="dish-glow"></div>
+            <div class="dish-orbit"></div>
+            <div class="dish-tilt">
+              <img id="dish" class="dish" src="assets/img/plat-signature.webp" width="960" height="960" alt="" decoding="async">
+            </div>
+          </div>
+
+          <ul class="badges" aria-label="Résultats mesurés sur les sites livrés">
+            <li class="badge badge-1">
+              <span class="badge-val">&lt;&nbsp;1,2&nbsp;s</span>
+              <span class="badge-txt">Temps de chargement, contre 4 à 6&nbsp;s en moyenne</span>
+            </li>
+            <li class="badge badge-2">
+              <span class="badge-val">+20&nbsp;%</span>
+              <span class="badge-txt">Panier moyen, grâce aux boissons et extras proposés</span>
+            </li>
+            <li class="badge badge-3">
+              <span class="badge-val">0&nbsp;%</span>
+              <span class="badge-txt">Commission sur le Click &amp; Collect direct</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SIMULATEUR ROI ANTI-NO-SHOW ============ -->
+    <section id="simulateur" class="bg-mist text-ink">
+      <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28 min-h-[100svh] flex flex-col justify-center">
+        <div class="grid lg:grid-cols-12 gap-10 lg:gap-12">
+          <div class="lg:col-span-5">
+            <p class="eyebrow eyebrow-dark">Simulateur anti-no-show</p>
+            <h2 class="display mt-4 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Combien vous coûtent les tables vides<span class="text-ember">&nbsp;?</span></h2>
+            <p class="mt-6 text-lg leading-relaxed text-ink/70 max-w-[30rem]">
+              Deux réglages, votre chiffre. Le rappel SMS envoyé trois heures avant libère la table pour la liste d'attente, et l'IA décroche les appels que la salle ne peut plus prendre.
+            </p>
+
+            <div class="mt-10 flex flex-col gap-8">
+              <div class="field">
+                <div class="flex items-baseline justify-between">
+                  <label for="covers" class="text-[15px] font-medium">Couverts par semaine</label>
+                  <output id="coversOut" for="covers" class="text-2xl font-bold tabular-nums">250</output>
+                </div>
+                <input id="covers" class="range mt-3" type="range" min="50" max="1500" step="10" value="250">
+                <div class="flex justify-between text-[12px] text-ink/65 mt-1"><span>50</span><span>1 500</span></div>
+              </div>
+              <div class="field">
+                <div class="flex items-baseline justify-between">
+                  <label for="ticket" class="text-[15px] font-medium">Ticket moyen</label>
+                  <output id="ticketOut" for="ticket" class="text-2xl font-bold tabular-nums">35&nbsp;€</output>
+                </div>
+                <input id="ticket" class="range mt-3" type="range" min="15" max="150" step="1" value="35">
+                <div class="flex justify-between text-[12px] text-ink/65 mt-1"><span>15&nbsp;€</span><span>150&nbsp;€</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="sim-card">
+              <p class="text-[13px] font-medium uppercase tracking-[0.14em] text-white/60">Chiffre d'affaires sauvé</p>
+              <p class="mt-3 flex items-baseline gap-3 flex-wrap">
+                <span id="totalMonth" class="display text-[3.4rem] sm:text-7xl lg:text-[5.6rem] leading-none tabular-nums">3&nbsp;031&nbsp;€</span>
+                <span class="text-lg text-white/60">par mois</span>
+              </p>
+              <p class="mt-2 text-white/70">Soit <strong id="totalYear" class="text-white tabular-nums">36&nbsp;372&nbsp;€</strong> sur douze mois.</p>
+
+              <div class="mt-8 grid sm:grid-cols-2 gap-3">
+                <div class="sim-line">
+                  <p class="text-[13px] text-white/60">No-shows évités</p>
+                  <p id="noshowEuro" class="text-2xl font-bold tabular-nums mt-1">2&nbsp;273&nbsp;€</p>
+                  <p id="noshowCovers" class="text-[13px] text-white/50 mt-1">15 couverts / semaine</p>
+                </div>
+                <div class="sim-line">
+                  <p class="text-[13px] text-white/60">Appels récupérés</p>
+                  <p id="callsEuro" class="text-2xl font-bold tabular-nums mt-1">758&nbsp;€</p>
+                  <p id="callsCovers" class="text-[13px] text-white/50 mt-1">5 couverts / semaine</p>
+                </div>
+              </div>
+
+              <div class="mt-8 flex flex-col gap-4" aria-label="Taux de no-show">
+                <div>
+                  <div class="flex justify-between text-[13px]"><span class="text-white/70">Aujourd'hui, sans rappel</span><span class="font-bold">18&nbsp;%</span></div>
+                  <div class="bar mt-2"><span class="bar-fill bar-red" style="transform:scaleX(1)"></span></div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-[13px]"><span class="text-white/70">Avec le rappel SMS H-3</span><span class="font-bold">&lt;&nbsp;3&nbsp;%</span></div>
+                  <div class="bar mt-2"><span id="barAfter" class="bar-fill bar-steel" style="transform:scaleX(.1667)"></span></div>
+                </div>
+              </div>
+
+              <p class="mt-8 text-[12px] leading-relaxed text-white/60">
+                Hypothèses&nbsp;: 40&nbsp;% des couverts sur réservation, no-show ramené de 18&nbsp;% à 3&nbsp;%, 2&nbsp;% de couverts récupérés par les appels décrochés (entre 4 et 12 par semaine), 4,33 semaines par mois.
+              </p>
+              <a href="#audit" class="btn btn-primary mt-6 w-full sm:w-auto">Obtenir le chiffre exact de mon établissement</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ AVANT / APRÈS ============ -->
+    <section id="avant-apres" class="bg-night relative overflow-hidden">
+      <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28 min-h-[100svh] flex flex-col justify-center">
+        <div class="grid lg:grid-cols-12 gap-6 items-end">
+          <div class="lg:col-span-7">
+            <p class="eyebrow">Avant / Après</p>
+            <h2 class="display mt-4 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Le même samedi soir, deux façons de le vivre<span class="text-ember">.</span></h2>
+          </div>
+          <p class="lg:col-span-5 text-lg leading-relaxed text-white/70">Faites glisser la poignée. À gauche, la salle gérée au cahier et au téléphone. À droite, la même salle avec le standardiste vocal, le rappel SMS H-3 et la lecture des factures.</p>
+        </div>
+
+        <div id="ba" class="ba mt-10" style="--p:50">
+          <!-- AVANT -->
+          <div class="ba-layer ba-before">
+            <img src="assets/img/salle-service.webp" srcset="assets/img/salle-service-900.webp 900w, assets/img/salle-service.webp 1600w" sizes="(min-width:1240px) 1176px, 100vw" alt="Salle de restaurant pendant le service du soir" width="1600" height="1067" loading="lazy" decoding="async">
+            <div class="ba-shade ba-shade--before"></div>
+            <span class="ba-tag">Avant<span class="hidden sm:inline"> · gestion manuelle</span></span>
+            <ul class="ba-chips ba-chips--left">
+              <li class="chip chip-bad"><b>7</b> appels manqués entre 19h et 21h</li>
+              <li class="chip chip-bad"><b>2</b> tables vides à 20h30</li>
+              <li class="chip chip-bad">Cahier papier, ressaisi en caisse</li>
+              <li class="chip chip-bad"><b>2&nbsp;h</b> de factures le lundi</li>
+            </ul>
+          </div>
+          <!-- APRÈS (révélé par transform uniquement) -->
+          <div class="ba-after-clip" aria-hidden="false">
+            <div class="ba-layer ba-after">
+              <img src="assets/img/salle-service.webp" srcset="assets/img/salle-service-900.webp 900w, assets/img/salle-service.webp 1600w" sizes="(min-width:1240px) 1176px, 100vw" alt="" width="1600" height="1067" loading="lazy" decoding="async">
+              <div class="ba-shade ba-shade--after"></div>
+              <span class="ba-tag ba-tag--right">Après<span class="hidden sm:inline"> · BuildWebAI</span></span>
+              <ul class="ba-chips ba-chips--right">
+                <li class="chip chip-good"><b>7/7</b> appels pris par l'IA</li>
+                <li class="chip chip-good">SMS H-3&nbsp;: <b>2</b> tables relouées</li>
+                <li class="chip chip-good">Réservations synchronisées en caisse</li>
+                <li class="chip chip-good">Factures lues sur <b>photo</b></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ba-handle" id="baHandle" role="slider" tabindex="0" aria-label="Comparer avant et après" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 % après">
+            <span class="ba-knob" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6 3 12l6 6V6zm6 0v12l6-6-6-6z"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-8 grid sm:grid-cols-3 gap-3">
+          <div class="mod">
+            <p class="mod-name">Standardiste vocal IA</p>
+            <p class="mod-txt">Décroche 24 h/24, répond aux questions allergènes et parking, prend la réservation.</p>
+          </div>
+          <div class="mod">
+            <p class="mod-name">Rappel SMS H-3</p>
+            <p class="mod-txt">Le client confirme ou libère sa table d'un clic&nbsp;; la liste d'attente est prévenue.</p>
+          </div>
+          <div class="mod">
+            <p class="mod-name">Lecture des factures</p>
+            <p class="mod-txt">Une photo du bon de livraison, et la viande ou la marée arrive dans votre suivi de food cost.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TARIFS ============ -->
+    <section id="tarifs" class="bg-mist text-ink">
+      <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28 min-h-[100svh] flex flex-col justify-center">
+        <div class="grid lg:grid-cols-12 gap-6 items-end">
+          <div class="lg:col-span-7">
+            <p class="eyebrow eyebrow-dark">Tarifs &amp; montages financiers</p>
+            <h2 class="display mt-4 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Payez au rythme de votre trésorerie<span class="text-ember">.</span></h2>
+          </div>
+          <p class="lg:col-span-5 text-lg leading-relaxed text-ink/70">Quatre façons de démarrer, du zéro euro à l'achat classique. Tous nos prix sont hors taxes.</p>
+        </div>
+
+        <div class="tabs mt-10" role="tablist" aria-label="Formules">
+          <span class="tab-ind" aria-hidden="true"></span>
+          <button class="tab" role="tab" id="t-leasing" aria-controls="p-leasing" aria-selected="true" tabindex="0">Leasing Employé Digital</button>
+          <button class="tab" role="tab" id="t-hybride" aria-controls="p-hybride" aria-selected="false" tabindex="-1">Hybride</button>
+          <button class="tab" role="tab" id="t-commission" aria-controls="p-commission" aria-selected="false" tabindex="-1">Commission</button>
+          <button class="tab" role="tab" id="t-classique" aria-controls="p-classique" aria-selected="false" tabindex="-1">Pack Classique</button>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-4 mt-4">
+          <div class="lg:col-span-8 panels">
+            <!-- Leasing -->
+            <article class="panel" role="tabpanel" id="p-leasing" aria-labelledby="t-leasing">
+              <div class="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p class="panel-kicker">0&nbsp;€ de mise en place</p>
+                  <p class="price">250 – 400&nbsp;€<small>/ mois</small></p>
+                </div>
+                <span class="pill">Engagement 12 mois</span>
+              </div>
+              <p class="panel-lead">Vous démarrez cette semaine sans sortir de trésorerie. Votre «&nbsp;employé digital&nbsp;» est payé comme un abonnement.</p>
+              <ul class="checks">
+                <li>Site mobile rapide et réservation directe</li>
+                <li>Standardiste vocal IA 24 h/24</li>
+                <li>Rappel SMS anti-no-show H-3</li>
+                <li>Hébergement, mises à jour et rapport ROI mensuel</li>
+              </ul>
+              <a href="#audit" class="btn btn-dark mt-auto">Démarrer en leasing</a>
+            </article>
+            <!-- Hybride -->
+            <article class="panel" role="tabpanel" id="p-hybride" aria-labelledby="t-hybride" hidden>
+              <div class="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p class="panel-kicker">Mise en place divisée par deux · 900&nbsp;€</p>
+                  <p class="price">99&nbsp;€<small>/ mois + 1&nbsp;€ / couvert</small></p>
+                </div>
+                <span class="pill">Au-delà de 50 réservations / mois</span>
+              </div>
+              <p class="panel-lead">On partage le risque&nbsp;: un socle fixe modeste, puis un euro par couvert réservé en direct au-delà du palier.</p>
+              <ul class="checks">
+                <li>Site, réservation directe et Click &amp; Collect</li>
+                <li>Modules IA au choix selon vos priorités</li>
+                <li>Compteur de réservations visible chaque mois</li>
+                <li>Aucun frais si vous restez sous le palier</li>
+              </ul>
+              <a href="#audit" class="btn btn-dark mt-auto">Étudier la formule hybride</a>
+            </article>
+            <!-- Commission -->
+            <article class="panel" role="tabpanel" id="p-commission" aria-labelledby="t-commission" hidden>
+              <div class="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p class="panel-kicker">Mise en place de 0 à 500&nbsp;€</p>
+                  <p class="price">1,50 – 2,50&nbsp;€<small>/ couvert gagné</small></p>
+                </div>
+                <span class="pill">ou 10&nbsp;% du Click &amp; Collect</span>
+              </div>
+              <p class="panel-lead">100&nbsp;% à la performance&nbsp;: vous payez uniquement les couverts supplémentaires que le système vous apporte.</p>
+              <ul class="checks">
+                <li>Mesure des couverts générés par le canal direct</li>
+                <li>Ou 10&nbsp;% du chiffre encaissé en Click &amp; Collect</li>
+                <li>Relevé mensuel détaillé, consultable à tout moment</li>
+                <li>Idéal pour tester avant d'investir</li>
+              </ul>
+              <a href="#audit" class="btn btn-dark mt-auto">Passer à la commission</a>
+            </article>
+            <!-- Classique -->
+            <article class="panel" role="tabpanel" id="p-classique" aria-labelledby="t-classique" hidden>
+              <div class="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p class="panel-kicker">Achat en une fois</p>
+                  <p class="price">1&nbsp;490 – 2&nbsp;290&nbsp;€</p>
+                </div>
+                <span class="pill">Maintenance dès 79&nbsp;€ / mois</span>
+              </div>
+              <p class="panel-lead">1&nbsp;490&nbsp;€ le site vitrine, 2&nbsp;290&nbsp;€ le pack complet avec Click &amp; Collect. Les modules IA s'ajoutent à la carte.</p>
+              <ul class="checks checks-2">
+                <li>Standardiste vocal IA · 890&nbsp;€</li>
+                <li>Chatbot web · 490&nbsp;€</li>
+                <li>Synchronisation caisse · 390&nbsp;€</li>
+                <li>Scénario SMS anti-no-show · 350&nbsp;€</li>
+                <li>Avis Google · 290&nbsp;€</li>
+                <li>Shooting photo · 450&nbsp;€</li>
+              </ul>
+              <a href="#audit" class="btn btn-dark mt-auto">Commander le pack</a>
+            </article>
+          </div>
+
+          <aside class="lg:col-span-4 guarantee" aria-label="Garantie ROI 90 jours">
+            <div class="flex items-center gap-3">
+              <span class="g-badge" aria-hidden="true">90</span>
+              <p class="text-[13px] font-medium uppercase tracking-[0.14em] text-white/70">Garantie ROI<br>90 jours</p>
+            </div>
+            <p class="display mt-6 text-[1.9rem] leading-[1]">Objectifs manqués&nbsp;? 50&nbsp;% remboursés<span class="text-ember">.</span></p>
+            <p class="mt-4 text-[15px] leading-relaxed text-white/70">Nous fixons ensemble des objectifs chiffrés&nbsp;: no-shows, appels décrochés, commandes directes. S'ils ne sont pas atteints sous trois mois, nous vous remboursons la moitié de la mise en place.</p>
+            <p class="mt-4 text-[13px] text-white/50">Avec une mise en place au plein tarif.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ AUDIT FLASH VIDÉO ============ -->
+    <section id="audit" class="relative overflow-hidden bg-night">
+      <div class="grid-bg" aria-hidden="true"></div>
+      <div class="halo halo--low" aria-hidden="true"></div>
+      <div class="relative mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28 min-h-[100svh] grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6">
+          <p class="eyebrow">Audit Flash Vidéo · offert</p>
+          <h2 class="display mt-4 text-[2.6rem] sm:text-6xl lg:text-[4.6rem] leading-[0.92]">90 secondes pour voir ce que vous perdez<span class="text-ember">.</span></h2>
+          <p class="mt-6 text-lg leading-relaxed text-white/70 max-w-[32rem]">Nous filmons votre site actuel à côté d'une ébauche refaite pour votre établissement, et nous chiffrons le manque à gagner. Vous la recevez par email ou sur Instagram, sans rendez-vous.</p>
+          <ol class="mt-8 flex flex-col gap-3 text-[15px] text-white/80">
+            <li class="step"><span>1</span>Vous laissez le nom et le lien de votre établissement.</li>
+            <li class="step"><span>2</span>Vous recevez la vidéo sous 48&nbsp;h ouvrées.</li>
+            <li class="step"><span>3</span>On en parle 15 minutes, seulement si le chiffre vous parle.</li>
+          </ol>
+        </div>
+        <div class="lg:col-span-6">
+          <form id="auditForm" class="form-card" novalidate>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="f">
+                <label for="fName">Nom de l'établissement</label>
+                <input id="fName" name="etablissement" type="text" autocomplete="organization" required>
+                <p class="f-err" id="fName-err" hidden>Indiquez le nom de l'établissement.</p>
+              </div>
+              <div class="f">
+                <label for="fType">Type</label>
+                <select id="fType" name="type">
+                  <option>Restaurant</option>
+                  <option>Hôtel</option>
+                  <option>Cave à manger</option>
+                  <option>Bar à vins</option>
+                </select>
+              </div>
+            </div>
+            <div class="f">
+              <label for="fUrl">Site web ou compte Instagram</label>
+              <input id="fUrl" name="lien" type="text" placeholder="votre-restaurant.fr ou @votrerestaurant" required>
+              <p class="f-err" id="fUrl-err" hidden>Ajoutez un lien pour que l'on puisse filmer votre site.</p>
+            </div>
+            <div class="f">
+              <label for="fMail">Email</label>
+              <input id="fMail" name="email" type="email" autocomplete="email" required>
+              <p class="f-err" id="fMail-err" hidden>Entrez une adresse email valide.</p>
+            </div>
+            <button type="submit" class="btn btn-primary w-full mt-2">Recevoir mon audit vidéo</button>
+            <p id="formNote" class="text-[13px] text-white/55 mt-1" role="status">Réponse sous 48 h ouvrées. Aucune relance automatique.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-night border-t border-white/10">
+    <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-12 grid gap-8 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <a href="#top" class="inline-flex items-center gap-2.5 min-h-[44px]" aria-label="BuildWebAI, retour en haut">
+          <svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true"><path fill="#fff" fill-rule="evenodd" d="M8 6h8v36H8zM16 6h11a8.5 8.5 0 0 1 0 17H16zM16 12h10a2.5 2.5 0 0 1 0 5H16zM16 23h13a9.5 9.5 0 0 1 0 19H16zM16 29h12a3.25 3.25 0 0 1 0 6.5H16z"/><rect x="40" y="36" width="6" height="6" fill="#E62E2D"/></svg>
+          <span class="font-bold tracking-tight">BuildWebAI</span>
+        </a>
+        <p class="mt-4 text-white/60 max-w-sm text-[15px]">Site, réservation directe et automatisations IA pour restaurants, hôtels, caves à manger et bars à vins.</p>
+      </div>
+      <nav class="md:col-span-4" aria-label="Pied de page">
+        <ul class="grid grid-cols-2 gap-x-6 text-[15px] text-white/75">
+          <li><a class="ulink foot-link" href="#vitrine">Vitrine</a></li>
+          <li><a class="ulink foot-link" href="#simulateur">Simulateur</a></li>
+          <li><a class="ulink foot-link" href="#avant-apres">Avant / Après</a></li>
+          <li><a class="ulink foot-link" href="#tarifs">Tarifs</a></li>
+        </ul>
+      </nav>
+      <div class="md:col-span-3 text-[15px] text-white/75">
+        <a class="ulink foot-link" id="mailLink" href="mailto:contact@build-web-ai.com">contact@build-web-ai.com</a>
+      </div>
+    </div>
+    <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 pb-10 text-[12px] text-white/60 flex flex-col sm:flex-row gap-2 justify-between">
+      <p>© 2026 BuildWebAI. Prix hors taxes.</p>
+      <p>Photographies&nbsp;: Unsplash, licence Unsplash.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
