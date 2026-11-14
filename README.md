@@ -18,6 +18,10 @@ Homepage de BuildWebAI : site, réservation directe et automatisations IA pour r
 - Valeurs envoyées, alignées sur la base : `type_offre` sur_mesure|starter · `deja_site` oui|non · `taille_site` onepage|petit|grand · `temps_perdu` <2|2-5|>5 · `delai` urgent|1-2mois|3-6mois|info · `budget` <1k|1k-2k|2k-5k|>5k · `outils` caisse,reservation,maison · `assets` logo,photos,textes,video · `reves` chatbot,voice_bot,anti_no_show,crm,fid · `objectif` reservation|click_and_collect|automatisation_ia|visibilite.
 - `api/devis.php` demande PHP 7.4+ avec curl (Hostinger, OVH, o2switch…). L'URL du webhook est dans la constante `WEBHOOK_URL`.
 
+## Mise en ligne
+
+`npm run package` génère `dist/buildwebai-hostinger.zip`, à extraire dans `public_html`. Étapes détaillées : [DEPLOIEMENT-HOSTINGER.md](DEPLOIEMENT-HOSTINGER.md).
+
 ## Build
 
 Le CSS Tailwind est compilé (pas de CDN en production) :

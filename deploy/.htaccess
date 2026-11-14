@@ -1,0 +1,56 @@
+# BuildWebAI · configuration serveur (Hostinger : LiteSpeed, compatible Apache)
+
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+AddType image/webp .webp
+AddDefaultCharset utf-8
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS obligatoire
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # www.buildwebia.com -> buildwebia.com (adresse canonique)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # Fichiers cachés interdits (.git, .env…)
+  RewriteRule (^|/)\.(?!well-known/) - [F]
+
+  # Adresses sans .html : /devis affiche devis.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml text/plain text/xml application/xml
+</IfModule>
+
+# Cache navigateur : les CSS/JS sont versionnés (?v=…) à chaque livraison
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/json "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 month"
+</IfModule>
+
+# En-têtes de sécurité
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+</IfModule>

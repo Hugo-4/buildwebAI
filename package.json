@@ -4,7 +4,8 @@
   "description": "Site vitrine BuildWebAI",
   "scripts": {
     "build": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --minify",
-    "dev": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --watch"
+    "dev": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --watch",
+    "package": "npm run build && node scripts/package.mjs"
   },
   "repository": {
     "type": "git",
