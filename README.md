@@ -10,6 +10,13 @@ Homepage de BuildWebAI : site, réservation directe et automatisations IA pour r
 - `public/frames-bar/` : séquence du bar à vin, même structure (à déposer ; tant qu'elle manque, l'onglet Bar affiche `public/editorial/bar.webp`)
 - `public/editorial/` : visuels verticaux des onglets Fast-Food, Épicerie et Bar (Unsplash, licence Unsplash)
 
+## Demande de devis
+
+- `devis.html` + `assets/devis.css` + `assets/devis.js` : questionnaire en 4 étapes (établissement, formule, projet sur mesure ou Starter, écosystème). Les boutons de la page Tarifs y mènent avec la formule déjà cochée (`devis.html?offre=starter` ou `?offre=sur_mesure`).
+- À l'envoi, la page poste un JSON (`Content-Type: application/json`) vers `api/devis.php`, qui le transmet au webhook Airtable côté serveur. Le webhook Airtable ne répond pas aux requêtes CORS d'un navigateur : un envoi direct depuis la page serait bloqué.
+- Le JSON contient toujours les 27 clés du mapping Airtable, en chaînes (`""` pour la branche non choisie, cases multiples jointes par `, `).
+- `api/devis.php` demande PHP 7.4+ avec curl (Hostinger, OVH, o2switch…). L'URL du webhook est dans la constante `WEBHOOK_URL`.
+
 ## Build
 
 Le CSS Tailwind est compilé (pas de CDN en production) :

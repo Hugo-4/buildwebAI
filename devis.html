@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="fr" data-type="service">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Demande de devis · BuildWebAI</title>
+  <meta name="description" content="Décrivez votre restaurant, hôtel, cave à manger ou bar à vins en 3 minutes : nous vous répondons avec une proposition et un devis sur mesure.">
+  <meta name="page-type" content="service">
+  <meta name="site-kind" content="other">
+  <meta name="theme-color" content="#081426">
+  <link rel="canonical" href="https://buildwebia.com/devis.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Demande de devis · BuildWebAI">
+  <meta property="og:description" content="Trois minutes pour décrire votre établissement et recevoir une proposition sur mesure.">
+  <meta property="og:url" content="https://buildwebia.com/devis.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23081426'/%3E%3Cpath fill='%23fff' d='M8 6h8v36H8zM16 6h11a8.5 8.5 0 0 1 0 17H16zM16 23h13a9.5 9.5 0 0 1 0 19H16z'/%3E%3Crect x='40' y='36' width='6' height='6' fill='%23E62E2D'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/tailwind.css">
+  <link rel="stylesheet" href="assets/devis.css">
+</head>
+<body class="bg-night text-white font-sans antialiased">
+  <a href="#devis" class="skip-link">Aller au formulaire</a>
+
+  <header class="dv-header">
+    <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 lg:h-[72px]">
+      <a href="index.html" class="flex items-center gap-2.5 min-h-[44px]" aria-label="BuildWebAI, retour à l'accueil">
+        <svg viewBox="0 0 48 48" width="30" height="30" aria-hidden="true">
+          <path fill="#fff" fill-rule="evenodd" d="M8 6h8v36H8zM16 6h11a8.5 8.5 0 0 1 0 17H16zM16 12h10a2.5 2.5 0 0 1 0 5H16zM16 23h13a9.5 9.5 0 0 1 0 19H16zM16 29h12a3.25 3.25 0 0 1 0 6.5H16z"/>
+          <rect x="40" y="36" width="6" height="6" fill="#E62E2D"/>
+        </svg>
+        <span class="font-bold tracking-tight text-[17px]">BuildWebAI</span>
+      </a>
+      <a href="index.html" class="btn btn-ghost">Retour au site</a>
+    </div>
+  </header>
+
+  <main id="devis" class="relative overflow-hidden">
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="halo" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 pt-28 lg:pt-32 pb-24 grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+      <div class="lg:col-span-4 lg:sticky lg:top-28">
+        <h1 class="display text-[2.6rem] sm:text-5xl lg:text-[3.4rem] leading-[0.95]">Parlons de votre projet<span class="text-ember">.</span></h1>
+        <p class="mt-6 text-lg leading-relaxed text-white/72 max-w-[30rem]">Trois minutes pour décrire votre établissement. Plus vos réponses sont précises, plus notre proposition et notre devis seront justes.</p>
+        <ul class="dv-promise mt-8">
+          <li>Réponse sous 48&nbsp;h ouvrées</li>
+          <li>Devis détaillé, sans engagement</li>
+          <li>Vos réponses ne servent qu'à préparer votre proposition</li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-8">
+        <form id="dvForm" class="dv-card" novalidate>
+          <!-- Progression -->
+          <div class="dv-progress" aria-hidden="true">
+            <ol class="dv-steps">
+              <li class="dv-step is-current" data-step-dot="1"><span>1</span><b>Établissement</b></li>
+              <li class="dv-step" data-step-dot="2"><span>2</span><b>Formule</b></li>
+              <li class="dv-step" data-step-dot="3"><span>3</span><b>Votre projet</b></li>
+              <li class="dv-step" data-step-dot="4"><span>4</span><b>Écosystème</b></li>
+            </ol>
+            <div class="dv-bar"><span id="dvBar"></span></div>
+          </div>
+          <p class="dv-progress-text" id="dvProgressText" aria-live="polite">Étape 1 sur 4 : Identité et établissement</p>
+
+          <!-- Champ anti-robot, jamais envoyé -->
+          <div class="dv-hp" aria-hidden="true"><label for="dvHp">Ne pas remplir</label><input id="dvHp" type="text" tabindex="-1" autocomplete="off"></div>
+
+          <!-- ÉTAPE 1 -->
+          <section class="dv-panel" data-step="1" aria-labelledby="dvT1">
+            <h2 id="dvT1" class="dv-title" tabindex="-1">Votre établissement</h2>
+            <div class="dv-grid">
+              <div class="f">
+                <label for="nom_etablissement">Nom de l'établissement</label>
+                <input id="nom_etablissement" name="nom_etablissement" type="text" autocomplete="organization" required>
+                <p class="f-err" hidden></p>
+              </div>
+              <div class="f">
+                <label for="role">Votre rôle</label>
+                <input id="role" name="role" type="text" placeholder="Gérant, chef, directeur d'hôtel…" autocomplete="organization-title" required>
+                <p class="f-err" hidden></p>
+              </div>
+            </div>
+            <fieldset class="f" data-required="activite">
+              <legend>Votre activité</legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="activite" value="Bistrot"><span>Bistrot</span></label>
+                <label class="opt"><input type="radio" name="activite" value="Restaurant gastronomique"><span>Restaurant gastronomique</span></label>
+                <label class="opt"><input type="radio" name="activite" value="Cave à manger"><span>Cave à manger</span></label>
+                <label class="opt"><input type="radio" name="activite" value="Bar à vins"><span>Bar à vins</span></label>
+                <label class="opt"><input type="radio" name="activite" value="Hôtel"><span>Hôtel</span></label>
+                <label class="opt"><input type="radio" name="activite" value="Fast-Food"><span>Fast-Food</span></label>
+              </div>
+              <p class="f-err" hidden></p>
+            </fieldset>
+            <div class="dv-grid">
+              <div class="f">
+                <label for="localisation">Ville ou quartier</label>
+                <input id="localisation" name="localisation" type="text" placeholder="Lyon, Croix-Rousse" autocomplete="address-level2" required>
+                <p class="f-err" hidden></p>
+              </div>
+              <div class="f">
+                <label for="email">Email de contact</label>
+                <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
+                <p class="f-err" hidden></p>
+              </div>
+            </div>
+            <fieldset class="f" data-required="deja_site">
+              <legend>Avez-vous déjà un site web&nbsp;?</legend>
+              <div class="opts opts--seg">
+                <label class="opt"><input type="radio" name="deja_site" value="oui"><span>Oui</span></label>
+                <label class="opt"><input type="radio" name="deja_site" value="non"><span>Non</span></label>
+              </div>
+              <p class="f-err" hidden></p>
+            </fieldset>
+            <div class="f dv-reveal" id="urlWrap" hidden>
+              <label for="url_site">Adresse de votre site actuel</label>
+              <input id="url_site" name="url_site" type="text" inputmode="url" placeholder="www.votre-restaurant.fr" autocomplete="url">
+              <p class="f-err" hidden></p>
+            </div>
+          </section>
+
+          <!-- ÉTAPE 2 -->
+          <section class="dv-panel" data-step="2" aria-labelledby="dvT2" hidden>
+            <h2 id="dvT2" class="dv-title" tabindex="-1">Quel accompagnement envisagez-vous&nbsp;?</h2>
+            <fieldset class="f" data-required="type_offre">
+              <legend class="sr-only">Formule</legend>
+              <div class="offers">
+                <label class="offer">
+                  <input type="radio" name="type_offre" value="sur_mesure">
+                  <span class="offer-card">
+                    <span class="offer-top"><b>Projet sur mesure</b><i>À partir de 1&nbsp;000&nbsp;€</i></span>
+                    <span class="offer-txt">Site complet, réservation et Click &amp; Collect sans commission, modules IA selon vos besoins. Garantie ROI sur les 3 premiers mois.</span>
+                    <span class="offer-tags"><em>Pack Performance</em><em>Hybride</em><em>Commission</em></span>
+                  </span>
+                </label>
+                <label class="offer">
+                  <input type="radio" name="type_offre" value="starter">
+                  <span class="offer-card">
+                    <span class="offer-top"><b>Starter Express 48&nbsp;h</b><i>499&nbsp;€</i></span>
+                    <span class="offer-txt">Un site d'une seule page, mis en ligne en 48&nbsp;h avec votre logo et vos textes. Sans réunion, sans développement complexe.</span>
+                    <span class="offer-tags"><em>Paiement unique</em><em>+ maintenance mensuelle</em></span>
+                  </span>
+                </label>
+              </div>
+              <p class="f-err" hidden></p>
+            </fieldset>
+          </section>
+
+          <!-- ÉTAPE 3A : sur mesure -->
+          <section class="dv-panel" data-step="3" data-branch="sur_mesure" aria-labelledby="dvT3a" hidden>
+            <h2 id="dvT3a" class="dv-title" tabindex="-1">Votre projet sur mesure</h2>
+            <div class="f">
+              <label for="noms_logiciels">Quels logiciels utilisez-vous aujourd'hui&nbsp;?</label>
+              <input id="noms_logiciels" name="noms_logiciels" type="text" placeholder="Ex. Zelty pour la caisse, TheFork pour les réservations">
+            </div>
+            <div class="f">
+              <label for="frustration">Quelle est votre plus grande frustration avec vos outils actuels&nbsp;?</label>
+              <textarea id="frustration" name="frustration" rows="3" required></textarea>
+              <p class="f-err" hidden></p>
+            </div>
+            <fieldset class="f" data-required="objectif">
+              <legend>Votre objectif n°1</legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="objectif" value="reservation"><span>Plus de réservations directes</span></label>
+                <label class="opt"><input type="radio" name="objectif" value="click_and_collect"><span>Vendre en Click &amp; Collect</span></label>
+                <label class="opt"><input type="radio" name="objectif" value="automatisation_ia"><span>Automatiser avec l'IA</span></label>
+                <label class="opt"><input type="radio" name="objectif" value="visibilite"><span>Être plus visible</span></label>
+              </div>
+              <p class="f-err" hidden></p>
+            </fieldset>
+            <fieldset class="f">
+              <legend>Taille du site</legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="taille_site" value="petit"><span>Une page</span></label>
+                <label class="opt"><input type="radio" name="taille_site" value="moyen"><span>2 à 5 pages</span></label>
+                <label class="opt"><input type="radio" name="taille_site" value="grand"><span>6 pages et plus</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="f">
+              <legend>Temps passé chaque semaine au téléphone, aux mails et aux saisies</legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="temps_perdu" value="2-5"><span>2 à 5&nbsp;h</span></label>
+                <label class="opt"><input type="radio" name="temps_perdu" value="5-10"><span>5 à 10&nbsp;h</span></label>
+                <label class="opt"><input type="radio" name="temps_perdu" value="10+"><span>Plus de 10&nbsp;h</span></label>
+              </div>
+            </fieldset>
+            <div class="dv-grid">
+              <fieldset class="f" data-required="delai">
+                <legend>Lancement souhaité</legend>
+                <div class="opts opts--stack">
+                  <label class="opt"><input type="radio" name="delai" value="urgent"><span>Le plus vite possible</span></label>
+                  <label class="opt"><input type="radio" name="delai" value="1-2mois"><span>D'ici 1 à 2 mois</span></label>
+                  <label class="opt"><input type="radio" name="delai" value="3mois+"><span>Dans 3 mois ou plus</span></label>
+                </div>
+                <p class="f-err" hidden></p>
+              </fieldset>
+              <fieldset class="f" data-required="budget">
+                <legend>Budget envisagé</legend>
+                <div class="opts opts--stack">
+                  <label class="opt"><input type="radio" name="budget" value="1k-2k"><span>1&nbsp;000 à 2&nbsp;000&nbsp;€</span></label>
+                  <label class="opt"><input type="radio" name="budget" value="2k-4k"><span>2&nbsp;000 à 4&nbsp;000&nbsp;€</span></label>
+                  <label class="opt"><input type="radio" name="budget" value="leasing"><span>Paiement mensuel</span></label>
+                </div>
+                <p class="f-err" hidden></p>
+              </fieldset>
+            </div>
+            <div class="f">
+              <label for="exemples">Des sites que vous aimez&nbsp;?</label>
+              <input id="exemples" name="exemples" type="text" placeholder="Liens de concurrents, d'inspirations">
+            </div>
+            <div class="f">
+              <label for="commentaires_sur_mesure">Une précision, une question&nbsp;?</label>
+              <textarea id="commentaires_sur_mesure" name="commentaires_sur_mesure" rows="3"></textarea>
+            </div>
+          </section>
+
+          <!-- ÉTAPE 3B : Starter Express -->
+          <section class="dv-panel" data-step="3" data-branch="starter" aria-labelledby="dvT3b" hidden>
+            <h2 id="dvT3b" class="dv-title" tabindex="-1">Opération Starter 48&nbsp;h</h2>
+            <p class="dv-note">Pour tenir les 48&nbsp;h, nous avons besoin de vos éléments dès maintenant.</p>
+            <div class="f">
+              <label for="starter_description">Décrivez votre établissement et ce que la page doit faire</label>
+              <textarea id="starter_description" name="starter_description" rows="3" placeholder="Ex. Bistrot de quartier, 40 couverts : présenter la carte du midi et un bouton pour réserver." required></textarea>
+              <p class="f-err" hidden></p>
+            </div>
+            <div class="f">
+              <label for="starter_domaine">Nom de domaine</label>
+              <input id="starter_domaine" name="starter_domaine" type="text" placeholder="Déjà acheté : www.mon-bistrot.fr · Sinon : le nom souhaité">
+            </div>
+            <div class="dv-grid">
+              <div class="f">
+                <label for="starter_couleurs">Couleurs principales</label>
+                <input id="starter_couleurs" name="starter_couleurs" type="text" placeholder="Ex. bordeaux et crème">
+              </div>
+              <div class="f">
+                <label for="starter_style">Style recherché</label>
+                <input id="starter_style" name="starter_style" type="text" placeholder="Ex. chaleureux, épuré, chic">
+              </div>
+            </div>
+            <div class="f">
+              <label for="starter_drive">Lien vers vos contenus (logo, photos, textes)</label>
+              <input id="starter_drive" name="starter_drive" type="text" inputmode="url" placeholder="Google Drive, Dropbox, WeTransfer">
+            </div>
+            <div class="f">
+              <label for="starter_structure">Sections souhaitées sur la page</label>
+              <textarea id="starter_structure" name="starter_structure" rows="3" placeholder="Ex. 1. Accueil, 2. La carte, 3. Notre histoire, 4. Infos pratiques et réservation"></textarea>
+            </div>
+            <div class="f">
+              <label for="commentaires_starter">Une précision, une question&nbsp;?</label>
+              <textarea id="commentaires_starter" name="commentaires_starter" rows="3"></textarea>
+            </div>
+          </section>
+
+          <!-- ÉTAPE 4 -->
+          <section class="dv-panel" data-step="4" aria-labelledby="dvT4" hidden>
+            <h2 id="dvT4" class="dv-title" tabindex="-1">Votre écosystème et vos envies</h2>
+            <div class="f">
+              <label for="outils">Caisse et logiciels en place</label>
+              <input id="outils" name="outils" type="text" placeholder="Ex. caisse Zelty, réservations TheFork, cahier papier">
+            </div>
+            <fieldset class="f">
+              <legend>Ce que vous avez déjà</legend>
+              <div class="opts">
+                <label class="opt"><input type="checkbox" name="assets" value="photos"><span>Photos professionnelles</span></label>
+                <label class="opt"><input type="checkbox" name="assets" value="video"><span>Vidéos</span></label>
+                <label class="opt"><input type="checkbox" name="assets" value="3d"><span>Plats en 3D</span></label>
+                <label class="opt"><input type="checkbox" name="assets" value="aucun" data-exclusive><span>Rien pour l'instant</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="f">
+              <legend>Ce qui vous ferait gagner le plus de temps</legend>
+              <div class="opts opts--stack">
+                <label class="opt"><input type="checkbox" name="reves" value="crm"><span>Un fichier clients qui se remplit tout seul</span></label>
+                <label class="opt"><input type="checkbox" name="reves" value="voice_bot"><span>Une IA qui répond au téléphone 24&nbsp;h/24</span></label>
+                <label class="opt"><input type="checkbox" name="reves" value="anti_no_show"><span>Des rappels SMS qui évitent les tables vides</span></label>
+                <label class="opt"><input type="checkbox" name="reves" value="fidelisation"><span>Des relances qui font revenir les clients</span></label>
+              </div>
+            </fieldset>
+            <p class="dv-legal">En envoyant ce formulaire, vous acceptez que BuildWebAI utilise ces informations pour vous recontacter au sujet de votre projet.</p>
+          </section>
+
+          <!-- Navigation -->
+          <div class="dv-nav">
+            <button type="button" class="btn btn-outline dv-back" id="dvBack" hidden>Retour</button>
+            <button type="submit" class="btn btn-primary dv-next" id="dvNext">
+              <span class="dv-spin" aria-hidden="true"></span>
+              <span class="dv-label">Continuer</span>
+            </button>
+          </div>
+          <p class="dv-send-err" id="dvSendErr" role="alert" hidden></p>
+
+          <!-- Confirmation -->
+          <section class="dv-done" id="dvDone" aria-labelledby="dvDoneT" hidden>
+            <span class="dv-done-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="34" height="34"><path d="M5 12.5 10 17 19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <h2 id="dvDoneT" class="display text-3xl sm:text-4xl leading-[0.95]" tabindex="-1">Demande bien reçue<span class="text-ember">.</span></h2>
+            <p class="dv-done-txt" id="dvDoneTxt">Nous revenons vers vous sous 48&nbsp;h ouvrées avec une proposition adaptée à votre établissement.</p>
+            <a href="index.html" class="btn btn-outline">Revenir au site</a>
+          </section>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-night border-t border-white/10">
+    <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row gap-3 justify-between text-[13px] text-white/60">
+      <p>© 2026 BuildWebAI. Prix hors taxes.</p>
+      <a class="ulink foot-link" href="mailto:contact@build-web-ai.com">contact@build-web-ai.com</a>
+    </div>
+  </footer>
+
+  <script src="assets/devis.js"></script>
+</body>
+</html>

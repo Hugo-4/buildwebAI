@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "devis.html"
+        ],
+        "createdAt": "2026-11-14T13:59:28.125Z",
+        "reason": "brief client : fond #081426 avec halo lumineux rouge #E62E2D imposé pour toute la marque"
+      }
+    ]
+  }
+}

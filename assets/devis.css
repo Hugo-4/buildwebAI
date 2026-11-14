@@ -1,0 +1,93 @@
+/* Page devis : formulaire multi-étapes. Mouvement : transform et opacity uniquement. */
+.dv-header { position: fixed; inset: 0 0 auto; z-index: 50; background: rgb(8 20 38 / .94); border-bottom: 1px solid rgb(255 255 255 / .08); padding-top: env(safe-area-inset-top, 0px); }
+@supports (backdrop-filter: blur(1px)) { .dv-header { backdrop-filter: blur(14px); } }
+.dv-promise { display: grid; gap: 12px; font-size: 15px; color: rgb(255 255 255 / .8); }
+.dv-promise li { display: flex; align-items: baseline; gap: 12px; }
+.dv-promise li::before { content: ""; flex: none; width: 7px; height: 7px; background: var(--ember); transform: translateY(-2px); }
+
+.dv-card { position: relative; padding: clamp(20px, 3.4vw, 40px); border-radius: 24px; background: rgb(12 28 51 / .94); border: 1px solid rgb(255 255 255 / .1); }
+.dv-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Progression */
+.dv-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.dv-step { display: flex; align-items: center; gap: 10px; min-width: 0; color: rgb(255 255 255 / .5); font-size: 13px; }
+.dv-step span { flex: none; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; font-weight: 700; font-size: 13px; background: rgb(255 255 255 / .06); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .12); }
+.dv-step b { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dv-step.is-current { color: #fff; }
+.dv-step.is-current span { background: var(--ember); box-shadow: none; color: #fff; }
+.dv-step.is-done { color: rgb(255 255 255 / .75); }
+.dv-step.is-done span { background: rgb(106 155 195 / .2); box-shadow: none; color: #A9CBE6; }
+.dv-bar { margin-top: 16px; height: 4px; border-radius: 999px; background: rgb(255 255 255 / .08); overflow: hidden; }
+.dv-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--steel), var(--ember)); transform-origin: left; transform: scaleX(.25); transition: transform .5s var(--ease-out); }
+.dv-progress-text { margin-top: 10px; font-size: 13px; color: rgb(255 255 255 / .6); }
+@media (max-width: 639px) { .dv-step b { display: none; } .dv-steps { grid-template-columns: repeat(4, auto); justify-content: space-between; } }
+
+/* Étapes */
+.dv-panel { display: flex; flex-direction: column; gap: 22px; margin-top: 28px; }
+.dv-title { font-size: clamp(1.4rem, 2.6vw, 1.85rem); font-weight: 700; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1; text-wrap: balance; }
+.dv-title:focus { outline: none; }
+.dv-note, .dv-legal { font-size: 14px; line-height: 1.5; color: rgb(255 255 255 / .62); }
+.dv-grid { display: grid; gap: 22px 16px; }
+@media (min-width: 640px) { .dv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.dv-card fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.dv-card legend { padding: 0; margin-bottom: 10px; font-size: 14px; font-weight: 500; color: rgb(255 255 255 / .85); }
+.f textarea { padding: 12px 14px; border-radius: 12px; background: rgb(255 255 255 / .05); border: 1px solid rgb(255 255 255 / .16); color: #fff; font-size: 16px; line-height: 1.5; resize: vertical; min-height: 96px; }
+.f textarea::placeholder { color: rgb(255 255 255 / .5); }
+.f textarea:focus { outline: 2px solid var(--steel); outline-offset: 1px; }
+.f textarea[aria-invalid="true"] { border-color: var(--ember); }
+.f input::placeholder { color: rgb(255 255 255 / .5); }
+
+/* Choix (radios et cases) */
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opts--seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 300px; }
+.opts--stack { flex-direction: column; }
+.opt { position: relative; display: block; }
+.opt input, .offer input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.opt span { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 12px; font-size: 15px; line-height: 1.3; cursor: pointer; background: rgb(255 255 255 / .04); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .16); transition: transform .16s var(--ease-out); user-select: none; }
+.opts--stack .opt span { justify-content: flex-start; text-align: left; }
+.opt span:hover { box-shadow: inset 0 0 0 1px rgb(255 255 255 / .34); }
+.opt span:active { transform: scale(.97); }
+.opt input:checked + span { background: rgb(230 46 45 / .16); box-shadow: inset 0 0 0 1.5px var(--ember); color: #fff; }
+.opt input[type="checkbox"] + span::before { content: ""; flex: none; width: 16px; height: 16px; border-radius: 5px; box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .45); }
+.opt input[type="checkbox"]:checked + span::before { background: var(--ember) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat; box-shadow: none; }
+.opt input:focus-visible + span, .offer input:focus-visible + .offer-card { outline: 2px solid var(--steel); outline-offset: 3px; }
+fieldset[aria-invalid="true"] .opt span { box-shadow: inset 0 0 0 1px rgb(230 46 45 / .6); }
+
+/* Cartes formule */
+.offers { display: grid; gap: 12px; }
+@media (min-width: 640px) { .offers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.offer { position: relative; display: block; cursor: pointer; }
+.offer-card { position: relative; display: flex; flex-direction: column; gap: 12px; height: 100%; padding: 22px; border-radius: 18px; background: rgb(255 255 255 / .04); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); transition: transform .2s var(--ease-out); }
+.offer:hover .offer-card { transform: translateY(-2px); }
+.offer:active .offer-card { transform: scale(.985); }
+.offer input:checked + .offer-card { background: rgb(230 46 45 / .1); box-shadow: inset 0 0 0 2px var(--ember); }
+.offer-card::after { content: ""; position: absolute; top: 14px; right: 14px; width: 18px; height: 18px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .4); }
+.offer input:checked + .offer-card::after { background: var(--ember); box-shadow: inset 0 0 0 4px #0C1C33, 0 0 0 1.5px var(--ember); }
+.offer-top { display: flex; flex-direction: column; gap: 4px; padding-right: 28px; }
+.offer-top b { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; }
+.offer-top i { font-style: normal; font-weight: 700; font-size: 1.05rem; color: #FF6B6A; }
+.offer-txt { font-size: 14.5px; line-height: 1.5; color: rgb(255 255 255 / .72); }
+.offer-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+.offer-tags em { font-style: normal; font-size: 12px; padding: 4px 9px; border-radius: 999px; background: rgb(106 155 195 / .14); color: #A9CBE6; }
+
+/* Navigation et envoi */
+.dv-nav { display: flex; align-items: center; gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgb(255 255 255 / .08); }
+.dv-next { margin-left: auto; font-size: 1.1875rem; }
+.dv-back { font-size: 1rem; }
+@media (max-width: 639px) { .dv-nav { flex-direction: column-reverse; align-items: stretch; } .dv-next { margin-left: 0; } }
+.dv-spin { display: none; width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgb(255 255 255 / .35); border-top-color: #fff; animation: dv-spin .7s linear infinite; }
+.dv-next.is-loading .dv-spin { display: block; }
+.dv-next.is-loading { pointer-events: none; }
+@keyframes dv-spin { to { transform: rotate(360deg); } }
+.dv-send-err { margin-top: 14px; font-size: 14px; line-height: 1.5; color: #FF8A88; }
+.dv-send-err a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Confirmation */
+.dv-done { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 48px 8px 24px; text-align: center; }
+.dv-done-ico { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; background: var(--ember); color: #fff; }
+.dv-done-txt { max-width: 30rem; font-size: 1.05rem; line-height: 1.6; color: rgb(255 255 255 / .75); }
+.dv-done h2:focus { outline: none; }
+
+/* L’attribut hidden gagne toujours sur les display des composants */
+.dv-card [hidden], .dv-card[hidden] { display: none !important; }
+.dv-header .btn { width: auto; white-space: nowrap; }
