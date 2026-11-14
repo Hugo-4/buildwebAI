@@ -61,7 +61,7 @@
     if (!els) return '';
     if (els instanceof RadioNodeList || (els.length !== undefined && !els.tagName)) {
       const list = [...els];
-      if (list[0]?.type === 'checkbox') return list.filter((e) => e.checked).map((e) => e.value).join(', ');
+      if (list[0]?.type === 'checkbox') return list.filter((e) => e.checked).map((e) => e.value).join(','); // format Airtable : « logo,photos »
       return list.find((e) => e.checked)?.value || '';
     }
     if (els.type === 'checkbox') return els.checked ? els.value : '';

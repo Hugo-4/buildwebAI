@@ -14,7 +14,8 @@ Homepage de BuildWebAI : site, réservation directe et automatisations IA pour r
 
 - `devis.html` + `assets/devis.css` + `assets/devis.js` : questionnaire en 4 étapes (établissement, formule, projet sur mesure ou Starter, écosystème). Les boutons de la page Tarifs y mènent avec la formule déjà cochée (`devis.html?offre=starter` ou `?offre=sur_mesure`).
 - À l'envoi, la page poste un JSON (`Content-Type: application/json`) vers `api/devis.php`, qui le transmet au webhook Airtable côté serveur. Le webhook Airtable ne répond pas aux requêtes CORS d'un navigateur : un envoi direct depuis la page serait bloqué.
-- Le JSON contient toujours les 27 clés du mapping Airtable, en chaînes (`""` pour la branche non choisie, cases multiples jointes par `, `).
+- Le JSON contient toujours les 27 clés du mapping Airtable à plat, en chaînes (`""` pour la branche non choisie, listes au format Airtable `logo,photos`), plus un objet `colonnes_airtable` qui reprend les mêmes valeurs sous le nom exact de chaque colonne de la base « Demandes de Devis ».
+- Valeurs envoyées, alignées sur la base : `type_offre` sur_mesure|starter · `deja_site` oui|non · `taille_site` onepage|petit|grand · `temps_perdu` <2|2-5|>5 · `delai` urgent|1-2mois|3-6mois|info · `budget` <1k|1k-2k|2k-5k|>5k · `outils` caisse,reservation,maison · `assets` logo,photos,textes,video · `reves` chatbot,voice_bot,anti_no_show,crm,fid · `objectif` reservation|click_and_collect|automatisation_ia|visibilite.
 - `api/devis.php` demande PHP 7.4+ avec curl (Hostinger, OVH, o2switch…). L'URL du webhook est dans la constante `WEBHOOK_URL`.
 
 ## Build

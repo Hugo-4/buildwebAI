@@ -176,17 +176,17 @@
             <fieldset class="f">
               <legend>Taille du site</legend>
               <div class="opts">
-                <label class="opt"><input type="radio" name="taille_site" value="petit"><span>Une page</span></label>
-                <label class="opt"><input type="radio" name="taille_site" value="moyen"><span>2 à 5 pages</span></label>
+                <label class="opt"><input type="radio" name="taille_site" value="onepage"><span>Une page</span></label>
+                <label class="opt"><input type="radio" name="taille_site" value="petit"><span>2 à 5 pages</span></label>
                 <label class="opt"><input type="radio" name="taille_site" value="grand"><span>6 pages et plus</span></label>
               </div>
             </fieldset>
             <fieldset class="f">
               <legend>Temps passé chaque semaine au téléphone, aux mails et aux saisies</legend>
               <div class="opts">
+                <label class="opt"><input type="radio" name="temps_perdu" value="<2"><span>Moins de 2&nbsp;h</span></label>
                 <label class="opt"><input type="radio" name="temps_perdu" value="2-5"><span>2 à 5&nbsp;h</span></label>
-                <label class="opt"><input type="radio" name="temps_perdu" value="5-10"><span>5 à 10&nbsp;h</span></label>
-                <label class="opt"><input type="radio" name="temps_perdu" value="10+"><span>Plus de 10&nbsp;h</span></label>
+                <label class="opt"><input type="radio" name="temps_perdu" value=">5"><span>Plus de 5&nbsp;h</span></label>
               </div>
             </fieldset>
             <div class="dv-grid">
@@ -195,16 +195,18 @@
                 <div class="opts opts--stack">
                   <label class="opt"><input type="radio" name="delai" value="urgent"><span>Le plus vite possible</span></label>
                   <label class="opt"><input type="radio" name="delai" value="1-2mois"><span>D'ici 1 à 2 mois</span></label>
-                  <label class="opt"><input type="radio" name="delai" value="3mois+"><span>Dans 3 mois ou plus</span></label>
+                  <label class="opt"><input type="radio" name="delai" value="3-6mois"><span>D'ici 3 à 6 mois</span></label>
+                  <label class="opt"><input type="radio" name="delai" value="info"><span>Je me renseigne pour l'instant</span></label>
                 </div>
                 <p class="f-err" hidden></p>
               </fieldset>
               <fieldset class="f" data-required="budget">
                 <legend>Budget envisagé</legend>
                 <div class="opts opts--stack">
+                  <label class="opt"><input type="radio" name="budget" value="<1k"><span>Moins de 1&nbsp;000&nbsp;€</span></label>
                   <label class="opt"><input type="radio" name="budget" value="1k-2k"><span>1&nbsp;000 à 2&nbsp;000&nbsp;€</span></label>
-                  <label class="opt"><input type="radio" name="budget" value="2k-4k"><span>2&nbsp;000 à 4&nbsp;000&nbsp;€</span></label>
-                  <label class="opt"><input type="radio" name="budget" value="leasing"><span>Paiement mensuel</span></label>
+                  <label class="opt"><input type="radio" name="budget" value="2k-5k"><span>2&nbsp;000 à 5&nbsp;000&nbsp;€</span></label>
+                  <label class="opt"><input type="radio" name="budget" value=">5k"><span>Plus de 5&nbsp;000&nbsp;€</span></label>
                 </div>
                 <p class="f-err" hidden></p>
               </fieldset>
@@ -259,26 +261,31 @@
           <!-- ÉTAPE 4 -->
           <section class="dv-panel" data-step="4" aria-labelledby="dvT4" hidden>
             <h2 id="dvT4" class="dv-title" tabindex="-1">Votre écosystème et vos envies</h2>
-            <div class="f">
-              <label for="outils">Caisse et logiciels en place</label>
-              <input id="outils" name="outils" type="text" placeholder="Ex. caisse Zelty, réservations TheFork, cahier papier">
-            </div>
+            <fieldset class="f">
+              <legend>Les outils que vous utilisez au quotidien</legend>
+              <div class="opts">
+                <label class="opt"><input type="checkbox" name="outils" value="caisse"><span>Logiciel de caisse</span></label>
+                <label class="opt"><input type="checkbox" name="outils" value="reservation"><span>Plateforme de réservation</span></label>
+                <label class="opt"><input type="checkbox" name="outils" value="maison"><span>Outils maison (Excel, cahier)</span></label>
+              </div>
+            </fieldset>
             <fieldset class="f">
               <legend>Ce que vous avez déjà</legend>
               <div class="opts">
+                <label class="opt"><input type="checkbox" name="assets" value="logo"><span>Logo</span></label>
                 <label class="opt"><input type="checkbox" name="assets" value="photos"><span>Photos professionnelles</span></label>
+                <label class="opt"><input type="checkbox" name="assets" value="textes"><span>Textes rédigés</span></label>
                 <label class="opt"><input type="checkbox" name="assets" value="video"><span>Vidéos</span></label>
-                <label class="opt"><input type="checkbox" name="assets" value="3d"><span>Plats en 3D</span></label>
-                <label class="opt"><input type="checkbox" name="assets" value="aucun" data-exclusive><span>Rien pour l'instant</span></label>
               </div>
             </fieldset>
             <fieldset class="f">
               <legend>Ce qui vous ferait gagner le plus de temps</legend>
               <div class="opts opts--stack">
-                <label class="opt"><input type="checkbox" name="reves" value="crm"><span>Un fichier clients qui se remplit tout seul</span></label>
-                <label class="opt"><input type="checkbox" name="reves" value="voice_bot"><span>Une IA qui répond au téléphone 24&nbsp;h/24</span></label>
+                <label class="opt"><input type="checkbox" name="reves" value="chatbot"><span>Un assistant IA qui répond aux clients 24&nbsp;h/24 sur le site</span></label>
+                <label class="opt"><input type="checkbox" name="reves" value="voice_bot"><span>Une IA qui décroche le téléphone pendant le service</span></label>
                 <label class="opt"><input type="checkbox" name="reves" value="anti_no_show"><span>Des rappels SMS qui évitent les tables vides</span></label>
-                <label class="opt"><input type="checkbox" name="reves" value="fidelisation"><span>Des relances qui font revenir les clients</span></label>
+                <label class="opt"><input type="checkbox" name="reves" value="crm"><span>Un fichier clients qui se remplit tout seul</span></label>
+                <label class="opt"><input type="checkbox" name="reves" value="fid"><span>Des relances qui font revenir les clients</span></label>
               </div>
             </fieldset>
             <p class="dv-legal">En envoyant ce formulaire, vous acceptez que BuildWebAI utilise ces informations pour vous recontacter au sujet de votre projet.</p>

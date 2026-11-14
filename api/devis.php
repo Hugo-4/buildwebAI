@@ -19,6 +19,40 @@ const KEYS = [
     'outils', 'assets', 'reves',
 ];
 
+// Nom exact de chaque colonne de la base « Demandes de Devis » (export CSV), par clé du formulaire.
+// Les 3 colonnes IA d'Airtable (Estimated project urgency, Website readiness score, Offer type summary)
+// sont calculées par Airtable et ne sont pas envoyées.
+const COLUMNS = [
+    'nom_etablissement' => "Nom de l'établissement",
+    'role' => 'Rôle',
+    'activite' => 'Activité',
+    'localisation' => 'Localisation',
+    'email' => 'Email',
+    'type_offre' => "Type d'offre choisie",
+    'deja_site' => 'Déjà un site web ?',
+    'url_site' => 'URL du site actuel',
+    'outils' => 'Outils utilisés',
+    'noms_logiciels' => 'Noms exacts des logiciels',
+    'frustration' => 'Frustration principale',
+    'objectif' => 'Objectif N°1',
+    'taille_site' => 'Taille du site estimée',
+    'assets' => 'Éléments possédés',
+    'temps_perdu' => 'Temps perdu par semaine',
+    'reves' => 'Solutions IA souhaitées',
+    'delai' => 'Délai souhaité',
+    'budget' => 'Budget estimé',
+    'exemples' => 'Exemples de sites aimés',
+    'commentaires_sur_mesure' => 'Commentaires sur mesure',
+    'starter_description' => "Description de l'activité/produit",
+    'starter_domaine' => 'Nom de domaine souhaité',
+    'starter_couleurs' => 'Couleurs',
+    'starter_style' => 'Style visuel',
+    'starter_drive' => 'Lien Drive/Assets',
+    'starter_structure' => 'Structure de la page',
+    'commentaires_starter' => 'Commentaires starter',
+];
+const MULTI = ['outils', 'assets', 'reves']; // listes Airtable au format « logo,photos »
+
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
@@ -72,6 +106,16 @@ foreach ($branches[$out['type_offre'] === 'starter' ? 'sur_mesure' : 'starter'] 
 if ($out['deja_site'] !== 'oui') {
     $out['url_site'] = '';
 }
+foreach (MULTI as $key) {
+    $out[$key] = trim((string) preg_replace('/\s*,\s*/', ',', $out[$key]), ',');
+}
+// Même contenu sous le nom exact des colonnes Airtable, dans un objet à part :
+// les 27 clés à plat restent inchangées pour le mapping existant.
+$columns = [];
+foreach (COLUMNS as $key => $column) {
+    $columns[$column] = $out[$key];
+}
+$out['colonnes_airtable'] = $columns;
 
 $ch = curl_init(WEBHOOK_URL);
 curl_setopt_array($ch, [
