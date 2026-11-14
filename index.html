@@ -21,7 +21,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/img/plat-signature.webp">
   <link rel="stylesheet" href="assets/site.css">
   <link rel="stylesheet" href="assets/tailwind.css">
   <script>document.documentElement.classList.add('js')</script>
@@ -51,7 +50,7 @@
       </a>
       <nav aria-label="Navigation principale" class="hidden lg:block">
         <ul class="flex items-center gap-8 text-[15px] font-medium text-white/80">
-          <li><a class="ulink" href="#vitrine">Vitrine</a></li>
+          <li><a class="ulink" href="#vitrine">Click &amp; Collect</a></li>
           <li><a class="ulink" href="#simulateur">Simulateur</a></li>
           <li><a class="ulink" href="#avant-apres">Avant / Après</a></li>
           <li><a class="ulink" href="#tarifs">Tarifs</a></li>
@@ -66,7 +65,7 @@
     </div>
     <div id="mobileMenu" class="mobile-menu lg:hidden" hidden>
       <ul class="px-4 pt-24 flex flex-col gap-1">
-        <li><a href="#vitrine">Vitrine</a></li>
+        <li><a href="#vitrine">Click &amp; Collect</a></li>
         <li><a href="#simulateur">Simulateur</a></li>
         <li><a href="#avant-apres">Avant / Après</a></li>
         <li><a href="#tarifs">Tarifs</a></li>
@@ -154,43 +153,102 @@
       </div>
     </section>
 
-    <!-- ============ VITRINE 3D & WEB ============ -->
-    <section id="vitrine" class="vitrine relative bg-night overflow-hidden">
-      <div class="grid-bg grid-bg--soft" aria-hidden="true"></div>
-      <div class="vitrine-stage relative mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 min-h-[100svh] py-20 lg:py-0 grid lg:grid-cols-12 gap-10 items-center">
-        <div class="lg:col-span-5 relative z-10">
-          <h2 class="display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Votre plat signature donne faim avant la réservation<span class="text-ember">.</span></h2>
-          <p class="mt-6 text-lg leading-relaxed text-white/70 max-w-[30rem]">
-            Un site mobile qui s'affiche avant que le client ne compose votre numéro, vos plats en 3D qu'il fait tourner du doigt, et un bouton Commander qui encaisse en direct par Stripe ou Apple Pay.
-          </p>
-          <a href="#tarifs" class="btn btn-outline mt-8 hidden lg:inline-flex">Voir les formules web</a>
-        </div>
+    <!-- ============ MODULE 2 : PRÉSENCE DIGITALE & CLICK & COLLECT ============ -->
+    <section id="vitrine" class="cc relative bg-night" aria-labelledby="cc-title">
+      <div class="cc-stage" id="ccStage">
+        <div class="grid-bg grid-bg--soft" aria-hidden="true"></div>
 
-        <div class="lg:col-span-7 relative">
-          <div class="dish-wrap" aria-hidden="true">
-            <div class="dish-glow"></div>
-            <div class="dish-orbit"></div>
-            <div class="dish-tilt">
-              <img id="dish" class="dish" src="assets/img/plat-signature.webp" width="960" height="960" alt="" decoding="async">
-            </div>
+        <div class="cc-grid mx-auto max-w-wrap px-4 sm:px-6 lg:px-8">
+          <div class="cc-copy">
+            <h2 id="cc-title" class="display cc-title">Présence digitale <span class="whitespace-nowrap">&amp; Click &amp; Collect</span><span class="text-ember">.</span></h2>
+            <p class="cc-lead">Un site qui s'affiche en moins de 1,2&nbsp;seconde, une carte qui se commande en un clic et un panier qui grossit avec les bonnes suggestions. Le paiement arrive chez vous, sans commission.</p>
+            <ul class="cc-cards cc-cards--stage" aria-label="Résultats mesurés">
+              <li class="metric">
+                <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <span class="metric-val">&lt;&nbsp;1,2&nbsp;s</span>
+                <span class="metric-txt">Temps de chargement sur mobile, contre 4 à 6&nbsp;s pour un site classique.</span>
+              </li>
+              <li class="metric">
+                <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 18 18 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7.5" cy="7.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="16.5" cy="16.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>
+                <span class="metric-val metric-val--ember">0&nbsp;%</span>
+                <span class="metric-txt">De commission sur le Click &amp; Collect&nbsp;: Stripe ou Apple Pay, encaissé chez vous.</span>
+              </li>
+              <li class="metric" data-metric="upsell">
+                <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 5h2.5l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 8H6.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="20" r="1.4" fill="currentColor"/><circle cx="17.5" cy="20" r="1.4" fill="currentColor"/></svg></span>
+                <span class="metric-val">+20&nbsp;%</span>
+                <span class="metric-txt">De panier moyen grâce à l'upsell automatique&nbsp;: accords, boissons, menus.</span>
+              </li>
+            </ul>
           </div>
 
-          <ul class="badges" aria-label="Résultats mesurés sur les sites livrés">
-            <li class="badge badge-1">
-              <span class="badge-val">&lt;&nbsp;1,2&nbsp;s</span>
-              <span class="badge-txt">Temps de chargement, contre 4 à 6&nbsp;s en moyenne</span>
-            </li>
-            <li class="badge badge-2">
-              <span class="badge-val">+20&nbsp;%</span>
-              <span class="badge-txt">Panier moyen, grâce aux boissons et extras proposés</span>
-            </li>
-            <li class="badge badge-3">
-              <span class="badge-val">0&nbsp;%</span>
-              <span class="badge-txt">Commission sur le Click &amp; Collect direct</span>
-            </li>
-          </ul>
+          <div class="cc-phone-col">
+            <div class="phone" id="phone">
+              <div class="phone-screen" id="phoneScreen" data-theme-site="bistrot">
+                <div class="ph-media" id="phMedia">
+                  <canvas id="phoneCanvas" aria-hidden="true"></canvas>
+                  <img class="ph-media-still" src="public/frames-bistrot/540/frame_0120.webp" alt="" width="540" height="960" loading="lazy" decoding="async">
+                  <div class="ph-status" aria-hidden="true">
+                    <span>20:34</span>
+                    <span class="ph-status-ico"><i></i><i></i><i></i><b></b></span>
+                  </div>
+                  <div class="ph-brand">
+                    <p class="ph-name" id="phName">Maison Comptoir</p>
+                    <p class="ph-meta" id="phMeta">Bistrot · Retrait en 15 min</p>
+                  </div>
+                </div>
+                <div class="ph-body" id="phBody">
+                  <div class="ph-tabs" role="tablist" aria-label="Type d'établissement">
+                    <span class="ph-tab-ind" aria-hidden="true"></span>
+                    <button class="ph-tab" role="tab" aria-selected="true" data-theme="bistrot">Bistrot</button>
+                    <button class="ph-tab" role="tab" aria-selected="false" tabindex="-1" data-theme="fastfood">Fast-Food</button>
+                    <button class="ph-tab" role="tab" aria-selected="false" tabindex="-1" data-theme="bar">Bar</button>
+                    <button class="ph-tab" role="tab" aria-selected="false" tabindex="-1" data-theme="epicerie">Épicerie</button>
+                  </div>
+                  <ul class="ph-menu" id="phMenu" aria-label="Carte">
+                    <li class="ph-item"><div class="ph-item-txt"><p class="ph-item-name">Saint-Jacques snackées, riz noir</p><p class="ph-item-desc">Beurre noisette, jus corsé</p></div><p class="ph-price">26,00&nbsp;€</p><button class="ph-add" type="button" aria-label="Ajouter Saint-Jacques snackées au panier">+</button></li>
+                    <li class="ph-item"><div class="ph-item-txt"><p class="ph-item-name">Tartare de bœuf au couteau</p><p class="ph-item-desc">Frites maison, salade de saison</p></div><p class="ph-price">19,00&nbsp;€</p><button class="ph-add" type="button" aria-label="Ajouter Tartare de bœuf au panier">+</button></li>
+                    <li class="ph-item"><div class="ph-item-txt"><p class="ph-item-name">Mousse au chocolat</p><p class="ph-item-desc">Fleur de sel, éclats de noisette</p></div><p class="ph-price">8,50&nbsp;€</p><button class="ph-add" type="button" aria-label="Ajouter Mousse au chocolat au panier">+</button></li>
+                  </ul>
+                  <div class="ph-upsell" id="phUpsell" aria-hidden="true">
+                    <p class="ph-upsell-k">Suggestion automatique</p>
+                    <p class="ph-upsell-t" id="phUpsellText">Un verre de Chablis avec vos Saint-Jacques&nbsp;?</p>
+                    <div class="ph-upsell-row">
+                      <button class="ph-btn ph-btn--ghost" type="button" id="phUpsellNo" tabindex="-1">Non merci</button>
+                      <button class="ph-btn" type="button" id="phUpsellYes" tabindex="-1">Ajouter · <span id="phUpsellPrice">7,00&nbsp;€</span></button>
+                    </div>
+                  </div>
+                  <div class="ph-cart" id="phCart">
+                    <span class="ph-count" id="phCount" aria-hidden="true">0</span>
+                    <p class="ph-cart-txt"><span id="phCartLabel">Panier vide</span><b id="phTotal">0,00&nbsp;€</b></p>
+                    <button class="ph-btn ph-order" type="button" id="phOrder" disabled>Commander</button>
+                  </div>
+                  <p class="sr-only" role="status" id="phLive"></p>
+                  <div class="ph-done" id="phDone" aria-hidden="true">
+                    <span class="ph-done-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M5 12.5 10 17 19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <p class="ph-done-t">Commande confirmée</p>
+                    <p class="ph-done-s" id="phDoneText">Payée par Apple Pay · retrait à 20h50</p>
+                    <button class="ph-btn ph-btn--ghost" type="button" id="phReset" tabindex="-1">Nouvelle commande</button>
+                  </div>
+                </div>
+              </div>
+              <span class="phone-island" aria-hidden="true"></span>
+            </div>
+            <p class="cc-hint" id="ccHint" aria-hidden="true">À vous&nbsp;: choisissez un établissement, ajoutez un plat.</p>
+          </div>
+        </div>
+
+        <!-- Accroche + séquence plein cadre (phase 1), qui vient se loger dans l'iPhone (phase 2) -->
+        <div class="cc-hook" aria-hidden="true">
+          <p class="display">Donnez faim<span class="text-ember">.</span></p>
+          <p class="display">Encaissez en direct<span class="text-ember">.</span></p>
+        </div>
+        <div class="seq" id="seq" aria-hidden="true">
+          <div class="seq-clip" id="seqClip"><div class="seq-inner" id="seqInner"><canvas id="seqCanvas"></canvas></div></div>
         </div>
       </div>
+
+      <!-- Cartes métriques en flux normal sous la scène, sur mobile -->
+      <div class="cc-cards-mobile mx-auto max-w-wrap px-4 sm:px-6 pb-20" aria-hidden="true"></div>
     </section>
 
     <!-- ============ SIMULATEUR ROI ANTI-NO-SHOW ============ -->
@@ -334,104 +392,129 @@
           <div class="lg:col-span-7">
             <h2 class="display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Tarifs au rythme de votre trésorerie<span class="text-ember">.</span></h2>
           </div>
-          <p class="lg:col-span-5 text-lg leading-relaxed text-ink/80 max-w-[34rem]">Quatre façons de démarrer, du zéro euro à l'achat classique. Tous nos prix sont hors taxes.</p>
+          <p class="lg:col-span-5 text-lg leading-relaxed text-ink/80 max-w-[34rem]">Quatre façons de démarrer, du site en 48&nbsp;h au pack complet avec l'IA. Tous nos prix sont hors taxes.</p>
         </div>
 
         <div class="tabs mt-10" role="tablist" aria-label="Formules">
           <span class="tab-ind" aria-hidden="true"></span>
-          <button class="tab" role="tab" id="t-leasing" aria-controls="p-leasing" aria-selected="true" tabindex="0">Leasing Employé Digital</button>
+          <button class="tab" role="tab" id="t-express" aria-controls="p-express" aria-selected="false" tabindex="-1">Starter Express</button>
+          <button class="tab" role="tab" id="t-performance" aria-controls="p-performance" aria-selected="true" tabindex="0">Pack Performance</button>
           <button class="tab" role="tab" id="t-hybride" aria-controls="p-hybride" aria-selected="false" tabindex="-1">Hybride</button>
           <button class="tab" role="tab" id="t-commission" aria-controls="p-commission" aria-selected="false" tabindex="-1">Commission</button>
-          <button class="tab" role="tab" id="t-classique" aria-controls="p-classique" aria-selected="false" tabindex="-1">Pack Classique</button>
         </div>
 
-        <div class="grid lg:grid-cols-12 gap-4 mt-4">
-          <div class="lg:col-span-8 panels">
-            <!-- Leasing -->
-            <article class="panel" role="tabpanel" id="p-leasing" aria-labelledby="t-leasing">
-              <div class="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <p class="panel-kicker">0&nbsp;€ de mise en place</p>
-                  <p class="price">250 – 400&nbsp;€<small>/ mois</small></p>
-                </div>
-                <span class="pill">Engagement 12 mois</span>
+        <div class="panels mt-4">
+          <!-- Starter Express -->
+          <article class="panel" role="tabpanel" id="p-express" aria-labelledby="t-express" hidden>
+            <div class="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p class="panel-kicker">Prix d'appel</p>
+                <p class="price">499&nbsp;€<small>+ maintenance mensuelle</small></p>
               </div>
-              <p class="panel-lead">Vous démarrez cette semaine sans sortir de trésorerie. Votre «&nbsp;employé digital&nbsp;» est payé comme un abonnement.</p>
-              <ul class="checks">
-                <li>Site mobile rapide et réservation directe</li>
-                <li>Standardiste vocal IA 24 h/24</li>
-                <li>Rappel SMS anti-no-show H-3</li>
-                <li>Hébergement, mises à jour et rapport ROI mensuel</li>
-              </ul>
-              <a href="#audit" class="btn btn-dark mt-auto">Démarrer en leasing</a>
-            </article>
-            <!-- Hybride -->
-            <article class="panel" role="tabpanel" id="p-hybride" aria-labelledby="t-hybride" hidden>
-              <div class="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <p class="panel-kicker">Mise en place divisée par deux · 900&nbsp;€</p>
-                  <p class="price">99&nbsp;€<small>/ mois + 1&nbsp;€ / couvert</small></p>
-                </div>
-                <span class="pill">Au-delà de 50 réservations / mois</span>
-              </div>
-              <p class="panel-lead">On partage le risque&nbsp;: un socle fixe modeste, puis un euro par couvert réservé en direct au-delà du palier.</p>
-              <ul class="checks">
-                <li>Site, réservation directe et Click &amp; Collect</li>
-                <li>Modules IA au choix selon vos priorités</li>
-                <li>Compteur de réservations visible chaque mois</li>
-                <li>Aucun frais si vous restez sous le palier</li>
-              </ul>
-              <a href="#audit" class="btn btn-dark mt-auto">Étudier la formule hybride</a>
-            </article>
-            <!-- Commission -->
-            <article class="panel" role="tabpanel" id="p-commission" aria-labelledby="t-commission" hidden>
-              <div class="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <p class="panel-kicker">Mise en place de 0 à 500&nbsp;€</p>
-                  <p class="price">1,50 – 2,50&nbsp;€<small>/ couvert gagné</small></p>
-                </div>
-                <span class="pill">ou 10&nbsp;% du Click &amp; Collect</span>
-              </div>
-              <p class="panel-lead">100&nbsp;% à la performance&nbsp;: vous payez uniquement les couverts supplémentaires que le système vous apporte.</p>
-              <ul class="checks">
-                <li>Mesure des couverts générés par le canal direct</li>
-                <li>Ou 10&nbsp;% du chiffre encaissé en Click &amp; Collect</li>
-                <li>Relevé mensuel détaillé, consultable à tout moment</li>
-                <li>Idéal pour tester avant d'investir</li>
-              </ul>
-              <a href="#audit" class="btn btn-dark mt-auto">Passer à la commission</a>
-            </article>
-            <!-- Classique -->
-            <article class="panel" role="tabpanel" id="p-classique" aria-labelledby="t-classique" hidden>
-              <div class="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <p class="panel-kicker">Achat en une fois</p>
-                  <p class="price">1&nbsp;490 – 2&nbsp;290&nbsp;€</p>
-                </div>
-                <span class="pill">Maintenance dès 79&nbsp;€ / mois</span>
-              </div>
-              <p class="panel-lead">1&nbsp;490&nbsp;€ le site vitrine, 2&nbsp;290&nbsp;€ le pack complet avec Click &amp; Collect. Les modules IA s'ajoutent à la carte.</p>
-              <ul class="checks checks-2">
-                <li>Standardiste vocal IA · 890&nbsp;€</li>
-                <li>Chatbot web · 490&nbsp;€</li>
-                <li>Synchronisation caisse · 390&nbsp;€</li>
-                <li>Scénario SMS anti-no-show · 350&nbsp;€</li>
-                <li>Avis Google · 290&nbsp;€</li>
-                <li>Shooting photo · 450&nbsp;€</li>
-              </ul>
-              <a href="#audit" class="btn btn-dark mt-auto">Commander le pack</a>
-            </article>
-          </div>
-
-          <aside class="lg:col-span-4 guarantee" aria-label="Garantie ROI 90 jours">
-            <div class="flex items-center gap-3">
-              <span class="g-badge" aria-hidden="true">90</span>
-              <p class="text-[13px] font-medium uppercase tracking-[0.14em] text-white/70">Garantie ROI<br>90 jours</p>
+              <span class="pill">Paiement unique</span>
             </div>
-            <p class="display mt-6 text-[1.9rem] leading-[1]">Objectifs manqués&nbsp;? 50&nbsp;% remboursés<span class="text-ember">.</span></p>
-            <p class="mt-4 text-[15px] leading-relaxed text-white/70">Nous fixons ensemble des objectifs chiffrés&nbsp;: no-shows, appels décrochés, commandes directes. S'ils ne sont pas atteints sous trois mois, nous vous remboursons la moitié de la mise en place.</p>
-            <p class="mt-4 text-[13px] text-white/50">Avec une mise en place au plein tarif.</p>
-          </aside>
+            <p class="panel-lead">La solution d'urgence pour une présence en ligne immédiate, sans réunions ni développements complexes.</p>
+            <ul class="checks">
+              <li>Site d'une seule page (template)</li>
+              <li>Mise en ligne en 48&nbsp;h chrono</li>
+              <li>Intégration de votre logo et de vos textes</li>
+            </ul>
+            <a href="#audit" class="btn btn-dark mt-auto">Mettre mon site en ligne en 48&nbsp;h</a>
+          </article>
+
+          <!-- Pack Performance -->
+          <article class="panel panel--wide" role="tabpanel" id="p-performance" aria-labelledby="t-performance">
+            <div class="perf-grid">
+              <div class="flex flex-col gap-6 min-w-0">
+                <div class="flex flex-wrap items-end justify-between gap-4">
+                  <div>
+                    <p class="panel-kicker">Site complet + modules IA</p>
+                    <p class="price">1&nbsp;000 – 3&nbsp;000&nbsp;€<small>+ maintenance mensuelle</small></p>
+                  </div>
+                  <span class="pill">Garantie 3 mois</span>
+                </div>
+                <ol class="tiers">
+                  <li class="tier">
+                    <p class="tier-name">Essentiel</p>
+                    <p class="tier-price">1&nbsp;000&nbsp;€</p>
+                    <p class="tier-txt">Site complet multi-pages, réservation directe et Click &amp; Collect sans commission.</p>
+                  </li>
+                  <li class="tier">
+                    <p class="tier-name">Croissance</p>
+                    <p class="tier-price">+ jusqu'à 1&nbsp;100&nbsp;€</p>
+                    <p class="tier-txt">L'Essentiel, plus les modules IA de votre choix jusqu'à 1&nbsp;100&nbsp;€.</p>
+                  </li>
+                  <li class="tier tier--top">
+                    <p class="tier-name">Intégral</p>
+                    <p class="tier-price">+ jusqu'à 2&nbsp;500&nbsp;€</p>
+                    <p class="tier-txt">L'Essentiel, plus les modules IA de votre choix jusqu'à 2&nbsp;500&nbsp;€.</p>
+                  </li>
+                </ol>
+                <div>
+                  <p class="mods-title">Modules IA à la carte</p>
+                  <ul class="mods">
+                    <li><span>Standardiste vocal IA</span><b>890&nbsp;€</b></li>
+                    <li><span>Maître d'hôtel virtuel WhatsApp / Instagram</span><b>690&nbsp;€</b></li>
+                    <li><span>Dashboard interactif</span><b>590&nbsp;€</b></li>
+                    <li><span>Fidélisation automatisée</span><b>550&nbsp;€</b></li>
+                    <li><span>Chatbot web formé sur votre carte</span><b>490&nbsp;€</b></li>
+                    <li><span>Gestion fournisseurs (factures, food cost)</span><b>490&nbsp;€</b></li>
+                    <li><span>Synchronisation caisse et fichier clients</span><b>390&nbsp;€</b></li>
+                    <li><span>Rappel SMS anti-no-show H-3</span><b>350&nbsp;€</b></li>
+                    <li><span>E-réputation (avis Google, TripAdvisor)</span><b>290&nbsp;€</b></li>
+                    <li><span>Agent RH (plannings, absences, extras)</span><b>Sur devis</b></li>
+                  </ul>
+                </div>
+                <a href="#audit" class="btn btn-dark">Composer mon pack</a>
+              </div>
+              <aside class="guarantee" aria-label="Garantie ROI 3 mois">
+                <div class="flex items-center gap-3">
+                  <span class="g-badge" aria-hidden="true">3</span>
+                  <p class="text-[13px] font-medium uppercase tracking-[0.14em] text-white/70">Garantie ROI<br>3 premiers mois</p>
+                </div>
+                <p class="display mt-6 text-[1.9rem] leading-[1]">Objectifs manqués&nbsp;? 50&nbsp;% remboursés<span class="text-ember">.</span></p>
+                <p class="mt-4 text-[15px] leading-relaxed text-white/70">Nous fixons ensemble des objectifs chiffrés&nbsp;: no-shows, appels décrochés, commandes directes. S'ils ne sont pas atteints sur les trois premiers mois, nous vous remboursons la moitié de la mise en place.</p>
+              </aside>
+            </div>
+          </article>
+
+          <!-- Hybride -->
+          <article class="panel" role="tabpanel" id="p-hybride" aria-labelledby="t-hybride" hidden>
+            <div class="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p class="panel-kicker">Risque partagé</p>
+                <p class="price">Mise en place ÷&nbsp;2<small>+ maintenance mensuelle</small></p>
+              </div>
+              <span class="pill">Commission dès un palier fixé au devis</span>
+            </div>
+            <p class="panel-lead">Vous payez la moitié de la mise en place. Au-delà d'un palier de réservations défini avec vous dans le devis, une commission s'applique sur ce que le canal direct vous apporte.</p>
+            <ul class="checks">
+              <li>Site, réservation directe et Click &amp; Collect</li>
+              <li>Modules IA au choix selon vos priorités</li>
+              <li>Palier et commission fixés dans votre devis</li>
+              <li>Aucune commission tant que le palier n'est pas atteint</li>
+            </ul>
+            <a href="#audit" class="btn btn-dark mt-auto">Demander un devis hybride</a>
+          </article>
+
+          <!-- Commission -->
+          <article class="panel" role="tabpanel" id="p-commission" aria-labelledby="t-commission" hidden>
+            <div class="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p class="panel-kicker">100&nbsp;% à la performance</p>
+                <p class="price">199 – 500&nbsp;€<small>+ maintenance mensuelle</small></p>
+              </div>
+              <span class="pill">Commission fixée au devis</span>
+            </div>
+            <p class="panel-lead">Une mise en place réduite, puis un pourcentage de commission défini dans votre devis sur le chiffre généré par le canal direct.</p>
+            <ul class="checks">
+              <li>Mise en place de 199 à 500&nbsp;€</li>
+              <li>Pourcentage de commission défini dans votre devis</li>
+              <li>Relevé mensuel détaillé, consultable à tout moment</li>
+              <li>Idéal pour tester avant d'investir</li>
+            </ul>
+            <a href="#audit" class="btn btn-dark mt-auto">Demander un devis commission</a>
+          </article>
         </div>
       </div>
     </section>
@@ -497,7 +580,7 @@
       </div>
       <nav class="md:col-span-4" aria-label="Pied de page">
         <ul class="grid grid-cols-2 gap-x-6 text-[15px] text-white/75">
-          <li><a class="ulink foot-link" href="#vitrine">Vitrine</a></li>
+          <li><a class="ulink foot-link" href="#vitrine">Click &amp; Collect</a></li>
           <li><a class="ulink foot-link" href="#simulateur">Simulateur</a></li>
           <li><a class="ulink foot-link" href="#avant-apres">Avant / Après</a></li>
           <li><a class="ulink foot-link" href="#tarifs">Tarifs</a></li>

@@ -6,6 +6,9 @@ Homepage de BuildWebAI : site, réservation directe et automatisations IA pour r
 - `assets/site.css` : styles et règles de mouvement (seules `transform` et `opacity` sont animées)
 - `assets/app.js` : preloader, simulation d'appel, vitrine 3D au scroll, simulateur ROI, slider avant/après, onglets tarifs, formulaire d'audit
 - `assets/img/` : photos (Unsplash, licence Unsplash)
+- `public/frames-bistrot/` : séquence du plat signature, `frame_0001.webp` à `frame_0120.webp` (1080×1920) et `540/` (540×960, servie aux écrans qui n'ont pas besoin de plus)
+- `public/frames-bar/` : séquence du bar à vin, même structure (à déposer ; tant qu'elle manque, l'onglet Bar affiche `public/editorial/bar.webp`)
+- `public/editorial/` : visuels verticaux des onglets Fast-Food, Épicerie et Bar (Unsplash, licence Unsplash)
 
 ## Build
 

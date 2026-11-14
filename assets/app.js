@@ -138,28 +138,337 @@
     toggle.hidden = true;
   }
 
-  /* ---------- Vitrine : plat en rotation au scroll ---------- */
-  if (hasGsap && !reduce) {
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 1024px)', () => {
+  /* ---------- Module 2 : Présence digitale & Click & Collect ---------- */
+  (function clickCollect() {
+    const stage = $('#ccStage');
+    if (!stage) return;
+    const seq = $('#seq'), seqClip = $('#seqClip'), seqInner = $('#seqInner');
+    const seqCanvas = $('#seqCanvas'), phCanvas = $('#phoneCanvas');
+    const media = $('#phMedia'), screen = $('#phoneScreen'), phone = $('#phone');
+    const phBody = $('#phBody'), phMenu = $('#phMenu'), phName = $('#phName'), phMeta = $('#phMeta');
+    const upsell = $('#phUpsell'), upYes = $('#phUpsellYes'), upNo = $('#phUpsellNo');
+    const orderBtn = $('#phOrder'), done = $('#phDone'), resetBtn = $('#phReset'), live = $('#phLive');
+    const FRAMES = 120;
+    const FOCUS = 0.58; // hauteur du plat dans la frame verticale, gardée au recadrage dans l'iPhone
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const motion = hasGsap && !reduce && window.ScrollTrigger;
+    const euro = (n) => `${n.toFixed(2).replace('.', ',')} €`;
+
+    if (motion) document.documentElement.classList.add('cc-motion');
+
+    /* Séquences d'images : 540p si l'écran n'a pas besoin de plus, 1080p sinon */
+    const HD = motion ? seq.offsetHeight * DPR > 1000 : media.offsetWidth * DPR > 700;
+    function makeSeq(dir) {
+      const s = { imgs: new Array(FRAMES), ok: null, started: false };
+      s.src = (i) => `${dir}/${HD ? '' : '540/'}frame_${String(i + 1).padStart(4, '0')}.webp`;
+      s.load = (i) => {
+        if (s.imgs[i]) return s.imgs[i];
+        const im = new Image();
+        im.decoding = 'async';
+        im.onload = () => onFrame(s, i);
+        im.src = s.src(i);
+        s.imgs[i] = im;
+        return im;
+      };
+      s.loadAll = () => { if (s.started) return; s.started = true; for (let i = 0; i < FRAMES; i++) s.load(i); };
+      s.nearest = (i) => {
+        for (let d = 0; d < FRAMES; d++) {
+          for (const j of [i - d, i + d]) {
+            const im = s.imgs[j];
+            if (im && im.complete && im.naturalWidth) return im;
+          }
+        }
+        return null;
+      };
+      return s;
+    }
+    const bistrot = makeSeq('public/frames-bistrot');
+    const bar = makeSeq('public/frames-bar'); // séquence bar à vin : visuel fixe en repli tant qu'elle n'est pas livrée
+    const stills = {};
+    [['fastfood', 'public/editorial/fastfood.webp'], ['epicerie', 'public/editorial/epicerie.webp'], ['bar', 'public/editorial/bar.webp']]
+      .forEach(([k, src]) => { const im = new Image(); im.decoding = 'async'; im.onload = () => { if (state.theme === k) drawPhone(); }; im.src = src; stills[k] = im; });
+
+    const state = { theme: 'bistrot', frame: 0, phFrame: FRAMES - 1, landed: !motion };
+    bistrot.load(0); bistrot.load(FRAMES - 1);
+
+    function onFrame(s, i) {
+      if (s === bistrot && Math.abs(i - state.frame) < 3) requestDraw();
+      const phSeq = state.theme === 'bistrot' ? bistrot : (state.theme === 'bar' && bar.ok ? bar : null);
+      if (s === phSeq && Math.abs(i - state.phFrame) < 3) drawPhone();
+    }
+    bar.imgs[0] = null;
+    (() => { const probe = new Image(); probe.onload = () => { bar.ok = true; bar.imgs[0] = probe; }; probe.onerror = () => { bar.ok = false; }; probe.src = bar.src(0); })();
+
+    /* Dessin canvas (recadrage type cover, centré sur la hauteur choisie) */
+    function sizeCanvas(cv, w, h) {
+      const W = Math.max(1, Math.round(w * DPR)), H = Math.max(1, Math.round(h * DPR));
+      if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+    }
+    function drawCover(cv, img, focusY) {
+      if (!img || !img.complete || !img.naturalWidth) return false;
+      const ctx = cv.getContext('2d');
+      const cw = cv.width, ch = cv.height, iw = img.naturalWidth, ih = img.naturalHeight;
+      const sc = Math.max(cw / iw, ch / ih), sw = cw / sc, sh = ch / sc;
+      const sx = (iw - sw) / 2;
+      const sy = Math.max(0, Math.min(ih - sh, ih * focusY - sh / 2));
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+      return true;
+    }
+    let raf = 0;
+    function requestDraw() {
+      if (raf) return;
+      raf = requestAnimationFrame(() => { raf = 0; drawCover(seqCanvas, bistrot.nearest(Math.round(state.frame)), 0.5); });
+    }
+    function drawPhone() {
+      const t = state.theme;
+      const s = t === 'bistrot' ? bistrot : (t === 'bar' && bar.ok ? bar : null);
+      const img = s ? s.nearest(Math.round(state.phFrame)) : stills[t];
+      if (drawCover(phCanvas, img, s ? FOCUS : 0.5)) media.classList.add('has-canvas');
+    }
+
+    /* Géométrie : où le canvas plein cadre doit se loger dans l'iPhone (positions de layout, hors transforms) */
+    const geo = { W: 1, H: 1, s: 1, k: 1, dx: 0, dy: 0 };
+    function offsetIn(el, root) {
+      let x = 0, y = 0, n = el;
+      while (n && n !== root) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+      return { x, y };
+    }
+    function measure() {
+      const mw = media.offsetWidth, mh = media.offsetHeight;
+      sizeCanvas(phCanvas, mw, mh);
+      drawPhone();
+      if (!motion) return;
+      const W = seq.offsetWidth, H = seq.offsetHeight;
+      const a = offsetIn(seq, stage), m = offsetIn(media, stage);
+      geo.W = W; geo.H = H;
+      geo.s = mw / W;
+      geo.k = mh / geo.s / H;
+      geo.dx = m.x + mw / 2 - (a.x + W / 2);
+      geo.dy = m.y + mh / 2 - (a.y + H / 2);
+      sizeCanvas(seqCanvas, W, H);
+      requestDraw();
+      applyMorph(P.t);
+    }
+
+    /* Morph : translate + scale uniformes, recadrage vertical par scaleY compensé (aucune déformation) */
+    const P = { frame: 0, t: 0 };
+    function applyMorph(t) {
+      const s = 1 + (geo.s - 1) * t;
+      const k = 1 + (geo.k - 1) * t;
+      const f = 0.5 + (FOCUS - 0.5) * t;
+      gsap.set(seq, { x: geo.dx * t, y: geo.dy * t, scale: s, opacity: t >= 0.999 ? 0 : 1 });
+      gsap.set(seqClip, { scaleY: k });
+      gsap.set(seqInner, { scaleY: 1 / k, y: ((0.5 - f) * geo.H) / k });
+      const landed = t >= 0.999;
+      if (landed !== state.landed) {
+        state.landed = landed;
+        if (landed) drawPhone();
+        phBody.inert = !landed;
+      }
+      gsap.set(media, { opacity: landed ? 1 : 0 });
+    }
+
+    if (motion) {
+      phBody.inert = true;
+      // Les frames se chargent quand la section approche
+      ScrollTrigger.create({ trigger: stage, start: 'top bottom+=120%', once: true, onEnter: () => bistrot.loadAll() });
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: '#vitrine', start: 'top top', end: '+=140%', pin: true, scrub: 0.6, anticipatePin: 1 },
+        scrollTrigger: { trigger: stage, start: 'top top', end: '+=300%', pin: true, scrub: 0.5, anticipatePin: 1, invalidateOnRefresh: true, onRefresh: measure },
       });
-      tl.fromTo('#dish', { rotation: -40, scale: 0.86 }, { rotation: 280, scale: 1, duration: 1 }, 0)
-        .fromTo('.dish-tilt', { rotationX: 48 }, { rotationX: 8, duration: 0.6, ease: 'power2.out' }, 0)
-        .fromTo('.dish-orbit', { rotation: 0 }, { rotation: -90, duration: 1 }, 0)
-        .from('.badge-1', { opacity: 0, x: -24, duration: 0.12, ease: 'power2.out' }, 0.14)
-        .from('.badge-2', { opacity: 0, x: 24, duration: 0.12, ease: 'power2.out' }, 0.38)
-        .from('.badge-3', { opacity: 0, x: -24, duration: 0.12, ease: 'power2.out' }, 0.62);
+      tl.to(P, { frame: FRAMES - 1, duration: 0.62, onUpdate: () => { state.frame = P.frame; requestDraw(); } }, 0)
+        .to('.cc-hook', { opacity: 0, y: -48, duration: 0.1, ease: 'power2.in' }, 0.25)
+        .fromTo(phone, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.22, ease: 'power2.out' }, 0.4)
+        .to(P, { t: 1, duration: 0.35, ease: 'power2.inOut', onUpdate: () => applyMorph(P.t) }, 0.35)
+        .fromTo('.cc-copy .cc-title', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0.5)
+        .fromTo('.cc-copy .cc-lead', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0.54)
+        .fromTo('.cc-cards--stage .metric', { opacity: 0, x: -28 }, { opacity: 1, x: 0, duration: 0.08, stagger: 0.05, ease: 'power2.out' }, 0.58)
+        .fromTo(phBody, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.08, ease: 'power2.out' }, 0.7)
+        .fromTo('#ccHint', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.06, ease: 'power2.out' }, 0.78)
+        .to({}, { duration: 0.1 }, 0.9);
+
+      // Mobile : les cartes métriques passent sous la scène, en flux normal, et entrent en décalé
+      const box = $('.cc-cards-mobile');
+      const list = $('.cc-cards--stage');
+      if (box && list) {
+        const clone = list.cloneNode(true);
+        clone.classList.remove('cc-cards--stage');
+        box.append(clone);
+        box.removeAttribute('aria-hidden');
+        const mm = gsap.matchMedia();
+        mm.add('(max-width: 1023px)', () => {
+          gsap.fromTo(clone.children, { opacity: 0, y: 24 }, {
+            opacity: 1, y: 0, duration: 0.6, ease: 'expo.out', stagger: 0.12,
+            scrollTrigger: { trigger: clone, start: 'top 85%', once: true },
+          });
+        });
+      }
+      applyMorph(0);
+    } else {
+      window.addEventListener('resize', measure);
+    }
+    measure();
+    window.addEventListener('load', measure);
+
+    /* Simulateur Click & Collect dans l'iPhone */
+    const THEMES = {
+      bistrot: {
+        name: 'Maison Comptoir', meta: 'Bistrot · Retrait en 15 min',
+        items: [
+          { n: 'Saint-Jacques snackées, riz noir', d: 'Beurre noisette, jus corsé', p: 26 },
+          { n: 'Tartare de bœuf au couteau', d: 'Frites maison, salade de saison', p: 19 },
+          { n: 'Mousse au chocolat', d: 'Fleur de sel, éclats de noisette', p: 8.5 },
+        ],
+        up: { t: 'Un verre de Chablis pour accompagner ?', n: 'Verre de Chablis', p: 7 },
+      },
+      fastfood: {
+        name: 'Smash Club', meta: 'Smash burgers · Prêt en 8 min',
+        items: [
+          { n: 'Double smash cheddar', d: 'Deux steaks, cheddar affiné, oignons', p: 12.9 },
+          { n: 'Frites maison', d: 'Sel fumé, sauce de la maison', p: 4.5 },
+          { n: 'Milkshake vanille', d: 'Glace artisanale', p: 5.5 },
+        ],
+        up: { t: 'Passez en menu : frites + boisson ?', n: 'Formule menu', p: 4 },
+      },
+      bar: {
+        name: 'Cave Lumière', meta: 'Bar à vins · Retrait dès 18h',
+        items: [
+          { n: 'Planche mixte', d: 'Comté 24 mois, jambon noir de Bigorre', p: 18 },
+          { n: 'Burrata crémeuse', d: 'Tomates anciennes, huile d’olive', p: 12 },
+          { n: 'Saint-Joseph rouge', d: 'Bouteille, domaine en biodynamie', p: 32 },
+        ],
+        up: { t: 'Un verre de Saint-Joseph avec votre planche ?', n: 'Verre de Saint-Joseph', p: 8 },
+      },
+      epicerie: {
+        name: 'Épicerie Odette', meta: 'Épicerie fine · Retrait dès 10h',
+        items: [
+          { n: 'Panier de fromages affinés', d: 'Trois fromages de la semaine', p: 24 },
+          { n: 'Huile d’olive AOP', d: 'Vallée des Baux, 50 cl', p: 16 },
+          { n: 'Pain au levain', d: 'Cuit le matin même', p: 5.2 },
+        ],
+        up: { t: 'Le pain du jour pour vos fromages ?', n: 'Pain au levain', p: 5.2 },
+      },
+    };
+    const cart = { lines: [], upsellDone: false, upsellAmount: 0 };
+    const say = (msg) => { live.textContent = msg; };
+
+    function renderMenu() {
+      const th = THEMES[state.theme];
+      phName.textContent = th.name;
+      phMeta.textContent = th.meta;
+      phMenu.innerHTML = th.items.map((it, i) => `<li class="ph-item"><div class="ph-item-txt"><p class="ph-item-name">${it.n}</p><p class="ph-item-desc">${it.d}</p></div><p class="ph-price">${euro(it.p)}</p><button class="ph-add" type="button" data-i="${i}" data-qty="0" aria-label="Ajouter ${it.n} au panier">+</button></li>`).join('');
+      $('#phUpsellText').textContent = th.up.t;
+      $('#phUpsellPrice').textContent = euro(th.up.p);
+    }
+    function updateCart() {
+      const n = cart.lines.length;
+      const total = cart.lines.reduce((a, l) => a + l.p, 0);
+      $('#phCount').textContent = n;
+      $('#phTotal').textContent = euro(total);
+      $('#phCartLabel').textContent = n === 0 ? 'Panier vide' : (cart.upsellAmount ? `${n} article${n > 1 ? 's' : ''} · dont suggestion +${euro(cart.upsellAmount)}` : `${n} article${n > 1 ? 's' : ''}`);
+      orderBtn.disabled = n === 0;
+    }
+    function setUpsell(on) {
+      upsell.classList.toggle('is-on', on);
+      upsell.setAttribute('aria-hidden', String(!on));
+      upYes.tabIndex = upNo.tabIndex = on ? 0 : -1;
+    }
+    function setDone(on) {
+      done.classList.toggle('is-on', on);
+      done.setAttribute('aria-hidden', String(!on));
+      resetBtn.tabIndex = on ? 0 : -1;
+    }
+    function resetCart() {
+      cart.lines = []; cart.upsellDone = false; cart.upsellAmount = 0;
+      setUpsell(false); setDone(false);
+      $$('.ph-add', phMenu).forEach((b) => { b.dataset.qty = '0'; b.textContent = '+'; });
+      updateCart();
+    }
+    const bump = (el, s = 1.25) => { if (motion) gsap.fromTo(el, { scale: s }, { scale: 1, duration: 0.4, ease: 'back.out(3)', overwrite: true }); };
+
+    phMenu.addEventListener('click', (e) => {
+      const b = e.target.closest('.ph-add');
+      if (!b) return;
+      const it = THEMES[state.theme].items[+b.dataset.i];
+      cart.lines.push({ n: it.n, p: it.p });
+      const q = (+b.dataset.qty || 0) + 1;
+      b.dataset.qty = String(q);
+      b.textContent = String(q);
+      updateCart();
+      bump($('#phCount'));
+      say(`${it.n} ajouté au panier.`);
+      if (!cart.upsellDone) setUpsell(true);
     });
-    mm.add('(max-width: 1023px)', () => {
-      gsap.fromTo('#dish', { rotation: -60, scale: 0.9 }, {
-        rotation: 200, scale: 1, ease: 'none',
-        scrollTrigger: { trigger: '.dish-wrap', start: 'top bottom', end: 'bottom top', scrub: 0.5 },
+    upYes.addEventListener('click', () => {
+      const up = THEMES[state.theme].up;
+      cart.lines.push({ n: up.n, p: up.p });
+      cart.upsellDone = true;
+      cart.upsellAmount += up.p;
+      setUpsell(false);
+      updateCart();
+      bump($('#phCount'));
+      bump($('[data-metric="upsell"]'), 1.04);
+      say(`${up.n} ajouté. Le panier moyen augmente de ${euro(up.p)}.`);
+    });
+    upNo.addEventListener('click', () => { cart.upsellDone = true; setUpsell(false); });
+    orderBtn.addEventListener('click', () => {
+      if (!cart.lines.length) return;
+      const total = cart.lines.reduce((a, l) => a + l.p, 0);
+      $('#phDoneText').textContent = `${euro(total)} payés par Apple Pay · retrait à 20h50`;
+      setUpsell(false);
+      setDone(true);
+      resetBtn.focus({ preventScroll: true });
+      say('Commande confirmée.');
+    });
+    resetBtn.addEventListener('click', () => { resetCart(); $('.ph-add', phMenu)?.focus({ preventScroll: true }); });
+
+    /* Onglets Bistrot / Fast-Food / Bar / Épicerie */
+    const pTabs = $$('.ph-tab');
+    let playTween = null;
+    function setTheme(key, focus = false) {
+      const i = pTabs.findIndex((t) => t.dataset.theme === key);
+      pTabs.forEach((t, j) => { t.setAttribute('aria-selected', String(i === j)); t.tabIndex = i === j ? 0 : -1; });
+      $('.ph-tab-ind').style.setProperty('--i', i);
+      if (focus) pTabs[i].focus();
+      if (key === state.theme) return;
+      const swap = () => {
+        state.theme = key;
+        screen.dataset.themeSite = key;
+        renderMenu();
+        resetCart();
+        const s = key === 'bistrot' ? bistrot : (key === 'bar' && bar.ok ? bar : null);
+        playTween?.kill();
+        if (s && motion) {
+          s.loadAll();
+          const o = { f: 0 };
+          state.phFrame = 0;
+          playTween = gsap.to(o, { f: FRAMES - 1, duration: 2.4, ease: 'none', onUpdate: () => { state.phFrame = o.f; drawPhone(); } });
+        } else {
+          state.phFrame = FRAMES - 1;
+          if (s) s.loadAll();
+        }
+        drawPhone();
+      };
+      if (motion) {
+        const parts = [phCanvas, phMenu, '.ph-brand'];
+        gsap.to(parts, { opacity: 0, duration: 0.12, ease: 'power1.in', overwrite: true, onComplete: () => {
+          swap();
+          gsap.fromTo(parts, { opacity: 0 }, { opacity: 1, duration: 0.28, ease: 'power2.out' });
+          gsap.fromTo($$('.ph-item', phMenu), { y: 10 }, { y: 0, duration: 0.4, ease: 'expo.out', stagger: 0.05 });
+        } });
+      } else swap();
+    }
+    pTabs.forEach((t, i) => {
+      t.addEventListener('click', () => setTheme(t.dataset.theme));
+      t.addEventListener('keydown', (e) => {
+        const n = pTabs.length;
+        if (e.key === 'ArrowRight') { setTheme(pTabs[(i + 1) % n].dataset.theme, true); e.preventDefault(); }
+        if (e.key === 'ArrowLeft') { setTheme(pTabs[(i - 1 + n) % n].dataset.theme, true); e.preventDefault(); }
       });
     });
-  }
+    renderMenu();
+    updateCart();
+  })();
 
   /* ---------- Simulateur ROI ---------- */
   const covers = $('#covers');
@@ -292,6 +601,13 @@
     });
   });
   mq.addEventListener?.('change', () => placeInd(tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true')));
+  if (ind && tabs.length) {
+    // état initial sans animation : l'onglet sélectionné dans le HTML (Pack Performance)
+    ind.style.transition = 'none';
+    placeInd(Math.max(0, tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true')));
+    void ind.offsetWidth;
+    ind.style.transition = '';
+  }
 
   /* ---------- Formulaire audit ---------- */
   const form = $('#auditForm');
