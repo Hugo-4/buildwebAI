@@ -67,3 +67,17 @@ Les CSS et JS reçoivent un numéro de version à chaque paquet (`?v=…`) : les
 ## 7. Ajouter la séquence du bar à vin
 
 Déposer les 120 images dans `public/frames-bar/` (`frame_0001.webp` → `frame_0120.webp`, 1080×1920) et leurs versions 540×960 dans `public/frames-bar/540/`. L'onglet Bar les utilise automatiquement à la place de la photo fixe.
+
+## 8. Google Search Console
+
+Le site contient les deux preuves de propriété demandées par Google pour https://buildwebia.com/ :
+
+- le fichier `googlea6526cbfeba881b7.html` à la racine de `public_html` (inclus dans le zip) ;
+- la balise `<meta name="google-site-verification" …>` dans le `<head>` de `index.html`.
+
+Ne supprimez jamais ni l'un ni l'autre, même après validation.
+
+1. Mettre le site en ligne (étapes 1 à 4), puis vérifier que https://buildwebia.com/googlea6526cbfeba881b7.html affiche une ligne de texte.
+2. Dans Search Console, propriété « Préfixe de l'URL » https://buildwebia.com/ → méthode **Fichier HTML** (ou **Balise HTML**) → **Valider**.
+3. Une fois validé : menu **Sitemaps** → saisir `sitemap.xml` → **Envoyer**.
+4. Menu **Inspection de l'URL** → https://buildwebia.com/ → **Demander l'indexation**.

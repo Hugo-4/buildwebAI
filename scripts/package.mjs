@@ -7,7 +7,7 @@ import { join } from 'node:path';
 const OUT = 'dist/public_html';
 const PAGES = ['index.html', 'devis.html', 'mentions-legales.html', 'confidentialite.html', 'cgv.html', '404.html'];
 const DIRS = ['assets', 'public', 'api'];
-const ROOT_FILES = ['deploy/.htaccess', 'deploy/robots.txt', 'deploy/sitemap.xml'];
+const ROOT_FILES = ['deploy/.htaccess', 'deploy/robots.txt', 'deploy/sitemap.xml', 'googlea6526cbfeba881b7.html']; // fichier de validation Google Search Console : ne jamais le supprimer
 
 let version;
 try { version = execSync('git rev-parse --short HEAD').toString().trim(); } catch { version = Date.now().toString(36); }
