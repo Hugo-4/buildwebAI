@@ -66,7 +66,7 @@ Les CSS et JS reçoivent un numéro de version à chaque paquet (`?v=…`) : les
 
 ## 7. Ajouter la séquence du bar à vin
 
-Déposer les 120 images dans `public/frames-bar/` (`frame_0001.webp` → `frame_0120.webp`, 1080×1920) et leurs versions 540×960 dans `public/frames-bar/540/`. L'onglet Bar les utilise automatiquement à la place de la photo fixe.
+Déposer les 120 images dans `public/frames-bar/` (`frame_0001.webp` → `frame_0120.webp`, 1080×1920) et leurs versions 540×960 dans `public/frames-bar/540/`. Puis, dans `assets/app.js`, passer `const HAS_BAR_FRAMES = false;` à `true`, relancer `npm run package` et redéployer : l'onglet Bar utilise alors la séquence à la place de la photo fixe.
 
 ## 8. Google Search Console
 

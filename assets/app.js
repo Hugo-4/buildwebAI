@@ -157,7 +157,8 @@
     if (motion) document.documentElement.classList.add('cc-motion');
 
     /* Séquences d'images : 540p si l'écran n'a pas besoin de plus, 1080p sinon */
-    const HD = motion ? seq.offsetHeight * DPR > 1000 : media.offsetWidth * DPR > 700;
+    // 1080p seulement sur grand écran haute densité ; le 540p suffit au mobile (poids divisé par deux)
+    const HD = (motion ? seq.offsetHeight : media.offsetHeight * 1.8) * DPR > 1300;
     function makeSeq(dir) {
       const s = { imgs: new Array(FRAMES), ok: null, started: false };
       s.src = (i) => `${dir}/${HD ? '' : '540/'}frame_${String(i + 1).padStart(4, '0')}.webp`;
@@ -184,20 +185,44 @@
     }
     const bistrot = makeSeq('public/frames-bistrot');
     const bar = makeSeq('public/frames-bar'); // séquence bar à vin : visuel fixe en repli tant qu'elle n'est pas livrée
+    // Visuels des onglets : chargés seulement quand on en a besoin
+    const STILL_SRC = { fastfood: 'public/editorial/fastfood.webp', epicerie: 'public/editorial/epicerie.webp', bar: 'public/editorial/bar.webp' };
     const stills = {};
-    [['fastfood', 'public/editorial/fastfood.webp'], ['epicerie', 'public/editorial/epicerie.webp'], ['bar', 'public/editorial/bar.webp']]
-      .forEach(([k, src]) => { const im = new Image(); im.decoding = 'async'; im.onload = () => { if (state.theme === k) drawPhone(); }; im.src = src; stills[k] = im; });
+    const loadStill = (k) => {
+      if (stills[k] || !STILL_SRC[k]) return;
+      const im = new Image();
+      im.decoding = 'async';
+      im.onload = () => { if (state.theme === k) drawPhone(); };
+      im.src = STILL_SRC[k];
+      stills[k] = im;
+    };
 
     const state = { theme: 'bistrot', frame: 0, phFrame: FRAMES - 1, landed: !motion };
-    bistrot.load(0); bistrot.load(FRAMES - 1);
 
     function onFrame(s, i) {
       if (s === bistrot && Math.abs(i - state.frame) < 3) requestDraw();
       const phSeq = state.theme === 'bistrot' ? bistrot : (state.theme === 'bar' && bar.ok ? bar : null);
       if (s === phSeq && Math.abs(i - state.phFrame) < 3) drawPhone();
     }
-    bar.imgs[0] = null;
-    (() => { const probe = new Image(); probe.onload = () => { bar.ok = true; bar.imgs[0] = probe; }; probe.onerror = () => { bar.ok = false; }; probe.src = bar.src(0); })();
+    // Passer à true une fois public/frames-bar/ (et son dossier 540/) déposé sur le serveur
+    const HAS_BAR_FRAMES = false;
+    bar.ok = HAS_BAR_FRAMES;
+
+    // Rien n'est téléchargé avant que la section approche de l'écran
+    let warmed = false;
+    const warm = () => {
+      if (warmed) return;
+      warmed = true;
+      bistrot.load(0);
+      bistrot.load(FRAMES - 1);
+      if (motion) bistrot.loadAll();
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { warm(); io.disconnect(); }
+      }, { rootMargin: '600px 0px' });
+      io.observe(stage);
+    } else warm();
 
     /* Dessin canvas (recadrage type cover, centré sur la hauteur choisie) */
     function sizeCanvas(cv, w, h) {
@@ -271,7 +296,6 @@
     if (motion) {
       phBody.inert = true;
       // Les frames se chargent quand la section approche
-      ScrollTrigger.create({ trigger: stage, start: 'top bottom+=120%', once: true, onEnter: () => bistrot.loadAll() });
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: { trigger: stage, start: 'top top', end: '+=300%', pin: true, scrub: 0.5, anticipatePin: 1, invalidateOnRefresh: true, onRefresh: measure },
@@ -431,6 +455,7 @@
       $('.ph-tab-ind').style.setProperty('--i', i);
       if (focus) pTabs[i].focus();
       if (key === state.theme) return;
+      loadStill(key);
       const swap = () => {
         state.theme = key;
         screen.dataset.themeSite = key;

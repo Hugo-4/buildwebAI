@@ -3,6 +3,7 @@
 import { cpSync, rmSync, mkdirSync, readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { join } from 'node:path';
+import { transformSync } from 'esbuild';
 
 const OUT = 'dist/public_html';
 const PAGES = ['index.html', 'devis.html', 'mentions-legales.html', 'confidentialite.html', 'cgv.html', '404.html'];
@@ -17,6 +18,19 @@ mkdirSync(OUT, { recursive: true });
 
 for (const d of DIRS) cpSync(d, join(OUT, d), { recursive: true });
 for (const f of ROOT_FILES) cpSync(f, join(OUT, f.split('/').pop()));
+
+// JS et CSS minifiés pour la production (les sources restent lisibles dans le dépôt)
+let saved = 0;
+for (const f of readdirSync(join(OUT, 'assets'))) {
+  const loader = f.endsWith('.js') ? 'js' : f.endsWith('.css') ? 'css' : null;
+  if (!loader) continue;
+  const file = join(OUT, 'assets', f);
+  const src = readFileSync(file, 'utf8');
+  const { code } = transformSync(src, { loader, minify: true, target: loader === 'js' ? 'es2019' : 'chrome90' });
+  writeFileSync(file, code);
+  saved += src.length - code.length;
+}
+console.log(`JS/CSS minifiés : ${(saved / 1024).toFixed(1)} Ko économisés`);
 
 // Pages : CSS et JS versionnés pour que le cache navigateur (1 an) se renouvelle à chaque livraison
 for (const p of PAGES) {
