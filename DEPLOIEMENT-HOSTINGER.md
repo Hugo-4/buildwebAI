@@ -100,3 +100,10 @@ Ne supprimez jamais ni l'un ni l'autre, même après validation.
   - `fond` : `creme`, `ivoire`, `sable`, `blanc` ou `nuit`
   - `police` : `cormorant`, `playfair`, `dmserif` ou `fraunces`
   - `presentation=1` : masque le panneau
+
+### Démo fast-food
+
+Le même zip contient un dossier `fast-food/` : https://demo.buildwebia.com/fast-food/ (fast-food fictif Smash Club : panier et barre fixe, réservation, chatbot IA de démonstration, inscription au club).
+
+- Personnalisation par l'adresse : `?nom=Burger%20Bros&c1=1B4332&c2=E9C46A&presentation=1`
+  - `c1` : couleur principale (logo, footer), `c2` : couleur d'accent (boutons, écriture manuscrite), en hexadécimal sans le #

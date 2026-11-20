@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Smash Club · Street food à Lyon</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un fast-food fictif pour montrer ce que nous pouvons construire pour votre établissement.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#14254A">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%2314254A'/%3E%3Ctext x='24' y='33' font-family='Arial Black,Arial' font-weight='900' font-size='22' text-anchor='middle' fill='%23F26A1B'%3ESC%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Caveat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="img/hero-1920.webp" imagesrcset="img/hero-960.webp 960w, img/hero-1920.webp 1920w" imagesizes="100vw">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header -->
+  <header class="hd">
+    <a class="logo" href="#top" aria-label="Smash Club, retour en haut">
+      <span class="logo-box"><span data-bind="nom">Smash Club</span></span>
+      <span class="logo-script">street food maison</span>
+    </a>
+    <nav class="hd-nav" aria-label="Navigation principale">
+      <a href="#carte">La carte</a>
+      <a href="#valeurs">Nos valeurs</a>
+      <a href="#club">Le club</a>
+      <button type="button" class="btn btn--orange btn--sm" data-open="panier">Commander<span class="hide-sm">&nbsp;en ligne</span></button>
+    </nav>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <img class="hero-bg" src="img/hero-1920.webp" srcset="img/hero-960.webp 960w, img/hero-1920.webp 1920w" sizes="100vw" alt="Burger maison et frites sur une planche en bois" width="1920" height="1080" fetchpriority="high">
+      <div class="hero-in">
+        <h1 class="hero-logo"><span data-bind="nom">Smash Club</span></h1>
+        <p class="hero-script">Street food authentique</p>
+        <p class="hero-sub">Burgers écrasés à la plancha, poulet mariné, frites coupées chaque matin. Sur place, à emporter ou en livraison.</p>
+        <div class="rounds">
+          <a href="#carte" class="round round--light">Voir la carte</a>
+          <button type="button" class="round round--orange" data-open="panier">Commander</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- La carte -->
+    <section class="carte" id="carte">
+      <div class="carte-head">
+        <h2 class="t-oswald">La carte</h2>
+        <p class="script">fait minute, rien d'autre</p>
+      </div>
+
+      <article class="item">
+        <div class="item-img"><img src="img/burger-1200.webp" srcset="img/burger-700.webp 700w, img/burger-1200.webp 1200w" sizes="(min-width: 900px) 50vw, 100vw" alt="Double burger au cheddar, salade et pickles" width="1200" height="1200" loading="lazy" decoding="async"></div>
+        <div class="item-txt">
+          <h3 class="t-oswald">Le Double Smash</h3>
+          <p class="script">notre classique depuis le premier jour</p>
+          <p>Deux steaks de bœuf écrasés à la plancha, cheddar affiné, oignons confits, pickles maison et pain brioché du boulanger d'à côté.</p>
+          <div class="item-buy"><span class="price">12,90&nbsp;€</span><button type="button" class="btn btn--navy" data-add="Le Double Smash|12.9">Ajouter au panier</button></div>
+        </div>
+      </article>
+
+      <article class="item item--rev">
+        <div class="item-txt">
+          <h3 class="t-oswald">Le Crispy Chicken</h3>
+          <p class="script">mariné 24 heures</p>
+          <p>Haut de cuisse mariné au babeurre, panure croustillante, salade de chou crémeuse et mayonnaise fumée.</p>
+          <div class="item-buy"><span class="price">11,50&nbsp;€</span><button type="button" class="btn btn--navy" data-add="Le Crispy Chicken|11.5">Ajouter au panier</button></div>
+        </div>
+        <div class="item-img"><img src="img/chicken-1200.webp" srcset="img/chicken-700.webp 700w, img/chicken-1200.webp 1200w" sizes="(min-width: 900px) 50vw, 100vw" alt="Morceaux de poulet frit croustillant sur une planche" width="1200" height="1200" loading="lazy" decoding="async"></div>
+      </article>
+
+      <article class="item">
+        <div class="item-img"><img src="img/frites-1200.webp" srcset="img/frites-700.webp 700w, img/frites-1200.webp 1200w" sizes="(min-width: 900px) 50vw, 100vw" alt="Frites maison servies dans un panier en métal" width="1200" height="1200" loading="lazy" decoding="async"></div>
+        <div class="item-txt">
+          <h3 class="t-oswald">Les Frites Maison</h3>
+          <p class="script">coupées à la main chaque matin</p>
+          <p>Pommes de terre françaises, double cuisson pour le croustillant, sel fumé. Une sauce au choix&nbsp;: mayo fumée, ketchup maison ou sauce du club.</p>
+          <div class="item-buy"><span class="price">4,50&nbsp;€</span><button type="button" class="btn btn--navy" data-add="Les Frites Maison|4.5">Ajouter au panier</button></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Nos valeurs -->
+    <section class="valeurs" id="valeurs">
+      <div class="valeurs-in">
+        <h2 class="valeurs-title">Ici, tout est fait maison. Tous les jours.</h2>
+        <ul class="valeurs-list">
+          <li><b>Le bœuf est haché le matin</b><span>Chez notre boucher, à deux rues du restaurant.</span></li>
+          <li><b>Le pain vient d'à côté</b><span>Des buns briochés cuits chaque jour par le boulanger voisin.</span></li>
+          <li><b>Les sauces sont les nôtres</b><span>Mayo fumée, ketchup, sauce du club&nbsp;: tout est préparé en cuisine.</span></li>
+        </ul>
+      </div>
+      <img class="valeurs-img" src="img/equipe-2000.webp" srcset="img/equipe-1000.webp 1000w, img/equipe-2000.webp 2000w" sizes="100vw" alt="Un cuisinier en plein service devant les flammes de la cuisine" width="2000" height="857" loading="lazy" decoding="async">
+    </section>
+
+    <!-- Galerie bord à bord -->
+    <section class="galerie" aria-label="Galerie">
+      <img src="img/g1-900.webp" srcset="img/g1-500.webp 500w, img/g1-900.webp 900w" sizes="34vw" alt="Burger au bacon et au cheddar" width="900" height="1125" loading="lazy" decoding="async">
+      <img src="img/g2-900.webp" srcset="img/g2-500.webp 500w, img/g2-900.webp 900w" sizes="34vw" alt="Sandwich effiloché et sa sauce" width="900" height="1125" loading="lazy" decoding="async">
+      <img src="img/g3-900.webp" srcset="img/g3-500.webp 500w, img/g3-900.webp 900w" sizes="34vw" alt="Burger et cornet de frites" width="900" height="1125" loading="lazy" decoding="async">
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ft" id="club">
+    <div class="ft-in">
+      <div class="ft-club">
+        <h2 class="t-oswald">Rejoignez le club</h2>
+        <p class="script">un burger offert à l'inscription</p>
+        <form class="ft-form" id="clubForm" novalidate>
+          <label class="sr-only" for="clubMail">Votre e-mail</label>
+          <input id="clubMail" type="email" placeholder="votre@email.fr" autocomplete="email">
+          <button type="submit" class="btn btn--orange">Je m'inscris</button>
+        </form>
+        <p class="ft-msg" id="clubMsg" role="status"></p>
+      </div>
+      <dl class="ft-info">
+        <div><dt>Adresse</dt><dd>Rue de la République, Lyon 2<sup>e</sup></dd></div>
+        <div><dt>Horaires</dt><dd>7 jours sur 7 · 11h30 – 23h</dd></div>
+        <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/" rel="noopener">@smashclub.lyon</a></dd></div>
+      </dl>
+    </div>
+    <p class="ft-credit">Restaurant fictif · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <!-- Sticky bar : réservation + panier -->
+  <div class="bar" role="region" aria-label="Commande rapide">
+    <button type="button" class="bar-cal" data-open="resa" aria-label="Réserver une table">
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2"></rect><path d="M3.5 10h17M8 3v4M16 3v4"></path></svg>
+      <span>Réserver</span>
+    </button>
+    <button type="button" class="bar-cart" data-open="panier">
+      <span class="bar-count" id="barCount">0</span>
+      <span>Panier</span>
+      <b id="barTotal">0,00&nbsp;€</b>
+    </button>
+  </div>
+
+  <!-- Bulle du chatbot IA -->
+  <button type="button" class="bot-btn" id="botBtn" aria-expanded="false" aria-controls="bot" aria-label="Ouvrir l'assistant">
+    <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"></path><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"></path></svg>
+  </button>
+  <section class="bot" id="bot" aria-label="Assistant du restaurant" hidden>
+    <header class="bot-hd"><span class="bot-dot" aria-hidden="true"></span><b>Assistant <span data-bind="nom">Smash Club</span></b><span class="bot-tag">IA</span><button type="button" class="bot-x" id="botClose" aria-label="Fermer l'assistant">×</button></header>
+    <ol class="bot-log" id="botLog" aria-live="polite">
+      <li class="msg msg--bot">Salut&nbsp;! Je peux prendre votre commande, vous donner les allergènes ou réserver une table.</li>
+    </ol>
+    <div class="bot-quick" id="botQuick">
+      <button type="button" data-q="allergenes">Les allergènes</button>
+      <button type="button" data-q="horaires">Vos horaires</button>
+      <button type="button" data-q="menu">Un menu pour 2</button>
+    </div>
+    <form class="bot-form" id="botForm">
+      <label class="sr-only" for="botInput">Votre message</label>
+      <input id="botInput" type="text" placeholder="Écrivez votre question" autocomplete="off">
+      <button type="submit" aria-label="Envoyer">→</button>
+    </form>
+  </section>
+
+  <!-- Panier -->
+  <dialog class="dlg" id="dlg-panier" aria-labelledby="panT">
+    <div class="dlg-box">
+      <button type="button" class="dlg-x" data-close aria-label="Fermer">×</button>
+      <h2 class="t-oswald dlg-t" id="panT">Votre panier</h2>
+      <div id="cartFill">
+        <p class="cart-empty" id="cartEmpty">Votre panier est vide. Ajoutez un burger depuis la carte.</p>
+        <ul class="cart-lines" id="cartLines"></ul>
+        <p class="cart-total"><span>Total</span><b id="cartTotal">0,00&nbsp;€</b></p>
+        <p class="cart-note">Retrait au comptoir en 15 minutes, paiement en ligne sans commission.</p>
+        <button type="button" class="btn btn--orange btn--full" id="cartOrder">Valider la commande</button>
+      </div>
+      <div class="cart-done" id="cartDone" hidden>
+        <p class="t-oswald done-t">Commande envoyée en cuisine</p>
+        <p>Démonstration&nbsp;: sur votre vrai site, le client paie en ligne et reçoit un SMS quand sa commande est prête.</p>
+        <button type="button" class="btn btn--navy" data-close>Fermer</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Réservation -->
+  <dialog class="dlg" id="dlg-resa" aria-labelledby="resT">
+    <form class="dlg-box" id="resForm" novalidate>
+      <button type="button" class="dlg-x" data-close aria-label="Fermer">×</button>
+      <h2 class="t-oswald dlg-t" id="resT">Réserver une table</h2>
+      <div id="resFields" class="dlg-fields">
+        <div class="row2">
+          <label class="fld"><span>Date</span><input type="date" id="resDate"></label>
+          <label class="fld"><span>Heure</span><select id="resTime"><option>12:00</option><option>12:30</option><option>13:00</option><option>19:00</option><option selected>19:30</option><option>20:00</option><option>20:30</option></select></label>
+        </div>
+        <label class="fld"><span>Personnes</span><select id="resCovers"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></label>
+        <label class="fld"><span>Nom</span><input type="text" id="resName" autocomplete="name"></label>
+        <p class="fld-err" id="resErr" hidden>Indiquez une date et votre nom.</p>
+        <button type="submit" class="btn btn--orange btn--full">Confirmer</button>
+      </div>
+      <div id="resDone" class="dlg-fields" hidden>
+        <p class="t-oswald done-t">Table réservée</p>
+        <p id="resSummary"></p>
+        <p class="cart-note">Démonstration&nbsp;: le client reçoit un SMS de confirmation, puis un rappel 3&nbsp;h avant.</p>
+        <button type="button" class="btn btn--navy" data-close>Fermer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs du restaurant</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom</span><input type="text" id="czNom" maxlength="24"></label>
+    <label class="cz-f"><span>Couleur principale</span><input type="color" id="czC1"></label>
+    <label class="cz-f"><span>Couleur d'accent</span><input type="color" id="czC2"></label>
+    <button type="button" class="btn btn--orange btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir à Smash Club</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
