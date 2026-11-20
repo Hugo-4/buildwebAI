@@ -26,6 +26,15 @@
         ],
         "createdAt": "2026-11-14T14:03:53.702Z",
         "reason": "brief client : halo lumineux rouge #E62E2D sur fond #081426 imposé par la charte"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "demo/index.html"
+        ],
+        "createdAt": "2026-11-20T15:28:59.758Z",
+        "reason": "brief client : header et sections en fond crème demandés explicitement pour la démo restaurant (style Bocuse)"
       }
     ]
   }
