@@ -81,3 +81,22 @@ Ne supprimez jamais ni l'un ni l'autre, même après validation.
 2. Dans Search Console, propriété « Préfixe de l'URL » https://buildwebia.com/ → méthode **Fichier HTML** (ou **Balise HTML**) → **Valider**.
 3. Une fois validé : menu **Sitemaps** → saisir `sitemap.xml` → **Envoyer**.
 4. Menu **Inspection de l'URL** → https://buildwebia.com/ → **Demander l'indexation**.
+
+## 9. Démo restaurant sur demo.buildwebia.com
+
+`npm run package` génère aussi `dist/buildwebai-demo.zip` : un site de restaurant fictif (Maison Aurèle) à montrer aux prospects. Le `.htaccess` et le `robots.txt` fournis empêchent Google de l'indexer.
+
+1. hPanel → **Domaines** → **Sous-domaines** → créer `demo` pour buildwebia.com. Hostinger propose le dossier `public_html/demo` (ou `domains/buildwebia.com/public_html/demo`) : le garder.
+2. Gestionnaire de fichiers → ouvrir ce dossier → importer `buildwebai-demo.zip` → **Extraire** dans ce dossier.
+3. Sécurité → SSL : installer le certificat sur `demo.buildwebia.com` (quelques minutes après la création du sous-domaine).
+4. Ouvrir https://demo.buildwebia.com.
+
+### Adapter la démo aux couleurs d'un restaurant
+
+- Bouton **Personnaliser** en bas à droite : nom, ville, couleur principale, fond, police des titres. Le rendu change en direct.
+- **Copier le lien de cette version** : le lien ouvre la démo personnalisée sans le panneau, prête à envoyer au restaurateur.
+- Exemple de lien : `https://demo.buildwebia.com/?nom=Chez%20Paulette&ville=Annecy&accent=2F4A3A&fond=sable&police=playfair&presentation=1`
+  - `accent` : couleur en hexadécimal sans le #
+  - `fond` : `creme`, `ivoire`, `sable`, `blanc` ou `nuit`
+  - `police` : `cormorant`, `playfair`, `dmserif` ou `fraunces`
+  - `presentation=1` : masque le panneau

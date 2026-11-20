@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Maison Aurèle · Restaurant à Lyon</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un restaurant fictif pour montrer ce que nous pouvons construire pour votre établissement.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F4EEE4">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%237A1F22'/%3E%3Ctext x='24' y='32' font-family='Georgia,serif' font-size='24' font-style='italic' text-anchor='middle' fill='%23F4EEE4'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="img/hero-1600.webp" imagesrcset="img/hero-800.webp 800w, img/hero-1600.webp 1600w" imagesizes="(min-width: 900px) 50vw, 100vw">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <!-- 1. Header -->
+  <header class="hd" id="hd">
+    <button class="hd-burger" id="burger" type="button" aria-expanded="false" aria-controls="nav">
+      <span class="burger-lines" aria-hidden="true"><i></i><i></i></span>
+      <span class="hd-burger-txt">Menu</span>
+    </button>
+    <a class="hd-logo" href="#top" aria-label="Retour en haut de page">
+      <span class="logo-name" data-bind="nom">Maison Aurèle</span>
+      <span class="logo-sub"><span data-bind="ville">Lyon</span> · depuis 1924</span>
+    </a>
+    <nav class="hd-links" aria-label="Accès rapides">
+      <a href="#carte" data-open="carte" class="hd-link hide-sm">Carte &amp; Menus</a>
+      <span class="hd-sep hide-sm" aria-hidden="true"></span>
+      <a href="#reserver" data-open="reserver" class="hd-link hd-link--accent">Réserver</a>
+    </nav>
+  </header>
+
+  <nav class="nav" id="nav" aria-label="Navigation principale" hidden>
+    <ul>
+      <li><a href="#maison">La Maison</a></li>
+      <li><a href="#dejeuner">Le Déjeuner</a></li>
+      <li><a href="#diner">Le Dîner</a></li>
+      <li><a href="#douceurs">Les Douceurs</a></li>
+      <li><a href="#cave">La Cave</a></li>
+      <li><a href="#histoire">Notre histoire</a></li>
+      <li><a href="#infos">Infos pratiques</a></li>
+    </ul>
+    <a href="#reserver" data-open="reserver" class="btn btn--accent">Réserver une table</a>
+  </nav>
+
+  <main id="contenu">
+    <!-- 2. Hero split 50/50 -->
+    <section class="hero split" id="top">
+      <div class="split-txt hero-txt">
+        <h1 class="hero-title" data-enter>Une cuisine de saison, servie comme à la maison.</h1>
+        <p class="lead" data-enter>Des produits du marché Saint-Antoine, des sauces montées à la minute et des recettes transmises de génération en génération, au cœur de la Presqu'île.</p>
+        <div class="actions" data-enter>
+          <a href="#reserver" data-open="reserver" class="btn btn--accent">Réserver une table</a>
+          <a href="#carte" data-open="carte" class="tlink">Découvrir la carte</a>
+        </div>
+        <p class="hero-note" data-enter>Ouvert du mardi au samedi, midi et soir</p>
+      </div>
+      <div class="split-img hero-img">
+        <img src="img/hero-1600.webp" srcset="img/hero-800.webp 800w, img/hero-1600.webp 1600w" sizes="(min-width: 900px) 50vw, 100vw" alt="Pièce de bœuf grillée et frites maison" width="1066" height="1333" fetchpriority="high">
+      </div>
+    </section>
+
+    <!-- 3. Ambiance / Institution -->
+    <section class="banner" id="maison">
+      <img src="img/salle-1600.webp" srcset="img/salle-800.webp 800w, img/salle-1600.webp 1600w" sizes="100vw" alt="La salle du restaurant, nappes blanches et grandes fenêtres" width="1600" height="900" loading="lazy" decoding="async">
+      <div class="banner-txt">
+        <h2 class="h-xl">Une institution de la Presqu'île depuis 1924.</h2>
+        <p>Trois générations, une même salle, et ces habitués qui reviennent pour la quenelle du jeudi.</p>
+        <a href="#reserver" data-open="reserver" class="btn btn--ghost">Réserver</a>
+      </div>
+    </section>
+
+    <!-- 4. Food & Drink -->
+    <section class="duo" aria-label="Cuisine et bar">
+      <a class="tile" href="#carte" data-open="carte" data-section="plats">
+        <img src="img/food-1600.webp" srcset="img/food-800.webp 800w, img/food-1600.webp 1600w" sizes="(min-width: 700px) 50vw, 100vw" alt="Pavé de saumon au beurre citronné" width="1600" height="2000" loading="lazy" decoding="async">
+        <span class="tile-txt"><span class="tile-word">Cuisine</span><span class="tile-link">Voir la carte</span></span>
+      </a>
+      <a class="tile" href="#carte" data-open="carte" data-section="bar">
+        <img src="img/drink-1600.webp" srcset="img/drink-800.webp 800w, img/drink-1600.webp 1600w" sizes="(min-width: 700px) 50vw, 100vw" alt="Trois cocktails de saison sur le comptoir" width="969" height="1212" loading="lazy" decoding="async">
+        <span class="tile-txt"><span class="tile-word">Bar</span><span class="tile-link">Voir les cocktails</span></span>
+      </a>
+    </section>
+
+    <!-- 5. Déjeuner : image à gauche -->
+    <section class="split" id="dejeuner">
+      <div class="split-img">
+        <img src="img/lunch-1600.webp" srcset="img/lunch-800.webp 800w, img/lunch-1600.webp 1600w" sizes="(min-width: 900px) 50vw, 100vw" alt="Salade de pâtes fraîches aux tomates et au pesto" width="1334" height="1334" loading="lazy" decoding="async">
+      </div>
+      <div class="split-txt">
+        <h2 class="h-lg">Le déjeuner</h2>
+        <p>Une formule courte qui change chaque semaine selon les arrivages&nbsp;: une entrée, un plat, un dessert, servis en moins d'une heure pour ceux qui retournent au bureau.</p>
+        <p class="price-line"><span>Entrée + plat ou plat + dessert</span><b data-assumed>29&nbsp;€</b></p>
+        <div class="actions">
+          <a href="#carte" data-open="carte" data-section="midi" class="btn btn--line">Menu du midi</a>
+          <a href="#reserver" data-open="reserver" class="btn btn--accent">Réserver</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Dîner : texte à gauche -->
+    <section class="split split--rev" id="diner">
+      <div class="split-txt">
+        <h2 class="h-lg">Le dîner</h2>
+        <p>Le soir, la salle se fait plus intime. Le chef propose un menu en cinq temps et une carte courte, à accorder avec les vins de la cave.</p>
+        <p class="price-line"><span>Menu dégustation en cinq temps</span><b data-assumed>68&nbsp;€</b></p>
+        <div class="actions">
+          <a href="#carte" data-open="carte" data-section="soir" class="btn btn--line">Menu du soir</a>
+          <a href="#reserver" data-open="reserver" class="btn btn--accent">Réserver</a>
+        </div>
+      </div>
+      <div class="split-img">
+        <img src="img/dinner-1600.webp" srcset="img/dinner-800.webp 800w, img/dinner-1600.webp 1600w" sizes="(min-width: 900px) 50vw, 100vw" alt="Le comptoir du bar le soir, lumières tamisées" width="1500" height="1500" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <!-- 7. Desserts -->
+    <section class="sweet" id="douceurs">
+      <div class="sweet-imgs">
+        <img src="img/dessert-1-1600.webp" srcset="img/dessert-1-800.webp 800w, img/dessert-1-1600.webp 1600w" sizes="50vw" alt="Entremets à la framboise" width="1600" height="2000" loading="lazy" decoding="async">
+        <img src="img/dessert-2-1600.webp" srcset="img/dessert-2-800.webp 800w, img/dessert-2-1600.webp 1600w" sizes="50vw" alt="Verrine au chocolat et biscuit croquant" width="1600" height="2000" loading="lazy" decoding="async">
+      </div>
+      <div class="sweet-card">
+        <h2 class="h-lg">Pour finir en douceur</h2>
+        <p>Tartes du jour, entremets et la praline rose de la maison, travaillés par notre pâtissière.</p>
+        <a href="#carte" data-open="carte" data-section="desserts" class="btn btn--accent">Carte des desserts</a>
+      </div>
+    </section>
+
+    <!-- 8. Cave à vins -->
+    <section class="banner banner--tall" id="cave">
+      <img src="img/cave-1600.webp" srcset="img/cave-800.webp 800w, img/cave-1600.webp 1600w" sizes="100vw" alt="Bouteilles alignées dans la cave" width="1600" height="900" loading="lazy" decoding="async">
+      <div class="banner-txt">
+        <h2 class="h-xl">Notre collection de vins</h2>
+        <p>Plus de quatre cents références, du Beaujolais voisin aux grands crus de Bourgogne, dont une trentaine servies au verre.</p>
+        <a href="#carte" data-open="carte" data-section="vins" class="btn btn--light">Découvrir la cave</a>
+      </div>
+    </section>
+
+    <!-- 9. Histoire -->
+    <section class="split split--rev" id="histoire">
+      <div class="split-txt">
+        <h2 class="h-lg">Maison de famille depuis 1924</h2>
+        <p>Tout commence avec Aurèle, cuisinière de bouchon, qui servait les ouvriers de la soierie. Son petit-fils a gardé les murs, le zinc et la recette du gratin, et y a ajouté une cave.</p>
+        <div class="more" id="more" hidden>
+          <p>Aujourd'hui, la quatrième génération travaille avec les mêmes maraîchers des Monts du Lyonnais et un boucher installé à deux rues d'ici. La carte change avec les saisons&nbsp;; l'accueil, lui, n'a jamais changé.</p>
+        </div>
+        <button class="tlink" type="button" id="moreBtn" aria-expanded="false" aria-controls="more">Lire la suite</button>
+      </div>
+      <div class="split-img">
+        <img src="img/histoire-1600.webp" srcset="img/histoire-800.webp 800w, img/histoire-1600.webp 1600w" sizes="(min-width: 900px) 50vw, 100vw" alt="Le chef dresse les assiettes sous les lampes en cuivre" width="1600" height="1882" loading="lazy" decoding="async">
+      </div>
+    </section>
+  </main>
+
+  <!-- 10. Footer -->
+  <footer class="ft" id="infos">
+    <div class="ft-grid">
+      <div class="ft-info">
+        <p class="ft-name" data-bind="nom">Maison Aurèle</p>
+        <dl>
+          <div><dt>Adresse</dt><dd>Rue Mercière, <span data-bind="ville">Lyon</span> 2<sup>e</sup></dd></div>
+          <div><dt>Horaires</dt><dd>Du mardi au samedi<br>12h – 14h · 19h30 – 22h30</dd></div>
+          <div><dt>Contact</dt><dd><a href="mailto:reservation@maison-aurele.example">reservation@maison-aurele.example</a></dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/" rel="noopener">@maison.aurele</a></dd></div>
+        </dl>
+        <a href="#reserver" data-open="reserver" class="btn btn--accent">Réserver une table</a>
+      </div>
+      <div class="ft-map">
+        <iframe title="Plan d'accès : rue Mercière, Lyon" src="https://www.google.com/maps?q=Rue+Merci%C3%A8re,+69002+Lyon&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+    <p class="ft-credit">Restaurant fictif · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <!-- Réservation (démo) -->
+  <dialog class="dlg" id="dlg-reserver" aria-labelledby="resT">
+    <form class="dlg-box" id="resForm" method="dialog" novalidate>
+      <button class="dlg-x" type="button" data-close aria-label="Fermer">×</button>
+      <h2 id="resT" class="h-md">Réserver une table</h2>
+      <div class="dlg-step" id="resFields">
+        <div class="row2">
+          <label class="fld"><span>Date</span><input type="date" id="resDate" required></label>
+          <label class="fld"><span>Heure</span>
+            <select id="resTime"><option>12:00</option><option>12:30</option><option>13:00</option><option>19:30</option><option selected>20:00</option><option>20:30</option><option>21:00</option></select>
+          </label>
+        </div>
+        <label class="fld"><span>Nombre de couverts</span>
+          <select id="resCovers"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select>
+        </label>
+        <label class="fld"><span>Nom</span><input type="text" id="resName" autocomplete="name" required></label>
+        <p class="fld-err" id="resErr" hidden>Indiquez une date et votre nom.</p>
+        <button class="btn btn--accent btn--full" type="submit">Confirmer la réservation</button>
+      </div>
+      <div class="dlg-done" id="resDone" hidden>
+        <p class="done-t">Table réservée (démonstration)</p>
+        <p id="resSummary"></p>
+        <p class="done-s">Sur votre vrai site, le client reçoit aussitôt un SMS de confirmation, puis un rappel 3&nbsp;h avant pour éviter les tables vides.</p>
+        <button class="btn btn--line" type="button" data-close>Fermer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Carte & Menus -->
+  <dialog class="dlg dlg--wide" id="dlg-carte" aria-labelledby="carteT">
+    <div class="dlg-box">
+      <button class="dlg-x" type="button" data-close aria-label="Fermer">×</button>
+      <h2 id="carteT" class="h-md">Carte &amp; Menus</h2>
+      <div class="carte">
+        <section id="c-midi"><h3>Formule du midi · <span data-assumed>29&nbsp;€</span></h3><ul><li><span>Œuf parfait, crème de cèpes</span></li><li><span>Quenelle de brochet, sauce Nantua</span></li><li><span>Tarte fine aux pommes</span></li></ul></section>
+        <section id="c-plats"><h3>À la carte</h3><ul><li><span>Pâté en croûte de la maison</span><b>16&nbsp;€</b></li><li><span>Pavé de saumon, beurre citronné</span><b>27&nbsp;€</b></li><li><span>Pièce de bœuf, frites maison, sauce au poivre</span><b>32&nbsp;€</b></li><li><span>Gratin dauphinois de grand-mère Aurèle</span><b>9&nbsp;€</b></li></ul></section>
+        <section id="c-soir"><h3>Menu du soir en cinq temps · <span data-assumed>68&nbsp;€</span></h3><ul><li><span>Accord mets et vins</span><b>+&nbsp;38&nbsp;€</b></li></ul></section>
+        <section id="c-desserts"><h3>Desserts</h3><ul><li><span>Entremets framboise et pistache</span><b>12&nbsp;€</b></li><li><span>Verrine chocolat, biscuit croquant</span><b>11&nbsp;€</b></li><li><span>Tarte à la praline rose</span><b>10&nbsp;€</b></li></ul></section>
+        <section id="c-bar"><h3>Bar &amp; cocktails</h3><ul><li><span>Spritz à la verveine du jardin</span><b>11&nbsp;€</b></li><li><span>Negroni de la maison</span><b>13&nbsp;€</b></li><li><span>Citronnade maison (sans alcool)</span><b>6&nbsp;€</b></li></ul></section>
+        <section id="c-vins"><h3>Vins au verre</h3><ul><li><span>Morgon, Côte du Py</span><b>9&nbsp;€</b></li><li><span>Saint-Joseph blanc</span><b>11&nbsp;€</b></li><li><span>Bourgogne Pinot noir</span><b>12&nbsp;€</b></li></ul></section>
+      </div>
+      <p class="carte-note">Prix indicatifs, carte de démonstration.</p>
+    </div>
+  </dialog>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head">
+      <p class="cz-t">Aux couleurs de votre restaurant</p>
+      <button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button>
+    </div>
+    <label class="cz-f"><span>Nom du restaurant</span><input type="text" id="czNom" maxlength="40"></label>
+    <label class="cz-f"><span>Ville</span><input type="text" id="czVille" maxlength="30"></label>
+    <div class="cz-f"><span id="czAccL">Couleur principale</span>
+      <div class="cz-row">
+        <input type="color" id="czAccent" aria-labelledby="czAccL">
+        <div class="cz-sw" role="group" aria-label="Couleurs proposées">
+          <button type="button" data-accent="7A1F22" style="--c:#7A1F22" aria-label="Bordeaux"></button>
+          <button type="button" data-accent="2F4A3A" style="--c:#2F4A3A" aria-label="Vert sapin"></button>
+          <button type="button" data-accent="1F3A5F" style="--c:#1F3A5F" aria-label="Bleu marine"></button>
+          <button type="button" data-accent="A0522D" style="--c:#A0522D" aria-label="Terre de Sienne"></button>
+          <button type="button" data-accent="1E1A15" style="--c:#1E1A15" aria-label="Noir"></button>
+        </div>
+      </div>
+    </div>
+    <div class="cz-f"><span id="czFondL">Fond</span>
+      <div class="cz-sw cz-sw--fond" role="group" aria-labelledby="czFondL">
+        <button type="button" data-fond="creme" style="--c:#F4EEE4" aria-label="Crème"></button>
+        <button type="button" data-fond="ivoire" style="--c:#FAF7F0" aria-label="Ivoire"></button>
+        <button type="button" data-fond="sable" style="--c:#EADFCC" aria-label="Sable"></button>
+        <button type="button" data-fond="blanc" style="--c:#FFFFFF" aria-label="Blanc"></button>
+        <button type="button" data-fond="nuit" style="--c:#16130F" aria-label="Nuit"></button>
+      </div>
+    </div>
+    <label class="cz-f"><span>Police des titres</span>
+      <select id="czPolice">
+        <option value="cormorant">Cormorant (classique)</option>
+        <option value="playfair">Playfair (bistrot chic)</option>
+        <option value="dmserif">DM Serif (affirmée)</option>
+        <option value="fraunces">Fraunces (chaleureuse)</option>
+      </select>
+    </label>
+    <div class="cz-actions">
+      <button type="button" class="btn btn--accent btn--full" id="czCopy">Copier le lien de cette version</button>
+      <button type="button" class="tlink" id="czReset">Revenir à Maison Aurèle</button>
+    </div>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

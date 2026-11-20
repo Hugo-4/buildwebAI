@@ -40,10 +40,24 @@ for (const p of PAGES) {
 
 execSync('zip -q -r -9 ../buildwebai-hostinger.zip .', { cwd: OUT });
 
+// Démo restaurant pour le sous-domaine demo.buildwebia.com : dist/demo + dist/buildwebai-demo.zip
+const DEMO = 'dist/demo';
+mkdirSync(DEMO, { recursive: true });
+cpSync('demo/img', join(DEMO, 'img'), { recursive: true });
+cpSync('deploy/demo.htaccess', join(DEMO, '.htaccess'));
+cpSync('deploy/demo-robots.txt', join(DEMO, 'robots.txt'));
+for (const f of ['style.css', 'app.js']) {
+  const { code } = transformSync(readFileSync(join('demo', f), 'utf8'), { loader: f.endsWith('.js') ? 'js' : 'css', minify: true, target: f.endsWith('.js') ? 'es2019' : 'chrome90' });
+  writeFileSync(join(DEMO, f), code);
+}
+writeFileSync(join(DEMO, 'index.html'), readFileSync('demo/index.html', 'utf8').replace(/((?:href|src)="(?:style\.css|app\.js))"/g, `$1?v=${version}"`));
+execSync('zip -q -r -9 ../buildwebai-demo.zip .', { cwd: DEMO });
+
 const size = (dir) => readdirSync(dir).reduce((n, f) => {
   const s = statSync(join(dir, f));
   return n + (s.isDirectory() ? size(join(dir, f)) : s.size);
 }, 0);
 const count = (dir) => readdirSync(dir).reduce((n, f) => n + (statSync(join(dir, f)).isDirectory() ? count(join(dir, f)) : 1), 0);
 console.log(`dist/public_html : ${count(OUT)} fichiers, ${(size(OUT) / 1e6).toFixed(1)} Mo (version ${version})`);
+console.log(`dist/buildwebai-demo.zip : ${(statSync('dist/buildwebai-demo.zip').size / 1e6).toFixed(1)} Mo (${count(DEMO)} fichiers)`);
 console.log(`dist/buildwebai-hostinger.zip : ${(statSync('dist/buildwebai-hostinger.zip').size / 1e6).toFixed(1)} Mo`);
