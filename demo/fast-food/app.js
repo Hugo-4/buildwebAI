@@ -136,8 +136,13 @@
     document.title = `${st.nom} · Street food`;
     root.style.setProperty('--navy', `#${st.c1}`);
     root.style.setProperty('--orange', `#${st.c2}`);
-    root.style.setProperty('--on-navy', lum(st.c1) > 0.45 ? '#14254A' : '#FFFFFF');
-    root.style.setProperty('--on-orange', lum(st.c2) > 0.45 ? '#14254A' : '#FFFFFF');
+    // texte posé sur chaque couleur : blanc ou bleu nuit, celui qui contraste le plus
+    const onColor = (h) => { const L = lum(h); return (1.05 / (L + 0.05)) >= ((L + 0.05) / 0.0697) ? '#FFFFFF' : '#14254A'; };
+    root.style.setProperty('--on-navy', onColor(st.c1));
+    root.style.setProperty('--on-orange', onColor(st.c2));
+    // version foncée de l'accent pour l'écriture manuscrite sur fond clair
+    const dark = [0, 2, 4].map((i) => Math.round(parseInt(st.c2.slice(i, i + 2), 16) * 0.72).toString(16).padStart(2, '0')).join('');
+    root.style.setProperty('--orange-ink', `#${dark}`);
     $('#czNom').value = st.nom; $('#czC1').value = `#${st.c1}`; $('#czC2').value = `#${st.c2}`;
     if (push) history.replaceState(null, '', url(false));
   }
