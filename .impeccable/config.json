@@ -35,6 +35,15 @@
         ],
         "createdAt": "2026-11-20T15:28:59.758Z",
         "reason": "brief client : header et sections en fond crème demandés explicitement pour la démo restaurant (style Bocuse)"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "demo/hotel/index.html"
+        ],
+        "createdAt": "2026-11-21T14:40:46.629Z",
+        "reason": "faux positif mesuré : le détecteur lit la photo sans le voile CSS ::before ; contraste réel sur pixels rendus ≥ 6,2:1 (titre et sous-titre du hero, 1440 et 390)"
       }
     ]
   }
