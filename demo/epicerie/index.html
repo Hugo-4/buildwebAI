@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Odette · Épicerie de quartier à la Croix-Rousse</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : une épicerie fictive pour montrer ce que nous pouvons construire pour votre commerce.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%232F5D3A'/%3E%3Ctext x='24' y='32' font-family='Georgia,serif' font-size='24' text-anchor='middle' fill='%23FFFFFF'%3EO%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <div class="wrap hd-in">
+      <a class="logo" href="#top"><span class="logo-name" data-bind="nom">Odette</span><span class="logo-sub">épicerie de quartier · Croix-Rousse</span></a>
+      <nav class="hd-nav" aria-label="Navigation">
+        <a href="#pourquoi">Pourquoi</a>
+        <a href="#producteurs">Producteurs</a>
+        <a href="#paniers">Paniers</a>
+        <a href="#retrait">Retrait</a>
+      </nav>
+      <a class="btn btn--accent btn--sm" href="#paniers">Composer mon panier</a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero -->
+    <section class="wrap hero" id="top">
+      <div class="hero-txt">
+        <h1>Bien manger, sans y passer sa soirée.</h1>
+        <p class="lead"><span data-bind="nom">Odette</span> est une épicerie de quartier à la Croix-Rousse. Des produits de 32 fermes à moins de 80&nbsp;km, des paniers prêts à cuisiner, et votre commande qui vous attend au comptoir ou dans un casier, même à 21&nbsp;h.</p>
+        <div class="actions">
+          <a href="#paniers" class="btn btn--accent">Composer mon panier</a>
+          <a href="#pourquoi" class="tlink">Pourquoi <span data-bind="nom">Odette</span>&nbsp;?</a>
+        </div>
+      </div>
+      <div class="hero-img"><img src="img/hero-1200.webp" srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" sizes="(min-width: 900px) 45vw, 100vw" alt="Cagettes de poireaux et de carottes sur l'étal" width="1200" height="1500" fetchpriority="high"></div>
+    </section>
+
+    <!-- Pourquoi / comment / ce que ça change -->
+    <section class="why" id="pourquoi">
+      <div class="wrap why-in">
+        <div class="why-img"><img src="img/pain-1200.webp" srcset="img/pain-700.webp 700w, img/pain-1200.webp 1200w" sizes="(min-width: 900px) 40vw, 100vw" alt="Deux mains tiennent un pain au levain encore chaud" width="1200" height="1500" loading="lazy" decoding="async"></div>
+        <div class="why-txt">
+          <h2>Pourquoi on a ouvert <span data-bind="nom">Odette</span></h2>
+          <ol class="circle">
+            <li><b>Pourquoi</b><p>Parce qu'acheter local ne devrait pas demander trois marchés et deux heures le samedi matin.</p></li>
+            <li><b>Comment</b><p>On va chercher les produits à la ferme, on fixe les prix avec les producteurs, et on compose des paniers qui tombent juste.</p></li>
+            <li><b>Ce que ça change pour vous</b><p>Des produits de saison, un prix lisible, moins de gaspillage, et dix minutes de courses par semaine.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vision -->
+    <section class="vision" aria-label="Notre vision">
+      <p class="wrap vision-txt">Que chaque quartier ait son épicerie, et chaque producteur sa vingtaine de familles fidèles.</p>
+    </section>
+
+    <!-- Valeurs -->
+    <section class="wrap values" id="valeurs">
+      <h2>Ce qui ne bougera pas</h2>
+      <div class="values-grid">
+        <article class="value value--wide">
+          <h3>Le prix juste, affiché</h3>
+          <p>Sur chaque étiquette, vous voyez ce que touche le producteur. Exemple avec notre tomme des Monts du Lyonnais.</p>
+          <div class="price-card" aria-label="Répartition du prix de la tomme, 5,20 euros les 200 grammes">
+            <p class="price-head"><span>Tomme des Monts, 200&nbsp;g</span><b>5,20&nbsp;€</b></p>
+            <div class="price-bar" aria-hidden="true"><span class="pb pb--prod" style="--w:58%"></span><span class="pb pb--trans" style="--w:6%"></span><span class="pb pb--shop" style="--w:36%"></span></div>
+            <ul class="price-legend">
+              <li><i class="lg lg--prod" aria-hidden="true"></i>Producteur · 3,02&nbsp;€ (58&nbsp;%)</li>
+              <li><i class="lg lg--trans" aria-hidden="true"></i>Transport · 0,31&nbsp;€ (6&nbsp;%)</li>
+              <li><i class="lg lg--shop" aria-hidden="true"></i>Épicerie · 1,87&nbsp;€ (36&nbsp;%)</li>
+            </ul>
+          </div>
+        </article>
+        <article class="value"><h3>Local, vraiment</h3><p>32 fermes, la plus lointaine à 78&nbsp;km. Pas d'avocat, pas de fraise en hiver.</p></article>
+        <article class="value"><h3>Zéro gâchis</h3><p>Les paniers sont calibrés au plus juste, et ce qui reste part le samedi en panier anti-gaspi.</p></article>
+        <article class="value"><h3>Vrac et consigne</h3><p>Apportez vos contenants. Nos bocaux sont consignés 0,50&nbsp;€ et lavés sur place.</p></article>
+      </div>
+    </section>
+
+    <!-- Producteurs -->
+    <section class="prod" id="producteurs">
+      <img class="prod-bg" src="img/etal-1920.webp" srcset="img/etal-960.webp 960w, img/etal-1920.webp 1920w" sizes="100vw" alt="Étal de fruits et légumes de saison" width="1920" height="1080" loading="lazy" decoding="async">
+      <div class="wrap prod-in">
+        <div class="prod-card">
+          <h2>Nos producteurs, au kilomètre près</h2>
+          <ul class="farms">
+            <li><div><b>Ferme des Grillons</b><span>Légumes de plein champ · Brindas</span></div><span class="km" style="--d:18">18&nbsp;km</span></li>
+            <li><div><b>La Tomme d'Hélène</b><span>Tommes et fromages frais · Monts du Lyonnais</span></div><span class="km" style="--d:35">35&nbsp;km</span></li>
+            <li><div><b>Vergers Montagnon</b><span>Pommes, poires, jus · Pilat</span></div><span class="km" style="--d:52">52&nbsp;km</span></li>
+            <li><div><b>Moulin de la Veyle</b><span>Farines et pains au levain · Dombes</span></div><span class="km" style="--d:61">61&nbsp;km</span></li>
+            <li><div><b>Rucher des Combes</b><span>Miels et confitures · Bugey</span></div><span class="km" style="--d:78">78&nbsp;km</span></li>
+          </ul>
+          <p class="prod-note">Et 27 autres. Chaque fiche produit indique la ferme, le village et le jour de récolte.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paniers -->
+    <section class="baskets" id="paniers">
+      <div class="wrap">
+        <div class="bk-head">
+          <h2>Pourquoi des paniers déjà composés&nbsp;?</h2>
+          <ul class="reasons">
+            <li><b>Deux clics au lieu de vingt</b><span>Le panier est prêt, vous changez ce que vous voulez.</span></li>
+            <li><b>Des quantités justes</b><span>Calibrées pour 2 ou 4 personnes : rien ne finit à la poubelle.</span></li>
+            <li><b>Une recette dans chaque panier</b><span>Pour savoir quoi faire de la courge du mardi.</span></li>
+            <li><b>8&nbsp;% moins cher qu'au détail</b><span>Parce qu'on prépare en série, pas à l'unité.</span></li>
+          </ul>
+        </div>
+        <div class="bk-grid" id="bkGrid"><!-- cartes générées par app.js --></div>
+      </div>
+    </section>
+
+    <!-- Click & Collect -->
+    <section class="wrap cc" id="retrait">
+      <div class="cc-txt">
+        <h2>Click &amp; Collect, à votre heure</h2>
+        <ol class="steps">
+          <li><b>1. Vous choisissez</b><span>Un panier, quelques produits à l'unité, un créneau.</span></li>
+          <li><b>2. On prépare</b><span>Le matin même, avec les arrivages du jour. Un SMS vous prévient.</span></li>
+          <li><b>3. Vous récupérez</b><span>Au comptoir pendant l'ouverture, ou dans un casier réfrigéré jusqu'à 22&nbsp;h, avec un code.</span></li>
+        </ol>
+        <div class="mode" role="group" aria-labelledby="modeT">
+          <p class="mode-t" id="modeT">Où voulez-vous récupérer votre commande&nbsp;?</p>
+          <div class="chips">
+            <button type="button" aria-pressed="true" data-mode="comptoir">Au comptoir</button>
+            <button type="button" aria-pressed="false" data-mode="casier">En casier, 7&nbsp;j/7 jusqu'à 22&nbsp;h</button>
+          </div>
+          <p class="mode-t" id="slotT">Créneau</p>
+          <div class="chips" role="group" aria-labelledby="slotT" id="slots"></div>
+        </div>
+      </div>
+
+      <aside class="cart" id="panier" aria-label="Votre commande">
+        <div id="cartForm">
+          <h3>Votre commande</h3>
+          <p class="muted" id="cartEmpty">Ajoutez un panier pour choisir votre créneau.</p>
+          <ul class="cart-lines" id="cartLines"></ul>
+          <p class="cart-total"><span>Total</span><b id="cartTotal">0,00&nbsp;€</b></p>
+          <p class="muted small" id="cartWhere"></p>
+          <button type="button" class="btn btn--accent btn--full" id="order">Valider ma commande</button>
+        </div>
+        <div id="cartDone" hidden>
+          <span class="done-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7.5"></path></svg></span>
+          <h3 id="doneT">Commande enregistrée</h3>
+          <p class="muted" id="doneTxt"></p>
+          <button type="button" class="btn btn--line" id="again">Nouvelle commande</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <div class="ft-news">
+        <h2>Le carnet d'<span data-bind="nom">Odette</span></h2>
+        <p>Une lettre par mois&nbsp;: les arrivages, une recette, un producteur. Rien d'autre.</p>
+        <form class="ft-form" id="newsForm" novalidate>
+          <label class="sr-only" for="newsMail">Votre e-mail</label>
+          <input id="newsMail" type="email" placeholder="votre@email.fr" autocomplete="email">
+          <button type="submit" class="btn btn--light">Je m'abonne</button>
+        </form>
+        <p class="ft-msg" id="newsMsg" role="status"></p>
+      </div>
+      <dl class="ft-info">
+        <div><dt>Adresse</dt><dd>Rue d'Austerlitz, Lyon 4<sup>e</sup></dd></div>
+        <div><dt>Horaires</dt><dd>Du mardi au samedi, 9&nbsp;h – 20&nbsp;h<br>Casiers 7&nbsp;j/7, 7&nbsp;h – 22&nbsp;h</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:bonjour@odette.example">bonjour@odette.example</a></dd></div>
+      </dl>
+    </div>
+    <p class="wrap ft-credit">Épicerie fictive · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <a class="m-cart" href="#panier" id="mCart" hidden><span id="mCount">0</span> article(s) · <b id="mTotal">0,00&nbsp;€</b><span class="m-go">Ma commande</span></a>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs de l'épicerie</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom de l'épicerie</span><input type="text" id="czNom" maxlength="24"></label>
+    <label class="cz-f"><span>Couleur principale</span><input type="color" id="czAccent"></label>
+    <button type="button" class="btn btn--cz btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir à Odette</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

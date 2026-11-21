@@ -114,3 +114,4 @@ Le même zip contient aussi :
 
 - `hotel/` : https://demo.buildwebia.com/hotel/ (hôtel fictif Maison Sauvelune : réservation directe avec calcul du séjour, chambres, conciergerie IA de démonstration). Personnalisation : `?nom=…&lieu=…&accent=2E4A45&fond=pierre|blanc|sable|nuit&presentation=1`
 - `cave/` : https://demo.buildwebia.com/cave/ (caviste fictif Cave Ondine en Click & Collect : filtres, panier, créneaux de retrait). Personnalisation : `?nom=…&accent=7A2235&presentation=1`
+- `epicerie/` : https://demo.buildwebia.com/epicerie/ (épicerie fictive Odette : pourquoi, vision, valeurs, prix juste affiché, producteurs au kilomètre, paniers précomposés avec abonnement, retrait au comptoir ou en casier). Personnalisation : `?nom=…&accent=2F5D3A&presentation=1`

@@ -52,7 +52,7 @@ for (const f of ['style.css', 'app.js']) {
 }
 writeFileSync(join(DEMO, 'index.html'), readFileSync('demo/index.html', 'utf8').replace(/((?:href|src)="(?:style\.css|app\.js))"/g, `$1?v=${version}"`));
 // Sous-démos : demo.buildwebia.com/fast-food/, /hotel/, /cave/
-for (const sub of ['fast-food', 'hotel', 'cave']) {
+for (const sub of ['fast-food', 'hotel', 'cave', 'epicerie']) {
   const SRC = join('demo', sub), OUTD = join(DEMO, sub);
   mkdirSync(OUTD, { recursive: true });
   cpSync(join(SRC, 'img'), join(OUTD, 'img'), { recursive: true });
