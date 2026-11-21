@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Le Fournil de Jeanne · Boulangerie à la Guillotière</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : une boulangerie fictive pour montrer ce que nous pouvons construire pour votre commerce.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%237A4320'/%3E%3Ctext x='24' y='33' font-family='Arial' font-weight='700' font-size='24' text-anchor='middle' fill='%23FFFFFF'%3EJ%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <div class="wrap hd-in">
+      <a class="logo" href="#top"><span class="logo-name" data-bind="nom">Le Fournil de Jeanne</span><span class="logo-sub">Boulangerie · Guillotière</span></a>
+      <nav class="hd-nav" aria-label="Navigation">
+        <a href="#vitrine">La vitrine</a>
+        <a href="#paniers">Les paniers</a>
+        <a href="#commander">Click &amp; Collect</a>
+        <a href="#fournil">Le fournil</a>
+      </nav>
+      <a class="btn btn--accent btn--sm" href="#vitrine">Commander</a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero -->
+    <section class="wrap hero" id="top">
+      <div class="hero-txt">
+        <p class="oven" id="oven" aria-live="polite"><span class="oven-dot" aria-hidden="true"></span><span id="ovenTxt">Prochaine fournée à 12 h</span></p>
+        <h1>Le pain sort du four à 7&nbsp;h, 12&nbsp;h et 17&nbsp;h.</h1>
+        <p class="lead">Commandez en ligne, choisissez votre créneau, et passez devant la file&nbsp;: votre sac vous attend au comptoir coupe-file, encore tiède.</p>
+        <div class="actions">
+          <a href="#vitrine" class="btn btn--accent">Réserver ma baguette</a>
+          <a href="#paniers" class="tlink">Voir les paniers du jour</a>
+        </div>
+      </div>
+      <div class="hero-img"><img src="img/hero-1200.webp" srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" sizes="(min-width: 900px) 45vw, 100vw" alt="Corbeille de pains et de baguettes dorés" width="1200" height="1500" fetchpriority="high"></div>
+    </section>
+
+    <!-- Vitrine -->
+    <section class="shelf" id="vitrine">
+      <div class="wrap">
+        <div class="shelf-head">
+          <h2>La vitrine du jour</h2>
+          <div class="tabs" role="tablist" aria-label="Catégories" id="tabs">
+            <button type="button" role="tab" aria-selected="true" data-cat="pains">Pains</button>
+            <button type="button" role="tab" aria-selected="false" tabindex="-1" data-cat="viennoiseries">Viennoiseries</button>
+            <button type="button" role="tab" aria-selected="false" tabindex="-1" data-cat="patisseries">Pâtisseries</button>
+            <button type="button" role="tab" aria-selected="false" tabindex="-1" data-cat="sale">Salé</button>
+          </div>
+        </div>
+        <div class="products" id="products" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Paniers du moment -->
+    <section class="wrap moments" id="paniers">
+      <div class="moments-head">
+        <h2>Un panier pour chaque moment</h2>
+        <p class="muted">Composés chaque matin, moins chers qu'au détail. Celui de l'heure qu'il est est mis en avant.</p>
+      </div>
+      <div class="moment-grid" id="moments"></div>
+    </section>
+
+    <!-- Click & Collect -->
+    <section class="cc" id="commander">
+      <div class="wrap cc-in">
+        <div class="cc-txt">
+          <h2>Commandé en deux minutes, prêt quand vous passez</h2>
+          <ul class="perks">
+            <li><b>Le comptoir coupe-file</b><span>Votre sac vous attend à part&nbsp;: pas de file le dimanche matin.</span></li>
+            <li><b>Un créneau toutes les 15 minutes</b><span>De l'ouverture à 19&nbsp;h 30, le jour même ou la veille pour le lendemain.</span></li>
+            <li><b>Les gâteaux sur commande</b><span>Anniversaires et grandes tablées, 48&nbsp;h à l'avance, avec votre message sur la plaque.</span></li>
+          </ul>
+          <div class="slot-box">
+            <p class="slot-t" id="slotT">Votre créneau de retrait</p>
+            <div class="chips" role="group" aria-labelledby="slotT" id="slots"></div>
+          </div>
+        </div>
+
+        <aside class="cart" id="panier" aria-label="Votre commande">
+          <div id="cartForm">
+            <h3>Votre commande</h3>
+            <p class="muted" id="cartEmpty">Ajoutez un pain, une viennoiserie ou un panier.</p>
+            <ul class="cart-lines" id="cartLines"></ul>
+            <p class="cart-total"><span>Total</span><b id="cartTotal">0,00&nbsp;€</b></p>
+            <p class="muted small" id="cartWhere"></p>
+            <button type="button" class="btn btn--accent btn--full" id="order">Valider ma commande</button>
+          </div>
+          <div id="cartDone" hidden>
+            <span class="done-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7.5"></path></svg></span>
+            <h3 id="doneT">C'est réservé</h3>
+            <p class="muted" id="doneTxt"></p>
+            <button type="button" class="btn btn--line" id="again">Nouvelle commande</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Le fournil -->
+    <section class="wrap craft" id="fournil">
+      <div class="craft-img"><img src="img/petrissage-1200.webp" srcset="img/petrissage-700.webp 700w, img/petrissage-1200.webp 1200w" sizes="(min-width: 900px) 45vw, 100vw" alt="Des mains pétrissent une pâte sur le plan de travail fariné" width="1200" height="1500" loading="lazy" decoding="async"></div>
+      <div class="craft-txt">
+        <h2>Ce qui se passe avant 7&nbsp;h</h2>
+        <dl class="facts">
+          <div><dt>24&nbsp;h</dt><dd>de fermentation pour la baguette tradition, au levain&nbsp;naturel.</dd></div>
+          <div><dt>3</dt><dd>farines seulement, d'un moulin de la Dombes, à 60&nbsp;km.</dd></div>
+          <div><dt>4&nbsp;h</dt><dd>l'heure où Jeanne allume le four, six jours sur sept.</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <div class="ft-card">
+        <h2>La 10<sup>e</sup> baguette offerte</h2>
+        <p>Votre carte de fidélité vit dans votre compte&nbsp;: chaque commande en ligne compte, plus besoin du carton tamponné.</p>
+      </div>
+      <dl class="ft-info">
+        <div><dt>Adresse</dt><dd>Grande Rue de la Guillotière, Lyon 7<sup>e</sup></dd></div>
+        <div><dt>Horaires</dt><dd>Du mardi au dimanche, 6&nbsp;h 30 – 19&nbsp;h 30</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:bonjour@fournil-jeanne.example">bonjour@fournil-jeanne.example</a></dd></div>
+      </dl>
+    </div>
+    <p class="wrap ft-credit">Boulangerie fictive · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <a class="m-cart" href="#panier" id="mCart" hidden><span id="mCount">0</span> article(s) · <b id="mTotal">0,00&nbsp;€</b><span class="m-go">Ma commande</span></a>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs de la boulangerie</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom</span><input type="text" id="czNom" maxlength="30"></label>
+    <label class="cz-f"><span>Couleur principale</span><input type="color" id="czAccent"></label>
+    <button type="button" class="btn btn--cz btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir au Fournil de Jeanne</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
