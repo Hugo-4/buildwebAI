@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lefort Plomberie · Plombier chauffagiste à Lyon</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un plombier fictif pour montrer ce que nous pouvons construire pour votre entreprise artisanale.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23B4532A'/%3E%3Ctext x='24' y='33' font-family='Arial' font-weight='900' font-size='24' text-anchor='middle' fill='%23FFFFFF'%3EL%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <div class="wrap hd-in">
+      <a class="logo" href="#top"><span class="logo-name" data-bind="nom">Lefort Plomberie</span><span class="logo-sub">Plomberie · chauffage · Lyon</span></a>
+      <nav class="hd-nav" aria-label="Navigation">
+        <a href="#estimer">Estimer</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="#services">Services</a>
+        <a href="#entretien">Entretien</a>
+      </nav>
+      <a class="btn btn--accent btn--sm call" href="tel:+33465711234"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span>04 65 71 12 34</span></a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero -->
+    <section class="wrap hero" id="top">
+      <div class="hero-txt">
+        <p class="live" id="live"><span class="live-dot" aria-hidden="true"></span><span id="liveTxt">Disponible maintenant</span></p>
+        <h1>Une fuite&nbsp;? On est chez vous en moins d'une heure.</h1>
+        <p class="lead">Dépannage, chauffe-eau, salle de bain, entretien de chaudière. Le prix est annoncé avant de venir et c'est celui que vous payez.</p>
+        <div class="actions">
+          <a href="#estimer" class="btn btn--accent">Estimer mon intervention</a>
+          <a href="tel:+33465711234" class="tlink">Appeler le 04 65 71 12 34</a>
+        </div>
+        <ul class="proofs" aria-label="Nos engagements">
+          <li>Devis signé avant travaux</li>
+          <li>Garantie décennale</li>
+          <li>Artisan RGE</li>
+        </ul>
+      </div>
+      <div class="hero-img"><img src="img/hero-1200.webp" srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 100vw" alt="Un plombier répare les tuyaux sous un évier" width="1200" height="1500" fetchpriority="high"></div>
+    </section>
+
+    <!-- Estimateur -->
+    <section class="est" id="estimer">
+      <div class="wrap est-in">
+        <div class="est-head">
+          <h2>Votre prix en une minute</h2>
+          <p class="muted">Quatre questions, une fourchette de prix et un créneau. Rien à payer en ligne&nbsp;: vous réglez après l'intervention.</p>
+          <ol class="steps" id="steps" aria-label="Étapes">
+            <li class="is-on">Le problème</li><li>L'urgence</li><li>L'adresse</li><li>Le créneau</li>
+          </ol>
+        </div>
+        <form class="est-card" id="est" novalidate>
+          <fieldset class="step" data-step="0">
+            <legend>Quel est le problème&nbsp;?</legend>
+            <div class="probs" id="probs" role="radiogroup" aria-label="Problème"></div>
+          </fieldset>
+          <fieldset class="step" data-step="1" hidden>
+            <legend>Pour quand&nbsp;?</legend>
+            <div class="chips" id="when" role="radiogroup" aria-label="Urgence"></div>
+            <p class="muted small" id="whenNote"></p>
+          </fieldset>
+          <fieldset class="step" data-step="2" hidden>
+            <legend>Où intervenons-nous&nbsp;?</legend>
+            <label class="f"><span>Code postal</span><input type="text" id="cp" inputmode="numeric" maxlength="5" autocomplete="postal-code" placeholder="69003"></label>
+            <p class="form-msg" id="cpMsg" role="status"></p>
+            <label class="f file"><span>Une photo du problème (facultatif)</span><input type="file" id="photo" accept="image/*"><small class="muted" id="photoName">Elle aide à venir avec la bonne pièce.</small></label>
+          </fieldset>
+          <fieldset class="step" data-step="3" hidden>
+            <legend id="resT">Votre estimation</legend>
+            <div class="quote" id="quote"></div>
+            <div class="chips" id="slots" role="radiogroup" aria-label="Créneau d'intervention"></div>
+            <div class="two">
+              <label class="f"><span>Nom</span><input type="text" id="nm" autocomplete="name"></label>
+              <label class="f"><span>Téléphone</span><input type="tel" id="tel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78"></label>
+            </div>
+            <p class="form-msg" id="bookMsg" role="status"></p>
+          </fieldset>
+          <div class="step-done" id="done" hidden>
+            <span class="done-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7.5"></path></svg></span>
+            <h3 id="doneT">C'est réservé</h3>
+            <p class="muted" id="doneTxt"></p>
+            <button type="button" class="btn btn--line btn--sm" id="restart">Nouvelle demande</button>
+          </div>
+          <div class="nav" id="nav">
+            <button type="button" class="btn btn--line btn--sm" id="back" hidden>Retour</button>
+            <button type="submit" class="btn btn--accent" id="next" disabled>Continuer</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Tarifs -->
+    <section class="wrap prices" id="tarifs">
+      <div class="sec-head">
+        <h2>Les tarifs, avant de venir</h2>
+        <p class="muted">Prix TTC, main-d'œuvre comprise. La pièce est en plus, au prix fournisseur, montrée sur la facture.</p>
+      </div>
+      <table class="ptable">
+        <thead><tr><th scope="col">Intervention</th><th scope="col">Prix</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Déplacement et diagnostic<small>Déduit si vous faites faire la réparation</small></th><td>49&nbsp;€</td></tr>
+          <tr><th scope="row">Débouchage WC, évier ou douche</th><td>90 à 150&nbsp;€</td></tr>
+          <tr><th scope="row">Recherche et réparation de fuite</th><td>120 à 250&nbsp;€</td></tr>
+          <tr><th scope="row">Mécanisme de chasse d'eau</th><td>120 à 180&nbsp;€</td></tr>
+          <tr><th scope="row">Pose d'un robinet ou mitigeur</th><td>90&nbsp;€ + pièce</td></tr>
+          <tr><th scope="row">Chauffe-eau 200&nbsp;L, fourni et posé<small>Ancien appareil repris et recyclé</small></th><td>dès 1&nbsp;190&nbsp;€</td></tr>
+        </tbody>
+      </table>
+      <p class="muted small">Nuit (20&nbsp;h – 7&nbsp;h), dimanche et jours fériés&nbsp;: +50&nbsp;% sur la main-d'œuvre, annoncé au téléphone.</p>
+    </section>
+
+    <!-- Services -->
+    <section class="svc" id="services">
+      <div class="wrap">
+        <div class="sec-head"><h2>Ce qu'on fait</h2></div>
+        <div class="svc-grid">
+          <article class="card"><img src="img/depannage-600.webp" srcset="img/depannage-600.webp 600w, img/depannage-900.webp 900w" sizes="(min-width: 900px) 25vw, (min-width: 600px) 50vw, 100vw" alt="Un plombier serre un raccord sous un évier" width="900" height="675" loading="lazy" decoding="async"><div class="card-b"><h3>Dépannage</h3><p>Fuite, canalisation bouchée, WC qui coule&nbsp;: 7 jours sur 7, de jour comme de nuit.</p></div></article>
+          <article class="card"><img src="img/chauffe-eau-600.webp" srcset="img/chauffe-eau-600.webp 600w, img/chauffe-eau-900.webp 900w" sizes="(min-width: 900px) 25vw, (min-width: 600px) 50vw, 100vw" alt="Une pince sur le raccord d'un chauffe-eau" width="900" height="675" loading="lazy" decoding="async"><div class="card-b"><h3>Chauffe-eau</h3><p>Réparation ou remplacement dans la journée, électrique ou thermodynamique.</p></div></article>
+          <article class="card"><img src="img/salle-de-bain-600.webp" srcset="img/salle-de-bain-600.webp 600w, img/salle-de-bain-900.webp 900w" sizes="(min-width: 900px) 25vw, (min-width: 600px) 50vw, 100vw" alt="Salle de bain refaite avec douche à l'italienne et meuble en bois" width="900" height="675" loading="lazy" decoding="async"><div class="card-b"><h3>Salle de bain</h3><p>Douche à l'italienne, WC suspendu, de la dépose à la faïence. Visite et devis gratuits.</p></div></article>
+          <article class="card"><img src="img/pac-600.webp" srcset="img/pac-600.webp 600w, img/pac-900.webp 900w" sizes="(min-width: 900px) 25vw, (min-width: 600px) 50vw, 100vw" alt="Une pompe à chaleur posée contre la façade d'une maison" width="900" height="675" loading="lazy" decoding="async"><div class="card-b"><h3>Chauffage</h3><p>Chaudière gaz, pompe à chaleur. Artisan RGE&nbsp;: on monte avec vous le dossier MaPrimeRénov'.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Entretien -->
+    <section class="wrap care" id="entretien">
+      <div class="care-txt">
+        <h2>Le contrat d'entretien, une fois par an</h2>
+        <p class="lead">L'entretien de chaudière est obligatoire chaque année. Avec le contrat, on s'en occupe et vous passez avant les autres en cas de panne.</p>
+        <ul class="ticks">
+          <li>Visite annuelle et attestation d'entretien</li>
+          <li>Intervention prioritaire, sous 4&nbsp;h en cas de panne</li>
+          <li>Déplacement offert toute l'année</li>
+          <li>Rappel automatique par SMS, vous n'y pensez plus</li>
+        </ul>
+      </div>
+      <div class="care-card">
+        <p class="care-price"><b>129&nbsp;€</b><span>par an, payé une fois</span></p>
+        <div class="chips" role="radiogroup" aria-label="Appareil" id="kinds"></div>
+        <label class="f"><span>Votre e-mail</span><input type="email" id="careMail" autocomplete="email" placeholder="nom@domaine.fr"></label>
+        <button type="button" class="btn btn--accent btn--full" id="careGo">Souscrire</button>
+        <p class="form-msg" id="careMsg" role="status"></p>
+      </div>
+    </section>
+
+    <!-- Artisan -->
+    <section class="who">
+      <div class="wrap who-in">
+        <div class="who-img"><img src="img/artisan-1100.webp" srcset="img/artisan-700.webp 700w, img/artisan-1100.webp 1100w" sizes="(min-width: 900px) 36vw, 100vw" alt="Un artisan en veste de travail bleue sur un chantier" width="1100" height="1375" loading="lazy" decoding="async"></div>
+        <div class="who-txt">
+          <h2>Thomas, et deux compagnons</h2>
+          <p>Artisan depuis 2009, installé à la Guillotière. On ne sous-traite pas&nbsp;: c'est l'un de nous trois qui sonne chez vous, avec un camion qui a les pièces courantes.</p>
+          <dl class="facts">
+            <div><dt>45&nbsp;min</dt><dd>délai moyen d'arrivée en urgence dans Lyon</dd></div>
+            <div><dt>2 ans</dt><dd>de garantie sur les pièces posées</dd></div>
+            <div><dt>0&nbsp;€</dt><dd>si on ne peut pas réparer le jour même</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <div>
+        <p class="ft-name" data-bind="nom">Lefort Plomberie</p>
+        <p class="ft-zone">Lyon 1<sup>er</sup> au 9<sup>e</sup>, Villeurbanne, Bron, Vénissieux, Caluire, Écully, Oullins, Saint-Fons.</p>
+      </div>
+      <dl class="ft-info">
+        <div><dt>Urgences 24&nbsp;h/24</dt><dd><a href="tel:+33465711234">04 65 71 12 34</a></dd></div>
+        <div><dt>Atelier</dt><dd>Rue de Marseille, Lyon 7<sup>e</sup> · du lundi au samedi, 8&nbsp;h – 19&nbsp;h</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:contact@lefort-plomberie.example">contact@lefort-plomberie.example</a></dd></div>
+      </dl>
+    </div>
+    <p class="wrap ft-credit">Entreprise fictive · numéro réservé à la fiction · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <!-- Barre mobile -->
+  <div class="m-bar" id="mBar">
+    <a class="m-call" href="tel:+33465711234">Appeler</a>
+    <a class="m-est" href="#estimer">Estimer le prix</a>
+  </div>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs de l'artisan</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom</span><input type="text" id="czNom" maxlength="28"></label>
+    <label class="cz-f"><span>Couleur principale</span><input type="color" id="czAccent"></label>
+    <button type="button" class="btn btn--cz btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir à Lefort Plomberie</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

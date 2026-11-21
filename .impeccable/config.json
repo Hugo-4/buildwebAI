@@ -62,6 +62,15 @@
         ],
         "createdAt": "2026-11-21T17:37:06.643Z",
         "reason": "faux positif statique : sections pleine largeur avec enfant .wrap (max(20px,4vw)) et cartes .gift/.refer en padding clamp(24px…) ; détecteur au rendu propre en 390/1440"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "demo/plombier/index.html"
+        ],
+        "createdAt": "2026-11-21T18:16:47.583Z",
+        "reason": "faux positif statique : sections pleine largeur avec enfant .wrap (max(20px,4vw)) ; détecteur au rendu propre en 390/1440"
       }
     ]
   }

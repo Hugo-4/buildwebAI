@@ -127,7 +127,7 @@ h3 { font-size: 1.5rem; line-height: 1.05; font-weight: 700; }
 .cat { display: flex; flex-direction: column; padding: 0; border: 0; border-radius: 10px; overflow: hidden; background: var(--card); text-align: left; cursor: pointer; box-shadow: inset 0 0 0 1px var(--line); transition: transform .2s var(--ease); }
 .cat:active { transform: scale(.98); }
 .cat[aria-checked="true"] { box-shadow: inset 0 0 0 3px var(--accent); }
-.cat img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.cat img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
 .cat-b { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px 16px; }
 .cat-b b { font-family: var(--display); font-weight: 900; font-size: 1.35rem; text-transform: uppercase; line-height: 1.05; }
 .cat-b span { font-size: 14px; color: var(--muted); }
