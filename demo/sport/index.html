@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Halle 9 · Club de sport à Gerland</title>
-  <meta name="description" content="Site de démonstration BuildWebAI : un club de sport fictif pour montrer ce que nous pouvons construire pour votre salle.">
+  <title>Union Rugby des Berges · Club de rugby</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un club de rugby fictif pour montrer ce que nous pouvons construire pour votre association sportive.">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#F3F4F1">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%232B3FE0'/%3E%3Ctext x='24' y='33' font-family='Arial' font-weight='900' font-size='24' text-anchor='middle' fill='%23FFFFFF'%3E9%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#F2F3F5">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 3 42 9v14c0 11-8 18-18 22C14 41 6 34 6 23V9z' fill='%238C1D2C'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,15 +18,18 @@
 
   <header class="hd">
     <div class="wrap hd-in">
-      <a class="logo" href="#top" data-bind="nom">Halle 9</a>
+      <a class="logo" href="#top">
+        <svg class="crest" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3 42 9v14c0 11-8 18-18 22C14 41 6 34 6 23V9z"/><text x="24" y="29" text-anchor="middle" data-bind="sigle">URB</text></svg>
+        <span class="logo-name" data-bind="nom">Union Rugby des Berges</span>
+      </a>
       <nav class="hd-nav" aria-label="Navigation">
-        <a href="#planning">Planning</a>
-        <a href="#formules">Formules</a>
-        <a href="#coaching">Coaching</a>
-        <a href="#bar">Le bar</a>
-        <a href="#offrir">Offrir</a>
+        <a href="#matchs">Matchs</a>
+        <a href="#licences">Licences</a>
+        <a href="#boutique">Boutique</a>
+        <a href="#partenaires">Partenaires</a>
+        <a href="#soutenir">Soutenir</a>
       </nav>
-      <a class="btn btn--accent btn--sm" href="#essai">Essai gratuit</a>
+      <a class="btn btn--accent btn--sm" href="#matchs">Billetterie</a>
     </div>
   </header>
 
@@ -34,139 +37,137 @@
     <!-- Hero -->
     <section class="wrap hero" id="top">
       <div class="hero-txt">
-        <p class="crowd" id="crowd" aria-live="polite"><span class="crowd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="crowdTxt">Affluence en ce moment : calme</span></p>
-        <h1>Ouvert de 6&nbsp;h à 23&nbsp;h. Les cours sont inclus.</h1>
-        <p class="lead">Plateau muscu, 40 cours par semaine et des coachs diplômés, à deux pas du métro Stade de Gerland. Réservez votre place au cours depuis votre téléphone.</p>
+        <p class="next" id="nextMatch">Prochain match à domicile</p>
+        <h1>Venez voir jouer les Berges. Puis venez jouer.</h1>
+        <p class="lead">Quatorze équipes, de l'école de rugby aux seniors, une section féminine et du rugby à 5 pour les loisirs. Le dimanche, tout le quartier se retrouve autour du terrain.</p>
         <div class="actions">
-          <a href="#essai" class="btn btn--accent">7 jours d'essai gratuits</a>
-          <a href="#planning" class="tlink">Voir le planning</a>
+          <a href="#matchs" class="btn btn--accent">Prendre ma place · 8&nbsp;€</a>
+          <a href="#licences" class="tlink">Inscrire mon enfant</a>
         </div>
         <ul class="stats" aria-label="Le club en chiffres">
-          <li><b>1&nbsp;200&nbsp;m²</b><span>de plateau</span></li>
-          <li><b>40</b><span>cours par semaine</span></li>
-          <li><b>0&nbsp;€</b><span>de frais d'inscription en ligne</span></li>
+          <li><b>420</b><span>licenciés</span></li>
+          <li><b>14</b><span>équipes</span></li>
+          <li><b>1962</b><span>année de création</span></li>
         </ul>
       </div>
-      <div class="hero-img"><img src="img/hero-1200.webp" srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 100vw" alt="Une sportive soulève une barre au-dessus de sa tête dans un rack" width="1200" height="1500" fetchpriority="high"></div>
+      <div class="hero-img"><img src="img/hero-1200.webp" srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 100vw" alt="Un joueur en maillot vert court ballon en main, suivi par ses coéquipiers" width="1200" height="1500" fetchpriority="high"></div>
     </section>
 
-    <!-- Planning -->
-    <section class="plan" id="planning">
+    <!-- Billetterie -->
+    <section class="tickets" id="matchs">
+      <div class="tickets-img"><img src="img/match-1600.webp" srcset="img/match-900.webp 900w, img/match-1600.webp 1600w" sizes="100vw" alt="Des joueurs couverts de boue disputent un ballon sur un terrain détrempé" width="1600" height="900" loading="lazy" decoding="async"></div>
       <div class="wrap">
         <div class="sec-head">
           <div>
-            <h2>Le planning de la semaine</h2>
-            <p class="muted">Réservez votre place : inclus avec la formule Illimitée, 12&nbsp;€ la séance sinon.</p>
+            <h2>Les matchs à domicile</h2>
+            <p class="muted">Billet en ligne, scanné à l'entrée&nbsp;: pas de file à la caisse les jours de derby.</p>
           </div>
-          <div class="days" role="tablist" aria-label="Jour" id="days"></div>
         </div>
-        <ol class="classes" id="classes" role="tabpanel" aria-live="polite"></ol>
+        <div class="t-in">
+          <div class="matches" role="radiogroup" aria-label="Choisir un match" id="matches"></div>
+          <div class="t-panel">
+            <p class="t-title" id="tTitle"></p>
+            <div class="rates" id="rates"></div>
+            <label class="opt"><input type="checkbox" id="meal"> Repas d'avant-match au club-house <b>25&nbsp;€ / pers.</b></label>
+            <button type="button" class="btn btn--accent btn--full" id="addTickets">Ajouter au panier</button>
+            <p class="t-season">Vous venez souvent&nbsp;? <button type="button" class="link" id="addSeason">L'abonnement saison&nbsp;: 11 matchs pour 60&nbsp;€</button></p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Formules -->
-    <section class="wrap offers" id="formules">
+    <!-- Licences -->
+    <section class="wrap lic" id="licences">
       <div class="sec-head">
         <div>
-          <h2>Trois formules, sans surprise</h2>
-          <p class="muted">Inscription 100&nbsp;% en ligne&nbsp;: frais d'inscription offerts (49&nbsp;€ à l'accueil).</p>
-        </div>
-        <div class="switch" role="group" aria-label="Engagement">
-          <button type="button" data-eng="0" aria-pressed="true">Sans engagement</button>
-          <button type="button" data-eng="12" aria-pressed="false">12 mois <span class="save">−20&nbsp;%</span></button>
+          <h2>Inscriptions saison 2026-2027</h2>
+          <p class="muted">Une licence pour toute la saison, payable en une ou trois fois. Certificat médical et pièces à déposer en ligne.</p>
         </div>
       </div>
-      <div class="plans" id="plans"></div>
-      <fieldset class="extras">
-        <legend>Options à ajouter</legend>
-        <label><input type="checkbox" value="casier"> Casier à l'année <b>+5&nbsp;€/mois</b></label>
-        <label><input type="checkbox" value="serviette"> Serviette fournie <b>+4&nbsp;€/mois</b></label>
-        <label><input type="checkbox" value="bilan"> Bilan corporel et programme <b>39&nbsp;€ une fois</b></label>
-      </fieldset>
-    </section>
-
-    <!-- Coaching -->
-    <section class="coach" id="coaching">
-      <div class="wrap coach-in">
-        <div class="coach-img"><img src="img/coaching-1200.webp" srcset="img/coaching-700.webp 700w, img/coaching-1200.webp 1200w" sizes="(min-width: 900px) 40vw, 100vw" alt="Un sportif saisit des haltères sur le rack" width="1200" height="1500" loading="lazy" decoding="async"></div>
-        <div class="coach-txt">
-          <h2>Un coach rien que pour vous</h2>
-          <p class="lead">Perte de poids, reprise après blessure, préparation d'un trail&nbsp;: 45 minutes avec Inès, Malik ou Théo, au créneau qui vous arrange.</p>
-          <div class="packs" role="radiogroup" aria-label="Nombre de séances" id="packs"></div>
-          <p class="pack-sum" id="packSum"></p>
-          <button type="button" class="btn btn--light" id="addPack">Ajouter au panier</button>
+      <div class="cats" role="radiogroup" aria-label="Catégorie" id="cats"></div>
+      <div class="lic-form">
+        <label class="f"><span>Prénom du joueur ou de la joueuse</span><input type="text" id="lName" autocomplete="off" placeholder="Par exemple Jules"></label>
+        <div class="lic-opts">
+          <label class="opt"><input type="checkbox" id="passSport"> J'ai un code Pass'Sport <b>−50&nbsp;€</b></label>
+          <label class="opt"><input type="checkbox" id="kit"> Pack équipement (maillot d'entraînement, short, chaussettes, sac) <b>+45&nbsp;€</b></label>
         </div>
+        <p class="lic-sum" id="licSum"></p>
+        <button type="button" class="btn btn--accent" id="addLic">Ajouter la licence</button>
+        <p class="muted small">Famille&nbsp;: −20&nbsp;% sur la deuxième licence et les suivantes, appliqué dans le panier.</p>
       </div>
     </section>
 
-    <!-- Bar -->
-    <section class="wrap bar" id="bar">
-      <div class="sec-head">
-        <div>
-          <h2>Commandé avant le cours, prêt à la sortie</h2>
-          <p class="muted">Choisissez votre shake en réservant&nbsp;: il vous attend au bar à la fin de la séance.</p>
+    <!-- Boutique -->
+    <section class="shop" id="boutique">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <h2>La boutique du club</h2>
+            <p class="muted">Retrait au club-house le jour du match, ou livraison à domicile. Chaque achat finance l'école de rugby.</p>
+          </div>
         </div>
-      </div>
-      <div class="menu" id="menu"></div>
-    </section>
-
-    <!-- Offrir / parrainer -->
-    <section class="give" id="offrir">
-      <div class="wrap give-in">
-        <div class="gift">
-          <h2>Offrez un mois de sport</h2>
-          <p>Une carte cadeau envoyée par e-mail, valable un an, à utiliser en abonnement, en coaching ou au bar.</p>
-          <div class="chips" role="radiogroup" aria-label="Montant" id="gifts"></div>
-          <button type="button" class="btn btn--accent" id="addGift">Ajouter la carte cadeau</button>
-        </div>
-        <div class="refer">
-          <h2>Parrainez un ami, un mois offert chacun</h2>
-          <p class="muted">Partagez votre lien&nbsp;: quand votre ami s'abonne, vous gagnez tous les deux un mois.</p>
-          <div class="refer-code"><code id="refCode">HALLE9-CAMILLE</code><button type="button" class="btn btn--line btn--sm" id="copyRef">Copier le lien</button></div>
-          <p class="cz-status small" id="refMsg" role="status"></p>
-        </div>
+        <div class="items" id="items"></div>
       </div>
     </section>
 
-    <!-- Essai -->
-    <section class="wrap trial" id="essai">
-      <div class="trial-txt">
-        <h2>Venez essayer sept jours, sans carte bancaire</h2>
-        <p class="lead">Un coach vous accueille à la première séance, vous fait visiter et vous montre les machines.</p>
+    <!-- Partenaires -->
+    <section class="wrap partners" id="partenaires">
+      <div class="p-head">
+        <div class="p-img"><img src="img/club-1600.webp" srcset="img/club-900.webp 900w, img/club-1600.webp 1600w" sizes="(min-width: 900px) 50vw, 100vw" alt="Entraînement sur le terrain devant les poteaux et un bâtiment couvert de lierre" width="1600" height="900" loading="lazy" decoding="async"></div>
+        <div class="p-txt">
+          <h2>Devenez partenaire</h2>
+          <p class="lead">Votre entreprise visible chaque dimanche par 800 spectateurs, et sur les maillots de 420 joueurs. Le mécénat ouvre droit à une réduction d'impôt de 60&nbsp;%.</p>
+        </div>
       </div>
-      <form class="trial-form" id="trialForm" novalidate>
-        <label class="f"><span>Prénom</span><input type="text" id="tName" autocomplete="given-name" required></label>
-        <label class="f"><span>Téléphone</span><input type="tel" id="tTel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78" required></label>
-        <div class="f"><span id="tWhenL">Première visite</span><div class="chips" role="radiogroup" aria-labelledby="tWhenL" id="tWhen"></div></div>
-        <button type="submit" class="btn btn--accent btn--full">Réserver mon essai</button>
-        <p class="form-msg" id="tMsg" role="status"></p>
+      <div class="packs" id="packs"></div>
+      <form class="callback" id="cbForm" hidden novalidate>
+        <p class="cb-t" id="cbT">Être rappelé</p>
+        <label class="f"><span>Entreprise</span><input type="text" id="cbCo" autocomplete="organization" required></label>
+        <label class="f"><span>Téléphone</span><input type="tel" id="cbTel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78" required></label>
+        <button type="submit" class="btn btn--accent">Recevoir la plaquette et être rappelé</button>
+        <p class="form-msg" id="cbMsg" role="status"></p>
       </form>
+    </section>
+
+    <!-- Don -->
+    <section class="give" id="soutenir">
+      <div class="wrap give-in">
+        <div class="give-img"><img src="img/melee-900.webp" alt="Une mêlée sur un terrain en herbe, maillots orange et blancs" width="900" height="675" loading="lazy" decoding="async"></div>
+        <div class="give-txt">
+          <h2>Un don pour l'école de rugby</h2>
+          <p>Ballons, déplacements des U12, licences des familles qui ne peuvent pas payer&nbsp;: chaque euro reste au club.</p>
+          <div class="chips" role="radiogroup" aria-label="Montant du don" id="gifts"></div>
+          <p class="give-cost" id="giveCost"></p>
+          <button type="button" class="btn btn--light" id="addDon">Ajouter le don</button>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer class="ft">
     <div class="wrap ft-in">
-      <p class="ft-name" data-bind="nom">Halle 9</p>
+      <p class="ft-name" data-bind="nom">Union Rugby des Berges</p>
       <dl class="ft-info">
-        <div><dt>Adresse</dt><dd>Avenue Jean Jaurès, Lyon 7<sup>e</sup> · métro Stade de Gerland</dd></div>
-        <div><dt>Horaires</dt><dd>Tous les jours, 6&nbsp;h – 23&nbsp;h</dd></div>
-        <div><dt>Entreprises</dt><dd>Abonnements pour vos équipes dès 5 salariés&nbsp;: <a href="mailto:pro@halle9.example">pro@halle9.example</a></dd></div>
+        <div><dt>Stade</dt><dd>Stade Marcel-Ribaud, rue des Berges, Lyon 8<sup>e</sup></dd></div>
+        <div><dt>Entraînements</dt><dd>École de rugby le mercredi et le samedi matin · seniors mardi et jeudi, 19&nbsp;h 30</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:secretariat@rugby-berges.example">secretariat@rugby-berges.example</a></dd></div>
       </dl>
     </div>
     <p class="wrap ft-credit">Club fictif · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
   </footer>
 
   <!-- Panier -->
-  <button type="button" class="cart-btn" id="cartBtn" aria-controls="cart" aria-expanded="false" hidden><span id="cCount">0</span> dans le panier · <b id="cTotal">0,00&nbsp;€</b><span class="cart-go">Voir</span></button>
+  <button type="button" class="cart-btn" id="cartBtn" aria-controls="cart" aria-expanded="false" hidden><span id="cCount">0</span> dans le panier · <b id="cTotal">0&nbsp;€</b><span class="cart-go">Voir</span></button>
   <div class="scrim" id="scrim" hidden></div>
   <aside class="cart" id="cart" role="dialog" aria-modal="true" aria-labelledby="cartT" hidden>
-    <div class="cart-head"><h2 id="cartT">Votre panier</h2><button type="button" class="cz-x cart-x" id="cartClose" aria-label="Fermer le panier">×</button></div>
+    <div class="cart-head"><h2 id="cartT">Votre panier</h2><button type="button" class="cart-x" id="cartClose" aria-label="Fermer le panier">×</button></div>
     <div id="cartForm">
       <ul class="cart-lines" id="cartLines"></ul>
-      <p class="cart-total"><span>Aujourd'hui</span><b id="cartNow">0,00&nbsp;€</b></p>
-      <p class="muted small" id="cartMonthly"></p>
+      <label class="opt" id="splitBox" hidden><input type="checkbox" id="split"> Payer les licences en 3 fois sans frais</label>
+      <p class="cart-total"><span>À payer aujourd'hui</span><b id="cartNow">0&nbsp;€</b></p>
+      <p class="muted small" id="cartNote"></p>
       <button type="button" class="btn btn--accent btn--full" id="pay">Payer en ligne</button>
-      <p class="muted small">Paiement sécurisé, carte ou Apple Pay. Démonstration&nbsp;: aucun débit.</p>
+      <p class="muted small">Paiement sécurisé par carte. Démonstration&nbsp;: aucun débit.</p>
     </div>
     <div id="cartDone" hidden>
       <span class="done-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7.5"></path></svg></span>
@@ -180,10 +181,11 @@
   <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
   <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
     <div class="cz-head"><p class="cz-t">Aux couleurs du club</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
-    <label class="cz-f"><span>Nom</span><input type="text" id="czNom" maxlength="24"></label>
+    <label class="cz-f"><span>Nom du club</span><input type="text" id="czNom" maxlength="32"></label>
     <label class="cz-f"><span>Couleur principale</span><input type="color" id="czAccent"></label>
+    <label class="cz-f"><span>Couleur secondaire (maillots)</span><input type="color" id="czC2"></label>
     <button type="button" class="btn btn--cz btn--full" id="czCopy">Copier le lien de cette version</button>
-    <button type="button" class="cz-reset" id="czReset">Revenir à Halle 9</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir à l'Union Rugby des Berges</button>
     <p class="cz-status" id="czStatus" role="status"></p>
   </aside>
 

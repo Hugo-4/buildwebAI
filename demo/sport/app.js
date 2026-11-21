@@ -1,221 +1,234 @@
-/* Démo club de sport · BuildWebAI
-   Affluence en direct, planning réservable (séance à l'unité ou incluse), formules + options, packs coaching,
-   bar en Click & Collect, carte cadeau, parrainage, essai gratuit, panier unique en tiroir,
-   panneau « Personnaliser » (?nom=…&accent=2B3FE0 ; &presentation=1). */
+/* Démo club de rugby · BuildWebAI
+   Billetterie des matchs à domicile (+ repas, abonnement saison), licences de la saison (Pass'Sport, pack équipement,
+   remise famille, paiement en 3 fois), boutique aux couleurs du club, packs partenaires avec rappel, don défiscalisé,
+   panier unique en tiroir, panneau « Personnaliser » (?nom=…&accent=8C1D2C&c2=F4EFE6 ; &presentation=1). */
 (() => {
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
   const root = document.documentElement;
   const euro = (n) => `${Number.isInteger(n) ? n : n.toFixed(2).replace('.', ',')} €`;
   const now = new Date();
-  const H = now.getHours() + now.getMinutes() / 60;
+  const cart = new Map(); // key -> { label, sub, amount, kind, lic?, licBase? }
+  const fdate = (d, o) => d.toLocaleDateString('fr-FR', o);
 
-  /* ---------- Panier unique ---------- */
-  const cart = new Map(); // key -> { label, sub, now, monthly, qty }
-  const DROP_IN = 12;
+  /* ---------- Matchs à domicile ---------- */
+  const sundays = [];
+  const d0 = new Date(now); d0.setHours(15, 0, 0, 0);
+  d0.setDate(d0.getDate() + ((7 - d0.getDay()) % 7));
+  if (d0 < now) d0.setDate(d0.getDate() + 7);
+  for (let i = 0; i < 3; i++) { const d = new Date(d0); d.setDate(d0.getDate() + i * 14); sundays.push(d); }
+  const MATCHES = [
+    { vs: 'US Monts d’Or', comp: 'Fédérale 2 · seniors 15 h, réserve 13 h 15', tag: 'Derby' },
+    { vs: 'Olympique des Dombes', comp: 'Fédérale 2 · seniors 15 h, féminines 13 h', tag: '15 h' },
+    { vs: 'RC Val de Saône', comp: 'Fédérale 2 · seniors 15 h, réserve 13 h 15', tag: '15 h' },
+  ].map((m, i) => ({ ...m, date: sundays[i] }));
+  const days = Math.floor((sundays[0] - new Date(now.toDateString())) / 864e5);
+  $('#nextMatch').textContent = `Prochain match à domicile : ${fdate(sundays[0], { weekday: 'long', day: 'numeric', month: 'long' })}, 15 h · ${days <= 0 ? "aujourd'hui" : days === 1 ? 'demain' : `dans ${days} jours`}`;
 
-  /* ---------- Affluence ---------- */
-  const level = H < 6 || H >= 23 ? 0 : (H >= 18 && H < 21) ? 4 : (H >= 7 && H < 9) || (H >= 12 && H < 14) ? 3 : (H >= 17 && H < 22) ? 2 : 1;
-  $$('.crowd-bars i').forEach((b, i) => b.classList.toggle('on', i < level));
-  $('#crowdTxt').textContent = level === 0 ? 'Fermé · réouverture à 6 h' : `Affluence en ce moment : ${['', 'calme', 'normale', 'soutenue', 'heure de pointe'][level]}`;
-
-  /* ---------- Planning ---------- */
-  const T = [
-    { id: 'cross', n: 'Cross training', coach: 'Malik', d: 45, cap: 16 },
-    { id: 'yoga', n: 'Yoga vinyasa', coach: 'Inès', d: 60, cap: 20 },
-    { id: 'pilates', n: 'Pilates', coach: 'Inès', d: 45, cap: 14 },
-    { id: 'force', n: 'Force & technique', coach: 'Théo', d: 60, cap: 10 },
-    { id: 'cardio', n: 'Cardio HIIT', coach: 'Malik', d: 30, cap: 18 },
+  const RATES = [
+    { id: 'plein', n: 'Plein tarif', p: 8 },
+    { id: 'reduit', n: 'Tarif réduit', d: 'Étudiants, demandeurs d’emploi, 12–18 ans', p: 5 },
+    { id: 'enfant', n: 'Moins de 12 ans', d: 'Accompagné d’un adulte', p: 0 },
   ];
-  const TIMES = [7, 12.5, 18, 19.25, 20.5];
-  const hh = (t) => `${Math.floor(t)} h${t % 1 ? ` ${String(Math.round((t % 1) * 60)).padStart(2, '0')}` : ''}`;
-  const DAYS = Array.from({ length: 7 }, (_, i) => { const d = new Date(now); d.setDate(d.getDate() + i); return d; });
-  const dayName = (d, i) => (i === 0 ? "Aujourd'hui" : i === 1 ? 'Demain' : d.toLocaleDateString('fr-FR', { weekday: 'long' }));
-  let day = 0;
-  const taken = (i, j, cap) => Math.min(cap, Math.floor(((i * 7 + j * 13 + DAYS[i].getDate()) * 37) % (cap + 4)));
-  function renderDays() {
-    $('#days').innerHTML = DAYS.map((d, i) => `<button type="button" role="tab" aria-selected="${i === day}" tabindex="${i === day ? 0 : -1}" data-day="${i}" aria-label="${dayName(d, i)} ${d.getDate()}">${d.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '')}<b>${d.getDate()}</b></button>`).join('');
+  let match = 0;
+  const qty = { plein: 2, reduit: 0, enfant: 0 };
+  function renderMatches() {
+    $('#matches').innerHTML = MATCHES.map((m, i) => `<button type="button" class="match" role="radio" aria-checked="${i === match}" data-match="${i}">
+      <span class="m-date"><b>${m.date.getDate()}</b><span>${fdate(m.date, { month: 'short' }).replace('.', '')}</span></span>
+      <span class="m-vs">Contre ${m.vs}<span class="m-comp">${m.comp}</span></span>
+      <span class="m-tag">${m.tag}</span></button>`).join('');
+    const m = MATCHES[match];
+    $('#tTitle').textContent = `Contre ${m.vs}, ${fdate(m.date, { weekday: 'long', day: 'numeric', month: 'long' })}`;
   }
-  function renderClasses() {
-    $('#classes').setAttribute('aria-label', `Cours de ${dayName(DAYS[day], day).toLowerCase()}`);
-    $('#classes').innerHTML = TIMES.map((t, j) => {
-      const c = T[(day + j) % T.length];
-      const key = `cls:${day}:${j}`;
-      const left = c.cap - taken(day, j, c.cap);
-      const past = day === 0 && t <= H;
-      const on = cart.has(key);
-      const btn = past ? '<button type="button" class="book" disabled>Terminé</button>'
-        : left <= 0 && !on ? '<button type="button" class="book" disabled>Complet</button>'
-        : `<button type="button" class="book" data-book="${key}" data-i="${j}" aria-pressed="${on}">${on ? 'Réservé ✓' : 'Réserver'}</button>`;
-      return `<li class="cls">
-        <span class="cls-time">${hh(t)}</span>
-        <img class="cls-img" src="img/${c.id}-200.webp" alt="" width="64" height="64" loading="lazy" decoding="async">
-        <div class="cls-txt"><p class="cls-name">${c.n}</p><p class="cls-meta">${c.d} min · avec ${c.coach}</p></div>
-        <div class="spots${left <= 3 ? ' low' : ''}"><span>${left <= 0 ? 'Complet' : `${left} place${left > 1 ? 's' : ''} sur ${c.cap}`}</span><span class="spots-bar"><i style="transform:scaleX(${(c.cap - Math.max(left, 0)) / c.cap})"></i></span></div>
-        ${btn}
-      </li>`;
-    }).join('');
+  function renderRates() {
+    $('#rates').innerHTML = RATES.map((r) => `<div class="rate"><span>${r.n} · <b>${r.p ? euro(r.p) : 'gratuit'}</b>${r.d ? `<small>${r.d}</small>` : ''}</span>
+      <div class="stepper"><button type="button" data-dec="${r.id}" aria-label="Un billet ${r.n} de moins">−</button><span aria-live="polite">${qty[r.id]}</span><button type="button" data-inc="${r.id}" aria-label="Un billet ${r.n} de plus">+</button></div></div>`).join('');
+    const n = Object.values(qty).reduce((a, b) => a + b, 0);
+    const t = RATES.reduce((a, r) => a + r.p * qty[r.id], 0) + ($('#meal').checked ? 25 * n : 0);
+    $('#addTickets').disabled = n === 0;
+    $('#addTickets').textContent = n ? `Ajouter ${n} billet${n > 1 ? 's' : ''} · ${euro(t)}` : 'Choisissez vos billets';
   }
-  $('#days').addEventListener('click', (e) => { const b = e.target.closest('[data-day]'); if (b) { day = +b.dataset.day; renderDays(); renderClasses(); } });
-  $('#days').addEventListener('keydown', (e) => {
-    const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+  $('#matches').addEventListener('click', (e) => { const b = e.target.closest('[data-match]'); if (b) { match = +b.dataset.match; renderMatches(); $(`[data-match="${match}"]`).focus(); } });
+  $('#matches').addEventListener('keydown', (e) => {
+    const d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
     if (!d) return;
-    e.preventDefault(); day = (day + d + 7) % 7; renderDays(); renderClasses(); $(`[data-day="${day}"]`).focus();
+    e.preventDefault(); match = (match + d + MATCHES.length) % MATCHES.length; renderMatches(); $(`[data-match="${match}"]`).focus();
   });
-  $('#classes').addEventListener('click', (e) => {
-    const b = e.target.closest('[data-book]');
+  $('#rates').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-inc],[data-dec]');
     if (!b) return;
-    const key = b.dataset.book;
-    if (cart.has(key)) cart.delete(key);
-    else {
-      const c = T[(day + +b.dataset.i) % T.length];
-      cart.set(key, { label: c.n, sub: `${dayName(DAYS[day], day)} ${DAYS[day].getDate()} · ${hh(TIMES[+b.dataset.i])}`, now: DROP_IN, kind: 'cls' });
-    }
-    renderClasses(); renderCart();
-    $(`[data-book="${key}"]`)?.focus();
+    const id = b.dataset.inc || b.dataset.dec;
+    qty[id] = Math.max(0, Math.min(10, qty[id] + (b.dataset.inc ? 1 : -1)));
+    renderRates();
+    $(`[data-${b.dataset.inc ? 'inc' : 'dec'}="${id}"]`).focus();
+  });
+  $('#meal').addEventListener('change', renderRates);
+  $('#addTickets').addEventListener('click', () => {
+    const m = MATCHES[match];
+    const n = Object.values(qty).reduce((a, b) => a + b, 0);
+    if (!n) return;
+    const parts = RATES.filter((r) => qty[r.id]).map((r) => `${qty[r.id]} ${r.n.toLowerCase()}`);
+    cart.set(`t:${match}`, { label: `Billets · contre ${m.vs}`, sub: `${parts.join(', ')} · ${fdate(m.date, { day: 'numeric', month: 'short' })}`, amount: RATES.reduce((a, r) => a + r.p * qty[r.id], 0), kind: 'ticket' });
+    if ($('#meal').checked) cart.set(`meal:${match}`, { label: `Repas d'avant-match × ${n}`, sub: 'Club-house, 12 h', amount: 25 * n, kind: 'ticket' });
+    else cart.delete(`meal:${match}`);
+    renderCart(); openCart();
+  });
+  $('#addSeason').addEventListener('click', () => {
+    cart.set('season', { label: 'Abonnement saison', sub: '11 matchs à domicile, carte nominative', amount: 60, kind: 'ticket' });
+    renderCart(); openCart();
   });
 
-  /* ---------- Formules ---------- */
-  const PLANS = [
-    { id: 'essentiel', n: 'Essentiel', p: 29, items: ['Plateau muscu et cardio', '6 h – 23 h, 7 jours sur 7', 'Application et programme de départ'] },
-    { id: 'illimite', n: 'Illimité', p: 45, best: true, items: ['Tout Essentiel', 'Les 40 cours collectifs inclus', 'Réservation 7 jours à l’avance'] },
-    { id: 'premium', n: 'Premium', p: 69, items: ['Tout Illimité', '1 séance de coaching par mois', 'Serviette et casier inclus'] },
+  /* ---------- Licences ---------- */
+  const CATS = [
+    { id: 'ecole', n: 'École de rugby', a: 'U6 à U14 · 5 à 13 ans', p: 180, pass: true },
+    { id: 'juniors', n: 'Juniors', a: 'U16 et U18 · 14 à 17 ans', p: 220, pass: true },
+    { id: 'feminines', n: 'Féminines', a: 'À partir de 15 ans', p: 200, pass: true },
+    { id: 'seniors', n: 'Seniors', a: 'À partir de 18 ans', p: 260 },
+    { id: 'loisir', n: 'Rugby à 5', a: 'Loisir, mixte, sans plaquage', p: 150 },
   ];
-  let eng = 0;
-  const price = (p) => (eng ? Math.round(p * 0.8) : p);
-  function renderPlans() {
-    const cur = cart.get('plan');
-    $('#plans').innerHTML = PLANS.map((p) => `
-      <article class="plan-c${p.best ? ' is-best' : ''}">
-        ${p.best ? '<span class="plan-tag">Le plus choisi</span>' : ''}
-        <h3>${p.n}</h3>
-        <p class="plan-price"><b>${price(p.p)}&nbsp;€</b><span class="muted">/ mois${eng ? ', 12 mois' : ''}</span></p>
-        <ul class="plan-list">${p.items.map((x) => `<li>${x}</li>`).join('')}</ul>
-        <button type="button" class="btn ${cur?.id === p.id ? '' : 'btn--accent'} btn--full" data-plan="${p.id}" aria-pressed="${cur?.id === p.id}">${cur?.id === p.id ? 'Dans le panier ✓' : `Choisir ${p.n}`}</button>
-      </article>`).join('');
+  let cat = 0, licN = 0;
+  function renderCats() {
+    $('#cats').innerHTML = CATS.map((c, i) => `<button type="button" class="cat" role="radio" aria-checked="${i === cat}" data-cat="${i}">
+      <img src="img/${c.id}-600.webp" alt="" width="600" height="450" loading="lazy" decoding="async">
+      <span class="cat-b"><b>${c.n}</b><span>${c.a}</span><strong>${euro(c.p)} la saison</strong></span></button>`).join('');
+    const c = CATS[cat];
+    $('#passSport').closest('.opt').hidden = !c.pass;
+    if (!c.pass) $('#passSport').checked = false;
+    renderLicSum();
   }
-  $$('[data-eng]').forEach((b) => b.addEventListener('click', () => {
-    eng = +b.dataset.eng;
-    $$('[data-eng]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-    const cur = cart.get('plan');
-    if (cur) { const p = PLANS.find((x) => x.id === cur.id); setPlan(p); }
-    renderPlans(); renderCart();
-  }));
-  function setPlan(p) {
-    cart.set('plan', { id: p.id, label: `Formule ${p.n}`, sub: eng ? 'Engagement 12 mois' : 'Sans engagement, résiliable en ligne', now: price(p.p), monthly: price(p.p), kind: 'plan' });
+  const licPrice = () => CATS[cat].p - ($('#passSport').checked ? 50 : 0);
+  function renderLicSum() {
+    const c = CATS[cat];
+    const name = $('#lName').value.trim();
+    const t = licPrice() + ($('#kit').checked ? 45 : 0);
+    $('#licSum').textContent = `Licence ${c.n}${name ? ` pour ${name}` : ''} : ${euro(t)}${$('#passSport').checked ? ', Pass’Sport déduit' : ''}.`;
   }
-  $('#plans').addEventListener('click', (e) => {
-    const b = e.target.closest('[data-plan]');
-    if (!b) return;
-    const p = PLANS.find((x) => x.id === b.dataset.plan);
-    if (cart.get('plan')?.id === p.id) cart.delete('plan'); else setPlan(p);
-    renderPlans(); renderCart(); renderClasses();
-    $(`[data-plan="${p.id}"]`).focus();
+  $('#cats').addEventListener('click', (e) => { const b = e.target.closest('[data-cat]'); if (b) { cat = +b.dataset.cat; renderCats(); $(`[data-cat="${cat}"]`).focus(); } });
+  $('#cats').addEventListener('keydown', (e) => {
+    const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+    if (!d) return;
+    e.preventDefault(); cat = (cat + d + CATS.length) % CATS.length; renderCats(); $(`[data-cat="${cat}"]`).focus();
   });
-  const EXTRAS = { casier: { label: 'Casier à l’année', now: 5, monthly: 5 }, serviette: { label: 'Serviette fournie', now: 4, monthly: 4 }, bilan: { label: 'Bilan corporel et programme', now: 39 } };
-  $$('.extras input').forEach((i) => i.addEventListener('change', () => {
-    if (i.checked) cart.set(`x:${i.value}`, { ...EXTRAS[i.value], kind: 'extra' }); else cart.delete(`x:${i.value}`);
+  ['#lName', '#passSport', '#kit'].forEach((s) => $(s).addEventListener('input', renderLicSum));
+  $('#addLic').addEventListener('click', () => {
+    const c = CATS[cat];
+    const name = $('#lName').value.trim();
+    licN += 1;
+    cart.set(`lic:${licN}`, { label: `Licence ${c.n}${name ? ` · ${name}` : ''}`, sub: `Saison 2026-2027${$('#passSport').checked ? ' · Pass’Sport −50 €' : ''}`, licBase: licPrice(), amount: licPrice(), kind: 'lic' });
+    if ($('#kit').checked) cart.set(`kit:${licN}`, { label: 'Pack équipement', sub: name ? `Pour ${name}` : 'Maillot, short, chaussettes, sac', amount: 45, kind: 'shop' });
+    $('#lName').value = ''; $('#passSport').checked = false; $('#kit').checked = false;
+    renderLicSum(); renderCart(); openCart();
+  });
+
+  /* ---------- Boutique ---------- */
+  const JERSEY = 'M70 22 40 32 10 62l22 30 20-12v104h96V80l20 12 22-30-30-30-30-10c-8 14-52 14-60 0z';
+  const ART = {
+    maillot: `<svg viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="cj"><path d="${JERSEY}"/></clipPath></defs><path class="fill-a" d="${JERSEY}"/><g clip-path="url(#cj)" class="fill-b"><rect x="0" y="92" width="200" height="22"/><rect x="0" y="136" width="200" height="22"/></g><path class="fill-b" d="M70 22c8 14 52 14 60 0l-6-2c-8 10-40 10-48 0z"/></svg>`,
+    polo: `<svg viewBox="0 0 200 200" aria-hidden="true"><path class="fill-ink" d="${JERSEY}"/><path class="fill-a" d="M70 22c8 14 52 14 60 0l-30 28z"/><rect class="fill-b" x="96" y="44" width="8" height="34"/><path class="fill-a" d="M10 62l22 30 8-5-22-30zM190 62l-22 30-8-5 22-30z"/></svg>`,
+    echarpe: `<svg viewBox="0 0 200 200" aria-hidden="true"><g transform="rotate(-35 100 100)"><rect class="fill-a" x="20" y="80" width="160" height="40"/><g class="fill-b"><rect x="44" y="80" width="18" height="40"/><rect x="91" y="80" width="18" height="40"/><rect x="138" y="80" width="18" height="40"/></g><g class="fill-a"><rect x="8" y="84" width="10" height="3"/><rect x="8" y="94" width="10" height="3"/><rect x="8" y="104" width="10" height="3"/><rect x="8" y="114" width="10" height="3"/><rect x="182" y="84" width="10" height="3"/><rect x="182" y="94" width="10" height="3"/><rect x="182" y="104" width="10" height="3"/><rect x="182" y="114" width="10" height="3"/></g></g></svg>`,
+    ballon: `<svg viewBox="0 0 200 200" aria-hidden="true"><g transform="rotate(-30 100 100)"><ellipse class="fill-b" cx="100" cy="100" rx="88" ry="54" stroke="#14171C" stroke-width="3"/><path class="fill-a" d="M70 50c-10 30-10 70 0 100h18c-10-30-10-70 0-100zM130 50c10 30 10 70 0 100h-18c10-30 10-70 0-100z"/><path d="M100 82v36M92 88h16M92 100h16M92 112h16" stroke="#14171C" stroke-width="3" fill="none"/></g></svg>`,
+  };
+  const ITEMS = [
+    { id: 'maillot', n: 'Maillot domicile', d: 'Cerclé aux couleurs du club, coupe ajustée.', p: 55, sizes: ['8 ans', '12 ans', 'S', 'M', 'L', 'XL'] },
+    { id: 'polo', n: 'Polo du club', d: 'Pour les déplacements et la 3e mi-temps.', p: 38, sizes: ['S', 'M', 'L', 'XL'] },
+    { id: 'echarpe', n: 'Écharpe supporter', d: 'Tricotée, double face.', p: 18 },
+    { id: 'ballon', n: 'Ballon du club', d: 'Taille 4 pour les jeunes, 5 pour les adultes.', p: 25, sizes: ['T4', 'T5'] },
+  ];
+  const size = { maillot: 'M', polo: 'M', ballon: 'T5' };
+  function renderItems() {
+    $('#items').innerHTML = ITEMS.map((it) => `<article class="item">
+      <div class="item-art">${ART[it.id]}</div>
+      <div class="item-body"><h3>${it.n}</h3><p>${it.d}</p>
+        ${it.sizes ? `<div class="sizes" role="radiogroup" aria-label="Taille ${it.n}">${it.sizes.map((s) => `<button type="button" role="radio" aria-checked="${size[it.id] === s}" data-size="${it.id}|${s}">${s}</button>`).join('')}</div>` : ''}
+        <div class="item-foot"><span class="item-price">${euro(it.p)}</span><button type="button" class="add" data-item="${it.id}">Ajouter</button></div></div>
+    </article>`).join('');
+  }
+  $('#items').addEventListener('click', (e) => {
+    const s = e.target.closest('[data-size]');
+    if (s) { const [id, v] = s.dataset.size.split('|'); size[id] = v; renderItems(); $(`[data-size="${id}|${v}"]`).focus(); return; }
+    const b = e.target.closest('[data-item]');
+    if (!b) return;
+    const it = ITEMS.find((x) => x.id === b.dataset.item);
+    const key = `shop:${it.id}:${size[it.id] || ''}`;
+    const cur = cart.get(key);
+    const q = (cur?.q || 0) + 1;
+    cart.set(key, { label: `${q > 1 ? `${q} × ` : ''}${it.n}${size[it.id] ? ` · ${size[it.id]}` : ''}`, sub: 'Retrait au club-house le jour du match', amount: it.p * q, q, kind: 'shop' });
     renderCart();
-  }));
-
-  /* ---------- Coaching ---------- */
-  const PACKS = [{ n: 1, p: 45 }, { n: 5, p: 199 }, { n: 10, p: 360 }];
-  let pack = 1;
-  function renderPacks() {
-    $('#packs').innerHTML = PACKS.map((k, i) => `<button type="button" role="radio" aria-checked="${i === pack}" data-pack="${i}"><b>${k.n} séance${k.n > 1 ? 's' : ''}</b><span>${euro(k.p)}${k.n > 1 ? ` · ${euro(k.p / k.n)} la séance` : ''}</span></button>`).join('');
-    const k = PACKS[pack];
-    $('#packSum').textContent = k.n > 1 ? `Vous économisez ${euro(45 * k.n - k.p)} par rapport à la séance à l'unité.` : 'La première séance comprend un bilan de 15 minutes.';
-  }
-  $('#packs').addEventListener('click', (e) => { const b = e.target.closest('[data-pack]'); if (b) { pack = +b.dataset.pack; renderPacks(); $(`[data-pack="${pack}"]`).focus(); } });
-  $('#addPack').addEventListener('click', () => {
-    const k = PACKS[pack];
-    cart.set('coach', { label: `Coaching · ${k.n} séance${k.n > 1 ? 's' : ''}`, sub: 'Créneau à choisir avec votre coach', now: k.p, kind: 'coach' });
-    renderCart(); openCart();
+    b.textContent = `Ajouté · ${q}`;
   });
 
-  /* ---------- Bar ---------- */
-  const MENU = [
-    { id: 'shake', n: 'Shake protéiné', d: 'Whey, lait d’avoine, banane ou cacao.', p: 4.5 },
-    { id: 'barre', n: 'Barre protéinée', d: 'Chocolat noir et noisettes, 20 g de protéines.', p: 2.9 },
-    { id: 'bowl', n: 'Bowl de récupération', d: 'Quinoa, légumes croquants, graines. Pour après la séance du midi.', p: 8.9 },
+  /* ---------- Partenaires ---------- */
+  const PACKS = [
+    { n: 'Supporter', p: 300, list: ['Logo sur le site et les réseaux', '2 abonnements saison'] },
+    { n: 'Partenaire', p: 900, list: ['Panneau en bord de terrain', 'Logo sur le site', '4 abonnements et 4 repas d’avant-match'] },
+    { n: 'Partenaire majeur', p: 2500, top: true, list: ['Logo sur la manche du maillot seniors', 'Panneau et logo sur le site', '8 abonnements, repas à chaque match'] },
   ];
-  function renderMenu() {
-    $('#menu').innerHTML = MENU.map((m) => {
-      const q = cart.get(`bar:${m.id}`)?.qty || 0;
-      return `<article class="item">
-        <div class="item-img"><img src="img/${m.id}-600.webp" srcset="img/${m.id}-400.webp 400w, img/${m.id}-600.webp 600w" sizes="(min-width: 860px) 33vw, 40vw" alt="" width="600" height="600" loading="lazy" decoding="async"></div>
-        <div class="item-body"><h3>${m.n}</h3><p>${m.d}</p>
-          <div class="item-foot"><span class="item-price">${euro(m.p)}</span><button type="button" class="add" data-bar="${m.id}" data-n="${q}">${q ? `Ajouté · ${q}` : 'Ajouter'}</button></div></div>
-      </article>`;
-    }).join('');
-  }
-  $('#menu').addEventListener('click', (e) => {
-    const b = e.target.closest('[data-bar]');
+  $('#packs').innerHTML = PACKS.map((k, i) => `<article class="pack${k.top ? ' is-top' : ''}">
+    <h3>${k.n}</h3>
+    <p class="pack-price">${euro(k.p)} <small>la saison</small></p>
+    <p class="pack-net">Soit ${euro(k.p * 0.4)} après réduction d'impôt (mécénat)</p>
+    <ul>${k.list.map((x) => `<li>${x}</li>`).join('')}</ul>
+    <button type="button" class="btn ${k.top ? 'btn--accent' : 'btn--line'}" data-pack="${i}">Être rappelé</button>
+  </article>`).join('');
+  $('#packs').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-pack]');
     if (!b) return;
-    const m = MENU.find((x) => x.id === b.dataset.bar);
-    const cur = cart.get(`bar:${m.id}`);
-    cart.set(`bar:${m.id}`, { label: m.n, sub: 'Prêt au bar à la fin de votre séance', now: m.p, qty: (cur?.qty || 0) + 1, kind: 'bar' });
-    renderMenu(); renderCart(); $(`[data-bar="${m.id}"]`).focus();
+    $('#cbT').textContent = `Être rappelé · pack ${PACKS[+b.dataset.pack].n}`;
+    $('#cbForm').hidden = false; $('#cbMsg').textContent = '';
+    $('#cbCo').focus();
+  });
+  $('#cbForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const co = $('#cbCo'), tel = $('#cbTel'), msg = $('#cbMsg');
+    const okC = co.value.trim().length > 1, okT = /^(\+33\s?|0)[1-9](\s?\d{2}){4}$/.test(tel.value.trim());
+    co.setAttribute('aria-invalid', String(!okC)); tel.setAttribute('aria-invalid', String(!okT));
+    if (!okC || !okT) { msg.className = 'form-msg err'; msg.textContent = !okC ? 'Indiquez le nom de votre entreprise.' : 'Indiquez un numéro au format 06 12 34 56 78.'; (!okC ? co : tel).focus(); return; }
+    msg.className = 'form-msg';
+    msg.textContent = `Merci, ${co.value.trim()} : la plaquette part par e-mail et le président vous rappelle sous 48 h (démonstration).`;
   });
 
-  /* ---------- Carte cadeau et parrainage ---------- */
-  const GIFTS = [30, 50, 100];
-  let gift = 1;
-  const renderGifts = () => { $('#gifts').innerHTML = GIFTS.map((g, i) => `<button type="button" role="radio" aria-checked="${i === gift}" data-gift="${i}">${g}&nbsp;€</button>`).join(''); };
-  $('#gifts').addEventListener('click', (e) => { const b = e.target.closest('[data-gift]'); if (b) { gift = +b.dataset.gift; renderGifts(); $(`[data-gift="${gift}"]`).focus(); } });
-  $('#addGift').addEventListener('click', () => {
-    cart.set(`gift:${GIFTS[gift]}`, { label: `Carte cadeau ${GIFTS[gift]} €`, sub: 'Envoyée par e-mail, valable un an', now: GIFTS[gift], qty: (cart.get(`gift:${GIFTS[gift]}`)?.qty || 0) + 1, kind: 'gift' });
+  /* ---------- Don ---------- */
+  const DONS = [20, 50, 100, 200];
+  let don = 1;
+  function renderDons() {
+    $('#gifts').innerHTML = DONS.map((g, i) => `<button type="button" role="radio" aria-checked="${i === don}" data-don="${i}">${g}&nbsp;€</button>`).join('');
+    $('#giveCost').textContent = `Après la réduction d'impôt de 66 %, ce don vous coûte ${euro(DONS[don] * 0.34)}. Reçu fiscal envoyé par e-mail.`;
+  }
+  $('#gifts').addEventListener('click', (e) => { const b = e.target.closest('[data-don]'); if (b) { don = +b.dataset.don; renderDons(); $(`[data-don="${don}"]`).focus(); } });
+  $('#addDon').addEventListener('click', () => {
+    cart.set('don', { label: `Don à l'école de rugby`, sub: `Coût réel ${euro(DONS[don] * 0.34)} après réduction d'impôt`, amount: DONS[don], kind: 'don' });
     renderCart(); openCart();
   });
-  $('#copyRef').addEventListener('click', async () => {
-    const link = `${location.origin}${location.pathname}?parrain=${$('#refCode').textContent}`;
-    try { await navigator.clipboard.writeText(link); $('#refMsg').textContent = 'Lien copié : envoyez-le à votre ami.'; }
-    catch { $('#refMsg').textContent = link; }
-  });
 
-  /* ---------- Essai gratuit ---------- */
-  const TRIAL = [1, 2, 3].map((i) => { const d = new Date(now); d.setDate(d.getDate() + i); return `${i === 1 ? 'Demain' : d.toLocaleDateString('fr-FR', { weekday: 'long' }).replace(/^./, (c) => c.toUpperCase())} ${i === 2 ? '12 h 30' : '18 h'}`; });
-  let tw = 0;
-  const renderTrial = () => { $('#tWhen').innerHTML = TRIAL.map((t, i) => `<button type="button" role="radio" aria-checked="${i === tw}" data-tw="${i}">${t}</button>`).join(''); };
-  $('#tWhen').addEventListener('click', (e) => { const b = e.target.closest('[data-tw]'); if (b) { tw = +b.dataset.tw; renderTrial(); $(`[data-tw="${tw}"]`).focus(); } });
-  $('#trialForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const n = $('#tName'), t = $('#tTel');
-    const okN = n.value.trim().length > 1, okT = /^(\+33\s?|0)[1-9](\s?\d{2}){4}$/.test(t.value.trim());
-    n.setAttribute('aria-invalid', String(!okN)); t.setAttribute('aria-invalid', String(!okT));
-    const msg = $('#tMsg');
-    if (!okN || !okT) { msg.className = 'form-msg err'; msg.textContent = !okN ? 'Indiquez votre prénom.' : 'Indiquez un numéro au format 06 12 34 56 78.'; (!okN ? n : t).focus(); return; }
-    msg.className = 'form-msg';
-    msg.textContent = `C'est noté, ${n.value.trim()} : rendez-vous ${TRIAL[tw].toLowerCase()} à l'accueil. Un SMS de confirmation part tout de suite (démonstration).`;
-  });
-
-  /* ---------- Panier : rendu et tiroir ---------- */
-  const hasCourses = () => ['illimite', 'premium'].includes(cart.get('plan')?.id);
+  /* ---------- Panier ---------- */
+  function lines() {
+    // Remise famille : −20 % sur la licence la moins chère à partir de la deuxième
+    const lics = [...cart].filter(([, v]) => v.kind === 'lic').sort((a, b) => b[1].licBase - a[1].licBase);
+    lics.forEach(([, v], i) => { v.amount = i === 0 ? v.licBase : Math.round(v.licBase * 0.8); });
+    return [...cart];
+  }
   function totals() {
-    let n = 0, t = 0, m = 0;
-    cart.forEach((it) => {
-      const q = it.qty || 1;
-      n += q;
-      const free = it.kind === 'cls' && hasCourses();
-      t += free ? 0 : it.now * q;
-      m += (it.monthly || 0) * q;
-    });
-    return { n, t, m };
+    let n = 0, t = 0, lic = 0;
+    lines().forEach(([, v]) => { n += 1; t += v.amount; if (v.kind === 'lic') lic += v.amount; });
+    const split = $('#split').checked && lic > 0;
+    const third = Math.ceil(lic / 3);
+    return { n, t, lic, split, today: split ? t - lic + third : t, later: split ? (lic - third) / 2 : 0 };
   }
   function renderCart() {
-    $('#cartLines').innerHTML = [...cart].map(([k, it]) => {
-      const q = it.qty || 1;
-      const free = it.kind === 'cls' && hasCourses();
-      return `<li><span>${q > 1 ? `${q} × ` : ''}${it.label}${it.sub ? `<small>${it.sub}</small>` : ''}<button type="button" data-remove="${k}">retirer</button></span><span>${free ? 'inclus' : euro(it.now * q)}${it.monthly ? '<small>1er mois</small>' : ''}</span></li>`;
-    }).join('') || '<li class="muted">Votre panier est vide.</li>';
-    const { n, t, m } = totals();
-    $('#cartNow').textContent = euro(t);
-    $('#cartMonthly').textContent = m ? `Puis ${euro(m)} par mois, prélevés le 1er. Frais d'inscription offerts en ligne.` : '';
-    $('#pay').disabled = n === 0;
-    $('#cCount').textContent = n;
-    $('#cTotal').textContent = euro(t);
-    $('#cartBtn').hidden = n === 0 || !$('#cart').hidden;
+    $('#cartLines').innerHTML = lines().map(([k, v]) => `<li><span>${v.label}${v.sub ? `<small>${v.sub}</small>` : ''}<button type="button" data-remove="${k}">retirer</button></span><span>${v.kind === 'lic' && v.amount !== v.licBase ? `<s>${euro(v.licBase)}</s> ` : ''}${v.amount ? euro(v.amount) : 'gratuit'}${v.kind === 'lic' && v.amount !== v.licBase ? '<small>remise famille</small>' : ''}</span></li>`).join('') || '<li class="muted">Votre panier est vide.</li>';
+    const T = totals();
+    $('#splitBox').hidden = T.lic === 0;
+    $('#cartNow').textContent = euro(T.today);
+    const notes = [];
+    if (T.split) notes.push(`Puis 2 × ${euro(T.later)} le 5 des deux mois suivants, sans frais.`);
+    if (cart.has('don')) notes.push('Le reçu fiscal du don arrive par e-mail.');
+    $('#cartNote').textContent = notes.join(' ');
+    $('#pay').disabled = T.n === 0;
+    $('#cCount').textContent = T.n;
+    $('#cTotal').textContent = euro(T.today);
+    $('#cartBtn').hidden = T.n === 0 || !$('#cart').hidden;
   }
+  $('#split').addEventListener('change', renderCart);
   let lastFocus = null;
   function openCart() {
     lastFocus = document.activeElement;
@@ -228,7 +241,7 @@
     $('#cartBtn').setAttribute('aria-expanded', 'false');
     if (!$('#cartDone').hidden) { $('#cartDone').hidden = true; $('#cartForm').hidden = false; }
     renderCart();
-    (lastFocus && document.contains(lastFocus) && lastFocus !== document.body ? lastFocus : $('#contenu')).focus?.();
+    if (lastFocus && document.contains(lastFocus) && lastFocus !== document.body) lastFocus.focus();
   }
   $('#cartBtn').addEventListener('click', openCart);
   $('#cartClose').addEventListener('click', closeCart);
@@ -243,36 +256,33 @@
   $('#cartLines').addEventListener('click', (e) => {
     const b = e.target.closest('[data-remove]');
     if (!b) return;
-    const k = b.dataset.remove;
-    cart.delete(k);
-    if (k.startsWith('x:')) $(`.extras input[value="${k.slice(2)}"]`).checked = false;
-    renderAll();
+    cart.delete(b.dataset.remove);
+    renderCart(); renderItems();
     $('#cartClose').focus();
   });
   $('#pay').addEventListener('click', () => {
-    const { n, t, m } = totals();
-    if (!n) return;
+    const T = totals();
+    if (!T.n) return;
+    const kinds = new Set([...cart.values()].map((v) => v.kind));
     const bits = [];
-    if (cart.has('plan')) bits.push('Votre badge d’accès est activé dans l’application : présentez-le à l’entrée.');
-    if ([...cart.values()].some((x) => x.kind === 'cls')) bits.push('Vos places aux cours sont réservées, un rappel vous arrive 2 h avant.');
-    if ([...cart.keys()].some((k) => k.startsWith('bar:'))) bits.push('Votre commande vous attend au bar à la fin de la séance.');
-    if (cart.has('coach')) bits.push('Votre coach vous écrit sous 24 h pour fixer le premier créneau.');
-    if ([...cart.keys()].some((k) => k.startsWith('gift:'))) bits.push('La carte cadeau part par e-mail avec votre message.');
-    $('#doneT').textContent = `Paiement de ${euro(t)} validé`;
-    $('#doneTxt').textContent = `${bits.join(' ')}${m ? ` Prochain prélèvement : ${euro(m)} le 1er du mois.` : ''} (Démonstration : aucun débit.)`;
-    cart.clear();
-    $$('.extras input').forEach((i) => { i.checked = false; });
+    if (kinds.has('ticket')) bits.push('Vos billets arrivent par e-mail avec un QR code, à présenter à l’entrée.');
+    if (kinds.has('lic')) bits.push('Le secrétariat vous envoie le lien pour déposer le certificat médical et la photo.');
+    if (kinds.has('shop')) bits.push('Vos articles vous attendent au club-house le jour du match.');
+    if (kinds.has('don')) bits.push('Merci pour l’école de rugby, le reçu fiscal suit.');
+    $('#doneT').textContent = `Paiement de ${euro(T.today)} validé`;
+    $('#doneTxt').textContent = `${bits.join(' ')}${T.split ? ` Prochaines échéances : 2 × ${euro(T.later)}.` : ''} (Démonstration : aucun débit.)`;
+    cart.clear(); $('#split').checked = false;
     $('#cartForm').hidden = true; $('#cartDone').hidden = false;
-    renderAll();
+    renderCart(); renderItems();
     $('#again').focus();
   });
   $('#again').addEventListener('click', closeCart);
-  function renderAll() { renderClasses(); renderPlans(); renderMenu(); renderCart(); }
 
   /* ---------- Personnalisation ---------- */
-  const DEF = { nom: 'Halle 9', accent: '2B3FE0' };
+  const DEF = { nom: 'Union Rugby des Berges', accent: '8C1D2C', c2: 'F4EFE6' };
   const p = new URLSearchParams(location.search);
-  const st = { nom: (p.get('nom') || DEF.nom).slice(0, 24), accent: /^[0-9a-f]{6}$/i.test(p.get('accent') || '') ? p.get('accent').toUpperCase() : DEF.accent };
+  const hex = (k) => (/^[0-9a-f]{6}$/i.test(p.get(k) || '') ? p.get(k).toUpperCase() : DEF[k]);
+  const st = { nom: (p.get('nom') || DEF.nom).slice(0, 32), accent: hex('accent'), c2: hex('c2') };
   if (p.get('presentation') === '1') root.classList.add('is-presentation');
   const lum = (h) => {
     const c = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
@@ -284,14 +294,19 @@
     if (pres) q.set('presentation', '1');
     return `${location.pathname}${q.toString() ? `?${q}` : ''}`;
   };
+  const sigle = (n) => {
+    const w = n.split(/[\s'’-]+/).filter((x) => x.length > 2 || /^[A-Z]{2,}$/.test(x));
+    return (w.length > 1 ? w.map((x) => x[0]).join('') : n.replace(/\s/g, '')).slice(0, 3).toUpperCase();
+  };
   function apply(push = true) {
     $$('[data-bind="nom"]').forEach((el) => { el.textContent = st.nom; });
-    document.title = `${st.nom} · Club de sport`;
-    $('#refCode').textContent = `${st.nom.toUpperCase().replace(/[^A-Z0-9]+/g, '')}-CAMILLE`;
+    $$('[data-bind="sigle"]').forEach((el) => { el.textContent = sigle(st.nom); });
+    document.title = `${st.nom} · Club de rugby`;
     root.style.setProperty('--accent', `#${st.accent}`);
+    root.style.setProperty('--c2', `#${st.c2}`);
     const L = lum(st.accent);
-    root.style.setProperty('--on-accent', 1.05 / (L + 0.05) >= (L + 0.05) / 0.05 ? '#FFFFFF' : '#101317');
-    $('#czNom').value = st.nom; $('#czAccent').value = `#${st.accent}`;
+    root.style.setProperty('--on-accent', 1.05 / (L + 0.05) >= (L + 0.05) / 0.05 ? '#FFFFFF' : '#14171C');
+    $('#czNom').value = st.nom; $('#czAccent').value = `#${st.accent}`; $('#czC2').value = `#${st.c2}`;
     if (push) history.replaceState(null, '', url(false));
   }
   const czBtn = $('#czBtn'), cz = $('#cz');
@@ -300,7 +315,8 @@
   $('#czClose').addEventListener('click', () => { setCz(false); czBtn.focus(); });
   $('#czNom').addEventListener('input', (e) => { st.nom = e.target.value.trim() || DEF.nom; apply(); });
   $('#czAccent').addEventListener('input', (e) => { st.accent = e.target.value.slice(1).toUpperCase(); apply(); });
-  $('#czReset').addEventListener('click', () => { Object.assign(st, DEF); apply(); $('#czStatus').textContent = 'Version Halle 9 rétablie.'; });
+  $('#czC2').addEventListener('input', (e) => { st.c2 = e.target.value.slice(1).toUpperCase(); apply(); });
+  $('#czReset').addEventListener('click', () => { Object.assign(st, DEF); apply(); $('#czStatus').textContent = 'Version Union Rugby des Berges rétablie.'; });
   $('#czCopy').addEventListener('click', async () => {
     const link = new URL(url(true), location.href).href;
     try { await navigator.clipboard.writeText(link); $('#czStatus').textContent = 'Lien copié : il s’ouvre sans ce panneau.'; }
@@ -312,7 +328,6 @@
     else if (!cz.hidden) { setCz(false); czBtn.focus(); }
   });
 
-  renderDays(); renderPacks(); renderGifts(); renderTrial();
-  renderAll();
+  renderMatches(); renderRates(); renderCats(); renderItems(); renderDons(); renderCart();
   apply(false);
 })();
