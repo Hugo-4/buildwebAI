@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>L'Épicerie Jaune · Épicerie et primeur de quartier</title>
+  <meta name="description" content="L'Épicerie Jaune : fruits et légumes de saison, épicerie fine, crèmerie, cave et cuisine à emporter. Le menu du jour mis à jour chaque matin.">
+  <meta name="theme-color" content="#FDC633">
+  <link rel="icon" href="img/fruit-pomme.webp" type="image/webp">
+  <meta property="og:title" content="L'Épicerie Jaune">
+  <meta property="og:description" content="Primeur, épicerie, crèmerie, cave et cuisine à emporter. Votre épicerie de quartier.">
+  <meta property="og:image" content="img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Gochi+Hand&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="img/perso.webp">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <div class="hd-in">
+      <a class="hd-logo" href="#top" aria-label="L'Épicerie Jaune, retour en haut">
+        <img src="img/logo.webp" alt="L'Épicerie Jaune" width="900" height="484">
+      </a>
+      <nav class="hd-nav" aria-label="Navigation principale">
+        <a href="#menu">Menu du jour</a>
+        <a href="#saison">De saison</a>
+        <a href="#rayons">Les rayons</a>
+        <a href="#paniers">Paniers</a>
+        <a href="#infos" class="btn btn--ink btn--sm">Nous trouver</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="hero-pattern" aria-hidden="true"></div>
+      <div class="hero-in">
+        <div class="hero-txt">
+          <p class="eyebrow">Épicerie &amp; primeur de quartier</p>
+          <h1 class="display">Le marché,<br><span>en bas de</span><br><span>chez vous.</span></h1>
+          <p class="hand hero-hand">primeur · épicerie · crèmerie · cave · cuisine à emporter</p>
+          <div class="hero-cta">
+            <a href="#menu" class="btn btn--yellow">Voir le menu du jour</a>
+            <a href="#infos" class="btn btn--ghost">Horaires &amp; adresse</a>
+          </div>
+          <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="status-txt">Horaires : lun–ven 8h–19h30, sam 9h–19h30, dim 9h–13h</span></p>
+        </div>
+        <div class="hero-perso">
+          <img src="img/perso.webp" alt="Le personnage de L'Épicerie Jaune, bonnet sur la tête, porte deux cagettes de légumes" width="640" height="1384" fetchpriority="high">
+          <img class="float f1" src="img/fruit-poire.webp" alt="" width="240" height="342">
+          <img class="float f2" src="img/fruit-agrume.webp" alt="" width="240" height="240">
+          <img class="float f3" src="img/fruit-fraise.webp" alt="" width="240" height="312">
+        </div>
+      </div>
+    </section>
+
+    <!-- Bandeau défilant -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Fruits &amp; légumes de saison</span><img src="img/fruit-pomme.webp" alt=""><span>Épicerie fine</span><img src="img/fruit-citron.webp" alt=""><span>Crèmerie</span><img src="img/fruit-oignon.webp" alt=""><span>Cave</span><img src="img/fruit-poire.webp" alt=""><span>Cuisine à emporter</span><img src="img/fruit-fraise.webp" alt="">
+        <span>Fruits &amp; légumes de saison</span><img src="img/fruit-pomme.webp" alt=""><span>Épicerie fine</span><img src="img/fruit-citron.webp" alt=""><span>Crèmerie</span><img src="img/fruit-oignon.webp" alt=""><span>Cave</span><img src="img/fruit-poire.webp" alt=""><span>Cuisine à emporter</span><img src="img/fruit-fraise.webp" alt="">
+      </div>
+    </div>
+
+    <!-- Menu du jour -->
+    <section class="menu" id="menu">
+      <div class="wrap menu-in">
+        <div class="menu-head">
+          <p class="eyebrow eyebrow--yellow">Cuisine à emporter</p>
+          <h2 class="display">Le menu<br><span>du jour</span></h2>
+          <p class="menu-intro">Préparé ici chaque matin, à emporter dès 11 h 30. L'ardoise de la boutique et cette page disent la même chose : elle est mise à jour à partir de sa photo.</p>
+        </div>
+        <div class="ardoise">
+          <p class="ardoise-date hand" id="menu-date">Menu du jour</p>
+          <ul class="ardoise-list" id="menu-plats">
+            <li><span class="plat">Soupe de saison</span></li>
+            <li><span class="plat">Quiche maison</span></li>
+            <li><span class="plat">Salade du marché</span></li>
+            <li><span class="plat">Plat du jour</span></li>
+            <li><span class="plat">Dessert maison</span></li>
+          </ul>
+          <p class="ardoise-note" id="menu-note" hidden></p>
+          <p class="ardoise-maj" id="menu-maj"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- De saison -->
+    <section class="saison" id="saison">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Arrivages</p>
+          <h2 class="display">Cette semaine,<br><span class="rouille">sur les étals</span></h2>
+          <p class="sec-lead">On choisit les fruits et les légumes au fil des saisons. Voici ce qui vient d'arriver.</p>
+        </div>
+        <ul class="arrivages" id="arrivages">
+          <li class="arr"><img src="img/fruit-poire.webp" alt="" width="240" height="342"><h3>Poires</h3><p>Conférence et williams</p></li>
+          <li class="arr"><img src="img/fruit-pomme.webp" alt="" width="240" height="304"><h3>Pommes</h3><p>Reinette et golden</p></li>
+          <li class="arr"><img src="img/fruit-agrume.webp" alt="" width="240" height="240"><h3>Clémentines</h3><p>Les premières de la saison</p></li>
+          <li class="arr"><img src="img/fruit-oignon.webp" alt="" width="240" height="251"><h3>Oignons</h3><p>Rosés et jaunes</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Rayons -->
+    <section class="rayons" id="rayons">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Les rayons</p>
+          <h2 class="display">Tout pour<br><span class="rouille">bien manger</span></h2>
+        </div>
+        <div class="rayon-grid">
+          <article class="rayon r-primeur">
+            <img src="img/fruit-pomme.webp" alt="" width="240" height="304">
+            <h3>Primeur</h3>
+            <p>Fruits et légumes de saison, choisis chaque semaine. Le cœur de la boutique.</p>
+          </article>
+          <article class="rayon r-epicerie">
+            <img src="img/fruit-citron.webp" alt="" width="240" height="369">
+            <h3>Épicerie fine</h3>
+            <p>Huiles, conserves, pâtes, biscuits : les bons produits du placard.</p>
+          </article>
+          <article class="rayon r-cremerie">
+            <img src="img/fruit-oignon.webp" alt="" width="240" height="251">
+            <h3>Crèmerie</h3>
+            <p>Fromages à la coupe, beurre, crème et yaourts.</p>
+          </article>
+          <article class="rayon r-cave">
+            <img src="img/fruit-fraise.webp" alt="" width="240" height="312">
+            <h3>Cave</h3>
+            <p>Une sélection de vins et de boissons pour accompagner le repas.</p>
+          </article>
+          <article class="rayon r-cuisine">
+            <img src="img/fruit-poire.webp" alt="" width="240" height="342">
+            <h3>Cuisine à emporter</h3>
+            <p>Soupe, quiche, salade et plat du jour, cuisinés avec les produits du rayon primeur.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paniers -->
+    <section class="paniers" id="paniers">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Paniers</p>
+          <h2 class="display">Des paniers<br><span>tout prêts</span></h2>
+          <p class="sec-lead">Préparés en boutique avec les produits du moment. Demandez-les au comptoir.</p>
+        </div>
+        <div class="panier-grid">
+          <article class="panier">
+            <p class="hand">pour la semaine</p>
+            <h3>Le panier de saison</h3>
+            <p>Fruits et légumes du moment, de quoi cuisiner toute la semaine.</p>
+          </article>
+          <article class="panier panier--rouille">
+            <p class="hand">pour l'apéro</p>
+            <h3>Le plateau crèmerie</h3>
+            <p>Fromages de la crèmerie, à partager avec une bouteille de la cave.</p>
+          </article>
+          <article class="panier panier--paille">
+            <p class="hand">pour faire plaisir</p>
+            <h3>Le panier cadeau</h3>
+            <p>Épicerie fine et douceurs, composé avec vous en boutique.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Histoire -->
+    <section class="histoire" id="histoire">
+      <div class="wrap histoire-in">
+        <img class="histoire-perso" src="img/perso.webp" alt="" width="640" height="1384" loading="lazy">
+        <div>
+          <p class="eyebrow">Notre histoire</p>
+          <h2 class="display">Une épicerie<br><span class="rouille">de quartier</span></h2>
+          <!-- À remplacer par l'histoire du gérant (voir QUESTIONS-CLIENT.md) -->
+          <p class="histoire-txt">L'Épicerie Jaune, c'est une boutique au coin de la rue où l'on vient chercher ses légumes, son fromage et son déjeuner. On y choisit les produits avec soin, on y cuisine chaque matin, et on prend le temps de se dire bonjour.</p>
+          <p class="hand histoire-sign">L'équipe de L'Épicerie Jaune</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Infos pratiques -->
+    <section class="infos" id="infos">
+      <div class="wrap infos-in">
+        <div class="infos-txt">
+          <p class="eyebrow">Infos pratiques</p>
+          <h2 class="display">Venez<br><span>nous voir</span></h2>
+          <table class="horaires" aria-label="Horaires d'ouverture">
+            <tbody>
+              <tr data-days="1,2,3,4,5"><th scope="row">Lundi – vendredi</th><td>8h00 – 19h30</td></tr>
+              <tr data-days="6"><th scope="row">Samedi</th><td>9h00 – 19h30</td></tr>
+              <tr data-days="0"><th scope="row">Dimanche</th><td>9h00 – 13h00</td></tr>
+            </tbody>
+          </table>
+          <!-- TODO : adresse exacte et téléphone du client -->
+          <address class="adresse">
+            <strong>L'Épicerie Jaune</strong><br>
+            <span data-todo>Adresse à compléter</span>
+          </address>
+          <div class="hero-cta">
+            <a class="btn btn--ink" href="https://www.google.com/maps/search/?api=1&amp;query=L%27%C3%89picerie+Jaune" target="_blank" rel="noopener">Itinéraire</a>
+          </div>
+        </div>
+        <figure class="infos-photo">
+          <img src="img/facade.webp" alt="La façade de L'Épicerie Jaune, store jaune au coin de la rue" width="900" height="726" loading="lazy">
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <img src="img/logo.webp" alt="L'Épicerie Jaune" width="900" height="484" loading="lazy">
+      <p class="hand">Épicerie de quartier</p>
+      <p class="ft-small">© <span id="annee">2026</span> L'Épicerie Jaune · Site réalisé par <a href="https://buildwebia.com" target="_blank" rel="noopener">Build Web AI</a></p>
+    </div>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
