@@ -53,6 +53,15 @@
         ],
         "createdAt": "2026-11-21T15:12:07.600Z",
         "reason": "faux positif statique : .shelf et .cc sont des fonds pleine largeur dont l'enfant .wrap a max(20px,4vw) de marge latérale et clamp(72px…) en vertical, vérifié au rendu 390/1440"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "demo/sport/index.html"
+        ],
+        "createdAt": "2026-11-21T17:37:06.643Z",
+        "reason": "faux positif statique : sections pleine largeur avec enfant .wrap (max(20px,4vw)) et cartes .gift/.refer en padding clamp(24px…) ; détecteur au rendu propre en 390/1440"
       }
     ]
   }
