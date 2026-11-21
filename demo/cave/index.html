@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cave Ondine · Vins en Click &amp; Collect à Lyon</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un caviste fictif en Click & Collect pour montrer ce que nous pouvons construire pour votre cave.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%237A2235'/%3E%3Ctext x='24' y='32' font-family='Georgia,serif' font-style='italic' font-size='22' text-anchor='middle' fill='%23FFFFFF'%3EO%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital@0;1&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <div class="wrap hd-in">
+      <a class="logo" href="#top" data-bind="nom">Cave Ondine</a>
+      <nav class="hd-nav" aria-label="Navigation">
+        <a href="#vins">Les vins</a>
+        <a href="#retrait">Retrait en cave</a>
+      </nav>
+      <a class="hd-cart" href="#panier">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg>
+        <span>Panier · <span id="hdCount">0</span></span>
+      </a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section class="wrap hero" id="top">
+      <div class="hero-txt">
+        <h1>Commandez vos vins en ligne, récupérez-les en cave.</h1>
+        <p class="lead">Choisissez vos bouteilles, un créneau, et passez les prendre rue Saint-Jean. Elles vous attendent, prêtes, en une heure.</p>
+        <a href="#vins" class="btn btn--accent">Choisir mes vins</a>
+        <ul class="facts"><li>Prêt en 1&nbsp;h</li><li>Sans frais de retrait</li><li>Payé en ligne ou en cave</li></ul>
+      </div>
+      <div class="hero-img"><img src="img/rouge-1200.webp" srcset="img/rouge-700.webp 700w, img/rouge-1200.webp 1200w" sizes="(min-width: 900px) 50vw, 100vw" alt="Un vin rouge versé dans un verre à pied" width="1200" height="1500" fetchpriority="high"></div>
+    </section>
+
+    <section class="shop-band" id="vins">
+      <div class="wrap shop">
+        <div class="shop-list">
+          <div class="shop-head">
+            <h2>Les vins</h2>
+            <div class="chips" role="group" aria-label="Filtrer par couleur" id="filters">
+              <button type="button" aria-pressed="true" data-filter="Tous">Tous</button>
+              <button type="button" aria-pressed="false" data-filter="Rouge">Rouge</button>
+              <button type="button" aria-pressed="false" data-filter="Blanc">Blanc</button>
+              <button type="button" aria-pressed="false" data-filter="Rosé">Rosé</button>
+              <button type="button" aria-pressed="false" data-filter="Bulles">Bulles</button>
+            </div>
+          </div>
+          <ul class="wines" id="wines" aria-live="polite"></ul>
+        </div>
+
+        <aside class="cart" id="panier" aria-label="Votre panier">
+          <div id="cartForm">
+            <h3>Votre panier</h3>
+            <p class="cart-empty" id="cartEmpty">Ajoutez une bouteille pour choisir votre créneau de retrait.</p>
+            <ul class="cart-lines" id="cartLines"></ul>
+            <p class="cart-total"><span>Total</span><b id="cartTotal">0,00&nbsp;€</b></p>
+            <div class="slots">
+              <span class="slots-t" id="slotsT">Retrait en cave</span>
+              <div class="chips" role="group" aria-labelledby="slotsT" id="slots">
+                <button type="button" aria-pressed="true" data-slot="aujourd'hui à 18 h">Aujourd'hui à 18&nbsp;h</button>
+                <button type="button" aria-pressed="false" data-slot="demain à 11 h">Demain à 11&nbsp;h</button>
+                <button type="button" aria-pressed="false" data-slot="demain à 17 h">Demain à 17&nbsp;h</button>
+              </div>
+            </div>
+            <button type="button" class="btn btn--accent btn--full" id="order">Commander pour le retrait</button>
+          </div>
+          <div id="cartDone" hidden>
+            <span class="done-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7.5"></path></svg></span>
+            <h3 id="doneT">Commande prête</h3>
+            <p id="doneTxt"></p>
+            <button type="button" class="btn btn--line" id="again">Nouvelle commande</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="wrap steps-sec">
+      <h2>Le Click &amp; Collect, en trois temps</h2>
+      <ol class="steps">
+        <li><b>1. Vous choisissez</b><span>Vos bouteilles et un créneau, le jour même ou les jours suivants.</span></li>
+        <li><b>2. Nous préparons</b><span>Votre commande est mise de côté, et un SMS vous prévient quand elle est prête.</span></li>
+        <li><b>3. Vous passez la prendre</b><span>Rue Saint-Jean, sans attendre au comptoir. Payée en ligne ou sur place.</span></li>
+      </ol>
+    </section>
+
+    <section class="retrait" id="retrait">
+      <div class="wrap hero">
+        <div class="retrait-img"><img src="img/rayon-1400.webp" srcset="img/rayon-800.webp 800w, img/rayon-1400.webp 1400w" sizes="(min-width: 900px) 50vw, 100vw" alt="Les bouteilles alignées sur les étagères de la cave" width="1400" height="933" loading="lazy" decoding="async"></div>
+        <div class="retrait-txt">
+          <h2>Retrait en cave</h2>
+          <dl>
+            <div><dt>Adresse</dt><dd>Rue Saint-Jean, Lyon 5<sup>e</sup></dd></div>
+            <div><dt>Horaires de retrait</dt><dd>Du mardi au samedi, 10&nbsp;h – 20&nbsp;h</dd></div>
+            <div><dt>Contact</dt><dd><a href="mailto:cave@cave-ondine.example">cave@cave-ondine.example</a></dd></div>
+          </dl>
+          <a href="https://www.google.com/maps/search/?api=1&query=Rue+Saint-Jean+Lyon" class="btn btn--line" rel="noopener">Voir l'itinéraire</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <span class="logo" data-bind="nom">Cave Ondine</span>
+      <span>L'abus d'alcool est dangereux pour la santé, à consommer avec modération. Vente interdite aux mineurs.</span>
+    </div>
+    <p class="wrap ft-credit">Caviste fictif · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <!-- Barre panier (mobile) -->
+  <a class="m-cart" href="#panier" id="mCart" hidden><span id="mCount">0</span> bouteilles · <b id="mTotal">0,00&nbsp;€</b><span class="m-go">Voir le panier</span></a>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs de la cave</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom de la cave</span><input type="text" id="czNom" maxlength="28"></label>
+    <label class="cz-f"><span>Couleur principale</span><input type="color" id="czAccent"></label>
+    <button type="button" class="btn btn--cz btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir à Cave Ondine</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

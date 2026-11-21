@@ -107,3 +107,10 @@ Le même zip contient un dossier `fast-food/` : https://demo.buildwebia.com/fast
 
 - Personnalisation par l'adresse : `?nom=Burger%20Bros&c1=1B4332&c2=E9C46A&presentation=1`
   - `c1` : couleur principale (logo, footer), `c2` : couleur d'accent (boutons, écriture manuscrite), en hexadécimal sans le #
+
+### Démo hôtel et démo caviste
+
+Le même zip contient aussi :
+
+- `hotel/` : https://demo.buildwebia.com/hotel/ (hôtel fictif Maison Sauvelune : réservation directe avec calcul du séjour, chambres, conciergerie IA de démonstration). Personnalisation : `?nom=…&lieu=…&accent=2E4A45&fond=pierre|blanc|sable|nuit&presentation=1`
+- `cave/` : https://demo.buildwebia.com/cave/ (caviste fictif Cave Ondine en Click & Collect : filtres, panier, créneaux de retrait). Personnalisation : `?nom=…&accent=7A2235&presentation=1`

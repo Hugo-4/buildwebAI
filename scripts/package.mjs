@@ -51,15 +51,17 @@ for (const f of ['style.css', 'app.js']) {
   writeFileSync(join(DEMO, f), code);
 }
 writeFileSync(join(DEMO, 'index.html'), readFileSync('demo/index.html', 'utf8').replace(/((?:href|src)="(?:style\.css|app\.js))"/g, `$1?v=${version}"`));
-// Démo fast-food : demo.buildwebia.com/fast-food/
-const FF = join(DEMO, 'fast-food');
-mkdirSync(FF, { recursive: true });
-cpSync('demo/fast-food/img', join(FF, 'img'), { recursive: true });
-for (const f of ['style.css', 'app.js']) {
-  const { code } = transformSync(readFileSync(join('demo/fast-food', f), 'utf8'), { loader: f.endsWith('.js') ? 'js' : 'css', minify: true, target: f.endsWith('.js') ? 'es2019' : 'chrome90' });
-  writeFileSync(join(FF, f), code);
+// Sous-démos : demo.buildwebia.com/fast-food/, /hotel/, /cave/
+for (const sub of ['fast-food', 'hotel', 'cave']) {
+  const SRC = join('demo', sub), OUTD = join(DEMO, sub);
+  mkdirSync(OUTD, { recursive: true });
+  cpSync(join(SRC, 'img'), join(OUTD, 'img'), { recursive: true });
+  for (const f of ['style.css', 'app.js']) {
+    const { code } = transformSync(readFileSync(join(SRC, f), 'utf8'), { loader: f.endsWith('.js') ? 'js' : 'css', minify: true, target: f.endsWith('.js') ? 'es2019' : 'chrome90' });
+    writeFileSync(join(OUTD, f), code);
+  }
+  writeFileSync(join(OUTD, 'index.html'), readFileSync(join(SRC, 'index.html'), 'utf8').replace(/((?:href|src)="(?:style\.css|app\.js))"/g, `$1?v=${version}"`));
 }
-writeFileSync(join(FF, 'index.html'), readFileSync('demo/fast-food/index.html', 'utf8').replace(/((?:href|src)="(?:style\.css|app\.js))"/g, `$1?v=${version}"`));
 execSync('zip -q -r -9 ../buildwebai-demo.zip .', { cwd: DEMO });
 
 const size = (dir) => readdirSync(dir).reduce((n, f) => {

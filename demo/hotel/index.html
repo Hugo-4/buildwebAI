@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Maison Sauvelune · Hôtel au bord du lac d'Annecy</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un hôtel fictif pour montrer ce que nous pouvons construire pour votre établissement.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F5F2EC">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%232E4A45'/%3E%3Ctext x='24' y='32' font-family='Georgia,serif' font-size='22' text-anchor='middle' fill='%23F5F2EC'%3ES%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="img/hero-1920.webp" imagesrcset="img/hero-960.webp 960w, img/hero-1920.webp 1920w" imagesizes="100vw">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <nav class="hd-left" aria-label="Navigation principale">
+      <a href="#chambres">Chambres</a>
+      <a href="#table">La table</a>
+      <a href="#spa">Spa</a>
+    </nav>
+    <a class="logo" href="#top" aria-label="Retour en haut de page">
+      <span class="logo-name" data-bind="nom">Maison Sauvelune</span>
+      <span class="logo-sub">Hôtel · <span data-bind="lieu">Lac d'Annecy</span></span>
+    </a>
+    <div class="hd-right">
+      <a class="hd-lang" href="#top" aria-label="Version anglaise (démo)">EN</a>
+      <a href="#reserver" class="btn btn--accent btn--sm">Réserver</a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero + réservation directe -->
+    <section class="hero" id="top">
+      <img class="hero-bg" src="img/hero-1920.webp" srcset="img/hero-960.webp 960w, img/hero-1920.webp 1920w" sizes="100vw" alt="Un lit dressé sur une terrasse face au lac et aux montagnes" width="1920" height="1080" fetchpriority="high">
+      <div class="hero-in">
+        <h1 class="hero-title">Vingt-quatre chambres face au lac, et le temps de les habiter.</h1>
+        <p class="hero-sub">Une maison de famille sur la rive est du lac d'Annecy, entre les alpages et l'eau.</p>
+      </div>
+      <form class="book" id="reserver" aria-label="Vérifier les disponibilités">
+        <label class="book-f"><span>Arrivée</span><input type="date" id="bkIn" required></label>
+        <label class="book-f"><span>Départ</span><input type="date" id="bkOut" required></label>
+        <label class="book-f"><span>Voyageurs</span>
+          <select id="bkGuests"><option value="1">1 adulte</option><option value="2" selected>2 adultes</option><option value="3">2 adultes, 1 enfant</option><option value="4">2 adultes, 2 enfants</option></select>
+        </label>
+        <button type="submit" class="btn btn--accent">Voir les disponibilités</button>
+        <p class="book-err" id="bkErr" hidden>La date de départ doit suivre la date d'arrivée.</p>
+      </form>
+    </section>
+
+    <!-- Réservation directe -->
+    <section class="perks" aria-label="Avantages de la réservation directe">
+      <p class="perks-t">Réservez en direct, c'est toujours mieux.</p>
+      <ul>
+        <li>Meilleur tarif garanti</li>
+        <li>Petit-déjeuner offert</li>
+        <li>Annulation gratuite jusqu'à 48&nbsp;h</li>
+        <li>Paiement sécurisé à l'hôtel</li>
+      </ul>
+    </section>
+
+    <!-- La maison -->
+    <section class="split" id="maison">
+      <div class="split-txt">
+        <h2 class="h2">Une maison, pas un hôtel de plus.</h2>
+        <p>Construite en 1911 par un marchand de soie lyonnais, la maison a gardé ses parquets, ses volets bleus et son ponton. Nous l'avons ouverte à vingt-quatre chambres, pas une de plus, pour que chacun garde sa vue sur le lac.</p>
+        <a href="#chambres" class="tlink">Découvrir les chambres</a>
+      </div>
+      <div class="split-img"><img src="img/lac-1200.webp" srcset="img/lac-700.webp 700w, img/lac-1200.webp 1200w" sizes="(min-width: 900px) 50vw, 100vw" alt="Le ponton en bois sur le lac au petit matin" width="1200" height="1500" loading="lazy" decoding="async"></div>
+    </section>
+
+    <!-- Chambres -->
+    <section class="rooms" id="chambres">
+      <div class="rooms-head">
+        <h2 class="h2">Les chambres</h2>
+        <p>Toutes ont une literie de 180, une salle de bains en pierre et le Wi-Fi. Le reste dépend de la vue.</p>
+      </div>
+      <div class="rooms-grid">
+        <article class="room">
+          <div class="room-img"><img src="img/classique-1200.webp" srcset="img/classique-700.webp 700w, img/classique-1200.webp 1200w" sizes="(min-width: 900px) 33vw, 100vw" alt="Chambre classique, lit capitonné et fenêtres sur le jardin" width="1200" height="900" loading="lazy" decoding="async"></div>
+          <h3 class="h3">Classique</h3>
+          <p class="room-meta">22 m² · vue jardin · 2 personnes</p>
+          <p class="room-price">à partir de <b>165&nbsp;€</b> la nuit</p>
+          <button type="button" class="btn btn--line" data-room="classique">Réserver cette chambre</button>
+        </article>
+        <article class="room">
+          <div class="room-img"><img src="img/superieure-1200.webp" srcset="img/superieure-700.webp 700w, img/superieure-1200.webp 1200w" sizes="(min-width: 900px) 33vw, 100vw" alt="Chambre supérieure avec canapé et rideaux en velours" width="1200" height="900" loading="lazy" decoding="async"></div>
+          <h3 class="h3">Supérieure vue lac</h3>
+          <p class="room-meta">28 m² · balcon sur le lac · 2 personnes</p>
+          <p class="room-price">à partir de <b>215&nbsp;€</b> la nuit</p>
+          <button type="button" class="btn btn--line" data-room="superieure">Réserver cette chambre</button>
+        </article>
+        <article class="room">
+          <div class="room-img"><img src="img/suite-1200.webp" srcset="img/suite-700.webp 700w, img/suite-1200.webp 1200w" sizes="(min-width: 900px) 33vw, 100vw" alt="Grande suite lumineuse avec salon et douche vitrée" width="1200" height="900" loading="lazy" decoding="async"></div>
+          <h3 class="h3">Suite Belvédère</h3>
+          <p class="room-meta">45 m² · salon, terrasse · 4 personnes</p>
+          <p class="room-price">à partir de <b>340&nbsp;€</b> la nuit</p>
+          <button type="button" class="btn btn--line" data-room="suite">Réserver cette chambre</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- La table -->
+    <section class="split split--rev" id="table">
+      <div class="split-img"><img src="img/table-1200.webp" srcset="img/table-700.webp 700w, img/table-1200.webp 1200w" sizes="(min-width: 900px) 50vw, 100vw" alt="Petit-déjeuner, œuf au plat et pain grillé" width="1200" height="1500" loading="lazy" decoding="async"></div>
+      <div class="split-txt">
+        <h2 class="h2">La table du matin au soir</h2>
+        <p>Petit-déjeuner jusqu'à 11&nbsp;h sur la terrasse, avec le beurre de l'alpage voisin. Le soir, une carte courte autour des poissons du lac et des fromages de Savoie, ouverte aussi aux voisins.</p>
+        <a href="#top" class="tlink" data-open-table>Réserver une table</a>
+      </div>
+    </section>
+
+    <!-- Spa -->
+    <section class="banner" id="spa">
+      <img src="img/spa-1920.webp" srcset="img/spa-960.webp 960w, img/spa-1920.webp 1920w" sizes="100vw" alt="Piscine chauffée et transats sur la terrasse en bois" width="1920" height="1080" loading="lazy" decoding="async">
+      <div class="banner-txt">
+        <h2 class="h2">Piscine chauffée, sauna, et rien à faire.</h2>
+        <p>Ouverts toute l'année aux clients de l'hôtel, de 8&nbsp;h à 21&nbsp;h. Massages sur réservation.</p>
+        <a href="#reserver" class="btn btn--light">Réserver un séjour</a>
+      </div>
+    </section>
+
+    <!-- Alentours -->
+    <section class="split" id="alentours">
+      <div class="split-txt">
+        <h2 class="h2">Autour de la maison</h2>
+        <ul class="around">
+          <li><b>Le lac à 50 mètres</b><span>Ponton privé, paddles et vélos prêtés à l'accueil.</span></li>
+          <li><b>Annecy à 20 minutes</b><span>Par la route du bord du lac, ou en bateau l'été.</span></li>
+          <li><b>Les sentiers des alpages</b><span>Départ à pied depuis le jardin, cartes à la réception.</span></li>
+        </ul>
+      </div>
+      <div class="split-img"><img src="img/alentours-1200.webp" srcset="img/alentours-700.webp 700w, img/alentours-1200.webp 1200w" sizes="(min-width: 900px) 50vw, 100vw" alt="Terrasse en bois face aux montagnes au lever du soleil" width="1200" height="1500" loading="lazy" decoding="async"></div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="ft-grid">
+      <div>
+        <p class="ft-name" data-bind="nom">Maison Sauvelune</p>
+        <dl class="ft-info">
+          <div><dt>Adresse</dt><dd>Rive est du lac, <span data-bind="lieu">Lac d'Annecy</span></dd></div>
+          <div><dt>Réception</dt><dd>7&nbsp;h – 23&nbsp;h · arrivée dès 15&nbsp;h, départ avant 11&nbsp;h</dd></div>
+          <div><dt>Contact</dt><dd><a href="mailto:bonjour@maison-sauvelune.example">bonjour@maison-sauvelune.example</a></dd></div>
+        </dl>
+      </div>
+      <div class="ft-map"><iframe title="Plan d'accès : rive est du lac d'Annecy" src="https://www.google.com/maps?q=Talloires,+lac+d%27Annecy&z=12&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+    </div>
+    <p class="ft-credit">Hôtel fictif · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <!-- Bouton Réserver fixe (mobile) -->
+  <a href="#reserver" class="m-book btn btn--accent">Réserver un séjour</a>
+
+  <!-- Conciergerie IA -->
+  <button type="button" class="bot-btn" id="botBtn" aria-expanded="false" aria-controls="bot" aria-label="Ouvrir la conciergerie">
+    <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"></path><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"></path></svg>
+    <span class="bot-label">Conciergerie</span>
+  </button>
+  <section class="bot" id="bot" aria-label="Conciergerie" hidden>
+    <header class="bot-hd"><b>Conciergerie</b><span class="bot-tag">IA · 24 h/24</span><button type="button" class="bot-x" id="botClose" aria-label="Fermer la conciergerie">×</button></header>
+    <ol class="bot-log" id="botLog" aria-live="polite">
+      <li class="msg msg--bot">Bonjour, je suis la conciergerie de la maison. Je peux vous renseigner sur les chambres, l'accès, le spa ou réserver votre séjour.</li>
+    </ol>
+    <div class="bot-quick">
+      <button type="button" data-q="arrivee">Heure d'arrivée</button>
+      <button type="button" data-q="parking">Parking</button>
+      <button type="button" data-q="chien">Animaux</button>
+    </div>
+    <form class="bot-form" id="botForm">
+      <label class="sr-only" for="botInput">Votre question</label>
+      <input id="botInput" type="text" placeholder="Posez votre question" autocomplete="off">
+      <button type="submit" aria-label="Envoyer">→</button>
+    </form>
+  </section>
+
+  <!-- Fenêtre de réservation -->
+  <dialog class="dlg" id="dlg" aria-labelledby="dlgT">
+    <div class="dlg-box">
+      <button type="button" class="dlg-x" data-close aria-label="Fermer">×</button>
+      <div id="stepRooms">
+        <h2 class="h3 dlg-t" id="dlgT">Chambres disponibles</h2>
+        <p class="dlg-dates" id="dlgDates"></p>
+        <ul class="avail" id="avail"></ul>
+        <p class="dlg-note">Tarif direct, petit-déjeuner inclus. Annulation gratuite jusqu'à 48&nbsp;h avant l'arrivée.</p>
+      </div>
+      <form id="stepGuest" hidden novalidate>
+        <h2 class="h3 dlg-t">Vos coordonnées</h2>
+        <p class="dlg-dates" id="dlgRecap"></p>
+        <label class="fld"><span>Nom</span><input type="text" id="gName" autocomplete="name"></label>
+        <label class="fld"><span>E-mail</span><input type="email" id="gMail" autocomplete="email"></label>
+        <p class="fld-err" id="gErr" hidden>Indiquez votre nom et une adresse e-mail valide.</p>
+        <button type="submit" class="btn btn--accent btn--full">Confirmer la réservation</button>
+        <button type="button" class="tlink" id="backRooms">Changer de chambre</button>
+      </form>
+      <div id="stepDone" hidden>
+        <h2 class="h3 dlg-t">Séjour réservé</h2>
+        <p id="doneTxt"></p>
+        <p class="dlg-note">Démonstration&nbsp;: sur votre vrai site, la réservation arrive directement dans votre planning, sans commission de plateforme, et le client reçoit sa confirmation par e-mail et par SMS.</p>
+        <button type="button" class="btn btn--line" data-close>Fermer</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs de l'hôtel</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom de l'hôtel</span><input type="text" id="czNom" maxlength="32"></label>
+    <label class="cz-f"><span>Lieu</span><input type="text" id="czLieu" maxlength="32"></label>
+    <label class="cz-f"><span>Couleur principale</span><input type="color" id="czAccent"></label>
+    <div class="cz-f"><span id="czFondL">Fond</span>
+      <div class="cz-sw" role="group" aria-labelledby="czFondL">
+        <button type="button" data-fond="pierre" style="--c:#F5F2EC" aria-label="Pierre"></button>
+        <button type="button" data-fond="blanc" style="--c:#FFFFFF" aria-label="Blanc"></button>
+        <button type="button" data-fond="sable" style="--c:#ECE3D3" aria-label="Sable"></button>
+        <button type="button" data-fond="nuit" style="--c:#141A19" aria-label="Nuit"></button>
+      </div>
+    </div>
+    <button type="button" class="btn btn--accent btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir à Maison Sauvelune</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
