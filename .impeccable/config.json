@@ -44,6 +44,15 @@
         ],
         "createdAt": "2026-11-21T14:40:46.629Z",
         "reason": "faux positif mesuré : le détecteur lit la photo sans le voile CSS ::before ; contraste réel sur pixels rendus ≥ 6,2:1 (titre et sous-titre du hero, 1440 et 390)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "demo/boulangerie/index.html"
+        ],
+        "createdAt": "2026-11-21T15:12:07.600Z",
+        "reason": "faux positif statique : .shelf et .cc sont des fonds pleine largeur dont l'enfant .wrap a max(20px,4vw) de marge latérale et clamp(72px…) en vertical, vérifié au rendu 390/1440"
       }
     ]
   }
