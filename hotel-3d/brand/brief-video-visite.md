@@ -46,6 +46,19 @@ Les outils (Veo, Kling, Runway, Sora…) font 5 à 10 s par génération. On enc
 
 > text, watermark, logo, people, faces, clutter, Christmas decorations, fur rugs, antlers, motion blur, fast camera, camera rotation, fisheye, flicker, exposure change, cartoon, CGI look, oversaturated colors
 
+## Répartition sur le site (mise à jour)
+
+Le site attend **deux vidéos**, chacune pilotée par le scroll :
+
+| Vidéo | Contenu | Commande |
+|---|---|---|
+| `hero` | Plans 1 et 2 : approche du chalet, porte qui s'ouvre, entrée | `npm run frames -- arrivee.mp4 hero` |
+| `suites` | Trois suites à la suite, **chacune occupant un tiers de la durée** (ex. 3 × 5 s) : le texte de chaque suite change à 1/3 et 2/3 | `npm run frames -- suites.mp4 suites --frames 180` |
+
+Pour les suites, le plan 3 se décline trois fois (une chambre sous la charpente, un salon avec poêle, une suite avec cheminée), raccordées par un fondu ou un passage de porte.
+
+Les trois phrases du hero sont calées sur 30 %, 56 % et 82 % de la vidéo d'arrivée. Si ta vidéo a un autre rythme, on ajuste ces repères dans `components/hero/Hero.tsx` (tableau `CAPTIONS`).
+
 ## Ce qu'il faut m'envoyer
 
 Les fichiers vidéo bruts (MP4/MOV), dans la meilleure qualité disponible. Je m'occupe du reste : découpe en images, compression WebP en deux tailles (ordinateur et mobile), préchargement progressif et lien avec le scroll.
