@@ -35,7 +35,7 @@ export const BEZIER = {
 
 export const DUR = {
   micro: 0.16,
-  ui: 0.28,
+  ui: 0.32,
   reveal: 1.1,
   title: 1.4,
   /** Décalage entre deux lettres du titre. */

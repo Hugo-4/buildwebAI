@@ -84,7 +84,7 @@ export default function Menu({ open, onClose }: Props) {
                   <motion.a
                     href={c.href}
                     onClick={(e) => (e.preventDefault(), go(c.href))}
-                    className="title inline-block text-[clamp(2.2rem,6.4vh,4.5rem)] text-ink/85 transition-colors hover:text-[#8a5518] focus-visible:text-ink"
+                    className="title inline-block text-[clamp(2.2rem,6.4vh,4.5rem)] text-ink/70 transition-colors hover:text-ink focus-visible:text-ink"
                     initial={{ y: "105%" }}
                     animate={{ y: 0, transition: { delay: reduce ? 0 : 0.25 + i * 0.05, duration: reduce ? 0 : 0.9, ease: BEZIER.outExpo } }}
                     exit={{ y: "-105%", transition: { duration: reduce ? 0 : 0.3, ease: BEZIER.in } }}
