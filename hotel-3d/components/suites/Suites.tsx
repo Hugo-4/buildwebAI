@@ -15,18 +15,23 @@ import type { gsap } from "@/lib/motion";
 const SUITES = [
   {
     name: "Suite Arête",
+    size: "40 m²",
+    lines: ["Baie ouverte sur les sommets", "Baignoire en pierre, cheminée", "Lit de 200, bois d’arolle"],
+  },
+  {
+    name: "Suite Lauze",
     size: "45 m²",
-    lines: ["Vue sur la Saulire", "Lit de 200, bois d’arolle", "Douche à l’italienne"],
+    lines: ["Cheminée suspendue", "Baignoire face à la vallée", "Plein sud, soleil du matin"],
   },
   {
     name: "Suite Combe",
     size: "70 m²",
-    lines: ["Salon et cheminée suspendue", "Baignoire en pierre face aux sommets", "Balcon plein sud"],
+    lines: ["Salon et cheminée suspendue", "Baignoire en pierre face aux sommets", "Balcon filant plein sud"],
   },
   {
     name: "Suite Cembro",
     size: "120 m²",
-    lines: ["Duplex sous la charpente", "Spa privé, sauna et hammam", "Terrasse et bain nordique"],
+    lines: ["Duplex sous la charpente", "Feu ouvert, chambre en mezzanine", "Terrasse et bain nordique"],
   },
 ];
 
@@ -49,10 +54,11 @@ export default function Suites() {
     <ScrollSequence
       id="suites"
       manifest={SEQUENCES.suites}
-      length={5}
+      length={7}
+      portraitBox={0.52}
       stillFrame={0}
       timeline={suitesTimeline}
-      label="Visite des suites : chambre sous la charpente, salon et poêle à bois, cheminée"
+      label="Visite de quatre suites, de la suite Arête à la suite Cembro et sa terrasse au bain nordique"
       header="light"
     >
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-granite/45 to-transparent" />

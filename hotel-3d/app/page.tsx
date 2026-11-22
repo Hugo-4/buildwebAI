@@ -2,22 +2,35 @@ import Header from "@/components/Header";
 import Hero from "@/components/hero/Hero";
 import Lieu from "@/components/lieu/Lieu";
 import Suites from "@/components/suites/Suites";
+import TableSpa from "@/components/table/TableSpa";
+import Experiences from "@/components/experiences/Experiences";
+import Reservation from "@/components/reservation/Reservation";
+import Footer from "@/components/footer/Footer";
+import Preloader from "@/components/ui/Preloader";
+import Cursor from "@/components/ui/Cursor";
+import ProgressBar from "@/components/ui/ProgressBar";
 
 /**
  * Page d'accueil : le scroll raconte un séjour, de l'arrivée au départ.
- * Maquette (phase 2) : arrivée en vidéo, le lieu, la visite des suites en vidéo.
+ * 1 Arrivée (vidéo au scroll) · 2 Le lieu · 3 Les suites (vidéo au scroll)
+ * 4 La table & le spa · 5 Expériences (galerie 3D) · 6 Réserver · 7 Départ (arrivée rejouée de nuit)
  */
 export default function Home() {
   return (
     <>
+      <Preloader />
+      <ProgressBar />
+      <Cursor />
       <Header />
       <main>
         <Hero />
         <Lieu />
         <Suites />
-        {/* Chapitres 4 à 7 : phase 3 */}
-        <div id="reserver" data-header="light" className="h-[60vh] bg-altitude" />
+        <TableSpa />
+        <Experiences />
+        <Reservation />
       </main>
+      <Footer />
     </>
   );
 }

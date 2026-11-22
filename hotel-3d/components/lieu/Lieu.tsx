@@ -6,7 +6,7 @@
  * comme des papiers collés les uns sur les autres. Les chiffres clés roulent
  * dans la phrase même, au lieu d'une rangée de statistiques.
  *
- * Photos : placeholders d'ambiance dans /public/images, à remplacer par les vraies.
+ * Images : tirées des vidéos de l'hôtel (public/images/lieu-*.webp).
  */
 import Image from "next/image";
 import { useEffect, useRef } from "react";
@@ -122,22 +122,22 @@ export default function Lieu() {
           {/* l'arête coupée à 12° reste : c'est la signature du photomontage */}
           <div data-reveal data-cut="polygon(0% 13%, 100% 0%, 100% 100%, 0% 100%)" className="relative h-full w-full overflow-hidden">
             <Image
-              src="/images/placeholder-lieu-sommet-remontee.webp"
-              alt="Placeholder : sommets enneigés et remontée mécanique au-dessus de Courchevel, ciel bleu"
+              src="/images/lieu-salon-vue.webp"
+              alt="Le salon double hauteur, ses canapés clairs et ses baies ouvertes sur les sommets enneigés"
               fill
               sizes="(max-width: 768px) 80vw, 64vw"
               className="object-cover"
             />
           </div>
-          <figcaption className="caps mt-3 text-granite/70">Les Trois Vallées, depuis la terrasse</figcaption>
+          <figcaption className="caps mt-3 text-granite/70">Le salon, face aux Trois Vallées</figcaption>
         </figure>
 
         {/* Couche 3 — petite photo : la glisse, plus rapide */}
         <figure data-speed="0.9" className="absolute bottom-[4%] right-[var(--gutter)] h-[38%] w-[54%] md:h-[46%] md:w-[30%]">
           <div data-reveal data-delay="0.15" className="relative h-full w-full overflow-hidden">
             <Image
-              src="/images/placeholder-lieu-skieurs-courchevel.webp"
-              alt="Placeholder : skieurs sur une piste damée de Courchevel"
+              src="/images/lieu-facade.webp"
+              alt="La façade du chalet en bois et pierre, ses balcons sous la neige"
               fill
               sizes="(max-width: 768px) 44vw, 30vw"
               className="object-cover"
@@ -149,8 +149,8 @@ export default function Lieu() {
         <figure data-speed="0.4" className="absolute bottom-[10%] left-[var(--gutter)] h-[20%] w-[36%] md:left-[22%] md:h-[24%] md:w-[18%]">
           <div data-reveal data-delay="0.3" className="relative h-full w-full overflow-hidden">
             <Image
-              src="/images/placeholder-lieu-chalet-sapins.webp"
-              alt="Placeholder : chalet de bois dans la neige, entre les sapins"
+              src="/images/lieu-terrasse-bain-nordique.webp"
+              alt="La terrasse à l'heure bleue, un bain nordique fumant face au village illuminé"
               fill
               sizes="(max-width: 768px) 30vw, 18vw"
               className="object-cover"

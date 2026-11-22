@@ -27,6 +27,14 @@ type Props = {
   stillFrame?: number;
   /** Ajoute des tweens à la timeline scrubbée (position 0 → 1). */
   timeline?: (tl: gsap.core.Timeline, root: HTMLElement) => void;
+  /** Écran portrait : hauteur (0 → 1) de la bande où l'image est cadrée, en haut. 1 = plein écran. */
+  portraitBox?: number;
+  /** Étalonnage nocturne (footer : la même maison, de nuit). */
+  night?: boolean;
+  /** Lecture à rebours : le départ rejoue l'arrivée à l'envers. */
+  reverse?: boolean;
+  /** Fond visible autour de l'image cadrée (portrait). */
+  bg?: string;
   /** Description de la séquence pour les lecteurs d'écran. */
   label: string;
   id?: string;
@@ -53,6 +61,10 @@ export default function ScrollSequence({
   stillFrame = 0,
   timeline,
   label,
+  portraitBox = 1,
+  night = false,
+  reverse = false,
+  bg = "#16245a",
   id,
   header = "light",
   className = "",
@@ -74,7 +86,7 @@ export default function ScrollSequence({
 
     const { count, sizes, name, ext } = manifest;
     const images: (HTMLImageElement | null)[] = new Array(count).fill(null);
-    const state = { frame: reduced ? Math.round(stillFrame * (count - 1)) : 0 };
+    const state = { frame: reduced ? Math.round(stillFrame * (count - 1)) : reverse ? count - 1 : 0 };
     let drawn = -1;
     let cancelled = false;
 
@@ -101,11 +113,27 @@ export default function ScrollSequence({
       if (i < 0 || (i === drawn && !force)) return;
       const img = images[i]!;
       const { width: cw, height: ch } = cv;
-      // object-fit: cover
-      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      // Portrait : l'image est cadrée dans une bande en haut, le reste reçoit le fond
+      const portrait = cw / ch < 0.9 && portraitBox < 1;
+      const boxH = portrait ? ch * portraitBox : ch;
+      if (portrait) {
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, cw, ch);
+      }
+      // object-fit: cover dans la boîte
+      const s = Math.max(cw / img.naturalWidth, boxH / img.naturalHeight);
       const w = img.naturalWidth * s;
       const h = img.naturalHeight * s;
-      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      if (night) ctx.filter = "brightness(0.62) saturate(0.8) contrast(1.08)";
+      ctx.drawImage(img, (cw - w) / 2, (boxH - h) / 2, w, h);
+      if (night) {
+        // nuit : on noie l'image dans le bleu d'altitude, seules les lumières chaudes résistent
+        ctx.filter = "none";
+        ctx.globalCompositeOperation = "multiply";
+        ctx.fillStyle = "#2a3a7a";
+        ctx.fillRect(0, 0, cw, boxH);
+        ctx.globalCompositeOperation = "source-over";
+      }
       if (drawn < 0) cv.style.opacity = "1"; // le canvas remplace l'affiche dès sa 1re image
       drawn = i;
     };
@@ -121,7 +149,8 @@ export default function ScrollSequence({
     ro.observe(cv);
 
     // Chargement progressif, 6 requêtes en parallèle
-    const queue = reduced ? [state.frame] : loadOrder(count);
+    const order = loadOrder(count);
+    const queue = reduced ? [state.frame] : reverse ? order.map((i) => count - 1 - i) : order;
     let active = 0;
     const next = () => {
       while (!cancelled && active < 6 && queue.length) {
@@ -157,7 +186,7 @@ export default function ScrollSequence({
         scrollTrigger: { trigger: el, start: "top top", end: "bottom bottom", scrub: 0.6 },
       });
       // la séquence couvre toute la timeline ; les textes s'y calent (0 → 1)
-      tl.to(state, { frame: count - 1, duration: 1, onUpdate: () => draw() }, 0);
+      tl.to(state, { frame: reverse ? 0 : count - 1, duration: 1, onUpdate: () => draw() }, 0);
       timeline?.(tl, el);
     }, el);
 
@@ -166,7 +195,7 @@ export default function ScrollSequence({
       ro.disconnect();
       gctx.revert();
     };
-  }, [manifest, reduced, stillFrame, timeline]);
+  }, [manifest, reduced, stillFrame, timeline, portraitBox, night, reverse, bg]);
 
   return (
     <section
@@ -186,7 +215,8 @@ export default function ScrollSequence({
           sizes="100vw"
           alt=""
           fetchPriority={id === "top" ? "high" : "auto"}
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover ${night ? "brightness-50" : ""}`}
+          style={portraitBox < 1 ? { objectPosition: "center top" } : undefined}
         />
         <canvas
           ref={canvas}

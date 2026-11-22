@@ -15,6 +15,26 @@ export const useLenis = () => useContext(LenisContext);
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
+  // Recalcule les déclencheurs quand la hauteur de la page change
+  // (galerie mobile choisie après le 1er rendu, images chargées, polices…)
+  useEffect(() => {
+    registerGsap();
+    let last = document.body.scrollHeight;
+    let t: ReturnType<typeof setTimeout>;
+    const ro = new ResizeObserver(() => {
+      const h = document.body.scrollHeight;
+      if (Math.abs(h - last) < 2) return;
+      last = h;
+      clearTimeout(t);
+      t = setTimeout(() => ScrollTrigger.refresh(), 120);
+    });
+    ro.observe(document.body);
+    return () => {
+      ro.disconnect();
+      clearTimeout(t);
+    };
+  }, []);
+
   useEffect(() => {
     registerGsap();
     if (prefersReducedMotion()) return;

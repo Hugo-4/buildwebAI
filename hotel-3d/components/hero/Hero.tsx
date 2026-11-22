@@ -10,14 +10,18 @@ import { useEffect, useRef } from "react";
 import ScrollSequence from "@/components/sequence/ScrollSequence";
 import { SEQUENCES } from "@/lib/sequences";
 import { registerGsap, gsap, DUR, EASE, prefersReducedMotion } from "@/lib/motion";
+import { READY_EVENT } from "@/components/ui/Preloader";
 
 const TITLE = "L’Arolle";
 
 /** Phrases calées sur la vidéo : [début, fin] en fraction du scroll. */
 const CAPTIONS: { text: string; at: [number, number] }[] = [
-  { text: "La route s’arrête au chalet.", at: [0.3, 0.52] },
-  { text: "La porte est en arolle, comme le reste.", at: [0.56, 0.78] },
-  { text: "Entrez, la neige reste dehors.", at: [0.82, 1] },
+  // calées sur la vidéo : approche (0 → 0,23), porte (0,23 → 0,36), entrée, puis le salon
+  { text: "La route s’arrête au chalet.", at: [0.1, 0.22] },
+  { text: "Les portes sont en arolle, comme le reste.", at: [0.25, 0.37] },
+  { text: "Entrez, la neige reste dehors.", at: [0.41, 0.54] },
+  { text: "Le feu brûle depuis ce matin.", at: [0.62, 0.78] },
+  { text: "Et les sommets restent aux fenêtres.", at: [0.84, 1] },
 ];
 
 // Masques à 12° : le cartouche s'ouvre depuis le bas, en suivant la pente
@@ -27,16 +31,16 @@ const CLIP_OPEN = "polygon(0% 22%, 100% 0%, 100% 100%, 0% 100%)";
 /** Timeline scrubbée (définie hors du composant : identité stable). */
 function heroTimeline(tl: gsap.core.Timeline) {
   // L'aplat-titre descend la pente et sort du cadre
-  tl.to("[data-hero-band]", { yPercent: 105, duration: 0.24, ease: "power2.in" }, 0.02);
+  tl.to("[data-hero-band]", { yPercent: 105, duration: 0.08, ease: "power2.in" }, 0.01);
   tl.to("[data-hero-cue]", { opacity: 0, duration: 0.06 }, 0.02);
 
   CAPTIONS.forEach((_, i) => {
     const sel = `[data-caption="${i}"]`;
     const [a, b] = CAPTIONS[i].at;
-    tl.fromTo(sel, { clipPath: CLIP_SHUT }, { clipPath: CLIP_OPEN, duration: 0.07, ease: "power2.out" }, a);
-    tl.fromTo(`${sel} [data-caption-text]`, { yPercent: 60 }, { yPercent: 0, duration: 0.09, ease: "power2.out" }, a);
+    tl.fromTo(sel, { clipPath: CLIP_SHUT }, { clipPath: CLIP_OPEN, duration: 0.04, ease: "power2.out" }, a);
+    tl.fromTo(`${sel} [data-caption-text]`, { yPercent: 60 }, { yPercent: 0, duration: 0.05, ease: "power2.out" }, a);
     // la dernière phrase reste jusqu'au chapitre suivant
-    if (b < 1) tl.to(sel, { clipPath: CLIP_SHUT, duration: 0.05, ease: "power2.in" }, b - 0.05);
+    if (b < 1) tl.to(sel, { clipPath: CLIP_SHUT, duration: 0.03, ease: "power2.in" }, b - 0.03);
   });
 }
 
@@ -52,7 +56,9 @@ export default function Hero() {
     if (!band || prefersReducedMotion()) return;
     // GSAP n'interpole pas var() : on calcule la montée de l'arête en % de l'aplat
     const rise = Math.min(((0.2126 * window.innerWidth) / band.offsetHeight) * 100, 60).toFixed(2);
-    const ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {});
+    // le titre entre quand le préchargeur a levé son rideau
+    const start = () => ctx.add(() => {
       gsap
         .timeline({ delay: 0.2 })
         .fromTo(band, { clipPath: `polygon(0% ${100 + Number(rise)}%, 100% 100%, 100% 100%, 0% 100%)` }, {
@@ -63,17 +69,23 @@ export default function Hero() {
         .fromTo(letters, { yPercent: 110 }, { yPercent: 0, duration: DUR.title, stagger: DUR.letter, ease: EASE.outExpo }, 0.35)
         .fromTo("[data-hero-fade]", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.08 }, 0.9);
     });
-    return () => ctx.revert();
+    if ((window as unknown as { __larolleReady?: boolean }).__larolleReady) start();
+    else window.addEventListener(READY_EVENT, start, { once: true });
+    return () => {
+      window.removeEventListener(READY_EVENT, start);
+      ctx.revert();
+    };
   }, []);
 
   return (
     <ScrollSequence
       id="top"
       manifest={SEQUENCES.hero}
-      length={3.4}
+      length={5.5}
+      portraitBox={0.5}
       stillFrame={0}
       timeline={heroTimeline}
-      label="Approche du chalet L’Arolle dans la neige, à Courchevel"
+      label="Approche du chalet L’Arolle dans la neige, ouverture des portes, puis le salon et ses baies face aux sommets"
       header="light"
     >
       {/* Voile haut, uniquement sous l'en-tête : lisibilité du menu sur la neige */}

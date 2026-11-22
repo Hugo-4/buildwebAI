@@ -192,3 +192,139 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Composants de formulaire (réservation)                              */
+/* ------------------------------------------------------------------ */
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1.25rem;
+}
+.field-input {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgb(18 20 23 / 0.25);
+  padding: 0.5rem 0 0.75rem;
+  font: inherit;
+  font-size: 1.25rem;
+  color: var(--granite);
+  border-radius: 0;
+}
+.field-input::placeholder {
+  color: rgb(18 20 23 / 0.45);
+}
+.field-input:focus {
+  outline: none;
+}
+.field-input[aria-invalid="true"] {
+  border-bottom-color: #9b2c1f;
+}
+/* le trait d'ambre se trace sous le champ actif, de gauche à droite */
+.field-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-ui) var(--ease-out-expo);
+  /* aligné sur la bordure basse de l'input */
+  bottom: auto;
+  margin-top: -2px;
+}
+.field:focus-within .field-line {
+  transform: scaleX(1);
+}
+.field-input::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+.step-btn {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgb(18 20 23 / 0.3);
+  border-radius: 999px;
+  transition: background-color var(--dur-micro) ease, border-color var(--dur-micro) ease, transform var(--dur-micro) ease;
+}
+.step-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.step-btn:hover:not(:disabled) {
+  background: var(--granite);
+  border-color: var(--granite);
+  color: var(--snow);
+}
+.step-btn:active:not(:disabled) {
+  transform: scale(0.92);
+}
+.step-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* puces de suite : un parallélogramme comme le bouton principal */
+.suite-chip span {
+  display: inline-block;
+  padding: 0.7em 1.3em 0.65em;
+  border: 1px solid rgb(18 20 23 / 0.3);
+  cursor: pointer;
+  transition: background-color var(--dur-ui) var(--ease-out-expo), color var(--dur-ui) var(--ease-out-expo),
+    border-color var(--dur-ui) var(--ease-out-expo);
+}
+.suite-chip:hover span {
+  border-color: var(--altitude);
+}
+.suite-chip input:checked + span {
+  background: var(--altitude);
+  border-color: var(--altitude);
+  color: var(--snow);
+}
+.suite-chip input:focus-visible + span {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.btn-slope:disabled {
+  cursor: progress;
+  opacity: 0.85;
+}
+.spinner {
+  width: 0.9em;
+  height: 0.9em;
+  border: 1.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 999px;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* curseur personnalisé actif : on masque le curseur système, sauf sur les champs */
+html.has-cursor,
+html.has-cursor a,
+html.has-cursor button,
+html.has-cursor label {
+  cursor: none;
+}
+html.has-cursor input,
+html.has-cursor textarea {
+  cursor: text;
+}
