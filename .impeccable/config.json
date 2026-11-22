@@ -89,6 +89,15 @@
         ],
         "createdAt": "2026-11-22T09:47:26.122Z",
         "reason": "faux positif statique : sections pleine largeur avec enfant .wrap (max(20px,4vw)) ; détecteur au rendu propre en 390/1440"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "demo/velo/index.html"
+        ],
+        "createdAt": "2026-11-22T11:01:19.716Z",
+        "reason": "faux positif statique : sections pleine largeur avec enfant .wrap (max(20px,4vw)) ; détecteur au rendu propre en 390/1440"
       }
     ]
   }

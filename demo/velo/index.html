@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Atelier Rayon · Réparation de vélos à Grenoble</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un atelier de réparation de vélos fictif pour montrer ce que nous pouvons construire pour votre atelier.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FAFAF8">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='22' fill='none' stroke='%23C98A12' stroke-width='5'/%3E%3Cpath d='M24 4v40M4 24h40M10 10l28 28M38 10 10 38' stroke='%23C98A12' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <div class="wrap hd-in">
+      <a class="logo" href="#top"><svg class="wheel" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20"/><path d="M24 4v40M4 24h40M10 10l28 28M38 10 10 38"/></svg><span class="logo-name" data-bind="nom">Atelier Rayon</span></a>
+      <nav class="hd-nav" aria-label="Navigation">
+        <a href="#diag">Diagnostic</a>
+        <a href="#rdv">Rendez-vous</a>
+        <a href="#suivi">Suivi</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="#pass">Pass entretien</a>
+      </nav>
+      <a class="btn btn--accent btn--sm" href="#rdv">Réserver</a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero -->
+    <section class="wrap hero" id="top">
+      <div class="hero-txt">
+        <h1>Votre vélo réparé, sans passer la matinée au téléphone.</h1>
+        <p class="lead">Décrivez la panne, voyez le prix, choisissez le créneau. On vous écrit quand c'est prêt. Vélos de ville, route, VTT, cargos et électriques.</p>
+        <div class="status" aria-live="polite">
+          <p class="status-t"><span class="dot" aria-hidden="true"></span>L'atelier en ce moment</p>
+          <dl class="status-g">
+            <div><dt>Délai en dépôt</dt><dd id="stDelay">3 jours</dd></div>
+            <div><dt>Places libres cette semaine</dt><dd id="stFree">6</dd></div>
+            <div><dt>Crevaison express</dt><dd>20 min, sur rendez-vous</dd></div>
+          </dl>
+        </div>
+        <div class="actions">
+          <a href="#diag" class="btn btn--accent">Diagnostiquer mon vélo</a>
+          <button type="button" class="tlink" data-chat>Poser une question à l'assistant</button>
+        </div>
+      </div>
+      <div class="hero-img"><img src="img/hero-1200.webp" srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" sizes="(min-width: 900px) 40vw, 100vw" alt="Un mécanicien règle un vélo sur un pied d'atelier devant un mur d'outils" width="1200" height="1500" fetchpriority="high"></div>
+    </section>
+
+    <!-- Diagnostic -->
+    <section class="diag" id="diag">
+      <div class="wrap diag-in">
+        <div class="diag-head">
+          <img class="diag-img" src="img/diag-1100.webp" srcset="img/diag-700.webp 700w, img/diag-1100.webp 1100w" sizes="(min-width: 900px) 38vw, 100vw" alt="Un mécanicien avec une lampe frontale règle la roue d'un vélo" width="1100" height="825" loading="lazy" decoding="async">
+          <h2>Qu'est-ce qui ne va pas&nbsp;?</h2>
+          <p class="muted">Cochez ce que vous remarquez. On vous dit ce que ça coûte, combien de temps ça prend, et s'il faut laisser le vélo.</p>
+        </div>
+        <form class="diag-card" id="diagForm" novalidate>
+          <fieldset><legend>Votre vélo</legend><div class="chips" role="radiogroup" id="types"></div></fieldset>
+          <fieldset><legend>Ce que vous remarquez <span class="muted small">(plusieurs choix possibles)</span></legend><div class="chips" id="syms"></div></fieldset>
+          <label class="f file"><span>Une photo (facultatif)</span><input type="file" id="photo" accept="image/*"><small class="muted" id="photoName">Le dérailleur, le pneu, l'écran du vélo électrique…</small></label>
+          <div class="result" id="result" hidden aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Rendez-vous -->
+    <section class="wrap rdv" id="rdv">
+      <div class="sec-head">
+        <h2>Deux façons de passer</h2>
+        <p class="muted">L'express pour les petites réparations pendant que vous attendez. Le dépôt pour le reste&nbsp;: on ne prend que les vélos qu'on peut rendre à la date promise.</p>
+      </div>
+      <form class="rdv-card" id="rdvForm" novalidate>
+        <div class="modes" role="radiogroup" aria-label="Type de passage" id="modes"></div>
+        <fieldset><legend id="dayL">Le jour</legend><div class="days" role="radiogroup" aria-labelledby="dayL" id="days"></div></fieldset>
+        <fieldset id="timeBox"><legend>L'heure</legend><div class="chips" role="radiogroup" id="times"></div></fieldset>
+        <p class="rdv-note" id="rdvNote"></p>
+        <div class="two">
+          <label class="f"><span>Nom</span><input type="text" id="nm" autocomplete="name"></label>
+          <label class="f"><span>Téléphone</span><input type="tel" id="tel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78"></label>
+        </div>
+        <button type="submit" class="btn btn--accent btn--full">Confirmer</button>
+        <p class="form-msg" id="rdvMsg" role="status"></p>
+        <div class="sms" id="rdvSms" hidden></div>
+      </form>
+    </section>
+
+    <!-- Suivi -->
+    <section class="track" id="suivi">
+      <div class="track-img"><img src="img/atelier-1500.webp" srcset="img/atelier-900.webp 900w, img/atelier-1500.webp 1500w" sizes="100vw" alt="Des vélos rangés sur des étagères dans l'atelier" width="1500" height="844" loading="lazy" decoding="async"></div>
+      <div class="wrap track-in">
+        <div class="track-head">
+          <h2>Le devis s'accepte d'un clic, le vélo ne dort pas à l'atelier</h2>
+          <p class="muted">Une pièce à changer&nbsp;? Vous recevez la photo et le prix par SMS. Une fois prêt, un rappel part si le vélo n'est pas récupéré.</p>
+          <p class="ticket">Ticket <b>V-318</b> · VTT, dérailleur qui saute</p>
+        </div>
+        <div class="track-body">
+          <ol class="steps" id="steps"></ol>
+          <div class="quote" id="quote"></div>
+        </div>
+        <div class="phone" aria-label="SMS reçus par le client">
+          <p class="phone-t">SMS reçus</p>
+          <ul class="phone-list" id="smsList" aria-live="polite"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tarifs -->
+    <section class="wrap prices" id="tarifs">
+      <div class="sec-head">
+        <h2>Les tarifs de l'atelier</h2>
+        <p class="muted">Main-d'œuvre TTC. Les pièces sont en plus, au prix affiché en boutique, et vous êtes prévenu avant toute pose.</p>
+      </div>
+      <table class="ptable">
+        <thead><tr><th scope="col">Intervention</th><th scope="col">Durée</th><th scope="col">Prix</th></tr></thead>
+        <tbody id="ptable"></tbody>
+      </table>
+    </section>
+
+    <!-- Pass entretien -->
+    <section class="pass" id="pass">
+      <div class="wrap pass-in">
+        <div class="pass-img"><img src="img/pass-1100.webp" srcset="img/pass-700.webp 700w, img/pass-1100.webp 1100w" sizes="(min-width: 900px) 40vw, 100vw" alt="Une main nettoie le dérailleur d'un vélo avec un chiffon" width="1100" height="825" loading="lazy" decoding="async"></div>
+        <div class="pass-txt">
+          <h2>Le pass entretien, 79&nbsp;€ pour l'année</h2>
+          <ul class="ticks">
+            <li>Deux révisions essentielles, au printemps et à l'automne</li>
+            <li>Les crevaisons réparées sans main-d'œuvre, toute l'année</li>
+            <li>Priorité sur les places de dépôt en pleine saison</li>
+            <li>Un SMS quand c'est l'heure de la révision</li>
+          </ul>
+          <p class="winter" id="winter"></p>
+          <form class="pass-form" id="passForm" novalidate>
+            <label class="f"><span>Votre e-mail</span><input type="email" id="passMail" autocomplete="email" placeholder="nom@domaine.fr"></label>
+            <button type="submit" class="btn btn--light">Prendre le pass</button>
+          </form>
+          <p class="form-msg" id="passMsg" role="status"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Équipe -->
+    <section class="wrap who">
+      <div class="who-img"><img src="img/equipe-1100.webp" srcset="img/equipe-700.webp 700w, img/equipe-1100.webp 1100w" sizes="(min-width: 900px) 36vw, 100vw" alt="Un mécanicien travaille sur un vélo devant un panneau d'outils" width="1100" height="1375" loading="lazy" decoding="async"></div>
+      <div class="who-txt">
+        <h2>Deux mécaniciens, un atelier rangé</h2>
+        <p>Léa et Malo réparent tous les vélos, du biclou de l'étudiant au cargo électrique. Ils sont formés sur les moteurs Bosch, Shimano et Bafang.</p>
+        <dl class="facts">
+          <div><dt>20 min</dt><dd>pour une crevaison sur rendez-vous express</dd></div>
+          <div><dt>48 h</dt><dd>pour une révision déposée le matin</dd></div>
+          <div><dt>6 mois</dt><dd>de garantie sur la main-d'œuvre</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <div>
+        <p class="ft-name" data-bind="nom">Atelier Rayon</p>
+        <p class="ft-zone">Rue Très-Cloîtres, Grenoble · à deux minutes de l'arrêt Notre-Dame Musée.</p>
+      </div>
+      <dl class="ft-info">
+        <div><dt>Téléphone</dt><dd><a href="tel:+33465711291">04 65 71 12 91</a></dd></div>
+        <div><dt>Horaires</dt><dd>Du mardi au samedi, 9&nbsp;h – 12&nbsp;h 30 et 14&nbsp;h – 19&nbsp;h</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:atelier@rayon-velo.example">atelier@rayon-velo.example</a></dd></div>
+      </dl>
+    </div>
+    <p class="wrap ft-credit">Atelier fictif · numéro réservé à la fiction · réponses de l'assistant simulées · site réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <!-- Assistant IA -->
+  <button type="button" class="chat-btn" id="chatBtn" data-chat aria-controls="chat" aria-expanded="false">Une question&nbsp;?</button>
+  <aside class="chat" id="chat" aria-label="Assistant de l'atelier" hidden>
+    <div class="chat-head"><p class="chat-t">Assistant de l'atelier<small>Répond tout de suite, 7 j/7</small></p><button type="button" class="chat-x" id="chatClose" aria-label="Fermer l'assistant">×</button></div>
+    <ul class="chat-log" id="chatLog" aria-live="polite"></ul>
+    <div class="chat-quick" id="chatQuick"></div>
+    <form class="chat-form" id="chatForm"><label class="sr-only" for="chatIn">Votre question</label><input id="chatIn" type="text" autocomplete="off" placeholder="Écrivez votre question"><button type="submit" class="btn btn--accent btn--sm">Envoyer</button></form>
+  </aside>
+
+  <div class="m-bar" id="mBar">
+    <button type="button" class="m-ask" data-chat>Une question&nbsp;?</button>
+    <a class="m-go" href="#rdv">Réserver</a>
+  </div>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs de l'atelier</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom</span><input type="text" id="czNom" maxlength="28"></label>
+    <label class="cz-f"><span>Couleur principale</span><input type="color" id="czAccent"></label>
+    <button type="button" class="btn btn--cz btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir à l'Atelier Rayon</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
