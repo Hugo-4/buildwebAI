@@ -15,7 +15,7 @@ type Props = { progress: MutableRefObject<number>; active: boolean; still?: bool
 
 const frag = /* glsl */ `
   precision highp float;
-  uniform float uTime, uProgress, uAspect;
+  uniform float uTime, uProgress, uAspect, uFade;
   varying vec2 vUv;
 
   // bruit de valeur + fbm (5 octaves) : brume douce, sans motif visible
@@ -39,7 +39,7 @@ const frag = /* glsl */ `
     // ligne de brume : monte avec le scroll (au repos, un voile au ras du bas)
     float line = mix(0.18, 1.25, uProgress);
     float edge = smoothstep(line, line - 0.45, vUv.y + (n - 0.5) * 0.55);
-    float a = clamp(edge * (0.55 + n * 0.6), 0.0, 1.0);
+    float a = clamp(edge * (0.55 + n * 0.6), 0.0, 1.0) * uFade;
     // couleur : blanc de neige légèrement bleuté
     gl_FragColor = vec4(vec3(0.965, 0.97, 0.975), a);
   }
@@ -58,12 +58,14 @@ function Fog({ progress, still }: { progress: MutableRefObject<number>; still?: 
         fragmentShader: frag,
         transparent: true,
         depthWrite: false,
-        uniforms: { uTime: { value: 0 }, uProgress: { value: 0 }, uAspect: { value: 1.6 } },
+        uniforms: { uTime: { value: 0 }, uProgress: { value: 0 }, uAspect: { value: 1.6 }, uFade: { value: 0 } },
       }),
     [],
   );
   useFrame(({ size }, dt) => {
     if (!still) mat.uniforms.uTime.value += dt;
+    // apparition : 0 → 1 en 0,6 s à partir de la première image réellement dessinée
+    mat.uniforms.uFade.value = Math.min(1, mat.uniforms.uFade.value + dt / 0.6);
     mat.uniforms.uAspect.value = size.width / size.height;
     // valeur déjà amortie par le hero (même horloge que le nom)
     mat.uniforms.uProgress.value = progress.current;
@@ -81,7 +83,8 @@ export default function Mist({ progress, active, still }: Props) {
       className="!absolute inset-0"
       dpr={0.75} // brume floue par nature : un quart des pixels suffit
       frameloop={active ? "always" : "never"}
-      gl={{ alpha: true, antialias: false, premultipliedAlpha: false }}
+      // alpha prémultiplié (par défaut) : c'est ce que three.js écrit avec un mélange normal
+      gl={{ alpha: true, antialias: false }}
       aria-hidden
     >
       <Fog progress={progress} still={still} />

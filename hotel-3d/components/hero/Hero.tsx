@@ -169,7 +169,7 @@ export default function Hero() {
 
       {/* La brume (WebGL) au-dessus du nom */}
       {!reduced && !lite && wantMist && (
-        <div className="pointer-events-none absolute inset-0 animate-[fadeIn_.5s_ease-out]">
+        <div className="pointer-events-none absolute inset-0">
           <Mist progress={mist} active={active && mistOn} />
         </div>
       )}
