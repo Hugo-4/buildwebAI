@@ -1,5 +1,5 @@
-/* Démo garage · BuildWebAI — gris atelier, graphite, le bleu de la bande européenne des plaques.
-   Saira Condensed pour les titres et la plaque, Manrope pour le texte. Mouvement : transform et opacity uniquement. */
+/* Démo garage · BuildWebAI — gris atelier, graphite, un bleu de signalisation.
+   Saira Condensed pour les titres, Manrope pour le texte. Mouvement : transform et opacity uniquement. */
 :root {
   --bg: #F4F5F7;
   --card: #FFFFFF;
@@ -76,18 +76,16 @@ legend { padding: 0; margin-bottom: 10px; font-weight: 700; font-size: 15px; }
 .hd-in .btn--sm { white-space: nowrap; }
 @media (max-width: 440px) { .logo-sub { display: none; } }
 
-/* Hero + plaque */
+/* Hero + choix du véhicule */
 .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 56px; align-items: center; padding-top: 56px; padding-bottom: 88px; }
 .hero-txt { display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
 .hero h1 { font-size: clamp(2.8rem, 5.6vw, 4.8rem); line-height: .95; text-transform: uppercase; animation: rise .8s var(--ease) both; }
-.plate-form { display: flex; flex-wrap: wrap; gap: 12px; width: 100%; max-width: 560px; }
-.plate { flex: 1 1 260px; display: flex; align-items: stretch; height: 64px; border-radius: 8px; background: #FFFFFF; box-shadow: inset 0 0 0 2.5px var(--ink); overflow: hidden; }
-.plate-eu { display: grid; place-items: end center; width: 42px; padding-bottom: 8px; background: #1F3FA8; color: #FFFFFF; font-weight: 700; font-size: 15px; }
-.plate input { flex: 1; min-width: 0; width: 100%; border: 0; background: transparent; padding: 0 14px; font-family: var(--display); font-weight: 700; font-size: 2rem; letter-spacing: .08em; text-transform: uppercase; text-align: center; }
-.plate input::placeholder { color: #7A8089; }
-.plate input:focus-visible { outline: none; }
-.plate:focus-within { box-shadow: inset 0 0 0 2.5px var(--accent), 0 0 0 3px rgb(31 63 168 / .2); }
-.plate-form .btn { height: 64px; }
+.model-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; width: 100%; max-width: 560px; padding: 22px; border-radius: 12px; background: var(--card); box-shadow: inset 0 0 0 1px var(--line); }
+.model-form .span2 { grid-column: 1 / -1; }
+.f select { width: 100%; min-width: 0; min-height: 52px; padding: 0 40px 0 14px; border: 0; border-radius: 6px; background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23121417' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center; box-shadow: inset 0 0 0 1px #C4C9D0; font: inherit; font-weight: 500; font-size: 17px; color: var(--ink); appearance: none; cursor: pointer; }
+.f select:disabled { color: var(--muted); cursor: not-allowed; opacity: .7; }
+@media (max-width: 480px) { .model-form { gap: 12px; padding: 16px; } }
+@media (max-width: 340px) { .model-form { grid-template-columns: 1fr; } }
 .veh { width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: 12px; padding: 20px; border-radius: 10px; background: var(--card); animation: rise .35s var(--ease) both; }
 .veh-name { font-family: var(--display); font-weight: 700; font-size: 1.6rem; line-height: 1.05; }
 .veh-meta { font-size: 14px; color: var(--muted); }
@@ -99,7 +97,7 @@ legend { padding: 0; margin-bottom: 10px; font-weight: 700; font-size: 15px; }
 .hero-img img { width: 100%; height: 100%; object-fit: cover; animation: settle 1.2s var(--ease) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; } }
 @keyframes settle { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
-@media (max-width: 899px) { .hero { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: 32px; } .hero-img { aspect-ratio: 4 / 3.4; } .plate-form .btn { width: 100%; } }
+@media (max-width: 899px) { .hero { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-top: 32px; } .hero-img { aspect-ratio: 4 / 3.4; } }
 
 /* Pré-diagnostic */
 .voy { background: var(--ink); color: #FFFFFF; padding: clamp(72px, 8vw, 110px) 0; }

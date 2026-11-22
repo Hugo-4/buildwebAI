@@ -31,17 +31,17 @@
   </header>
 
   <main id="contenu">
-    <!-- Hero : la plaque d'abord -->
+    <!-- Hero : la voiture d'abord -->
     <section class="wrap hero" id="top">
       <div class="hero-txt">
         <h1>Déposée le matin, rendue le soir, au prix annoncé.</h1>
-        <p class="lead">Entretien, freins, pneus, diagnostic&nbsp;: entrez votre plaque, on reconnaît votre voiture et on vous donne les prix tout de suite.</p>
-        <form class="plate-form" id="plateForm" novalidate>
-          <label class="sr-only" for="plate">Votre plaque d'immatriculation</label>
-          <div class="plate"><span class="plate-eu" aria-hidden="true">F</span><input id="plate" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="9" placeholder="AB-123-CD" spellcheck="false"></div>
-          <button type="submit" class="btn btn--accent">Voir mes prix</button>
+        <p class="lead">Entretien, freins, pneus, diagnostic&nbsp;: choisissez votre voiture, les prix s'affichent tout de suite. Pas besoin de la carte grise.</p>
+        <form class="model-form" id="modelForm" novalidate>
+          <label class="f"><span>Marque</span><select id="brand"></select></label>
+          <label class="f"><span>Modèle</span><select id="model" disabled></select></label>
+          <fieldset class="span2" id="catBox" hidden><legend>Sa taille, à peu près</legend><div class="chips" role="radiogroup" id="catPick"></div></fieldset>
+          <fieldset class="span2"><legend>Motorisation</legend><div class="chips" role="radiogroup" id="energy"></div></fieldset>
         </form>
-        <p class="form-msg" id="plateMsg" role="status"></p>
         <div class="veh" id="veh" hidden aria-live="polite"></div>
       </div>
       <div class="hero-img"><img src="img/hero-1200.webp" srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" sizes="(min-width: 900px) 40vw, 100vw" alt="Une voiture grise capot ouvert sur un pont élévateur dans l'atelier" width="1200" height="1500" fetchpriority="high"></div>
@@ -113,7 +113,7 @@
     <section class="wrap prices" id="tarifs">
       <div class="sec-head">
         <h2>Les forfaits, sans surprise</h2>
-        <p class="muted">Pièces et main-d'œuvre comprises, TTC. Le prix exact pour votre voiture s'affiche quand vous entrez la plaque.</p>
+        <p class="muted">Pièces et main-d'œuvre comprises, TTC. Le prix exact pour votre voiture s'affiche quand vous la choisissez en haut de page.</p>
       </div>
       <div class="switch" role="radiogroup" aria-label="Type de véhicule" id="cats"></div>
       <table class="ptable"><thead><tr><th scope="col">Forfait</th><th scope="col">Prix</th></tr></thead><tbody id="ptable"></tbody></table>
@@ -167,7 +167,7 @@
         <div><dt>Contact</dt><dd><a href="mailto:atelier@garage-ferrand.example">atelier@garage-ferrand.example</a></dd></div>
       </dl>
     </div>
-    <p class="wrap ft-credit">Garage fictif · numéro réservé à la fiction · véhicules reconnus au hasard pour la démonstration · site réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+    <p class="wrap ft-credit">Garage fictif · numéro réservé à la fiction · site réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
   </footer>
 
   <div class="m-bar" id="mBar">

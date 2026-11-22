@@ -1,5 +1,5 @@
 /* Démo garage · BuildWebAI
-   Plaque → véhicule et prix, pré-diagnostic (symptôme + photo + roulable ?) qui oriente vers le bon créneau ou l'urgence,
+   Marque, modèle et motorisation → prix, pré-diagnostic (symptôme + photo + roulable ?) qui oriente vers le bon créneau ou l'urgence,
    rendez-vous par type d'intervention avec rappel SMS à confirmer, suivi de réparation avec devis validé en ligne,
    relance J+3 et demande d'avis à la restitution, tarifs par catégorie, rappels CT et révision,
    panneau « Personnaliser » (?nom=…&accent=1F3FA8 ; &presentation=1). */
@@ -11,16 +11,18 @@
   const now = new Date();
   const st = { nom: 'Garage Ferrand' };
 
-  /* ---------- Véhicule reconnu depuis la plaque (simulé pour la démo) ---------- */
-  const VEHICLES = [
-    { n: 'Peugeot 308', d: '1.5 BlueHDi 130 · diesel · 2019', cat: 1 },
-    { n: 'Renault Clio V', d: '1.0 TCe 90 · essence · 2021', cat: 0 },
-    { n: 'Citroën C3', d: '1.2 PureTech 83 · essence · 2018', cat: 0 },
-    { n: 'Volkswagen Golf 7', d: '2.0 TDI 150 · diesel · 2016', cat: 1 },
-    { n: 'Dacia Duster', d: '1.5 Blue dCi 115 · diesel · 2020', cat: 2 },
-    { n: 'Toyota Yaris', d: '1.5 hybride 116 · 2022', cat: 0 },
-    { n: 'Peugeot 3008', d: '1.2 PureTech 130 · essence · 2020', cat: 2 },
-  ];
+  /* ---------- Choix du véhicule : marque, modèle, motorisation ---------- */
+  const BRANDS = {
+    Peugeot: [['208', 0], ['308', 1], ['2008', 1], ['3008', 2], ['5008', 2]],
+    Renault: [['Clio', 0], ['Captur', 1], ['Mégane', 1], ['Scénic', 2], ['Kangoo', 2]],
+    'Citroën': [['C3', 0], ['C4', 1], ['C5 Aircross', 2], ['Berlingo', 2]],
+    Dacia: [['Sandero', 0], ['Duster', 2], ['Jogger', 2]],
+    Volkswagen: [['Polo', 0], ['Golf', 1], ['T-Roc', 1], ['Tiguan', 2]],
+    Toyota: [['Yaris', 0], ['Corolla', 1], ['C-HR', 1], ['RAV4', 2]],
+    Ford: [['Fiesta', 0], ['Focus', 1], ['Puma', 1], ['Kuga', 2]],
+    Fiat: [['500', 0], ['Panda', 0], ['Tipo', 1]],
+  };
+  const ENERGY = ['Essence', 'Diesel', 'Hybride', 'Électrique'];
   const CATS = ['Citadine', 'Compacte', 'SUV ou familiale'];
   const PRICES = [
     ['Diagnostic électronique', 'Déduit si vous faites la réparation chez nous', [49, 49, 49]],
@@ -32,28 +34,44 @@
     ['Montage et équilibrage de 4 pneus', 'Pneus en plus, au prix affiché', [49, 59, 69]],
     ['Courroie de distribution', 'Kit complet et pompe à eau', null],
   ];
-  let car = null, plate = '';
-  const norm = (v) => v.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  $('#plate').addEventListener('input', (e) => {
-    const r = norm(e.target.value).slice(0, 7);
-    e.target.value = [r.slice(0, 2), r.slice(2, 5), r.slice(5, 7)].filter(Boolean).join('-');
-  });
-  $('#plateForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const r = norm($('#plate').value), msg = $('#plateMsg');
-    if (!/^[A-Z]{2}\d{3}[A-Z]{2}$/.test(r)) { msg.className = 'form-msg err'; msg.textContent = 'Format attendu : AB-123-CD.'; $('#plate').focus(); return; }
-    msg.textContent = '';
-    plate = `${r.slice(0, 2)}-${r.slice(2, 5)}-${r.slice(5)}`;
-    car = VEHICLES[[...r].reduce((a, c) => a + c.charCodeAt(0), 0) % VEHICLES.length];
-    cat = car.cat; renderPrices();
-    const pick = [2, 3, 5];
+  let car = null;
+  const sel = { brand: '', model: '', cat: null, energy: 'Essence' };
+  $('#brand').innerHTML = '<option value="">Choisir la marque</option>' + Object.keys(BRANDS).map((b) => `<option>${b}</option>`).join('') + '<option value="autre">Une autre marque</option>';
+  function renderModels() {
+    const m = $('#model');
+    if (!sel.brand || sel.brand === 'autre') { m.disabled = true; m.innerHTML = `<option value="">${sel.brand ? 'Choisissez la taille' : 'D\u2019abord la marque'}</option>`; return; }
+    m.disabled = false;
+    m.innerHTML = '<option value="">Choisir le modèle</option>' + BRANDS[sel.brand].map(([n]) => `<option>${n}</option>`).join('') + '<option value="autre">Un autre modèle</option>';
+  }
+  function renderPick() {
+    const needCat = sel.brand === 'autre' || sel.model === 'autre';
+    $('#catBox').hidden = !needCat;
+    $('#catPick').innerHTML = CATS.map((c, i) => `<button type="button" role="radio" aria-checked="${sel.cat === i}" data-pick="${i}">${c}</button>`).join('');
+    $('#energy').innerHTML = ENERGY.map((e) => `<button type="button" role="radio" aria-checked="${sel.energy === e}" data-energy="${e}">${e}</button>`).join('');
+    const known = sel.brand && sel.brand !== 'autre' && sel.model && sel.model !== 'autre';
+    const c = known ? BRANDS[sel.brand].find(([n]) => n === sel.model)[1] : needCat ? sel.cat : null;
+    if (c === null || c === undefined) { car = null; $('#veh').hidden = true; renderRdvVeh(); return; }
+    car = { n: known ? `${sel.brand} ${sel.model}` : `${CATS[c].toLowerCase()}${sel.brand !== 'autre' ? ` ${sel.brand}` : ''}`, cat: c, known };
+    cat = c; renderPrices();
+    const ev = sel.energy === 'Électrique';
+    const rows = [
+      ['Révision constructeur', PRICES[2][2][c] * (ev ? 0.75 : 1)],
+      [ev ? 'Contrôle batterie et haute tension' : 'Vidange et filtre à huile', ev ? 59 : PRICES[1][2][c]],
+      ['Plaquettes avant', PRICES[3][2][c]],
+      ['Recharge de climatisation', PRICES[5][2][c]],
+    ];
     $('#veh').hidden = false;
-    $('#veh').innerHTML = `<p class="veh-name">${car.n}</p><p class="veh-meta">${plate} · ${car.d} · catégorie ${CATS[car.cat].toLowerCase()}</p>
-      <ul class="veh-list">${pick.map((i) => `<li><span>${PRICES[i][0]}</span><b>${euro(PRICES[i][2][car.cat])}</b></li>`).join('')}</ul>
+    $('#veh').innerHTML = `<p class="veh-name">${known ? car.n : CATS[c] + (sel.brand !== 'autre' ? ` ${sel.brand}` : '')}</p><p class="veh-meta">${sel.energy} · catégorie ${CATS[c].toLowerCase()}${ev ? ' · pas de vidange sur une électrique' : ''}</p>
+      <ul class="veh-list">${rows.map(([n, p]) => `<li><span>${n}</span><b>${euro(p)}</b></li>`).join('')}</ul>
       <a class="btn btn--accent btn--sm" href="#rdv">Réserver pour cette voiture</a>`;
-    $$('[data-veh-name]').forEach((el) => { el.textContent = car.n; });
+    $$('[data-veh-name]').forEach((el) => { el.textContent = known ? car.n : 'Peugeot 308'; });
     renderRdvVeh();
-  });
+  }
+  const forCar = () => (car ? (car.known ? `votre ${car.n}` : `votre ${car.n}`) : '');
+  $('#brand').addEventListener('change', (e) => { sel.brand = e.target.value; sel.model = ''; renderModels(); renderPick(); });
+  $('#model').addEventListener('change', (e) => { sel.model = e.target.value; renderPick(); });
+  $('#catPick').addEventListener('click', (e) => { const b = e.target.closest('[data-pick]'); if (b) { sel.cat = +b.dataset.pick; renderPick(); $(`[data-pick="${sel.cat}"]`).focus(); } });
+  $('#energy').addEventListener('click', (e) => { const b = e.target.closest('[data-energy]'); if (b) { sel.energy = b.dataset.energy; renderPick(); $(`[data-energy="${sel.energy}"]`).focus(); } });
 
   /* ---------- Tarifs ---------- */
   let cat = 1;
@@ -78,7 +96,7 @@
   const rdv = { svc: 'diag', day: 0, slot: null };
   const svc = () => SERVICES.find((x) => x.id === rdv.svc);
   const full = (d, i) => ((d * 7 + i * 3 + DAYS[d].getDate()) % 5) === 0;
-  function renderRdvVeh() { $('#rdvVeh').textContent = car ? `Pour votre ${car.n} · ${plate}` : ''; }
+  function renderRdvVeh() { $('#rdvVeh').textContent = car ? `Pour ${forCar()}, ${sel.energy.toLowerCase()}` : ''; }
   function renderRdv() {
     $('#services').innerHTML = SERVICES.map((x) => `<button type="button" role="radio" aria-checked="${x.id === rdv.svc}" data-svc="${x.id}">${x.n}</button>`).join('');
     $('#days').innerHTML = DAYS.map((d, i) => `<button type="button" role="radio" aria-checked="${i === rdv.day}" data-day="${i}">${d.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric' }).replace('.', '')}</button>`).join('');
@@ -117,7 +135,7 @@
     msg.textContent = `C'est réservé, ${nm.value.trim()} : ${svc().n.split(' · ')[0].toLowerCase()} ${when}${$('#loan').checked ? ', avec véhicule de courtoisie' : ''}.`;
     const box = $('#rdvSms');
     box.hidden = !$('#sms').checked;
-    box.innerHTML = `<small>SMS envoyé la veille</small>${st.nom} : rappel de votre rendez-vous ${when.replace(/^\S+ /, 'demain ')}${car ? ` pour la ${car.n} ${plate}` : ''}. Répondez OUI pour confirmer, ou NON pour libérer le créneau.`;
+    box.innerHTML = `<small>SMS envoyé la veille</small>${st.nom} : rappel de votre rendez-vous ${when.replace(/^\S+ /, 'demain ')}${car ? ` pour ${forCar()}` : ''}. Répondez OUI pour confirmer, ou NON pour libérer le créneau.`;
   });
 
   /* ---------- Pré-diagnostic ---------- */
@@ -157,7 +175,7 @@
   const total = QUOTE.reduce((a, [, p]) => a + p, 0);
   let step = 2, refused = false;
   const sms = [];
-  const vname = () => (car ? car.n : 'Peugeot 308');
+  const vname = () => (car && car.known ? car.n : 'Peugeot 308');
   function pushSms(t, label) { sms.push({ t, label }); renderSms(); }
   function renderSms() { $('#smsList').innerHTML = sms.map((m) => `<li><small>${m.label}</small>${m.t}</li>`).join(''); }
   function renderTrack() {
@@ -278,5 +296,5 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !cz.hidden) { setCz(false); czBtn.focus(); } });
 
   apply(false);
-  renderPrices(); renderRdv(); renderVoy(); renderDue(); startTrack();
+  renderModels(); renderPick(); renderPrices(); renderRdv(); renderVoy(); renderDue(); startTrack();
 })();
