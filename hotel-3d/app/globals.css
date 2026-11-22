@@ -399,3 +399,10 @@ html.has-cursor textarea {
     scroll-behavior: auto !important;
   }
 }
+
+/* apparition sans déplacement (brume) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}

@@ -57,10 +57,10 @@ function suitesTimeline(tl: gsap.core.Timeline) {
   SUITES.forEach((_, i) => {
     const sel = `[data-suite="${i}"] [data-rise]`;
     const start = i * part;
-    if (i > 0) tl.fromTo(sel, { yPercent: 110 }, { yPercent: 0, duration: 0.04, stagger: 0.006, ease: "power3.out" }, start - 0.005);
+    if (i > 0) tl.fromTo(sel, { yPercent: 110 }, { yPercent: 0, duration: 0.04, stagger: 0.006, ease: "power3.out" }, start - 0.02);
     if (i < SUITES.length - 1)
       tl.to(sel, { yPercent: -110, duration: 0.035, stagger: { each: 0.004, from: "end" }, ease: "power2.in" }, start + part - 0.06);
-    if (i > 0) tl.to("[data-suite-index]", { yPercent: (-100 / SUITES.length) * i, duration: 0.02, ease: "power3.inOut" }, start - 0.005);
+    if (i > 0) tl.to("[data-suite-index]", { yPercent: (-100 / SUITES.length) * i, duration: 0.02, ease: "power3.inOut" }, start - 0.02);
   });
 }
 

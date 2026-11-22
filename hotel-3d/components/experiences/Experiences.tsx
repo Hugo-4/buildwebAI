@@ -38,6 +38,7 @@ function Accordion() {
   const root = useRef<HTMLDivElement>(null);
   const [scrollActive, setScrollActive] = useState(0);
   const [hover, setHover] = useState<number | null>(null);
+  const index = useRef(0);
   const active = hover ?? scrollActive;
   const lastSwitch = useRef(0);
   const lastPos = useRef({ x: 0, y: 0 });
@@ -60,11 +61,11 @@ function Accordion() {
       end: "bottom bottom",
       onUpdate: (self) => {
         const k = Math.min(EXPERIENCES.length - 1, Math.floor(self.progress * EXPERIENCES.length));
-        setScrollActive((prev) => {
-          // le scroll reprend la main sur le survol dès qu'il change de bande
-          if (prev !== k) setHover(null);
-          return k;
-        });
+        if (k === index.current) return;
+        // le scroll reprend la main sur le survol dès qu'il change de bande
+        index.current = k;
+        setScrollActive(k);
+        setHover(null);
       },
     });
     return () => st.kill();

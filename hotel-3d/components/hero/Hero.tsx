@@ -62,22 +62,36 @@ export default function Hero() {
     const name = document.querySelector<HTMLElement>("[data-hero-name]");
     if (!name || prefersReducedMotion()) return;
     let on = true;
+    let scrolled = false;
+    let visible = true;
+    let last = -1;
+    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
+    const hero = document.getElementById("top");
+    if (hero) io.observe(hero);
     const tick = (_t: number, dt: number) => {
+      if (!visible) return; // hero hors écran : rien à écrire
       const { m, past } = target.current;
+      if (m > 0) scrolled = true;
       const k = 1 - Math.exp(-(dt / 1000) * 5);
       mist.current += (m - mist.current) * k;
       const v = mist.current;
       // montée : le nom disparaît entre 35 % et 85 % de couverture ; après le pic, il reste caché
       const fade = past ? 1 : gsap.utils.clamp(0, 1, (v - 0.35) / 0.5);
-      name.style.opacity = String(1 - fade);
-      name.style.filter = fade > 0.01 ? `blur(${(fade * 8).toFixed(2)}px)` : "";
-      name.style.transform = `translateY(${(-fade * 8).toFixed(2)}%)`;
-      // la brume ne calcule plus rien une fois retirée
-      const want = v > 0.002 || m > 0.002;
+      if (Math.abs(fade - last) > 0.001) {
+        last = fade;
+        name.style.opacity = String(1 - fade);
+        name.style.filter = fade > 0.01 ? `blur(${(fade * 8).toFixed(2)}px)` : "";
+        name.style.transform = `translateY(${(-fade * 8).toFixed(2)}%)`;
+      }
+      // la brume dessine son voile de repos jusqu'au 1er scroll, puis s'arrête une fois retirée
+      const want = !scrolled || v > 0.002 || m > 0.002;
       if (want !== on) setMistOn((on = want));
     };
     gsap.ticker.add(tick);
-    return () => gsap.ticker.remove(tick);
+    return () => {
+      gsap.ticker.remove(tick);
+      io.disconnect();
+    };
   }, []);
 
   // brume active seulement quand le hero est à l'écran
@@ -155,7 +169,7 @@ export default function Hero() {
 
       {/* La brume (WebGL) au-dessus du nom */}
       {!reduced && !lite && wantMist && (
-        <div className="pointer-events-none absolute inset-0 animate-[fadeUp_.4s_ease-out]">
+        <div className="pointer-events-none absolute inset-0 animate-[fadeIn_.5s_ease-out]">
           <Mist progress={mist} active={active && mistOn} />
         </div>
       )}
