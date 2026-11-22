@@ -111,13 +111,14 @@ function RingGallery() {
           </p>
         </div>
         <div
-          className="absolute inset-0 left-[24%]"
+          className="absolute inset-0 left-[32%]"
           onPointerLeave={() => setCursorLabel(null)}
         >
           {/* affiche de la carte de face, sous le canvas, jusqu'à la 1re image rendue */}
           <div
             aria-hidden
-            className={`pointer-events-none absolute left-1/2 top-1/2 aspect-[3/4] w-[min(26vw,22rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden transition-opacity duration-500 ${ready ? "opacity-0" : "opacity-100"}`}
+            // carte de face : 3,2 unités de haut vues à 7,5 unités, champ de 40° → 58,6 % de la hauteur
+            className={`pointer-events-none absolute left-1/2 top-1/2 aspect-[3/4] h-[58.6%] -translate-x-1/2 -translate-y-1/2 overflow-hidden transition-opacity duration-500 ${ready ? "opacity-0" : "opacity-100"}`}
           >
             <Image src={e.image} alt="" fill sizes="26vw" className="object-cover" />
           </div>

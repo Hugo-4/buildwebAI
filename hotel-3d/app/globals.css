@@ -372,3 +372,20 @@ html.has-cursor textarea {
 @keyframes pl-fade {
   to { opacity: 1; }
 }
+
+/* préchargeur non joué (seconde visite, mobile, mouvement réduit) : jamais peint */
+html.pl-skip .preloader {
+  display: none !important;
+}
+
+/* État de départ de l'entrée du hero, posé avant le 1er rendu (script en tête) :
+   le titre n'est jamais peint puis caché. GSAP reprend la main en style inline. */
+html.intro [data-hero-band] {
+  clip-path: polygon(0% 160%, 100% 100%, 100% 100%, 0% 160%) !important;
+}
+html.intro [data-letter] {
+  transform: translateY(110%);
+}
+html.intro [data-hero-fade] {
+  opacity: 0;
+}

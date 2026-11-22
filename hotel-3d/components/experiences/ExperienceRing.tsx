@@ -157,7 +157,7 @@ function Ring({ progress, velocity, onHover, onReady }: Omit<Props, "active">) {
 function Rig() {
   const { camera, size } = useThree();
   // recule la caméra sur les écrans étroits pour garder la carte entière
-  const z = size.width / size.height < 1.2 ? R + 10 : R + 7.5;
+  const z = size.width / size.height < 0.9 ? R + 10 : R + 7.5;
   camera.position.set(0, 0, z);
   camera.lookAt(0, 0, 0);
   return null;

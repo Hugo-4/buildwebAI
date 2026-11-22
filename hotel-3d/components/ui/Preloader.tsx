@@ -35,7 +35,9 @@ export default function Preloader() {
       seen = sessionStorage.getItem("larolle-intro") === "1";
       sessionStorage.setItem("larolle-intro", "1");
     } catch {}
-    if (!el || seen || prefersReducedMotion()) return finish();
+    // Mobile (version allégée) : pas de préchargeur, le hero s'ouvre tout de suite
+    const phone = window.matchMedia("(max-width: 767px)").matches;
+    if (!el || seen || phone || prefersReducedMotion()) return finish();
 
     document.documentElement.style.overflow = "hidden";
     const counter = { v: 0 };
@@ -45,8 +47,7 @@ export default function Preloader() {
       img.onload = img.onerror = () => res();
       img.src = firstFrame(SEQUENCES.hero, window.innerWidth > 1100 ? 1920 : 960);
     });
-    const small = window.innerWidth < 768;
-    const ready = Promise.all([document.fonts.ready, small ? null : imgReady, new Promise((r) => setTimeout(r, small ? 500 : 750))]);
+    const ready = Promise.all([document.fonts.ready, imgReady, new Promise((r) => setTimeout(r, 750))]);
 
     // le tracé du monogramme est en CSS (globals.css, .pl-*) : son état de départ
     // existe dès le HTML serveur, donc rien n'apparaît puis ne disparaît
@@ -81,7 +82,7 @@ export default function Preloader() {
       ref={root}
       role="status"
       aria-label="Chargement de L’Arolle"
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-altitude text-snow"
+      className="preloader fixed inset-0 z-[100] hidden items-center justify-center bg-altitude text-snow md:flex"
       style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 121%)" }}
     >
       <div data-pl-inner className="flex flex-col items-center">

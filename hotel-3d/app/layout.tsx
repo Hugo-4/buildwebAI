@@ -21,7 +21,7 @@ const sans = Jost({
 export const metadata: Metadata = {
   title: "L'Arolle · Hôtel de vingt-quatre suites à Courchevel 1850",
   description:
-    "L'Arolle, maison de vingt-quatre suites à Courchevel 1850 : spa, table gastronomique, rooftop face aux Trois Vallées. Démonstration BuildWebAI.",
+    "L'Arolle, maison de vingt-quatre suites à Courchevel 1850 : spa et piscine, table de montagne, baies face aux Trois Vallées. Démonstration BuildWebAI.",
   icons: { icon: "/monogram.svg" },
 };
 
@@ -29,7 +29,16 @@ export const viewport: Viewport = { themeColor: "#16245a" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${display.variable} ${sans.variable}`}>
+    <html lang="fr" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Avant le 1er rendu : état de départ de l'entrée du hero (.intro) ; seconde visite,
+            mobile ou mouvement réduit → pas de préchargeur peint (.pl-skip) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var d=document.documentElement,r=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r)d.classList.add('intro');if(r||sessionStorage.getItem('larolle-intro')==='1'||matchMedia('(max-width: 767px)').matches)d.classList.add('pl-skip')}catch(e){}`,
+          }}
+        />
+      </head>
       <body>
         <a href="#contenu" className="skip-link caps">
           Aller au contenu

@@ -92,7 +92,10 @@ export default function ScrollSequence({
 
     // Taille servie selon la largeur physique de l'écran
     const pick = () => {
-      const need = window.innerWidth * Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const portrait = window.innerWidth / window.innerHeight < 0.9 && portraitBox < 1;
+      // en portrait, l'image remplit la hauteur de sa bande : c'est cette hauteur qui compte
+      const need = portrait ? window.innerHeight * portraitBox * manifest.ratio * dpr : window.innerWidth * dpr;
       return need > sizes[1] * 1.15 ? sizes[0] : sizes[1];
     };
     const size = pick();
@@ -264,17 +267,20 @@ export default function ScrollSequence({
       className={`relative ${className}`}
       style={{ height: reduced ? "100svh" : `${length * 100}vh` }}
     >
-      <div className="sticky top-0 h-[100svh] overflow-hidden bg-granite">
+      <div className="sticky top-0 h-[100svh] overflow-hidden" style={{ backgroundColor: portraitBox < 1 ? bg : "#121417" }}>
         {/* Affiche : 1re image en <img> (LCP rapide, visible sans JavaScript) */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={firstFrame(manifest, manifest.sizes[1])}
           srcSet={`${firstFrame(manifest, manifest.sizes[1])} ${manifest.sizes[1]}w, ${firstFrame(manifest)} ${manifest.sizes[0]}w`}
-          sizes="100vw"
+          sizes={portraitBox < 1 ? "(orientation: portrait) 240vw, 100vw" : "100vw"}
           alt=""
           fetchPriority={id === "top" ? "high" : "auto"}
-          className={`absolute inset-0 h-full w-full object-cover ${night ? "brightness-50" : ""}`}
-          style={portraitBox < 1 ? { objectPosition: "center top" } : undefined}
+          // portrait : même cadrage que le canvas (bande du haut, bas coupé à 12°)
+          className={`absolute inset-x-0 top-0 h-full w-full object-cover ${night ? "brightness-50" : ""} ${
+            portraitBox < 1 ? "portrait:h-[var(--pbox)] portrait:[clip-path:polygon(0_0,100%_0,100%_calc(100%-21.26vw),0_100%)]" : ""
+          }`}
+          style={{ ["--pbox" as string]: `${portraitBox * 100}%` }}
         />
         <canvas
           ref={canvas}

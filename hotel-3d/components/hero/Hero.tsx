@@ -61,7 +61,10 @@ export default function Hero() {
     // état de départ posé tout de suite : rien n'apparaît puis ne disparaît sous le préchargeur
     const ctx = gsap.context(() => {
       gsap.set(band, { clipPath: `polygon(0% ${100 + Number(rise)}%, 100% 100%, 100% 100%, 0% 100%)` });
-      gsap.set(letters, { yPercent: 110 });
+      // y: 0 explicite : GSAP ne doit pas reprendre la translation de la règle CSS de départ
+      gsap.set(letters, { y: 0, yPercent: 110 });
+      // l'état de départ CSS (!important) laisse la main au style inline animé
+      document.documentElement.classList.remove("intro");
       gsap.set("[data-hero-fade]", { opacity: 0 });
     });
     // le titre entre quand le préchargeur a levé son rideau
@@ -103,10 +106,10 @@ export default function Hero() {
         <div
           key={i}
           data-caption={i}
-          className="absolute inset-x-[var(--gutter)] top-[56svh] bg-altitude pb-6 pt-[calc(100vw*0.2126+8px)] text-snow md:inset-x-auto md:right-[var(--gutter)] md:top-[30svh] md:w-[34rem] md:px-9 md:pb-8 md:pt-[calc(34rem*0.2126+16px)]"
+          className="absolute inset-x-[var(--gutter)] top-[54svh] bg-altitude pb-10 max-md:pl-[8vw] pt-[calc(100vw*0.2126+24px)] text-snow md:inset-x-auto md:right-[var(--gutter)] md:top-[30svh] md:w-[34rem] md:px-9 md:pb-8 md:pt-[calc(34rem*0.2126+16px)]"
           style={{ clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }}
         >
-          <p data-caption-text className="display text-[clamp(2.25rem,9vw,3rem)] leading-[1.02] md:text-[clamp(1.75rem,3.4vw,3rem)]">
+          <p data-caption-text className="display text-[11.5vw] leading-[1] max-md:origin-bottom-left max-md:[transform:rotate(var(--slope))] md:text-[clamp(1.75rem,3.4vw,3rem)]">
             {c.text}
           </p>
         </div>
