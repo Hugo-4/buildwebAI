@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   L'Arolle — jetons du système « Photomontage alpin »
+   Une seule source de vérité : Tailwind et les shaders lisent ces valeurs.
+   ========================================================================== */
+:root {
+  /* Palette tirée du lieu */
+  --snow: #f2f4f3;      /* neige froide, fond principal */
+  --altitude: #16245a;  /* bleu d'altitude, grands aplats */
+  --granite: #121417;   /* encre */
+  --sky: #bfd2e3;       /* ciel pâle */
+  --shade: #b9c7d8;     /* neige à l'ombre */
+  --amber: #c8873a;     /* ambre d'arolle : la seule note chaude, réservée à l'action */
+  --amber-ink: #8a5518; /* ambre lisible sur neige (AA texte courant) */
+
+  /* La pente : l'angle de toute la composition */
+  --slope: -12deg;
+
+  /* Mouvement (voir DESIGN.md) */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --dur-micro: 160ms;
+  --dur-ui: 280ms;
+  --dur-reveal: 1100ms;
+
+  /* Rythme */
+  --gutter: clamp(16px, 4vw, 56px);
+  --section-y: clamp(96px, 16vh, 200px);
+
+  color-scheme: light;
+}
+
+html {
+  background: var(--snow);
+  color: var(--granite);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Lenis gère le défilement : on coupe le smooth natif pour éviter le double lissage */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 300;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Surfaces navigateur : elles portent aussi le design */
+::selection {
+  background: var(--altitude);
+  color: var(--snow);
+}
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 4px;
+}
+* {
+  caret-color: var(--amber);
+}
+html {
+  scrollbar-color: var(--altitude) var(--snow);
+  scrollbar-width: thin;
+}
+
+/* Petites capitales fonctionnelles (Jost) */
+.caps {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Titres éditoriaux (Bodoni Moda) */
+.display {
+  font-family: var(--font-display), serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+/* Bouton d'action : un parallélogramme coupé sur la pente, jamais un rectangle arrondi */
+.btn-slope {
+  --cut: 14px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  padding: 0.95em 1.6em 0.9em;
+  background: var(--amber);
+  color: var(--granite);
+  clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
+  transition: background-color var(--dur-ui) var(--ease-out-expo),
+    transform var(--dur-micro) var(--ease-out-expo);
+}
+.btn-slope:hover {
+  background: #d69548;
+}
+.btn-slope:active {
+  transform: scale(0.97);
+}
+/* Le clip-path rognerait l'anneau de focus : on le dessine à l'intérieur */
+.btn-slope:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--granite);
+}
+
+/* Lien souligné, soulignement décalé et animé */
+.link-line {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% 1px;
+  padding-bottom: 2px;
+  transition: background-size var(--dur-ui) var(--ease-out-expo);
+}
+.link-line:hover {
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+}
+
+/* Grain photo commun aux aplats (pas de dégradé, du grain) */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+}
+
+/* Indice de défilement : un trait qui file vers la droite puis repart */
+@keyframes cue {
+  0% { transform: scaleX(0); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+  50.1% { transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Lien d'évitement clavier */
+.skip-link {
+  position: fixed;
+  left: var(--gutter);
+  top: 12px;
+  z-index: 100;
+  transform: translateY(-200%);
+  background: var(--granite);
+  color: var(--snow);
+  padding: 10px 16px;
+}
+.skip-link:focus {
+  transform: none;
+}
+
+/* prefers-reduced-motion : on coupe les transitions décoratives.
+   Les composants GSAP lisent aussi la préférence et affichent l'état final. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
