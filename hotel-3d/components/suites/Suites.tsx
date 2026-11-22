@@ -15,18 +15,18 @@ import type { gsap } from "@/lib/motion";
 const SUITES = [
   {
     name: "Suite Arête",
-    size: "48 m²",
-    lines: ["Vue sur la Saulire", "Lit de 200, cheminée", "Douche à l’italienne"],
+    size: "45 m²",
+    lines: ["Vue sur la Saulire", "Lit de 200, bois d’arolle", "Douche à l’italienne"],
   },
   {
     name: "Suite Combe",
-    size: "62 m²",
-    lines: ["Salon et poêle à bois", "Baignoire en pierre", "Balcon plein sud"],
+    size: "70 m²",
+    lines: ["Salon et cheminée suspendue", "Baignoire en pierre face aux sommets", "Balcon plein sud"],
   },
   {
     name: "Suite Cembro",
-    size: "85 m²",
-    lines: ["Deux niveaux sous la charpente", "Cheminée et bibliothèque", "Terrasse sur les pistes"],
+    size: "120 m²",
+    lines: ["Duplex sous la charpente", "Spa privé, sauna et hammam", "Terrasse et bain nordique"],
   },
 ];
 

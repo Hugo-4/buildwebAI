@@ -62,3 +62,34 @@ Les trois phrases du hero sont calées sur 30 %, 56 % et 82 % de la vidéo d'arr
 ## Ce qu'il faut m'envoyer
 
 Les fichiers vidéo bruts (MP4/MOV), dans la meilleure qualité disponible. Je m'occupe du reste : découpe en images, compression WebP en deux tailles (ordinateur et mobile), préchargement progressif et lien avec le scroll.
+
+## Prompts des suites (montée en gamme)
+
+Ta chambre de base devient la **Suite Arête** (45 m², lumière du matin). Les deux suivantes montent en gamme, et la lumière avance dans la journée : matin, puis après-midi, puis l'heure bleue. Le scroll raconte ainsi une journée entière.
+
+Mêmes règles que plus haut : travelling avant lent à vitesse constante, sans coupe, exposition fixe, 16:9, 5 à 8 s par suite. Envoie les vidéos séparément : je les assemble avec un fondu, chacune sur un tiers de la séquence.
+
+**Style commun (à coller au début de chaque prompt) :**
+
+> Cinematic architectural interior photography of a luxury five-star chalet suite in Courchevel 1850, French Alps. Pale knotty Swiss stone pine (arolla) wood, warm lime plaster, honed grey stone, bronze details, cream wool bouclé, natural linen, sheepskin-free, very few objects, museum-like restraint. Deep ultramarine winter sky (#16245A) and snow-covered peaks through the windows, warm amber light (#C8873A) only from lamps and fire. Editorial, quiet, uncluttered, Aman / Six Senses level of refinement. Single continuous slow dolly-in at eye level, constant speed, no cuts, no zoom, no camera shake, locked exposure, sharp focus, 35mm lens, 16:9.
+
+**Suite Combe (70 m², après-midi), la gamme au-dessus :**
+
+> [style] Mid-afternoon low winter sun. The camera enters through a wide doorway into a spacious suite: a sunken living area with a low cream bouclé sofa around a suspended black steel fireplace with a real flame, wide-plank pale pine floor, a long slatted pine wall. The camera glides past the sofa toward the bedroom alcove where a king bed with white linen and a thick grey cashmere throw faces a panoramic window; next to the window, a monolithic freestanding grey stone bathtub stands alone, steam rising softly, sunlit snowy peaks filling the glass behind it. The camera ends close to the tub and the view.
+
+**Suite Cembro (120 m², heure bleue), la plus haute gamme :**
+
+> [style] Blue hour, the sky outside deep ultramarine, the snow glowing pale blue, interior lit only by warm amber lamps and a large open fire. The camera starts in a double-height living room under exposed pale pine roof trusses, a monumental floor-to-ceiling stone fireplace with a roaring fire, a long low sofa and a solid larch table, a floating oak staircase leading to a mezzanine bedroom. The camera glides forward across the room toward a full-height glass wall, through which a private terrace appears with a steaming wooden Nordic hot tub carved into the snow, lanterns glowing, and the illuminated village and peaks beyond. The camera stops at the glass, the terrace and the mountains filling the frame.
+
+**Variante si tu veux une 4e suite (spa privé) :**
+
+> [style] Soft evening light. The camera moves slowly down a short corridor of honed grey stone into a private spa: a small pale pine sauna with a glass front glowing amber, a stone hammam bench, and a narrow indoor plunge pool reflecting a wide window full of snowy peaks under a deep blue sky. Calm water surface, a few candles, no people. The camera ends at the edge of the pool, facing the view.
+
+**Négatif (pour les trois) :**
+
+> people, faces, hands, text, watermark, logo, clutter, Christmas decorations, fur rugs, antlers, animal skins, gold bling, chandeliers, red tones, motion blur, fast camera, camera rotation, fisheye, flicker, exposure change, CGI look, cartoon, oversaturated colors
+
+**Astuces de génération**
+- Si l'outil accepte une image de départ, prends une image de ta suite de base (même bois, même lumière) : la cohérence entre les suites sera bien meilleure.
+- Fais 2 ou 3 essais par suite et garde celui où la caméra avance le plus régulièrement. C'est le critère numéro un pour le scroll.
+- Les surfaces affichées sur le site (45, 70 et 120 m²) suivent ces prompts : dis-moi si tes vraies suites diffèrent.
