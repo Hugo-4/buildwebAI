@@ -38,10 +38,7 @@ export default function TableSpa() {
       {/* ------------------------------ LA TABLE ------------------------------ */}
       <section id="table" data-header="dark" aria-labelledby="table-title" className="bg-snow py-[var(--section-y)] text-ink">
         <div className="grid grid-cols-4 px-[var(--gutter)] md:grid-cols-6">
-          <p className="label col-span-4 text-[1.0625rem] md:col-span-1 md:col-start-2 md:pt-3">
-            <span className="swash">La table</span>
-          </p>
-          <h2 id="table-title" className="title col-span-4 mt-8 text-[clamp(2.4rem,5vw,5rem)] md:col-span-4 md:col-start-2 md:mt-10">
+          <h2 id="table-title" className="title col-span-4 text-[clamp(2.4rem,5vw,5rem)] md:col-span-4 md:col-start-2">
             Une seule salle, face à la vallée
           </h2>
         </div>
@@ -69,10 +66,10 @@ export default function TableSpa() {
       </section>
 
       {/* ------------------------------- LE SPA ------------------------------- */}
-      <section ref={spa} id="spa" data-header="light" aria-labelledby="spa-title" className="relative isolate bg-snow py-[var(--section-y)] text-snow">
+      <section ref={spa} id="spa" data-header="ink" aria-labelledby="spa-title" className="relative isolate bg-snow py-[var(--section-y)] text-snow">
         <div data-tone-field aria-hidden className="absolute inset-0 -z-10 bg-ink" />
         <div className="grid grid-cols-4 items-center gap-y-14 px-[var(--gutter)] md:grid-cols-6">
-          <StripReveal strips={4} className="col-span-4 aspect-[3/4] md:col-span-2 md:col-start-1">
+          <StripReveal strips={2} className="col-span-4 aspect-[3/4] md:col-span-2 md:col-start-1">
             <LoopVideo
               src="/video/spa-piscine.mp4"
               poster="/video/spa-piscine-poster.webp"
@@ -80,15 +77,11 @@ export default function TableSpa() {
             />
           </StripReveal>
           <div className="col-span-4 md:col-span-3 md:col-start-4">
-            <p className="label text-[1.0625rem]">
-              <span className="swash">Le spa</span>
-            </p>
-            <h2 id="spa-title" className="sr-only">
-              Le spa
-            </h2>
             <ScrollWords
+              as="h2"
+              id="spa-title"
               dark
-              className="title mt-8 text-[clamp(1.9rem,3.4vw,3.4rem)]"
+              className="title text-[clamp(1.9rem,3.4vw,3.4rem)]"
               text="Un couloir de pierre, une lumière posée au plafond, puis le bassin, aligné sur la vallée. On y vient après le ski, on en repart à la nuit."
             />
             <ul className="caps mt-12 grid grid-cols-2 gap-x-8 gap-y-4 border-t border-snow/20 pt-8 text-snow/85">

@@ -19,10 +19,10 @@ const Mist = dynamic(() => import("./Mist"), { ssr: false });
 const NAME = "L’Arolle";
 
 /** Phrases calées sur le film : [début, fin] en fraction du scroll. */
-const CAPTIONS: { label: string; text: string; at: [number, number] }[] = [
-  { label: "Le seuil", text: "Les portes sont en arolle, comme le reste.", at: [0.27, 0.42] },
-  { label: "L’entrée", text: "La neige reste dehors.", at: [0.46, 0.6] },
-  { label: "Le salon", text: "Le feu brûle depuis ce matin, les sommets restent aux fenêtres.", at: [0.7, 1] },
+const CAPTIONS: { text: string; at: [number, number] }[] = [
+  { text: "Les portes sont en arolle, comme le reste.", at: [0.27, 0.42] },
+  { text: "La neige reste dehors.", at: [0.46, 0.6] },
+  { text: "Le feu brûle depuis ce matin, les sommets restent aux fenêtres.", at: [0.7, 1] },
 ];
 
 // la brume : monte (0 → 0,13) jusqu'à couvrir le nom, puis se retire (0,13 → 0,24)
@@ -97,21 +97,21 @@ export default function Hero() {
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink/40 to-transparent" />
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[45%] bg-gradient-to-t from-ink/45 to-transparent md:block" />
 
-      <p data-hero-fade data-hero-label className="label absolute left-[var(--gutter)] top-[18svh] max-w-[16rem] text-[1.0625rem] leading-snug text-snow md:top-[22svh]">
+      <p data-hero-fade data-hero-label className="label absolute left-[var(--gutter)] top-[65svh] max-w-[16rem] text-[1.0625rem] leading-snug text-ink md:top-[22svh] md:text-snow">
         Vingt-quatre suites au-dessus
         <br />
         de Courchevel 1850
       </p>
 
       {/* Le nom, que la brume va avaler */}
-      <div data-hero-name className="absolute inset-x-[var(--gutter)] top-[30svh] md:top-auto md:bottom-[9svh]">
+      <div data-hero-name className="absolute inset-x-[var(--gutter)] top-[72svh] md:top-auto md:bottom-[9svh]">
         <h1
           ref={titleRef}
           aria-label="L’Arolle, hôtel de vingt-quatre suites à Courchevel 1850"
-          className="giant whitespace-nowrap text-[30vw] text-snow md:text-[21vw]"
+          className="giant whitespace-nowrap text-[30vw] text-ink md:text-[21vw] md:text-snow"
         >
           {Array.from(NAME).map((ch, i) => (
-            <span key={i} aria-hidden className="inline-block overflow-hidden align-bottom">
+            <span key={i} aria-hidden className="-mt-[0.22em] inline-block overflow-hidden pt-[0.22em] align-bottom">
               <span data-letter className="inline-block will-change-transform">
                 {ch}
               </span>
@@ -134,10 +134,7 @@ export default function Hero() {
           data-caption={i}
           className="absolute inset-x-[var(--gutter)] top-[66svh] text-ink opacity-0 md:bottom-[12svh] md:left-[var(--gutter)] md:right-auto md:top-auto md:max-w-[44rem] md:text-snow"
         >
-          <p className="label text-[1.125rem]">
-            <span className="swash">{c.label}</span>
-          </p>
-          <p className="title mt-5 text-[clamp(1.75rem,3.6vw,3.25rem)]">{c.text}</p>
+          <p className="title text-[clamp(1.75rem,3.6vw,3.25rem)]">{c.text}</p>
         </div>
       ))}
 

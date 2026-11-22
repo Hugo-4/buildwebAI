@@ -7,12 +7,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        snow: "var(--snow)",
-        ink: "var(--ink)",
-        mist: "var(--mist)",
+        snow: "rgb(var(--snow-rgb) / <alpha-value>)",
+        ink: "rgb(var(--ink-rgb) / <alpha-value>)",
+        mist: "rgb(var(--mist-rgb) / <alpha-value>)",
         rule: "var(--rule)",
-        amber: "var(--amber)",
-        night: "var(--night)",
+        amber: "rgb(var(--amber-rgb) / <alpha-value>)",
+        night: "rgb(var(--night-rgb) / <alpha-value>)",
       },
       fontFamily: {
         condensed: ["var(--font-condensed)", "sans-serif"],

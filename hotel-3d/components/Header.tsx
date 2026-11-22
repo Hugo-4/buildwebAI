@@ -17,17 +17,37 @@ const LINKS = [
 ];
 
 export default function Header() {
-  const [solid, setSolid] = useState(false);
+  // ton de la section sous l'en-tête : film (light), neige (dark) ou encre (ink)
+  const [tone, setTone] = useState<"light" | "dark" | "ink">("light");
   const [open, setOpen] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const lenis = useLenis();
 
   useEffect(() => {
-    const hero = document.getElementById("top");
-    const onScroll = () => setSolid(!!hero && hero.getBoundingClientRect().bottom < 80);
-    onScroll();
+    let raf = 0;
+    const read = () => {
+      raf = 0;
+      // la section dont la bande couvre y = 40 px (sous la barre)
+      const secs = document.querySelectorAll<HTMLElement>("[data-header]");
+      for (const el of secs) {
+        const r = el.getBoundingClientRect();
+        if (r.top <= 40 && r.bottom > 40) {
+          setTone((el.dataset.header as "light" | "dark" | "ink") || "dark");
+          return;
+        }
+      }
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(read);
+    };
+    read();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   const close = useCallback(() => {
@@ -43,14 +63,18 @@ export default function Header() {
     else t.scrollIntoView();
   };
 
-  const onFilm = !solid && !open;
+  const skin = open
+    ? "border-transparent text-ink"
+    : tone === "light"
+      ? "border-transparent text-snow"
+      : tone === "ink"
+        ? "border-snow/10 bg-ink/90 text-snow backdrop-blur-sm"
+        : "border-rule bg-snow/95 text-ink backdrop-blur-sm";
 
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-[80] grid grid-cols-3 items-center px-[var(--gutter)] py-5 transition-[background-color,color,border-color] duration-500 ease-out-expo ${
-          onFilm ? "border-b border-transparent text-snow" : "border-b border-rule bg-snow/95 text-ink"
-        } ${open ? "!bg-transparent !border-transparent" : ""}`}
+        className={`fixed inset-x-0 top-0 z-[80] grid grid-cols-3 items-center border-b px-[var(--gutter)] py-5 transition-[background-color,color,border-color] duration-500 ease-out-expo ${skin}`}
       >
         <nav aria-label="Chapitres" className="caps hidden gap-8 md:flex">
           {LINKS.map((l) => (

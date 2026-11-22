@@ -33,7 +33,7 @@ export default function Footer() {
         <div className="absolute inset-0 flex flex-col justify-end px-[var(--gutter)] pb-8 text-snow">
           <h2 id="footer-title" data-footer-title className="giant text-[clamp(4rem,15vw,15rem)]">
             {["À bientôt", "là-haut."].map((l, i) => (
-              <span key={l} className="-mt-[0.14em] block overflow-hidden pb-[0.06em] pt-[0.14em]">
+              <span key={l} className="-mt-[0.26em] block overflow-hidden pb-[0.06em] pt-[0.26em]">
                 <span data-l className="block">
                   {l}
                 </span>

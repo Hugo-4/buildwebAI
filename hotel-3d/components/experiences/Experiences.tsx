@@ -27,10 +27,7 @@ export default function Experiences() {
 function Heading() {
   return (
     <div className="grid grid-cols-4 px-[var(--gutter)] md:grid-cols-6">
-      <p className="label col-span-4 text-[1.0625rem] md:col-span-1 md:col-start-2 md:pt-2">
-        <span className="swash">Expériences</span>
-      </p>
-      <h2 id="exp-title" className="title col-span-4 mt-6 text-[clamp(2.2rem,4.4vw,4.4rem)] md:col-span-3 md:col-start-3 md:mt-0">
+      <h2 id="exp-title" className="title col-span-4 text-[clamp(2.2rem,4.4vw,4.4rem)] md:col-span-4 md:col-start-2">
         Ce qu&rsquo;on fait ici
       </h2>
     </div>

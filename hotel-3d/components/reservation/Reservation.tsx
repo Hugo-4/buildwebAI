@@ -96,14 +96,11 @@ export default function Reservation() {
     <section id="reserver" data-header="dark" aria-labelledby="res-title" className="border-t border-rule bg-snow py-[var(--section-y)] text-ink">
       <div className="grid grid-cols-4 gap-y-16 px-[var(--gutter)] md:grid-cols-6">
         <div className="col-span-4 md:col-span-2 md:col-start-1">
-          <p className="label text-[1.0625rem]">
-            <span className="swash">Réserver</span>
-          </p>
           <RevealLines
             as="h2"
             id="res-title"
             lines={["Votre séjour", "commence ici"]}
-            className="title mt-8 text-[clamp(2.4rem,4.6vw,4.6rem)]"
+            className="title text-[clamp(2.4rem,4.6vw,4.6rem)]"
           />
           <p className="mt-8 max-w-[34ch] text-[1.125rem] leading-relaxed text-ink/85">
             Dites-nous vos dates : la réception vous répond dans l&rsquo;heure avec la disponibilité et le tarif de la suite.

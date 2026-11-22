@@ -77,7 +77,9 @@ function StaticSuites() {
             <div className="relative aspect-[16/10] overflow-hidden">
               <Image src={s.still} alt={s.alt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
-            <h3 className="label mt-6 text-[clamp(2rem,3.4vw,3.25rem)]">{s.name}</h3>
+            <h3 className="label mt-6 text-[clamp(2rem,3.4vw,3.25rem)]">
+              <span className="swash">{s.name}</span>
+            </h3>
             <p className="caps mt-3">{s.size}</p>
             <ul className="mt-3 space-y-1">
               {s.lines.map((l) => (
@@ -132,7 +134,7 @@ export default function Suites() {
             <article key={s.name} data-suite={i} className="absolute inset-0" aria-label={`${s.name}, ${s.size}`}>
               <div className="overflow-hidden">
                 <h3 data-rise className="label text-[clamp(2.4rem,4.4vw,4rem)] leading-[1.05]">
-                  {s.name}
+                  <span className="swash">{s.name}</span>
                 </h3>
               </div>
               <div className="mt-4 grid grid-cols-[auto_1fr] items-start gap-x-8">

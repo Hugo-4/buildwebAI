@@ -20,21 +20,16 @@ export default function Lieu() {
   return (
     <section id="contenu" data-header="dark" aria-labelledby="lieu-title" className="relative bg-snow pt-[var(--section-y)] text-ink">
       <div className="grid grid-cols-4 gap-x-0 px-[var(--gutter)] md:grid-cols-6">
-        <p className="label col-span-4 text-[1.0625rem] md:col-span-1 md:col-start-2 md:pt-3">
-          <span className="swash">Le lieu</span>
-        </p>
-        <h2 id="lieu-title" className="sr-only">
-          Le lieu
-        </h2>
         <ScrollWords
-          as="p"
-          className="title col-span-4 mt-8 text-[clamp(2rem,4.3vw,4.4rem)] md:col-span-4 md:col-start-2 md:mt-10"
+          as="h2"
+          id="lieu-title"
+          className="title col-span-4 text-[clamp(2rem,4.3vw,4.4rem)] md:col-span-4 md:col-start-2"
           text="Là où la route s’arrête, la maison commence : vingt-quatre suites en bois d’arolle, posées sur l’arête au-dessus de Courchevel, entre les pistes et le ciel."
         />
       </div>
 
       {/* La maison, pleine largeur, révélée par bandes alignées sur les filets */}
-      <StripReveal strips={6} className="mt-[var(--section-y)] h-[70svh] w-full md:h-[88svh]">
+      <StripReveal strips={6} className="mx-[var(--gutter)] mt-[var(--section-y)] h-[70svh] md:h-[88svh]">
         <Image
           src="/images/lieu-salon-vue.webp"
           alt="Le salon double hauteur, ses canapés clairs et ses baies ouvertes sur les sommets enneigés"
@@ -55,7 +50,7 @@ export default function Lieu() {
           {FACTS.map((f) => (
             <div key={f.label}>
               <dt className="caps text-ink/60">{f.label}</dt>
-              <dd className="giant mt-4 text-[clamp(3.5rem,8vw,8rem)]">
+              <dd className="giant mt-4 text-[clamp(4.5rem,11vw,11rem)]">
                 <Counter value={f.value} />
                 {f.unit && <span className="ml-2 text-[0.35em] tracking-normal">{f.unit}</span>}
               </dd>

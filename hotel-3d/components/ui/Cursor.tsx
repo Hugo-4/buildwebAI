@@ -19,6 +19,7 @@ export default function Cursor() {
   const [enabled, setEnabled] = useState(false);
   const [label, setLabel] = useState<string | null>(null);
   const [hot, setHot] = useState(false);
+  const [seen, setSeen] = useState(false);
 
   useEffect(() => {
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
@@ -37,6 +38,7 @@ export default function Cursor() {
     const rx = gsap.quickTo(ring.current, "x", { duration: lag, ease: "power3.out" });
     const ry = gsap.quickTo(ring.current, "y", { duration: lag, ease: "power3.out" });
     const move = (e: PointerEvent) => {
+      setSeen(true);
       dx(e.clientX);
       dy(e.clientY);
       rx(e.clientX);
@@ -46,11 +48,14 @@ export default function Cursor() {
       const t = e.target as Element;
       setHot(!!t.closest?.("a, button, [role='button'], label, select"));
     };
+    const leave = () => setSeen(false);
+    document.documentElement.addEventListener("pointerleave", leave);
     document.documentElement.classList.add("has-cursor");
     window.addEventListener("pointermove", move, { passive: true });
     document.addEventListener("pointerover", over, { passive: true });
     return () => {
       document.documentElement.classList.remove("has-cursor");
+      document.documentElement.removeEventListener("pointerleave", leave);
       window.removeEventListener("pointermove", move);
       document.removeEventListener("pointerover", over);
     };
@@ -59,7 +64,7 @@ export default function Cursor() {
   if (!enabled) return null;
   const big = !!label;
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-[90]">
+    <div aria-hidden className={`pointer-events-none fixed inset-0 z-[90] transition-opacity duration-300 ${seen ? "opacity-100" : "opacity-0"}`}>
       <div ref={dot} className="absolute left-0 top-0 -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-amber" />
       <div
         ref={ring}
