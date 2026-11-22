@@ -39,6 +39,8 @@
         <form class="model-form" id="modelForm" novalidate>
           <label class="f"><span>Marque</span><select id="brand"></select></label>
           <label class="f"><span>Modèle</span><select id="model" disabled></select></label>
+          <label class="f" id="brandOtherBox" hidden><span>Quelle marque&nbsp;?</span><input type="text" id="brandOther" maxlength="24" autocomplete="off" placeholder="Par exemple Kia"></label>
+          <label class="f" id="modelOtherBox" hidden><span>Quel modèle&nbsp;?</span><input type="text" id="modelOther" maxlength="24" autocomplete="off" placeholder="Par exemple Sportage"></label>
           <fieldset class="span2" id="catBox" hidden><legend>Sa taille, à peu près</legend><div class="chips" role="radiogroup" id="catPick"></div></fieldset>
           <fieldset class="span2"><legend>Motorisation</legend><div class="chips" role="radiogroup" id="energy"></div></fieldset>
         </form>

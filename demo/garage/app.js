@@ -35,23 +35,26 @@
     ['Courroie de distribution', 'Kit complet et pompe à eau', null],
   ];
   let car = null;
-  const sel = { brand: '', model: '', cat: null, energy: 'Essence' };
-  $('#brand').innerHTML = '<option value="">Choisir la marque</option>' + Object.keys(BRANDS).map((b) => `<option>${b}</option>`).join('') + '<option value="autre">Une autre marque</option>';
+  const sel = { brand: '', model: '', cat: null, energy: 'Essence', bo: '', mo: '' };
+  $('#brand').innerHTML = '<option value="">Choisir</option>' + Object.keys(BRANDS).map((b) => `<option>${b}</option>`).join('') + '<option value="autre">Autre marque</option>';
   function renderModels() {
     const m = $('#model');
-    if (!sel.brand || sel.brand === 'autre') { m.disabled = true; m.innerHTML = `<option value="">${sel.brand ? 'Choisissez la taille' : 'D\u2019abord la marque'}</option>`; return; }
+    if (!sel.brand || sel.brand === 'autre') { m.disabled = true; m.innerHTML = `<option value="">${sel.brand ? 'Ci-dessous' : 'Choisir'}</option>`; return; }
     m.disabled = false;
-    m.innerHTML = '<option value="">Choisir le modèle</option>' + BRANDS[sel.brand].map(([n]) => `<option>${n}</option>`).join('') + '<option value="autre">Un autre modèle</option>';
+    m.innerHTML = '<option value="">Choisir</option>' + BRANDS[sel.brand].map(([n]) => `<option>${n}</option>`).join('') + '<option value="autre">Autre modèle</option>';
   }
   function renderPick() {
     const needCat = sel.brand === 'autre' || sel.model === 'autre';
     $('#catBox').hidden = !needCat;
+    $('#brandOtherBox').hidden = sel.brand !== 'autre';
+    $('#modelOtherBox').hidden = !needCat;
     $('#catPick').innerHTML = CATS.map((c, i) => `<button type="button" role="radio" aria-checked="${sel.cat === i}" data-pick="${i}">${c}</button>`).join('');
     $('#energy').innerHTML = ENERGY.map((e) => `<button type="button" role="radio" aria-checked="${sel.energy === e}" data-energy="${e}">${e}</button>`).join('');
     const known = sel.brand && sel.brand !== 'autre' && sel.model && sel.model !== 'autre';
     const c = known ? BRANDS[sel.brand].find(([n]) => n === sel.model)[1] : needCat ? sel.cat : null;
     if (c === null || c === undefined) { car = null; $('#veh').hidden = true; renderRdvVeh(); return; }
-    car = { n: known ? `${sel.brand} ${sel.model}` : `${CATS[c].toLowerCase()}${sel.brand !== 'autre' ? ` ${sel.brand}` : ''}`, cat: c, known };
+    const typed = needCat ? `${sel.brand === 'autre' ? sel.bo : sel.brand} ${sel.mo}`.trim() : '';
+    car = { n: known ? `${sel.brand} ${sel.model}` : typed || `${CATS[c].toLowerCase()}${sel.brand !== 'autre' ? ` ${sel.brand}` : ''}`, cat: c, known: known || !!typed };
     cat = c; renderPrices();
     const ev = sel.energy === 'Électrique';
     const rows = [
@@ -61,15 +64,18 @@
       ['Recharge de climatisation', PRICES[5][2][c]],
     ];
     $('#veh').hidden = false;
-    $('#veh').innerHTML = `<p class="veh-name">${known ? car.n : CATS[c] + (sel.brand !== 'autre' ? ` ${sel.brand}` : '')}</p><p class="veh-meta">${sel.energy} · catégorie ${CATS[c].toLowerCase()}${ev ? ' · pas de vidange sur une électrique' : ''}</p>
+    $('#veh').innerHTML = `<p class="veh-name">${car.known ? car.n : CATS[c] + (sel.brand !== 'autre' ? ` ${sel.brand}` : '')}</p><p class="veh-meta">${sel.energy} · catégorie ${CATS[c].toLowerCase()}${ev ? ' · pas de vidange sur une électrique' : ''}</p>
       <ul class="veh-list">${rows.map(([n, p]) => `<li><span>${n}</span><b>${euro(p)}</b></li>`).join('')}</ul>
       <a class="btn btn--accent btn--sm" href="#rdv">Réserver pour cette voiture</a>`;
-    $$('[data-veh-name]').forEach((el) => { el.textContent = known ? car.n : 'Peugeot 308'; });
+    $$('[data-veh-name]').forEach((el) => { el.textContent = car.known ? car.n : 'Peugeot 308'; });
     renderRdvVeh();
   }
   const forCar = () => (car ? (car.known ? `votre ${car.n}` : `votre ${car.n}`) : '');
-  $('#brand').addEventListener('change', (e) => { sel.brand = e.target.value; sel.model = ''; renderModels(); renderPick(); });
-  $('#model').addEventListener('change', (e) => { sel.model = e.target.value; renderPick(); });
+  $('#brand').addEventListener('change', (e) => { sel.brand = e.target.value; sel.model = ''; renderModels(); renderPick(); if (sel.brand === 'autre') $('#brandOther').focus(); });
+  $('#model').addEventListener('change', (e) => { sel.model = e.target.value; renderPick(); if (sel.model === 'autre') $('#modelOther').focus(); });
+  const clean = (v) => v.replace(/[<>&"]/g, '').trim();
+  $('#brandOther').addEventListener('input', (e) => { sel.bo = clean(e.target.value); renderPick(); });
+  $('#modelOther').addEventListener('input', (e) => { sel.mo = clean(e.target.value); renderPick(); });
   $('#catPick').addEventListener('click', (e) => { const b = e.target.closest('[data-pick]'); if (b) { sel.cat = +b.dataset.pick; renderPick(); $(`[data-pick="${sel.cat}"]`).focus(); } });
   $('#energy').addEventListener('click', (e) => { const b = e.target.closest('[data-energy]'); if (b) { sel.energy = b.dataset.energy; renderPick(); $(`[data-energy="${sel.energy}"]`).focus(); } });
 
