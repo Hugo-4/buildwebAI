@@ -42,8 +42,19 @@ export const DUR = {
   letter: 0.07,
 } as const;
 
+/**
+ * Animations complètes forcées par le visiteur (?animations=on, mémorisé) : un choix
+ * explicite l'emporte sur le réglage système « réduire les animations ».
+ * Retirer le choix : ?animations=off.
+ */
+export function motionForced() {
+  if (typeof document === "undefined") return false;
+  return document.documentElement.classList.contains("force-motion");
+}
+
 export function prefersReducedMotion() {
   if (typeof window === "undefined") return false;
+  if (motionForced()) return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 

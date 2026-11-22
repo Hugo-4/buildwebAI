@@ -8,7 +8,8 @@
  * Pas de moteur de réservation : c'est une DEMANDE de disponibilité.
  * Brancher l'envoi dans `submit()` (API, e-mail, CRM).
  */
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/useMedia";
 import { useMemo, useState, type FormEvent } from "react";
 import Magnetic from "@/components/ui/Magnetic";
 import RevealLines from "@/components/ui/RevealLines";

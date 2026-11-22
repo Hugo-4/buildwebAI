@@ -58,6 +58,18 @@ Le brief de génération des vidéos (prompts, consignes de caméra) : `brand/br
 
 Noms, surfaces et équipements des suites, horaires, adresse, e-mail : contenu de démonstration. Aucun prix, avis, distinction ni presse n'est affiché. Deux photos d'expériences sont des photos Unsplash (`public/images/CREDITS.md`) ; les autres images sont tirées des vidéos du client. Le formulaire de réservation n'envoie rien : brancher l'envoi dans `submit()`.
 
+## Voir toutes les animations
+
+Le site respecte le réglage système « réduire les animations » (Windows : Paramètres → Accessibilité → Effets visuels → « Effets d'animation » ; Mac : Accessibilité → Affichage → « Réduire les animations »). Dans ce cas il affiche une version fixe : pas de préchargeur, de brume, de défilement fluide ni de films au scroll.
+
+Pour voir **toutes les animations** malgré ce réglage, ouvrir :
+
+```
+http://localhost:3000/?animations=on
+```
+
+Le choix est mémorisé par le navigateur. Pour l'annuler : `http://localhost:3000/?animations=off`.
+
 ## Accessibilité et performance
 
 - `prefers-reduced-motion` : pas de préchargeur, ni de brume, ni de Lenis ; images fixes à la place des films ; suites et expériences à plat.
