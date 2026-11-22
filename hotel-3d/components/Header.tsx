@@ -68,8 +68,8 @@ export default function Header() {
     : tone === "light"
       ? "border-transparent text-snow"
       : tone === "ink"
-        ? "border-snow/10 bg-ink/90 text-snow backdrop-blur-sm"
-        : "border-rule bg-snow/95 text-ink backdrop-blur-sm";
+        ? "border-snow/10 bg-ink text-snow"
+        : "border-rule bg-snow text-ink";
 
   return (
     <>
