@@ -1,0 +1,408 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   L'Arolle — « Neige et brume »
+   Une feuille de neige réglée comme un plan d'architecte : six filets verticaux,
+   l'encre, un gris de brume, et une seule note chaude (l'ambre d'arolle) pour l'action.
+   ========================================================================== */
+:root {
+  /* triplets RGB : Tailwind compose l'opacité (bg-snow/95, from-ink/40) */
+  --snow-rgb: 247 247 245;
+  --ink-rgb: 21 25 29;
+  --mist-rgb: 138 144 150;
+  --amber-rgb: 200 135 58;
+  --night-rgb: 12 20 36;
+  --snow: #f7f7f5;      /* fond */
+  --white: #ffffff;
+  --ink: #15191d;       /* texte */
+  --mist: #8a9096;      /* la part encore « non lue » des phrases */
+  --rule: rgb(21 25 29 / 0.09); /* filets */
+  --amber: #c8873a;     /* réserver, et rien d'autre */
+  --night: #0c1424;     /* départ de nuit */
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --dur-micro: 160ms;
+  --dur-ui: 320ms;
+
+  --gutter: clamp(16px, 4vw, 64px);
+  --section-y: clamp(112px, 18vh, 220px);
+
+  color-scheme: light;
+}
+
+html {
+  background: var(--snow);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+body {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 300;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* Surfaces navigateur */
+::selection {
+  background: var(--ink);
+  color: var(--snow);
+}
+:focus-visible {
+  outline: 1.5px solid var(--amber);
+  outline-offset: 4px;
+}
+* {
+  caret-color: var(--amber);
+}
+html {
+  scrollbar-color: var(--mist) var(--snow);
+  scrollbar-width: thin;
+}
+
+/* ---------------------------------------------------------------- types */
+.giant {
+  font-family: var(--font-condensed), sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.82;
+}
+.title {
+  font-family: var(--font-caps), serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+.label {
+  font-family: var(--font-italic), serif;
+  font-style: italic;
+  font-weight: 400;
+}
+.caps {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Trait tracé à la main sous un nom (masque SVG, couleur = currentColor) */
+.swash {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.28em;
+}
+.swash::after {
+  content: "";
+  position: absolute;
+  left: -0.15em;
+  right: -0.35em;
+  bottom: 0;
+  height: 0.32em;
+  background: currentColor;
+  opacity: 0.55;
+  pointer-events: none;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'><path d='M2 13 C 50 6, 130 4, 198 8 M18 17 C 80 12, 150 11, 186 13' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'/></svg>") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'><path d='M2 13 C 50 6, 130 4, 198 8 M18 17 C 80 12, 150 11, 186 13' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'/></svg>") center / 100% 100% no-repeat;
+}
+
+/* ------------------------------------------------------------- boutons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9em;
+  padding: 1.05em 1.7em;
+  background: var(--amber);
+  color: var(--ink);
+  transition: background-color var(--dur-ui) var(--ease-out-expo), transform var(--dur-micro) var(--ease-out-expo);
+}
+.btn:hover {
+  background: #d4964d;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn:disabled {
+  cursor: progress;
+  opacity: 0.85;
+}
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9em;
+  padding: 0.95em 1.5em;
+  border: 1px solid currentColor;
+  transition: background-color var(--dur-ui) var(--ease-out-expo), color var(--dur-ui) var(--ease-out-expo),
+    border-color var(--dur-ui) var(--ease-out-expo);
+}
+.btn-line:hover {
+  background: var(--ink);
+  color: var(--snow);
+  border-color: var(--ink);
+}
+.link-line {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% 1px;
+  padding-bottom: 2px;
+  transition: background-size var(--dur-ui) var(--ease-out-expo);
+}
+.link-line:hover {
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+}
+
+/* ---------------------------------------------- phrase qui s'allume (scroll) */
+.words .w {
+  color: var(--mist);
+  transition: color 0.45s var(--ease-out-expo);
+}
+.words .w.on {
+  color: var(--ink);
+}
+.words.on-dark .w {
+  color: rgb(247 247 245 / 0.45);
+}
+.words.on-dark .w.on {
+  color: var(--snow);
+}
+
+/* ------------------------------------------------------------- formulaire */
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1.25rem;
+}
+.field-input {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgb(21 25 29 / 0.25);
+  padding: 0.5rem 0 0.75rem;
+  font: inherit;
+  font-size: 1.25rem;
+  color: var(--ink);
+  border-radius: 0;
+}
+.field-input::placeholder {
+  color: rgb(21 25 29 / 0.5);
+}
+.field-input:focus {
+  outline: none;
+}
+.field-input[aria-invalid="true"] {
+  border-bottom-color: #9b2c1f;
+}
+.field-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-ui) var(--ease-out-expo);
+  margin-top: -1.5px;
+}
+.field:focus-within .field-line {
+  transform: scaleX(1);
+}
+.field-input::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+  cursor: pointer;
+}
+.step-btn {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgb(21 25 29 / 0.3);
+  transition: background-color var(--dur-micro) ease, color var(--dur-micro) ease, transform var(--dur-micro) ease;
+}
+.step-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.step-btn:hover:not(:disabled) {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--snow);
+}
+.step-btn:active:not(:disabled) {
+  transform: scale(0.94);
+}
+.step-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.suite-chip span {
+  display: inline-block;
+  padding: 0.7em 1.3em;
+  border: 1px solid rgb(21 25 29 / 0.25);
+  cursor: pointer;
+  transition: background-color var(--dur-ui) var(--ease-out-expo), color var(--dur-ui) var(--ease-out-expo),
+    border-color var(--dur-ui) var(--ease-out-expo);
+}
+.suite-chip:hover span {
+  border-color: var(--ink);
+}
+.suite-chip input:checked + span {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--snow);
+}
+.suite-chip input:focus-visible + span {
+  outline: 1.5px solid var(--amber);
+  outline-offset: 3px;
+}
+.spinner {
+  width: 0.9em;
+  height: 0.9em;
+  border: 1.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 999px;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes cue {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  50.1% { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ---------------------------------------------------------- préchargeur */
+.pl-thin,
+.pl-thick,
+.pl-feet,
+.pl-bar {
+  transform-box: fill-box;
+}
+.pl-thin,
+.pl-thick {
+  transform-origin: 50% 100%;
+  transform: scaleY(0);
+}
+.pl-feet {
+  opacity: 0;
+}
+.pl-bar {
+  transform-origin: 0% 50%;
+  transform: scaleX(0);
+}
+.pl-draw .pl-thin {
+  animation: pl-up 0.7s var(--ease-out-expo) forwards;
+}
+.pl-draw .pl-thick {
+  animation: pl-up 0.7s var(--ease-out-expo) 0.12s forwards;
+}
+.pl-draw .pl-feet {
+  animation: pl-fade 0.4s ease-out 0.5s forwards;
+}
+.pl-draw .pl-bar {
+  animation: pl-across 0.9s var(--ease-out-expo) 0.55s forwards;
+}
+@keyframes pl-up {
+  to { transform: scaleY(1); }
+}
+@keyframes pl-across {
+  to { transform: scaleX(1); }
+}
+@keyframes pl-fade {
+  to { opacity: 1; }
+}
+html.pl-skip .preloader {
+  display: none !important;
+}
+
+/* État de départ de l'entrée du hero, posé avant le 1er rendu (script en tête) */
+html.intro [data-letter] {
+  transform: translateY(105%);
+}
+html.intro [data-hero-fade] {
+  opacity: 0;
+}
+
+/* curseur personnalisé actif */
+html.has-cursor,
+html.has-cursor a,
+html.has-cursor button,
+html.has-cursor label {
+  cursor: none;
+}
+html.has-cursor input,
+html.has-cursor textarea {
+  cursor: text;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: fixed;
+  left: var(--gutter);
+  top: 12px;
+  z-index: 100;
+  transform: translateY(-200%);
+  background: var(--ink);
+  color: var(--snow);
+  padding: 10px 16px;
+}
+.skip-link:focus {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* apparition sans déplacement (brume) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}

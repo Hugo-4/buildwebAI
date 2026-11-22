@@ -1,0 +1,68 @@
+# L'Arolle — site vitrine (démonstration BuildWebAI)
+
+Hôtel fictif de vingt-quatre suites à Courchevel 1850. Le scroll raconte un séjour, de l'arrivée au départ, dans l'esprit éditorial de white-desert.com (référence choisie par le client) : fond neige réglé de filets verticaux, nom géant qui se dissout dans une brume WebGL, phrases qui s'allument mot à mot, images révélées par bandes.
+
+Stack : Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 3 · GSAP + ScrollTrigger · Lenis · Framer Motion · React Three Fiber (brume du hero).
+
+## Lancer le projet en local
+
+Prérequis : Node.js 20 ou plus.
+
+```bash
+cd hotel-3d
+npm install
+npm run dev
+```
+
+Puis ouvrir http://localhost:3000.
+
+Version de production :
+
+```bash
+npm run build
+npm start
+```
+
+## Les chapitres
+
+| # | Chapitre | Fichier | Ce qui se passe |
+|---|---|---|---|
+| 1 | L'arrivée | `components/hero/Hero.tsx`, `Mist.tsx` | Film d'arrivée piloté par le scroll ; « L'AROLLE » avalé par la brume (shader WebGL) ; trois phrases sur le film |
+| 2 | Le lieu | `components/lieu/Lieu.tsx` | Une phrase qui s'allume mot à mot, la maison révélée par bandes, trois chiffres qui roulent |
+| 3 | Les suites | `components/suites/Suites.tsx` | Visite filmée des quatre suites, au scroll ; le panneau change de suite |
+| 4 | La table, le spa | `components/table/TableSpa.tsx` | Vidéos d'ambiance révélées par bandes ; le fond passe de la neige à l'encre |
+| 5 | Expériences | `components/experiences/Experiences.tsx` | Accordéon de bandes verticales, épinglé |
+| 6 | Réserver | `components/reservation/Reservation.tsx` | Dates, voyageurs, suite, e-mail ; validation et états d'envoi |
+| 7 | Le départ | `components/footer/Footer.tsx` | Le film d'arrivée rejoué à rebours, de nuit |
+
+Transverses : `GridLines` (filets), `BookTab` (onglet « Réserver »), `Preloader`, `Cursor`, `Menu`, `ProgressBar`, `app/template.tsx` (transition entre pages, voir `/mentions-legales`).
+
+## Remplacer les vidéos
+
+Les vidéos pilotées par le scroll sont des séquences d'images (plus fluides qu'une `<video>` au scroll). Une commande les fabrique à partir d'un MP4 ; ffmpeg est fourni par le paquet `ffmpeg-static` :
+
+```bash
+npm run frames -- chemin/vers/arrivee.mp4 hero --frames 200
+npm run frames -- chemin/vers/suites.mp4 suites --frames 240
+```
+
+Le script écrit `public/sequences/<nom>/1920/`, `960/` et `manifest.json` ; le site lit le manifest, rien d'autre à changer.
+
+- `hero` : l'approche, les portes, l'entrée, le salon. Les phrases sont calées dans `Hero.tsx` (tableau `CAPTIONS`, en fraction du scroll).
+- `suites` : les suites à la suite, chacune sur une part égale de la durée (noms et surfaces dans `Suites.tsx`, tableau `SUITES`).
+- Vidéos d'ambiance (restaurant, piscine) : `public/video/*.mp4`, en aller-retour pour boucler sans saut, avec leur affiche `*-poster.webp`.
+
+Le brief de génération des vidéos (prompts, consignes de caméra) : `brand/brief-video-visite.md`.
+
+## Contenus à valider avec l'hôtel
+
+Noms, surfaces et équipements des suites, horaires, adresse, e-mail : contenu de démonstration. Aucun prix, avis, distinction ni presse n'est affiché. Deux photos d'expériences sont des photos Unsplash (`public/images/CREDITS.md`) ; les autres images sont tirées des vidéos du client. Le formulaire de réservation n'envoie rien : brancher l'envoi dans `submit()`.
+
+## Accessibilité et performance
+
+- `prefers-reduced-motion` : pas de préchargeur, ni de brume, ni de Lenis ; images fixes à la place des films ; suites et expériences à plat.
+- Téléphone : pas de préchargeur ni de WebGL ; films cadrés en haut de l'écran.
+- Les séquences ne se téléchargent qu'à l'approche de leur section et après une première interaction ; les images proches de la position courante passent devant.
+- Mesures locales (Lighthouse, simulation) : ordinateur 98 / 100 / 100 / 100, mobile 87–89 / 100 / 100 / 100.
+
+Le système visuel (couleurs, typographies, durées, courbes) est décrit dans `DESIGN.md`.
