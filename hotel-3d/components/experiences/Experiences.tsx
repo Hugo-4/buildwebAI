@@ -39,6 +39,16 @@ function Accordion() {
   const [scrollActive, setScrollActive] = useState(0);
   const [hover, setHover] = useState<number | null>(null);
   const active = hover ?? scrollActive;
+  const lastSwitch = useRef(0);
+  const lastPos = useRef({ x: 0, y: 0 });
+  /** Survol volontaire seulement : un vrai mouvement du pointeur, hors transition en cours. */
+  const tryHover = (i: number, e: React.PointerEvent) => {
+    const moved = Math.abs(e.clientX - lastPos.current.x) + Math.abs(e.clientY - lastPos.current.y) > 4;
+    lastPos.current = { x: e.clientX, y: e.clientY };
+    if (!moved || performance.now() - lastSwitch.current < 900 || i === active) return;
+    lastSwitch.current = performance.now();
+    setHover(i);
+  };
 
   useEffect(() => {
     registerGsap();
@@ -48,7 +58,14 @@ function Accordion() {
       trigger: el,
       start: "top top",
       end: "bottom bottom",
-      onUpdate: (self) => setScrollActive(Math.min(EXPERIENCES.length - 1, Math.floor(self.progress * EXPERIENCES.length))),
+      onUpdate: (self) => {
+        const k = Math.min(EXPERIENCES.length - 1, Math.floor(self.progress * EXPERIENCES.length));
+        setScrollActive((prev) => {
+          // le scroll reprend la main sur le survol dès qu'il change de bande
+          if (prev !== k) setHover(null);
+          return k;
+        });
+      },
     });
     return () => st.kill();
   }, []);
@@ -72,8 +89,8 @@ function Accordion() {
                 key={x.title}
                 className="relative overflow-hidden transition-[flex-grow] duration-[900ms] ease-out-expo"
                 style={{ flexGrow: open ? 7 : 1, flexBasis: 0 }}
-                onPointerEnter={() => {
-                  setHover(i);
+                onPointerMove={(e) => {
+                  tryHover(i, e);
                   setCursorLabel(open ? null : "Ouvrir");
                 }}
               >
@@ -90,7 +107,12 @@ function Accordion() {
                   alt={x.alt}
                   fill
                   sizes="(max-width: 1200px) 70vw, 60vw"
-                  className={`object-cover transition-[filter,transform] duration-[900ms] ease-out-expo ${open ? "scale-100 blur-0" : "scale-110 blur-[6px]"}`}
+                  className="object-cover"
+                />
+                {/* bandes fermées : un voile de neige (opacité seule, rien à recalculer) */}
+                <div
+                  aria-hidden
+                  className={`pointer-events-none absolute inset-0 bg-snow transition-opacity duration-700 ${open ? "opacity-0" : "opacity-45"}`}
                 />
                 <div
                   className={`pointer-events-none absolute inset-0 flex flex-col justify-between bg-gradient-to-t from-ink/55 via-transparent to-ink/25 p-6 text-snow transition-opacity duration-500 md:p-8 ${

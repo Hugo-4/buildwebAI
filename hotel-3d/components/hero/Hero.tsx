@@ -30,22 +30,54 @@ const mistAt = (p: number) => (p < 0.13 ? p / 0.13 : Math.max(0, 1 - (p - 0.13) 
 
 export default function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const mist = useRef(0);
+  const mist = useRef(0); // valeur amortie, lue par le shader ET par le nom
+  const target = useRef({ m: 0, past: false }); // écrite par le scroll
   const [active, setActive] = useState(true);
+  const [mistOn, setMistOn] = useState(true);
   const [reduced, setReduced] = useState(false);
   const [wantMist, setWantMist] = useState(false);
   const lite = useLiteMode();
 
   useEffect(() => setReduced(prefersReducedMotion()), []);
 
-  // La brume WebGL n'est chargée qu'au premier geste : au repos elle est invisible,
-  // et three.js ne pèse pas sur le premier affichage. Téléphone : pas de WebGL,
-  // le nom se brouille et s'efface seul (même timeline).
+  // La brume WebGL se charge au premier geste ou, au plus tard, au repos après
+  // l'entrée : au premier scroll elle est déjà montée. Téléphone : pas de WebGL.
   useEffect(() => {
     const go = () => setWantMist(true);
     const evts = ["wheel", "touchstart", "pointerdown", "keydown", "scroll"] as const;
     evts.forEach((e) => window.addEventListener(e, go, { once: true, passive: true }));
-    return () => evts.forEach((e) => window.removeEventListener(e, go));
+    const idle = () => setTimeout(go, 2500);
+    window.addEventListener(READY_EVENT, idle, { once: true });
+    if ((window as unknown as { __larolleReady?: boolean }).__larolleReady) idle();
+    return () => {
+      evts.forEach((e) => window.removeEventListener(e, go));
+      window.removeEventListener(READY_EVENT, idle);
+    };
+  }, []);
+
+  // Une seule horloge pour la brume et le nom : la valeur suit le scroll avec un
+  // amorti, et le nom se brouille exactement quand la brume l'atteint.
+  useEffect(() => {
+    registerGsap();
+    const name = document.querySelector<HTMLElement>("[data-hero-name]");
+    if (!name || prefersReducedMotion()) return;
+    let on = true;
+    const tick = (_t: number, dt: number) => {
+      const { m, past } = target.current;
+      const k = 1 - Math.exp(-(dt / 1000) * 5);
+      mist.current += (m - mist.current) * k;
+      const v = mist.current;
+      // montée : le nom disparaît entre 35 % et 85 % de couverture ; après le pic, il reste caché
+      const fade = past ? 1 : gsap.utils.clamp(0, 1, (v - 0.35) / 0.5);
+      name.style.opacity = String(1 - fade);
+      name.style.filter = fade > 0.01 ? `blur(${(fade * 8).toFixed(2)}px)` : "";
+      name.style.transform = `translateY(${(-fade * 8).toFixed(2)}%)`;
+      // la brume ne calcule plus rien une fois retirée
+      const want = v > 0.002 || m > 0.002;
+      if (want !== on) setMistOn((on = want));
+    };
+    gsap.ticker.add(tick);
+    return () => gsap.ticker.remove(tick);
   }, []);
 
   // brume active seulement quand le hero est à l'écran
@@ -83,13 +115,14 @@ export default function Hero() {
   }, []);
 
   return (
+    <>
     <ScrollSequence
       id="top"
       manifest={SEQUENCES.hero}
       length={6}
       portraitBox={0.62}
       bg="#f7f7f5"
-      timeline={heroTimeline(mist)}
+      timeline={heroTimeline(target)}
       label="Approche du chalet L’Arolle dans la neige, ouverture des portes, puis le salon et ses baies face aux sommets"
       header="light"
     >
@@ -122,8 +155,8 @@ export default function Hero() {
 
       {/* La brume (WebGL) au-dessus du nom */}
       {!reduced && !lite && wantMist && (
-        <div className="pointer-events-none absolute inset-0">
-          <Mist progress={mist} active={active} />
+        <div className="pointer-events-none absolute inset-0 animate-[fadeUp_.4s_ease-out]">
+          <Mist progress={mist} active={active && mistOn} />
         </div>
       )}
 
@@ -145,18 +178,29 @@ export default function Hero() {
         </span>
       </p>
     </ScrollSequence>
+    {reduced && (
+      <section aria-label="L’arrivée en trois phrases" className="bg-snow px-[var(--gutter)] py-[var(--section-y)] text-ink">
+        <ol className="grid gap-10 md:grid-cols-6">
+          {CAPTIONS.map((c, i) => (
+            <li key={i} className="title text-[clamp(1.6rem,2.6vw,2.4rem)] md:col-span-2">
+              {c.text}
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+    </>
   );
 }
 
 /** Timeline scrubbée (identité stable par ref) : brume, nom qui se dissout, phrases. */
 const timelines = new WeakMap<object, (tl: gsap.core.Timeline) => void>();
-function heroTimeline(mist: { current: number }) {
-  if (timelines.has(mist)) return timelines.get(mist)!;
+function heroTimeline(target: { current: { m: number; past: boolean } }) {
+  if (timelines.has(target)) return timelines.get(target)!;
   const fn = (tl: gsap.core.Timeline) => {
     const state = { p: 0 };
-    tl.to(state, { p: 1, duration: 1, ease: "none", onUpdate: () => (mist.current = mistAt(state.p)) }, 0);
-    // le nom se brouille et s'efface dans la brume
-    tl.to("[data-hero-name]", { filter: "blur(18px)", opacity: 0, yPercent: -12, duration: 0.11, ease: "power1.in" }, 0.02);
+    // le scroll écrit la cible ; la brume et le nom la suivent ensemble (ticker du composant)
+    tl.to(state, { p: 1, duration: 1, ease: "none", onUpdate: () => (target.current = { m: mistAt(state.p), past: state.p > 0.13 }) }, 0);
     tl.to("[data-hero-cue]", { opacity: 0, duration: 0.04 }, 0.01);
     tl.to("[data-hero-label]", { opacity: 0, duration: 0.06 }, 0.03);
     CAPTIONS.forEach((c, i) => {
@@ -166,6 +210,6 @@ function heroTimeline(mist: { current: number }) {
       if (b < 1) tl.to(sel, { opacity: 0, y: -16, duration: 0.03, ease: "power2.in" }, b - 0.03);
     });
   };
-  timelines.set(mist, fn);
+  timelines.set(target, fn);
   return fn;
 }

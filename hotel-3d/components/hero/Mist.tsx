@@ -65,8 +65,8 @@ function Fog({ progress, still }: { progress: MutableRefObject<number>; still?: 
   useFrame(({ size }, dt) => {
     if (!still) mat.uniforms.uTime.value += dt;
     mat.uniforms.uAspect.value = size.width / size.height;
-    // amorti : la brume suit le scroll sans à-coup
-    mat.uniforms.uProgress.value = THREE.MathUtils.damp(mat.uniforms.uProgress.value, progress.current, 5, dt);
+    // valeur déjà amortie par le hero (même horloge que le nom)
+    mat.uniforms.uProgress.value = progress.current;
   });
   return (
     <mesh material={mat} frustumCulled={false}>

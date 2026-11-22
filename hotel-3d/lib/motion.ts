@@ -42,9 +42,6 @@ export const DUR = {
   letter: 0.07,
 } as const;
 
-/** Angle de la pente, en degrés : la composition entière s'y aligne. */
-export const SLOPE_DEG = 12;
-
 export function prefersReducedMotion() {
   if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;

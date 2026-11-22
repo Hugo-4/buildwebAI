@@ -10,7 +10,7 @@ import { SEQUENCES } from "@/lib/sequences";
 import type { gsap } from "@/lib/motion";
 
 function footerTimeline(tl: gsap.core.Timeline) {
-  tl.fromTo("[data-footer-title] [data-l]", { yPercent: 105 }, { yPercent: 0, duration: 0.12, stagger: 0.03, ease: "power3.out" }, 0.55);
+  tl.fromTo("[data-footer-title] [data-l]", { yPercent: 150 }, { yPercent: 0, duration: 0.12, stagger: 0.03, ease: "power3.out" }, 0.55);
   tl.fromTo("[data-footer-meta]", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.1 }, 0.7);
 }
 

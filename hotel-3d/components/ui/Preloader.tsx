@@ -1,8 +1,8 @@
 "use client";
 /**
  * Préchargeur : le monogramme se trace (le délié, le plein, puis la traverse
- * qui file sur la pente à 12°), un compteur suit le chargement réel (polices +
- * première image du hero), puis l'écran bleu se retire en biais.
+ * qui file sur la pente du monogramme), un compteur suit le chargement réel
+ * (polices + première image du hero), puis le rideau de neige se lève.
  * Joué une fois par session. Émet « larolle:ready » à la fin : le hero lance
  * alors l'entrée de son titre.
  */
@@ -67,7 +67,7 @@ export default function Preloader() {
         .to("[data-pl-inner]", { yPercent: -30, opacity: 0, duration: 0.35, ease: "power2.in" }, "+=0.05")
         // le rideau bleu se retire en suivant la pente
         // le rideau de neige se lève
-        .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.9, ease: "expo.inOut" }, "-=0.15")
+        .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.9, ease: "expo.inOut" }, "-=0.3")
         // le hero commence pendant que le rideau se retire : aucun temps mort
         .call(announce, [], "<0.35");
     });

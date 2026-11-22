@@ -25,7 +25,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
           className="pointer-events-none fixed inset-0 z-[95] bg-snow"
           initial={{ clipPath: "inset(0% 0% 0% 0%)" }}
           animate={{ clipPath: "inset(0% 0% 100% 0%)" }}
-          transition={{ duration: 0.9, ease: BEZIER.inOut, delay: 0.1 }}
+          transition={{ duration: 0.55, ease: BEZIER.inOut }}
         />
       )}
       {children}

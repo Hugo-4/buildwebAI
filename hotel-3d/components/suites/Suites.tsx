@@ -2,7 +2,7 @@
 /**
  * Chapitre 3 — Les suites.
  * La visite (séquence d'images) défile avec le scroll ; chaque tiers de la
- * vidéo correspond à une suite. Un panneau couleur neige, coupé à 12°, change
+ * vidéo correspond à une suite. Un panneau couleur neige change
  * de suite au fil de la visite : nom, surface, ce qu'on y trouve, réservation.
  *
  * CONTENU DE DÉMONSTRATION : noms, surfaces et équipements sont à remplacer
@@ -57,10 +57,10 @@ function suitesTimeline(tl: gsap.core.Timeline) {
   SUITES.forEach((_, i) => {
     const sel = `[data-suite="${i}"] [data-rise]`;
     const start = i * part;
-    if (i > 0) tl.fromTo(sel, { yPercent: 110 }, { yPercent: 0, duration: 0.04, stagger: 0.006, ease: "power3.out" }, start + 0.005);
+    if (i > 0) tl.fromTo(sel, { yPercent: 110 }, { yPercent: 0, duration: 0.04, stagger: 0.006, ease: "power3.out" }, start - 0.005);
     if (i < SUITES.length - 1)
       tl.to(sel, { yPercent: -110, duration: 0.035, stagger: { each: 0.004, from: "end" }, ease: "power2.in" }, start + part - 0.06);
-    if (i > 0) tl.to("[data-suite-index]", { yPercent: (-100 / SUITES.length) * i, duration: 0.02, ease: "power3.inOut" }, start - 0.01);
+    if (i > 0) tl.to("[data-suite-index]", { yPercent: (-100 / SUITES.length) * i, duration: 0.02, ease: "power3.inOut" }, start - 0.005);
   });
 }
 
@@ -123,7 +123,7 @@ export default function Suites() {
         Vingt-quatre suites, aucune pareille.
       </h2>
 
-      {/* Panneau neige coupé à 12° */}
+      {/* Panneau neige, en pied d'écran */}
       <div
         data-suites-panel
         className="absolute bottom-0 left-0 w-full border-t border-rule bg-snow px-[var(--gutter)] pb-24 pt-10 text-ink md:bottom-[var(--gutter)] md:left-[var(--gutter)] md:w-[min(40rem,48vw)] md:border-0 md:px-10 md:pb-10"

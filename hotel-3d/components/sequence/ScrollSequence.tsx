@@ -127,16 +127,7 @@ export default function ScrollSequence({
       const s = Math.max(cw / img.naturalWidth, boxH / img.naturalHeight);
       const w = img.naturalWidth * s;
       const h = img.naturalHeight * s;
-      if (night) ctx.filter = "brightness(0.62) saturate(0.8) contrast(1.08)";
       ctx.drawImage(img, (cw - w) / 2, (boxH - h) / 2, w, h);
-      if (night) {
-        // nuit : on noie l'image dans le bleu d'altitude, seules les lumières chaudes résistent
-        ctx.filter = "none";
-        ctx.globalCompositeOperation = "multiply";
-        ctx.fillStyle = "#2a3a7a";
-        ctx.fillRect(0, 0, cw, boxH);
-        ctx.globalCompositeOperation = "source-over";
-      }
       if (drawn < 0) cv.style.opacity = "1"; // le canvas remplace l'affiche dès sa 1re image
       drawn = i;
     };
@@ -265,7 +256,7 @@ export default function ScrollSequence({
           alt=""
           fetchPriority={id === "top" ? "high" : "auto"}
           // portrait : même cadrage que le canvas (bande du haut)
-          className={`absolute inset-x-0 top-0 h-full w-full object-cover ${night ? "brightness-50" : ""} ${
+          className={`absolute inset-x-0 top-0 h-full w-full object-cover ${
             portraitBox < 1 ? "portrait:h-[var(--pbox)]" : ""
           }`}
           style={{ ["--pbox" as string]: `${portraitBox * 100}%` }}
@@ -276,6 +267,9 @@ export default function ScrollSequence({
           role="img"
           aria-label={label}
         />
+        {/* Nuit : un seul étalonnage, composité par le navigateur, sur l'affiche comme sur le canvas */}
+        {night && <div aria-hidden className="pointer-events-none absolute inset-0 bg-[#24346e] mix-blend-multiply" />}
+        {night && <div aria-hidden className="pointer-events-none absolute inset-0 bg-night/35" />}
         {children}
       </div>
     </section>

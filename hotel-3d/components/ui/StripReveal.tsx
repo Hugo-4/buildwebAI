@@ -9,7 +9,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { registerGsap, gsap, prefersReducedMotion } from "@/lib/motion";
 
-type Props = { children: ReactNode; strips?: number; className?: string };
+type Props = { children: ReactNode; strips?: number; className?: string; start?: string };
 
 /** Polygone composé de N bandes, chacune ouverte à `k` (0 → 1) autour de son centre. */
 function stripsPolygon(open: number[]) {
@@ -26,7 +26,7 @@ function stripsPolygon(open: number[]) {
   return `polygon(${pts.join(", ")})`;
 }
 
-export default function StripReveal({ children, strips = 6, className = "" }: Props) {
+export default function StripReveal({ children, strips = 6, className = "", start = "top 85%" }: Props) {
   const root = useRef<HTMLDivElement>(null);
   const layer = useRef<HTMLDivElement>(null);
 
@@ -53,11 +53,11 @@ export default function StripReveal({ children, strips = 6, className = "" }: Pr
         p: 1,
         ease: "none",
         onUpdate: apply,
-        scrollTrigger: { trigger: el, start: "top 85%", end: "top 15%", scrub: true },
+        scrollTrigger: { trigger: el, start, end: "top 15%", scrub: true },
       });
     }, el);
     return () => ctx.revert();
-  }, [strips]);
+  }, [strips, start]);
 
   return (
     <div ref={root} className={`relative overflow-hidden ${className}`}>

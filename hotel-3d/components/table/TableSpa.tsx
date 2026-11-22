@@ -69,7 +69,7 @@ export default function TableSpa() {
       <section ref={spa} id="spa" data-header="ink" aria-labelledby="spa-title" className="relative isolate bg-snow py-[var(--section-y)] text-snow">
         <div data-tone-field aria-hidden className="absolute inset-0 -z-10 bg-ink" />
         <div className="grid grid-cols-4 items-center gap-y-14 px-[var(--gutter)] md:grid-cols-6">
-          <StripReveal strips={2} className="col-span-4 aspect-[3/4] md:col-span-2 md:col-start-1">
+          <StripReveal strips={2} start="top 65%" className="col-span-4 aspect-[3/4] md:col-span-2 md:col-start-1">
             <LoopVideo
               src="/video/spa-piscine.mp4"
               poster="/video/spa-piscine-poster.webp"
