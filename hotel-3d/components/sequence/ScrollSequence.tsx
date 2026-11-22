@@ -129,18 +129,6 @@ export default function ScrollSequence({
       const h = img.naturalHeight * s;
       if (night) ctx.filter = "brightness(0.62) saturate(0.8) contrast(1.08)";
       ctx.drawImage(img, (cw - w) / 2, (boxH - h) / 2, w, h);
-      if (portrait) {
-        // le champ du bas est coupé à 12° : l'image s'y termine en pente, comme une affiche
-        const rise = cw * 0.2126;
-        ctx.fillStyle = bg;
-        ctx.beginPath();
-        ctx.moveTo(0, boxH);
-        ctx.lineTo(cw, boxH - rise);
-        ctx.lineTo(cw, ch);
-        ctx.lineTo(0, ch);
-        ctx.closePath();
-        ctx.fill();
-      }
       if (night) {
         // nuit : on noie l'image dans le bleu d'altitude, seules les lumières chaudes résistent
         ctx.filter = "none";
@@ -276,9 +264,9 @@ export default function ScrollSequence({
           sizes={portraitBox < 1 ? "(orientation: portrait) 240vw, 100vw" : "100vw"}
           alt=""
           fetchPriority={id === "top" ? "high" : "auto"}
-          // portrait : même cadrage que le canvas (bande du haut, bas coupé à 12°)
+          // portrait : même cadrage que le canvas (bande du haut)
           className={`absolute inset-x-0 top-0 h-full w-full object-cover ${night ? "brightness-50" : ""} ${
-            portraitBox < 1 ? "portrait:h-[var(--pbox)] portrait:[clip-path:polygon(0_0,100%_0,100%_calc(100%-21.26vw),0_100%)]" : ""
+            portraitBox < 1 ? "portrait:h-[var(--pbox)]" : ""
           }`}
           style={{ ["--pbox" as string]: `${portraitBox * 100}%` }}
         />

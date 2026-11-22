@@ -1,84 +1,66 @@
 "use client";
 /**
  * Chapitre 1 — L'arrivée.
- * La vidéo d'approche (séquence d'images) avance avec le scroll. Par-dessus,
- * le vocabulaire de l'affiche : un aplat bleu d'altitude coupé à 12° porte le
- * titre ; il glisse hors champ dès qu'on descend, puis trois phrases se posent
- * tour à tour, chacune dans son cartouche coupé sur la pente.
+ * Le film d'arrivée (séquence d'images) avance avec le scroll. Par-dessus, le nom
+ * « L'AROLLE » en capitales condensées géantes ; dès qu'on descend, une brume de
+ * montagne (WebGL, ./Mist) monte depuis le bas et l'avale, puis se retire et
+ * laisse le film continuer : la porte, l'entrée, le salon. Trois phrases s'y posent.
  */
-import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 import ScrollSequence from "@/components/sequence/ScrollSequence";
 import { SEQUENCES } from "@/lib/sequences";
 import { registerGsap, gsap, DUR, EASE, prefersReducedMotion } from "@/lib/motion";
 import { READY_EVENT } from "@/components/ui/Preloader";
-import { slopeOpen, slopeRise, slopeShut } from "@/lib/slope";
 
-const TITLE = "L’Arolle";
+const Mist = dynamic(() => import("./Mist"), { ssr: false });
 
-/** Phrases calées sur la vidéo : [début, fin] en fraction du scroll. */
-const CAPTIONS: { text: string; at: [number, number] }[] = [
-  // calées sur la vidéo : approche (0 → 0,23), porte (0,23 → 0,36), entrée, puis le salon
-  { text: "La route s’arrête au chalet.", at: [0.1, 0.22] },
-  { text: "Les portes sont en arolle, comme le reste.", at: [0.25, 0.37] },
-  { text: "Entrez, la neige reste dehors.", at: [0.41, 0.54] },
-  { text: "Le feu brûle depuis ce matin.", at: [0.62, 0.78] },
-  { text: "Et les sommets restent aux fenêtres.", at: [0.84, 1] },
+const NAME = "L’Arolle";
+
+/** Phrases calées sur le film : [début, fin] en fraction du scroll. */
+const CAPTIONS: { label: string; text: string; at: [number, number] }[] = [
+  { label: "Le seuil", text: "Les portes sont en arolle, comme le reste.", at: [0.27, 0.42] },
+  { label: "L’entrée", text: "La neige reste dehors.", at: [0.46, 0.6] },
+  { label: "Le salon", text: "Le feu brûle depuis ce matin, les sommets restent aux fenêtres.", at: [0.7, 1] },
 ];
 
-// Masques à 12° : le cartouche s'ouvre depuis le bas, en suivant la pente
-// Masques à 12° calculés depuis la largeur réelle de chaque cartouche (lib/slope)
-const shut = (_: number, el: HTMLElement) => slopeShut(slopeRise(el));
-const open = (_: number, el: HTMLElement) => slopeOpen(slopeRise(el));
-
-/** Timeline scrubbée (définie hors du composant : identité stable). */
-function heroTimeline(tl: gsap.core.Timeline) {
-  // L'aplat-titre descend la pente et sort du cadre
-  tl.to("[data-hero-band]", { yPercent: 105, duration: 0.08, ease: "power2.in" }, 0.01);
-  tl.to("[data-hero-cue]", { opacity: 0, duration: 0.06 }, 0.02);
-
-  CAPTIONS.forEach((_, i) => {
-    const sel = `[data-caption="${i}"]`;
-    const [a, b] = CAPTIONS[i].at;
-    tl.fromTo(sel, { clipPath: shut }, { clipPath: open, duration: 0.04, ease: "power2.out" }, a);
-    tl.fromTo(`${sel} [data-caption-text]`, { yPercent: 60 }, { yPercent: 0, duration: 0.05, ease: "power2.out" }, a);
-    // la dernière phrase reste jusqu'au chapitre suivant
-    if (b < 1) tl.to(sel, { clipPath: shut, duration: 0.03, ease: "power2.in" }, b - 0.03);
-  });
-}
+// la brume : monte (0 → 0,13) jusqu'à couvrir le nom, puis se retire (0,13 → 0,24)
+const mistAt = (p: number) => (p < 0.13 ? p / 0.13 : Math.max(0, 1 - (p - 0.13) / 0.11));
 
 export default function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const mist = useRef(0);
+  const [active, setActive] = useState(true);
+  const [reduced, setReduced] = useState(false);
 
-  // Entrée du titre, lettre par lettre (indépendante du scroll)
+  useEffect(() => setReduced(prefersReducedMotion()), []);
+
+  // brume active seulement quand le hero est à l'écran
+  useEffect(() => {
+    const el = document.getElementById("top");
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setActive(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // Entrée du nom, lettre par lettre, quand le préchargeur se retire
   useEffect(() => {
     registerGsap();
     const letters = titleRef.current?.querySelectorAll<HTMLElement>("[data-letter]");
-    if (!letters) return;
-    const band = document.querySelector<HTMLElement>("[data-hero-band]");
-    if (!band || prefersReducedMotion()) return;
-    // GSAP n'interpole pas var() : on calcule la montée de l'arête en % de l'aplat
-    const rise = Math.min(((0.2126 * window.innerWidth) / band.offsetHeight) * 100, 60).toFixed(2);
-    // état de départ posé tout de suite : rien n'apparaît puis ne disparaît sous le préchargeur
+    if (!letters || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
-      gsap.set(band, { clipPath: `polygon(0% ${100 + Number(rise)}%, 100% 100%, 100% 100%, 0% 100%)` });
-      // y: 0 explicite : GSAP ne doit pas reprendre la translation de la règle CSS de départ
-      gsap.set(letters, { y: 0, yPercent: 110 });
-      // l'état de départ CSS (!important) laisse la main au style inline animé
-      document.documentElement.classList.remove("intro");
+      gsap.set(letters, { y: 0, yPercent: 105 });
       gsap.set("[data-hero-fade]", { opacity: 0 });
+      document.documentElement.classList.remove("intro");
     });
-    // le titre entre quand le préchargeur a levé son rideau
-    const start = () => ctx.add(() => {
-      gsap
-        .timeline({ delay: 0.05 })
-        .fromTo(band, { clipPath: `polygon(0% ${100 + Number(rise)}%, 100% 100%, 100% 100%, 0% 100%)` }, {
-          clipPath: `polygon(0% ${rise}%, 100% 0%, 100% 100%, 0% 100%)`,
-          duration: 1.1,
-          ease: EASE.outExpo,
-        })
-        .fromTo(letters, { yPercent: 110 }, { yPercent: 0, duration: DUR.title, stagger: DUR.letter, ease: EASE.outExpo }, 0.35)
-        .fromTo("[data-hero-fade]", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.06 }, 0.6);
-    });
+    const start = () =>
+      ctx.add(() => {
+        gsap
+          .timeline({ delay: 0.05 })
+          .to(letters, { yPercent: 0, duration: DUR.title + 0.2, stagger: 0.06, ease: EASE.outExpo })
+          .to("[data-hero-fade]", { opacity: 1, duration: 1, stagger: 0.08, ease: "power2.out" }, 0.5);
+      });
     if ((window as unknown as { __larolleReady?: boolean }).__larolleReady) start();
     else window.addEventListener(READY_EVENT, start, { once: true });
     return () => {
@@ -91,74 +73,89 @@ export default function Hero() {
     <ScrollSequence
       id="top"
       manifest={SEQUENCES.hero}
-      length={5.5}
-      portraitBox={0.5}
-      stillFrame={0}
-      timeline={heroTimeline}
+      length={6}
+      portraitBox={0.62}
+      bg="#f7f7f5"
+      timeline={heroTimeline(mist)}
       label="Approche du chalet L’Arolle dans la neige, ouverture des portes, puis le salon et ses baies face aux sommets"
       header="light"
     >
-      {/* Voile haut, uniquement sous l'en-tête : lisibilité du menu sur la neige */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-granite/45 to-transparent" />
+      {/* voiles fonctionnels : lisibilité de l'en-tête en haut, des phrases en bas (ordinateur) */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink/40 to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[45%] bg-gradient-to-t from-ink/45 to-transparent md:block" />
 
-      {/* Cartouches de narration */}
+      <p data-hero-fade data-hero-label className="label absolute left-[var(--gutter)] top-[18svh] max-w-[16rem] text-[1.0625rem] leading-snug text-snow md:top-[22svh]">
+        Vingt-quatre suites au-dessus
+        <br />
+        de Courchevel 1850
+      </p>
+
+      {/* Le nom, que la brume va avaler */}
+      <div data-hero-name className="absolute inset-x-[var(--gutter)] top-[30svh] md:top-auto md:bottom-[9svh]">
+        <h1
+          ref={titleRef}
+          aria-label="L’Arolle, hôtel de vingt-quatre suites à Courchevel 1850"
+          className="giant whitespace-nowrap text-[30vw] text-snow md:text-[21vw]"
+        >
+          {Array.from(NAME).map((ch, i) => (
+            <span key={i} aria-hidden className="inline-block overflow-hidden align-bottom">
+              <span data-letter className="inline-block will-change-transform">
+                {ch}
+              </span>
+            </span>
+          ))}
+        </h1>
+      </div>
+
+      {/* La brume (WebGL) au-dessus du nom */}
+      {!reduced && (
+        <div className="pointer-events-none absolute inset-0">
+          <Mist progress={mist} active={active} />
+        </div>
+      )}
+
+      {/* Phrases posées sur le film (ordinateur) ou sur la neige sous le film (téléphone) */}
       {CAPTIONS.map((c, i) => (
         <div
           key={i}
           data-caption={i}
-          className="absolute inset-x-[var(--gutter)] top-[54svh] bg-altitude pb-10 max-md:pl-[8vw] pt-[calc(100vw*0.2126+24px)] text-snow md:inset-x-auto md:right-[var(--gutter)] md:top-[30svh] md:w-[34rem] md:px-9 md:pb-8 md:pt-[calc(34rem*0.2126+16px)]"
-          style={{ clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }}
+          className="absolute inset-x-[var(--gutter)] top-[66svh] text-ink opacity-0 md:bottom-[12svh] md:left-[var(--gutter)] md:right-auto md:top-auto md:max-w-[44rem] md:text-snow"
         >
-          <p data-caption-text className="display text-[11.5vw] leading-[1] max-md:origin-bottom-left max-md:[transform:rotate(var(--slope))] md:text-[clamp(1.75rem,3.4vw,3rem)]">
-            {c.text}
+          <p className="label text-[1.125rem]">
+            <span className="swash">{c.label}</span>
           </p>
+          <p className="title mt-5 text-[clamp(1.75rem,3.6vw,3.25rem)]">{c.text}</p>
         </div>
       ))}
 
-      {/* Aplat bleu coupé à 12° : la pente qui porte le titre */}
-      <div
-        data-hero-band
-        className="absolute inset-x-0 bottom-0 h-[56svh] bg-altitude text-snow md:h-[62svh]"
-        style={{
-          // montée de l'arête sur toute la largeur : tan(12°) × 100vw
-          ["--band-rise" as string]: "min(calc(21.26vw), 60%)",
-          clipPath: "polygon(0% var(--band-rise), 100% 0%, 100% 100%, 0% 100%)",
-        }}
-      >
-        {/* Titre et légende posés sur l'arête, parallèles à la pente */}
-        <div
-          className="absolute bottom-6 left-[var(--gutter)] origin-bottom-left md:bottom-8"
-          style={{ transform: "rotate(var(--slope))" }}
-        >
-          <h1
-            ref={titleRef}
-            aria-label="L’Arolle, hôtel de vingt-quatre suites à Courchevel 1850"
-            className="display whitespace-nowrap text-[26vw] leading-[0.8] md:text-[13.5vw]"
-          >
-            {Array.from(TITLE).map((ch, i) => (
-              <span key={i} aria-hidden className="inline-block overflow-hidden pb-[0.07em] align-bottom">
-                <span data-letter className="inline-block will-change-transform">
-                  {ch}
-                </span>
-              </span>
-            ))}
-          </h1>
-          <p data-hero-fade className="caps mt-3 pl-[0.4em]">
-            Courchevel 1850 · 24 suites
-          </p>
-        </div>
-        <div className="absolute bottom-8 right-[var(--gutter)] flex flex-col items-end gap-5">
-          <p data-hero-fade className="hidden max-w-[22rem] text-right text-[1.0625rem] leading-snug md:block">
-            Une maison de bois d&rsquo;arolle, posée sur l&rsquo;arête au-dessus de Courchevel.
-          </p>
-          <p data-hero-cue data-hero-fade className="caps flex items-center gap-3" aria-hidden>
-            Descendre
-            <span className="relative block h-px w-10 overflow-hidden bg-snow/30">
-              <span className="absolute inset-0 animate-[cue_2.4s_cubic-bezier(.65,0,.35,1)_infinite] bg-snow" />
-            </span>
-          </p>
-        </div>
-      </div>
+      <p data-hero-fade data-hero-cue className="caps absolute bottom-7 right-[var(--gutter)] hidden items-center gap-3 text-snow md:flex" aria-hidden>
+        Descendre
+        <span className="relative block h-8 w-px overflow-hidden bg-snow/30">
+          <span className="absolute inset-0 animate-[cue_2.4s_cubic-bezier(.65,0,.35,1)_infinite] bg-snow" />
+        </span>
+      </p>
     </ScrollSequence>
   );
+}
+
+/** Timeline scrubbée (identité stable par ref) : brume, nom qui se dissout, phrases. */
+const timelines = new WeakMap<object, (tl: gsap.core.Timeline) => void>();
+function heroTimeline(mist: { current: number }) {
+  if (timelines.has(mist)) return timelines.get(mist)!;
+  const fn = (tl: gsap.core.Timeline) => {
+    const state = { p: 0 };
+    tl.to(state, { p: 1, duration: 1, ease: "none", onUpdate: () => (mist.current = mistAt(state.p)) }, 0);
+    // le nom se brouille et s'efface dans la brume
+    tl.to("[data-hero-name]", { filter: "blur(18px)", opacity: 0, yPercent: -12, duration: 0.11, ease: "power1.in" }, 0.02);
+    tl.to("[data-hero-cue]", { opacity: 0, duration: 0.04 }, 0.01);
+    tl.to("[data-hero-label]", { opacity: 0, duration: 0.06 }, 0.03);
+    CAPTIONS.forEach((c, i) => {
+      const sel = `[data-caption="${i}"]`;
+      const [a, b] = c.at;
+      tl.fromTo(sel, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.04, ease: "power2.out" }, a);
+      if (b < 1) tl.to(sel, { opacity: 0, y: -16, duration: 0.03, ease: "power2.in" }, b - 0.03);
+    });
+  };
+  timelines.set(mist, fn);
+  return fn;
 }

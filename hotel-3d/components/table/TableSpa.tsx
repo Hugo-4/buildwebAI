@@ -1,169 +1,97 @@
 "use client";
 /**
  * Chapitre 4 — La table et le spa.
- * Le fond change de matière d'une section à l'autre : neige → bleu d'altitude
- * (la salle à l'heure bleue) → pierre sombre (le spa) → neige.
- * Les deux vidéos sont cadrées comme dans les plans d'origine : en perspective
- * centrale, dans une « baie » qui s'ouvre à mesure qu'on s'en approche.
+ * La table : la salle filmée, révélée par bandes verticales alignées sur les filets.
+ * Le spa : le fond passe de la neige à l'encre (le bassin est sombre), le champ
+ * sombre monte depuis le bas avec le scroll ; la piscine est révélée de même.
  *
  * CONTENU DE DÉMONSTRATION : horaires, cuisine et équipements à confirmer.
  */
 import { useEffect, useRef } from "react";
 import LoopVideo from "@/components/ui/LoopVideo";
-import RevealLines from "@/components/ui/RevealLines";
+import ScrollWords from "@/components/ui/ScrollWords";
+import StripReveal from "@/components/ui/StripReveal";
 import { registerGsap, gsap, prefersReducedMotion } from "@/lib/motion";
-import { slopeRise, slopeShut } from "@/lib/slope";
 
 export default function TableSpa() {
-  const root = useRef<HTMLDivElement>(null);
+  const spa = useRef<HTMLElement>(null);
 
   useEffect(() => {
     registerGsap();
-    const el = root.current;
-    if (!el) return;
-    const reduced = prefersReducedMotion();
-
+    const el = spa.current;
+    const field = el?.querySelector<HTMLElement>("[data-tone-field]");
+    if (!el || !field) return;
+    if (prefersReducedMotion()) return;
+    // le champ d'encre monte depuis le bas de la section, lié au scroll
     const ctx = gsap.context(() => {
-      // 1. Changement de matière : le champ de la section (bleu, puis pierre)
-      //    monte en biseau à 12° par-dessus le précédent, lié au scroll.
-      el.querySelectorAll<HTMLElement>("[data-tone-field]").forEach((f) => {
-        const sec = f.parentElement!;
-        if (reduced) return gsap.set(f, { clipPath: "none" });
-        gsap.fromTo(
-          f,
-          { clipPath: () => slopeShut(slopeRise(f, 400)) },
-          {
-            clipPath: () => `polygon(0% 0%, 100% ${(-slopeRise(f, 400)).toFixed(2)}%, 100% 100%, 0% 100%)`,
-            ease: "none",
-            scrollTrigger: { trigger: sec, start: "top bottom", end: "top 35%", scrub: true, invalidateOnRefresh: true },
-          },
-        );
-      });
-
-      if (reduced) return;
-
-      // 2. La baie s'ouvre : on « avance » vers la fenêtre du restaurant
       gsap.fromTo(
-        "[data-baie]",
-        { clipPath: "inset(14% 22% 14% 22%)" },
-        {
-          clipPath: "inset(0% 0% 0% 0%)",
-          ease: "none",
-          scrollTrigger: { trigger: "[data-baie]", start: "top 90%", end: "top 10%", scrub: true },
-        },
-      );
-      gsap.fromTo(
-        "[data-baie] video, [data-baie] img",
-        { scale: 1.18 },
-        { scale: 1, ease: "none", scrollTrigger: { trigger: "[data-baie]", start: "top 90%", end: "bottom top", scrub: true } },
-      );
-
-      // 3. Spa : le cadre vertical monte plus lentement que le texte (parallaxe)
-      gsap.fromTo(
-        "[data-spa-frame]",
-        { yPercent: 8 },
-        { yPercent: -8, ease: "none", scrollTrigger: { trigger: "[data-spa]", start: "top bottom", end: "bottom top", scrub: true } },
+        field,
+        { clipPath: "inset(100% 0% 0% 0%)" },
+        { clipPath: "inset(0% 0% 0% 0%)", ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "top 30%", scrub: true } },
       );
     }, el);
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={root} className="bg-snow">
+    <>
       {/* ------------------------------ LA TABLE ------------------------------ */}
-      <section id="table" data-header="light" aria-labelledby="table-title" className="relative isolate pb-[var(--section-y)] pt-[var(--section-y)] text-snow">
-        <div data-tone-field aria-hidden className="absolute inset-0 -z-10 bg-altitude" />
-        <div className="mx-auto max-w-[1600px] px-[var(--gutter)] text-center">
-          <RevealLines
-            as="h2"
-            id="table-title"
-            lines={["La table regarde", "la vallée."]}
-            lineClass={(i) => (i === 1 ? "italic" : "")}
-            className="display mx-auto text-[clamp(2.75rem,8vw,7.5rem)]"
-          />
-          <p className="mx-auto mt-8 max-w-[44ch] text-[1.125rem] leading-relaxed opacity-85">
-            Une seule salle, une longue table d&rsquo;arolle et des baies sur toute la largeur. Le soir, la vallée s&rsquo;allume
-            pendant qu&rsquo;on dîne.
+      <section id="table" data-header="dark" aria-labelledby="table-title" className="bg-snow py-[var(--section-y)] text-ink">
+        <div className="grid grid-cols-4 px-[var(--gutter)] md:grid-cols-6">
+          <p className="label col-span-4 text-[1.0625rem] md:col-span-1 md:col-start-2 md:pt-3">
+            <span className="swash">La table</span>
           </p>
+          <h2 id="table-title" className="title col-span-4 mt-8 text-[clamp(2.4rem,5vw,5rem)] md:col-span-4 md:col-start-2 md:mt-10">
+            Une seule salle, face à la vallée
+          </h2>
         </div>
 
-        {/* La baie : perspective centrale, comme le plan d'origine */}
-        <div className="mx-auto mt-[clamp(56px,9vh,120px)] max-w-[1600px] px-[var(--gutter)]">
-          <div data-baie className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/9]">
-            <LoopVideo
-              src="/video/table-salle.mp4"
-              poster="/video/table-salle-poster.webp"
-              label="La salle du restaurant, ses tables dressées et ses baies sur les sommets à l'heure bleue"
-            />
-          </div>
-        </div>
+        <StripReveal strips={6} className="mx-[var(--gutter)] mt-16 aspect-[4/5] sm:aspect-[16/9]">
+          <LoopVideo
+            src="/video/table-salle.mp4"
+            poster="/video/table-salle-poster.webp"
+            label="La salle du restaurant, ses tables dressées et ses baies sur les sommets à l'heure bleue"
+          />
+        </StripReveal>
 
-        <div className="mx-auto mt-14 grid max-w-[1600px] gap-10 px-[var(--gutter)] md:grid-cols-12">
-          <div className="md:col-span-5 md:col-start-2">
-            <RevealLines
-              as="h3"
-              lines={["Cuisine de montagne,", "produits des alpages."]}
-              className="display text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.05]"
-            />
-          </div>
-          <div className="md:col-span-4 md:col-start-8">
-            <p className="max-w-[38ch] leading-relaxed opacity-85">
-              Fromages de Tarentaise, truites du lac, gibier en saison et pain cuit au feu de bois. Le menu change avec ce que
-              la montagne donne.
-            </p>
-            <dl className="caps mt-8 grid grid-cols-[auto_1fr] gap-x-8 gap-y-3">
-              <dt className="opacity-60">Dîner</dt>
-              <dd>19 h 30 – 22 h 00</dd>
-              <dt className="opacity-60">Bar</dt>
-              <dd>16 h 00 – minuit</dd>
-            </dl>
-            <a href="#reserver" className="caps link-line mt-10 inline-block">
-              Réserver une table
-            </a>
-          </div>
+        <div className="mt-16 grid grid-cols-4 gap-y-10 px-[var(--gutter)] md:grid-cols-6">
+          <p className="col-span-4 max-w-[46ch] text-[1.125rem] leading-relaxed text-ink/85 md:col-span-2 md:col-start-2">
+            Une longue table d&rsquo;arolle et des baies sur toute la largeur. Fromages de Tarentaise, truites du lac, gibier
+            en saison, pain cuit au feu de bois : le menu change avec ce que la montagne donne.
+          </p>
+          <dl className="caps col-span-4 grid grid-cols-[auto_1fr] content-start gap-x-8 gap-y-3 md:col-span-2 md:col-start-5">
+            <dt className="text-ink/60">Dîner</dt>
+            <dd>19 h 30 – 22 h 00</dd>
+            <dt className="text-ink/60">Bar</dt>
+            <dd>16 h 00 – minuit</dd>
+          </dl>
         </div>
       </section>
 
       {/* ------------------------------- LE SPA ------------------------------- */}
-      <section
-        id="spa"
-        data-spa
-        data-header="light"
-        aria-labelledby="spa-title"
-        className="relative isolate overflow-hidden bg-altitude pb-[var(--section-y)] pt-[calc(var(--section-y)*0.6)] text-[#efe9e2]"
-      >
-        <div data-tone-field aria-hidden className="absolute inset-0 -z-10 bg-[#24211f]" />
-        <div className="mx-auto grid max-w-[1600px] items-center gap-12 px-[var(--gutter)] md:grid-cols-12">
-          {/* Cadre vertical : la piscine en perspective centrale, recadrée en hauteur */}
-          <div data-spa-frame className="relative aspect-[3/4] w-full overflow-hidden md:col-span-5">
+      <section ref={spa} id="spa" data-header="light" aria-labelledby="spa-title" className="relative isolate bg-snow py-[var(--section-y)] text-snow">
+        <div data-tone-field aria-hidden className="absolute inset-0 -z-10 bg-ink" />
+        <div className="grid grid-cols-4 items-center gap-y-14 px-[var(--gutter)] md:grid-cols-6">
+          <StripReveal strips={4} className="col-span-4 aspect-[3/4] md:col-span-2 md:col-start-1">
             <LoopVideo
               src="/video/spa-piscine.mp4"
               poster="/video/spa-piscine-poster.webp"
               label="La piscine intérieure entre deux murs de pierre sombre, éclairée d'un trait ambré, face aux sommets"
             />
-          </div>
-          <div className="md:col-span-6 md:col-start-7">
-            <RevealLines
-              as="h2"
-              id="spa-title"
-              lines={["L’eau, la pierre,", "et rien d’autre."]}
-              lineClass={(i) => (i === 1 ? "italic" : "")}
-              className="display text-[clamp(2.5rem,6vw,5.5rem)]"
-            />
-            <p className="mt-8 max-w-[46ch] text-[1.125rem] leading-relaxed opacity-85 md:hidden">
-              Un couloir de pierre, une lumière posée au plafond, puis le bassin, aligné sur la vallée. On y vient après le
-              ski, on en repart à la nuit.
+          </StripReveal>
+          <div className="col-span-4 md:col-span-3 md:col-start-4">
+            <p className="label text-[1.0625rem]">
+              <span className="swash">Le spa</span>
             </p>
-            <RevealLines
-              lines={[
-                "Un couloir de pierre, une lumière posée au plafond,",
-                "puis le bassin, aligné sur la vallée.",
-                "On y vient après le ski, on en repart à la nuit.",
-              ]}
-              delay={0.2}
-              className="mt-8 hidden max-w-[46ch] text-[1.125rem] leading-relaxed opacity-85 md:block"
+            <h2 id="spa-title" className="sr-only">
+              Le spa
+            </h2>
+            <ScrollWords
+              dark
+              className="title mt-8 text-[clamp(1.9rem,3.4vw,3.4rem)]"
+              text="Un couloir de pierre, une lumière posée au plafond, puis le bassin, aligné sur la vallée. On y vient après le ski, on en repart à la nuit."
             />
-            <ul className="caps mt-10 grid grid-cols-2 gap-x-8 gap-y-4 border-t border-[#efe9e2]/20 pt-8">
+            <ul className="caps mt-12 grid grid-cols-2 gap-x-8 gap-y-4 border-t border-snow/20 pt-8 text-snow/85">
               <li>Piscine intérieure</li>
               <li>Sauna d&rsquo;arolle</li>
               <li>Hammam</li>
@@ -172,6 +100,6 @@ export default function TableSpa() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }

@@ -7,23 +7,23 @@ related_targets: []
 
 # Surface: L'Arolle — home (one-page scroll story)
 
-Mode: Persuade. Audience: international couples 30-55 comparing Courchevel addresses. Action: booking request (dates, guests, suite). Proof: the house itself, filmed (client-supplied AI-generated videos: entrance, living room, four suites, restaurant, pool); no invented prices, awards or reviews. Constraints: 60 fps, Lighthouse > 85, lighter mobile, reduced-motion, AA, keyboard. Build path: code-led (no image generation).
+Mode: Persuade. Audience: international couples 30-55 comparing Courchevel addresses. Action: booking request (dates, guests, suite). Proof: the house itself, filmed (client-supplied AI videos). No invented prices, awards or reviews. Constraints: 60 fps, Lighthouse > 85, lighter mobile, reduced-motion, AA, keyboard. Build path: code-led.
 
-User change after phase 2 (binding): the stylized 3D hero was rejected; hero and suites must be real video scrubbed by scroll. 3D stays only in the Experiences gallery. Monogram A ("A-pente") chosen.
+History: direction A (blue 12° poster) was built and reviewed, then REPLACED at the user's request: "voilà mes inspirations de sites d'hôtels, surtout le premier" (white-desert.com; tengilemalamala.com second), and the user chose "Bascule vers White Desert" when offered: snow ground and vertical hairlines, giant condensed title dissolving in mist on scroll, uppercase serif headings, statements that light up word by word, images in vertical strips, one coloured tab fixed to the edge. Kept: the videos, the A monogram, amber for action, the scroll mechanics. The reference sets world and craft bar; nothing is copied (no code, copy, pictures; its signature devices are re-made in our own terms).
 
 ## Direction contract
 
-THESIS: A 1930s Swiss ski poster laid over the house's own footage: flat altitude-blue fields cut at 12° carry the type while the film advances with the scroll. It refuses the category's full-bleed drone video with a centred white serif and a "Book now" pill.
+THESIS: A snowfield page ruled like an architect's sheet: the house's own film runs under a giant condensed name that dissolves into mountain mist as you descend; everything after is white, quiet and exact. It refuses the dark luxury template and the poster world it replaces.
 
-OWN-WORLD: Cold snow ground #F2F4F3, altitude blue #16245A as full-region fields, granite #121417 ink, one warm note arolle amber #C8873A reserved for action, plus a dark stone #24211F for the spa. Bodoni Moda at poster scale set on a 12° slope, Jost 300/400 small caps for everything functional. Every cut (bands, captions, masks, buttons, curtains) is a 12° parallelogram; no rounded cards, no gradients except the top scrim under the header.
+OWN-WORLD: Ground snow #F7F7F5 crossed by six fixed hairline columns; ink #15191D; mist-grey #8A9096 for the unread part of statements; one warm note, arolle amber #C8873A, only for the booking tab and primary action. Display: Barlow Condensed 300 uppercase at giant scale for the name only; headings in Marcellus uppercase; Bodoni Moda italic for small labels and suite names (underlined by a hand-drawn stroke); Jost 300 for body and functional caps. Square corners, hairline rules, no fields of colour, no gradients except mist.
 
-STORY: Arrive (approach, doors, living room), understand the place (photomontage + rolling figures), visit four suites rising in standing, dine and swim (ambient loops, background changes matter), choose experiences (3D ring), request dates, leave at night (arrival replayed in reverse).
+STORY: Arrive through the film and the mist, read the place in one statement that lights up, see the house in figures, visit four suites (film), the table and the pool revealed through vertical strips, choose experiences in a strip accordion, request dates, leave at night (arrival in reverse).
 
-FIRST VIEWPORT: Full-bleed first frame of the arrival film (chalet facade under blue sky). A 12°-cut altitude-blue band fills the lower ~60% on desktop; "L'Arolle" in Bodoni ~13.5vw lies along the slope from the bottom-left with "Courchevel 1850 · 24 suites" caps beneath; right: one line of description and "Descendre". Header: monogram left, "Menu" and amber "Réserver" right, always reachable. On scroll the band slides out and five captions in 12° blue cartouches land on the film.
+FIRST VIEWPORT: Full-bleed first frame of the arrival film; top-left a two-line italic label; header: section links left, centred monogram + L'AROLLE, Menu right; amber vertical tab "Réserver" fixed on the right edge. "L'AROLLE" in Barlow Condensed ~22vw white across the lower third. On scroll a WebGL mist rises from the bottom over the film and the name blurs and dissolves into it, then the film advances.
 
-FORM: Swiss ski-poster photomontage (Herbert Matter lineage) over scroll-scrubbed film, candidate 3 of 7 on my ordered list; seed:0c0a93f306cef259. Raises: key figures as fixed-position digit counters with a visible mechanical roll (from nixie counter); clip-path reveals stay open and layer like collage (from décollage).
+FORM: White Desert editorial lineage, pinned whole by the user (seed: none (pinned) — "Bascule vers White Desert", "surtout le premier").
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
 
 ## Signature interaction and motion grammar
-Signature: the house's film advancing frame by frame with the scroll (canvas image sequence), poster fields sliding along the 12° axis over it. Motion grammar: one easing family, expo-out for entrances (1.1–1.4 s, letters staggered 70 ms), power2-in for exits (shorter), linear scrub for film; reveals are 12° clip-path wipes that stay open.
+Signature: the name dissolving into a scroll-driven WebGL mist over the film. Grammar: slow and soft; expo-out entrances 1.2–1.6 s, statements scrubbed word by word, strips opening on scroll, hover expands strips; no slants, no bounce.

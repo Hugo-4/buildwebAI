@@ -29,8 +29,8 @@ function Stepper({ label, value, min, max, onChange }: { label: string; value: n
     onChange(Math.min(max, Math.max(min, v)));
   };
   return (
-    <div className="flex items-center justify-between border-b border-granite/25 py-4" role="group" aria-label={label}>
-      <span className="caps text-granite/70">{label}</span>
+    <div className="flex items-center justify-between border-b border-ink/25 py-4" role="group" aria-label={label}>
+      <span className="caps text-ink/70">{label}</span>
       <div className="flex items-center gap-5">
         <button type="button" className="step-btn" onClick={() => set(value - 1)} disabled={value <= min} aria-label={`Retirer un ${label.toLowerCase().replace(/s$/, "")}`}>
           <svg viewBox="0 0 16 16" aria-hidden><path d="M3 8h10" stroke="currentColor" strokeWidth="1.25" /></svg>
@@ -93,22 +93,24 @@ export default function Reservation() {
   }
 
   return (
-    <section id="reserver" data-header="dark" aria-labelledby="res-title" className="bg-snow py-[var(--section-y)] text-granite">
-      <div className="mx-auto grid max-w-[1600px] gap-16 px-[var(--gutter)] md:grid-cols-12">
-        <div className="md:col-span-5">
+    <section id="reserver" data-header="dark" aria-labelledby="res-title" className="border-t border-rule bg-snow py-[var(--section-y)] text-ink">
+      <div className="grid grid-cols-4 gap-y-16 px-[var(--gutter)] md:grid-cols-6">
+        <div className="col-span-4 md:col-span-2 md:col-start-1">
+          <p className="label text-[1.0625rem]">
+            <span className="swash">Réserver</span>
+          </p>
           <RevealLines
             as="h2"
             id="res-title"
-            lines={["Votre séjour", "commence ici."]}
-            lineClass={(i) => (i === 1 ? "italic text-altitude" : "")}
-            className="display text-[clamp(2.75rem,6.4vw,6rem)]"
+            lines={["Votre séjour", "commence ici"]}
+            className="title mt-8 text-[clamp(2.4rem,4.6vw,4.6rem)]"
           />
-          <p className="mt-8 max-w-[34ch] text-[1.125rem] leading-relaxed text-granite/85">
+          <p className="mt-8 max-w-[34ch] text-[1.125rem] leading-relaxed text-ink/85">
             Dites-nous vos dates : la réception vous répond dans l&rsquo;heure avec la disponibilité et le tarif de la suite.
           </p>
         </div>
 
-        <div className="md:col-span-6 md:col-start-7">
+        <div className="col-span-4 md:col-span-3 md:col-start-4">
           <AnimatePresence mode="wait" initial={false}>
             {status !== "sent" ? (
               <motion.form
@@ -143,7 +145,7 @@ export default function Reservation() {
                     />
                   </Field>
                 </div>
-                <p className="caps mt-2 h-5 text-granite/60" aria-live="polite">
+                <p className="caps mt-2 h-5 text-ink/60" aria-live="polite">
                   {nights > 0 ? `${nights} nuit${nights > 1 ? "s" : ""}` : ""}
                 </p>
 
@@ -151,7 +153,7 @@ export default function Reservation() {
                 <Stepper label="Enfants" value={children} min={0} max={4} onChange={setChildren} />
 
                 <fieldset className="mt-8">
-                  <legend className="caps text-granite/70">Suite souhaitée</legend>
+                  <legend className="caps text-ink/70">Suite souhaitée</legend>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {SUITES.map((s) => (
                       <label key={s} className="suite-chip">
@@ -178,7 +180,7 @@ export default function Reservation() {
 
                 <div className="mt-12 flex items-center gap-6">
                   <Magnetic strength={0.3}>
-                    <button type="submit" className="btn-slope caps text-[0.8125rem]" disabled={status === "sending"} aria-busy={status === "sending"}>
+                    <button type="submit" className="btn caps text-[0.8125rem]" disabled={status === "sending"} aria-busy={status === "sending"}>
                       {status === "sending" ? (
                         <>
                           <span className="spinner" aria-hidden /> Envoi…
@@ -188,7 +190,7 @@ export default function Reservation() {
                       )}
                     </button>
                   </Magnetic>
-                  <span className="text-[0.9375rem] text-granite/70">Sans engagement</span>
+                  <span className="text-[0.9375rem] text-ink/70">Sans engagement</span>
                 </div>
               </motion.form>
             ) : (
@@ -197,9 +199,9 @@ export default function Reservation() {
                 role="status"
                 initial={{ opacity: 0, y: reduce ? 0 : 16 }}
                 animate={{ opacity: 1, y: 0, transition: { duration: 0.6, ease: BEZIER.outExpo } }}
-                className="border-t border-granite/25 pt-10"
+                className="border-t border-ink/25 pt-10"
               >
-                <p className="display text-[clamp(2rem,3.6vw,3rem)] text-altitude">Demande envoyée.</p>
+                <p className="title text-[clamp(2rem,3.4vw,3rem)]">Demande envoyée</p>
                 <p className="mt-6 max-w-[42ch] leading-relaxed">
                   {suite}, du {fmt(arrival)} au {fmt(departure)}, {adults} adulte{adults > 1 ? "s" : ""}
                   {children ? ` et ${children} enfant${children > 1 ? "s" : ""}` : ""}. Réponse à {email} dans l&rsquo;heure.
@@ -219,7 +221,7 @@ export default function Reservation() {
 function Field({ label, error, id, children, className = "" }: { label: string; error?: string; id: string; children: React.ReactNode; className?: string }) {
   return (
     <div className={`field ${className}`}>
-      <label htmlFor={id} className="caps text-granite/70">
+      <label htmlFor={id} className="caps text-ink/70">
         {label}
       </label>
       {children}

@@ -9,11 +9,13 @@ import Footer from "@/components/footer/Footer";
 import Preloader from "@/components/ui/Preloader";
 import Cursor from "@/components/ui/Cursor";
 import ProgressBar from "@/components/ui/ProgressBar";
+import GridLines from "@/components/ui/GridLines";
+import BookTab from "@/components/ui/BookTab";
 
 /**
  * Page d'accueil : le scroll raconte un séjour, de l'arrivée au départ.
  * 1 Arrivée (vidéo au scroll) · 2 Le lieu · 3 Les suites (vidéo au scroll)
- * 4 La table & le spa · 5 Expériences (galerie 3D) · 6 Réserver · 7 Départ (arrivée rejouée de nuit)
+ * 4 La table & le spa · 5 Expériences (accordéon de bandes) · 6 Réserver · 7 Départ (arrivée rejouée de nuit)
  */
 export default function Home() {
   return (
@@ -21,7 +23,9 @@ export default function Home() {
       <Preloader />
       <ProgressBar />
       <Cursor />
+      <GridLines />
       <Header />
+      <BookTab />
       <main>
         <Hero />
         <Lieu />

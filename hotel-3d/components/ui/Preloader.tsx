@@ -66,7 +66,8 @@ export default function Preloader() {
         .to(counter, { v: 100, duration: 0.25, ease: "power2.out", onUpdate: () => setCount(Math.round(counter.v)) })
         .to("[data-pl-inner]", { yPercent: -30, opacity: 0, duration: 0.35, ease: "power2.in" }, "+=0.05")
         // le rideau bleu se retire en suivant la pente
-        .to(el, { clipPath: "polygon(0% 0%, 100% 0%, 100% -21%, 0% 0%)", duration: 0.85, ease: "expo.inOut" }, "-=0.15")
+        // le rideau de neige se lève
+        .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.9, ease: "expo.inOut" }, "-=0.15")
         // le hero commence pendant que le rideau se retire : aucun temps mort
         .call(announce, [], "<0.35");
     });
@@ -82,8 +83,8 @@ export default function Preloader() {
       ref={root}
       role="status"
       aria-label="Chargement de L’Arolle"
-      className="preloader fixed inset-0 z-[100] hidden items-center justify-center bg-altitude text-snow md:flex"
-      style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 121%)" }}
+      className="preloader fixed inset-0 z-[100] hidden items-center justify-center bg-snow text-ink md:flex"
+      style={{ clipPath: "inset(0% 0% 0% 0%)" }}
     >
       <div data-pl-inner className="flex flex-col items-center">
         <svg viewBox="44 28 198 196" className="h-28 w-auto" fill="currentColor" aria-hidden>
@@ -92,7 +93,7 @@ export default function Preloader() {
           <path className="pl-feet" d="M50 210 L76 210 L76 216 L50 216 Z M160 210 L212 210 L212 216 L160 216 Z" />
           <path className="pl-bar" d="M78 168 L236 134.42 L236 140.42 L78 174 Z" />
         </svg>
-        <p className="caps mt-8 tabular-nums text-snow/80">{String(count).padStart(3, "0")}</p>
+        <p className="caps mt-8 tabular-nums text-ink/60">{String(count).padStart(3, "0")}</p>
       </div>
     </div>
   );

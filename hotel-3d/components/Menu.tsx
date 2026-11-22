@@ -71,12 +71,12 @@ export default function Menu({ open, onClose }: Props) {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="fixed inset-0 z-[70] flex flex-col bg-altitude px-[var(--gutter)] pb-10 pt-28 text-snow"
-          initial={{ clipPath: "polygon(0% 100%, 100% 121%, 100% 121%, 0% 100%)" }}
-          animate={{ clipPath: "polygon(0% 0%, 100% -21%, 100% 100%, 0% 100%)", transition: { duration: reduce ? 0 : 0.8, ease: BEZIER.outExpo } }}
-          exit={{ clipPath: "polygon(0% 0%, 100% -21%, 100% -21%, 0% 0%)", transition: { duration: reduce ? 0 : 0.5, ease: BEZIER.in } }}
+          className="fixed inset-0 z-[70] flex flex-col bg-snow px-[var(--gutter)] pb-10 pt-32 text-ink"
+          // la neige descend sur la page comme un rideau, et remonte à la fermeture
+          initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
+          animate={{ clipPath: "inset(0% 0% 0% 0%)", transition: { duration: reduce ? 0 : 0.9, ease: BEZIER.inOut } }}
+          exit={{ clipPath: "inset(0% 0% 100% 0%)", transition: { duration: reduce ? 0 : 0.55, ease: BEZIER.in } }}
         >
-          <div className="grain absolute inset-0" aria-hidden />
           <nav aria-label="Chapitres" className="relative flex-1">
             <ol className="space-y-1">
               {CHAPTERS.map((c, i) => (
@@ -84,7 +84,7 @@ export default function Menu({ open, onClose }: Props) {
                   <motion.a
                     href={c.href}
                     onClick={(e) => (e.preventDefault(), go(c.href))}
-                    className="display inline-block text-[clamp(2.4rem,7vh,5rem)] leading-[1.08] text-snow/90 transition-colors hover:text-amber focus-visible:text-amber"
+                    className="title inline-block text-[clamp(2.2rem,6.4vh,4.5rem)] text-ink/85 transition-colors hover:text-[#8a5518] focus-visible:text-ink"
                     initial={{ y: "105%" }}
                     animate={{ y: 0, transition: { delay: reduce ? 0 : 0.25 + i * 0.05, duration: reduce ? 0 : 0.9, ease: BEZIER.outExpo } }}
                     exit={{ y: "-105%", transition: { duration: reduce ? 0 : 0.3, ease: BEZIER.in } }}
@@ -96,14 +96,14 @@ export default function Menu({ open, onClose }: Props) {
             </ol>
           </nav>
           <motion.div
-            className="caps relative flex flex-wrap justify-between gap-6 text-snow/75"
+            className="caps relative flex flex-wrap justify-between gap-6 border-t border-rule pt-6 text-ink/70"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, transition: { delay: reduce ? 0 : 0.6 } }}
             exit={{ opacity: 0, transition: { duration: 0.15 } }}
           >
-            <span>Rue du Jardin Alpin · Courchevel 1850</span>
-            <a href="tel:+33479000000" className="link-line">
-              +33 4 79 00 00 00
+            <span>Jardin Alpin · Courchevel 1850</span>
+            <a href="mailto:sejour@larolle.example" className="link-line">
+              sejour@larolle.example
             </a>
           </motion.div>
         </motion.div>

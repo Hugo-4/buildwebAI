@@ -1,22 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, Jost } from "next/font/google";
+import { Barlow_Condensed, Bodoni_Moda, Jost, Marcellus } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 // Polices auto-hébergées par next/font (aucune requête vers Google au runtime)
-const display = Bodoni_Moda({
-  subsets: ["latin"],
-  axes: ["opsz"],
-  style: ["normal", "italic"],
-  variable: "--font-display",
-  display: "swap",
-});
-const sans = Jost({
-  subsets: ["latin"],
-  weight: ["300", "400"],
-  variable: "--font-sans",
-  display: "swap",
-});
+const condensed = Barlow_Condensed({ subsets: ["latin"], weight: ["300"], variable: "--font-condensed", display: "swap" });
+const caps = Marcellus({ subsets: ["latin"], weight: ["400"], variable: "--font-caps", display: "swap" });
+const italic = Bodoni_Moda({ subsets: ["latin"], style: ["italic"], weight: ["400"], variable: "--font-italic", display: "swap" });
+const sans = Jost({ subsets: ["latin"], weight: ["300", "400"], variable: "--font-sans", display: "swap" });
 
 export const metadata: Metadata = {
   title: "L'Arolle · Hôtel de vingt-quatre suites à Courchevel 1850",
@@ -25,11 +16,15 @@ export const metadata: Metadata = {
   icons: { icon: "/monogram.svg" },
 };
 
-export const viewport: Viewport = { themeColor: "#16245a" };
+export const viewport: Viewport = { themeColor: "#f7f7f5" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html
+      lang="fr"
+      className={`${condensed.variable} ${caps.variable} ${italic.variable} ${sans.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Avant le 1er rendu : état de départ de l'entrée du hero (.intro) ; seconde visite,
             mobile ou mouvement réduit → pas de préchargeur peint (.pl-skip) */}

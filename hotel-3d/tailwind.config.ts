@@ -8,14 +8,16 @@ const config: Config = {
     extend: {
       colors: {
         snow: "var(--snow)",
-        altitude: "var(--altitude)",
-        granite: "var(--granite)",
-        sky: "var(--sky)",
+        ink: "var(--ink)",
+        mist: "var(--mist)",
+        rule: "var(--rule)",
         amber: "var(--amber)",
-        shade: "var(--shade)",
+        night: "var(--night)",
       },
       fontFamily: {
-        display: ["var(--font-display)", "serif"],
+        condensed: ["var(--font-condensed)", "sans-serif"],
+        caps: ["var(--font-caps)", "serif"],
+        italic: ["var(--font-italic)", "serif"],
         sans: ["var(--font-sans)", "sans-serif"],
       },
       transitionTimingFunction: {

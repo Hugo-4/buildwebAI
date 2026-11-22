@@ -72,7 +72,7 @@ export default function Cursor() {
           backgroundColor: big ? "var(--amber)" : "transparent",
         }}
       >
-        {label && <span className="caps text-[0.625rem] text-granite">{label}</span>}
+        {label && <span className="caps text-[0.625rem] text-ink">{label}</span>}
       </div>
     </div>
   );

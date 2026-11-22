@@ -25,16 +25,16 @@ export default function Footer() {
         reverse
         portraitBox={0.5}
         stillFrame={0}
-        bg="#0b1233"
+        bg="#0c1424"
         timeline={footerTimeline}
         label="Départ de nuit : on ressort du salon, les portes se referment, le chalet s’éloigne dans la neige"
         header="light"
       >
         <div className="absolute inset-0 flex flex-col justify-end px-[var(--gutter)] pb-8 text-snow">
-          <h2 id="footer-title" data-footer-title className="display text-[clamp(3.5rem,13vw,13rem)] leading-[0.85]">
+          <h2 id="footer-title" data-footer-title className="giant text-[clamp(4rem,15vw,15rem)]">
             {["À bientôt", "là-haut."].map((l, i) => (
               <span key={l} className="-mt-[0.14em] block overflow-hidden pb-[0.06em] pt-[0.14em]">
-                <span data-l className={`block ${i ? "italic" : ""}`}>
+                <span data-l className="block">
                   {l}
                 </span>
               </span>
@@ -51,15 +51,12 @@ export default function Footer() {
               </p>
             </div>
             <address className="not-italic leading-relaxed text-snow/85">
-              Rue du Jardin Alpin
+              Jardin Alpin
               <br />
-              73120 Courchevel, France
+              Courchevel 1850, Savoie
             </address>
             <p className="leading-relaxed text-snow/85">
-              <a href="tel:+33479000000" className="link-line">
-                +33 4 79 00 00 00
-              </a>
-              <br />
+
               <a href="mailto:sejour@larolle.example" className="link-line">
                 sejour@larolle.example
               </a>

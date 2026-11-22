@@ -67,8 +67,8 @@ function suitesTimeline(tl: gsap.core.Timeline) {
 /** Mouvement réduit : les quatre suites à plat, chacune avec son image. */
 function StaticSuites() {
   return (
-    <section id="suites" data-header="dark" aria-labelledby="suites-title" className="bg-snow py-[var(--section-y)] text-granite">
-      <h2 id="suites-title" className="display px-[var(--gutter)] text-[clamp(2.75rem,7vw,6.5rem)]">
+    <section id="suites" data-header="dark" aria-labelledby="suites-title" className="bg-snow py-[var(--section-y)] text-ink">
+      <h2 id="suites-title" className="title px-[var(--gutter)] text-[clamp(2.5rem,5.6vw,5.5rem)]">
         Vingt-quatre suites, aucune pareille.
       </h2>
       <div className="mt-14 grid gap-x-[var(--gutter)] gap-y-16 px-[var(--gutter)] md:grid-cols-2">
@@ -77,7 +77,7 @@ function StaticSuites() {
             <div className="relative aspect-[16/10] overflow-hidden">
               <Image src={s.still} alt={s.alt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
-            <h3 className="display mt-6 text-[clamp(2rem,3.4vw,3.25rem)] text-altitude">{s.name}</h3>
+            <h3 className="label mt-6 text-[clamp(2rem,3.4vw,3.25rem)]">{s.name}</h3>
             <p className="caps mt-3">{s.size}</p>
             <ul className="mt-3 space-y-1">
               {s.lines.map((l) => (
@@ -88,7 +88,7 @@ function StaticSuites() {
         ))}
       </div>
       <div className="mt-14 px-[var(--gutter)]">
-        <a href="#reserver" className="btn-slope caps">
+        <a href="#reserver" className="btn caps">
           Réserver une suite
         </a>
       </div>
@@ -104,18 +104,19 @@ export default function Suites() {
       id="suites"
       manifest={SEQUENCES.suites}
       length={7}
-      portraitBox={0.52}
+      portraitBox={0.5}
+      bg="#f7f7f5"
       stillFrame={0}
       timeline={suitesTimeline}
       label="Visite de quatre suites, de la suite Arête à la suite Cembro et sa terrasse au bain nordique"
       header="light"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-granite/45 to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-ink/40 to-transparent" />
 
       <h2
         data-suites-intro
-        className="display absolute left-[var(--gutter)] top-[18svh] max-w-[12ch] text-[clamp(2.75rem,7vw,6.5rem)] text-snow"
-        style={{ textShadow: "0 2px 24px rgba(18,20,23,.35)" }}
+        className="title absolute left-[var(--gutter)] top-[20svh] max-w-[14ch] text-[clamp(2.5rem,5.6vw,5.5rem)] text-snow"
+        style={{ textShadow: "0 2px 30px rgba(21,25,29,.35)" }}
       >
         Vingt-quatre suites, aucune pareille.
       </h2>
@@ -123,16 +124,14 @@ export default function Suites() {
       {/* Panneau neige coupé à 12° */}
       <div
         data-suites-panel
-        className="absolute bottom-0 left-0 w-[var(--pw)] bg-snow px-[var(--gutter)] pb-8 pt-[calc(var(--pw)*0.2126+28px)] text-granite [--pw:100vw] md:pb-12 md:[--pw:min(46rem,56vw)]"
-        // arête à 12° : montée = tan(12°) × largeur du panneau
-        style={{ clipPath: "polygon(0 calc(var(--pw) * 0.2126), 100% 0, 100% 100%, 0 100%)" }}
+        className="absolute bottom-0 left-0 w-full border-t border-rule bg-snow px-[var(--gutter)] pb-24 pt-10 text-ink md:bottom-[var(--gutter)] md:left-[var(--gutter)] md:w-[min(40rem,48vw)] md:border-0 md:px-10 md:pb-10"
       >
         {/* Les trois suites, superposées ; la timeline fait passer de l'une à l'autre */}
         <div className="relative h-[clamp(200px,28svh,280px)]">
           {SUITES.map((s, i) => (
             <article key={s.name} data-suite={i} className="absolute inset-0" aria-label={`${s.name}, ${s.size}`}>
               <div className="overflow-hidden">
-                <h3 data-rise className="display text-[clamp(2.5rem,5.2vw,4.75rem)] text-altitude">
+                <h3 data-rise className="label text-[clamp(2.4rem,4.4vw,4rem)] leading-[1.05]">
                   {s.name}
                 </h3>
               </div>
@@ -157,10 +156,10 @@ export default function Suites() {
         </div>
 
         <div className="mt-2 flex flex-wrap items-center justify-between gap-6">
-          <a href="#reserver" className="btn-slope caps">
+          <a href="#reserver" className="btn caps">
             Réserver une suite
           </a>
-          <p className="caps flex items-baseline gap-5 text-granite/70">
+          <p className="caps flex items-baseline gap-5 text-ink/70">
             <span>
               <span className="relative inline-block h-[1.2em] overflow-hidden tabular-nums" style={{ verticalAlign: "-0.28em" }}>
                 <span data-suite-index className="flex flex-col">
@@ -173,7 +172,7 @@ export default function Suites() {
               </span>{" "}
               / {SUITES.length}
             </span>
-            <a href="#reserver" className="link-line text-granite">
+            <a href="#reserver" className="link-line text-ink">
               Toutes les suites
             </a>
           </p>
