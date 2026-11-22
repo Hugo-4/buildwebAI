@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Delmas Électricité · Électricien à Villeurbanne</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un électricien fictif pour montrer ce que nous pouvons construire pour votre entreprise artisanale.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%230D6B68'/%3E%3Cpath d='M27 8 14 27h9l-3 13 14-20h-9z' fill='%23F2B33D'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <div class="wrap hd-in">
+      <a class="logo" href="#top"><svg class="bolt" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M27 8 14 27h9l-3 13 14-20h-9z"/></svg><span class="logo-name" data-bind="nom">Delmas Électricité</span></a>
+      <nav class="hd-nav" aria-label="Navigation">
+        <a href="#projets">Projets</a>
+        <a href="#borne">Borne de recharge</a>
+        <a href="#check">Check-up sécurité</a>
+        <a href="#panne">Panne</a>
+      </nav>
+      <a class="btn btn--accent btn--sm" href="#rdv">Rendez-vous</a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero -->
+    <section class="wrap hero" id="top">
+      <div class="hero-txt">
+        <p class="kicker">Électricien à Villeurbanne et dans l'Est lyonnais</p>
+        <h1>Une installation sûre, une lumière qui vous ressemble.</h1>
+        <p class="lead">Rénovation, mise aux normes, borne de recharge, domotique, éclairage. Visite et devis gratuits, chantier propre, prix ferme signé avant de commencer.</p>
+        <div class="actions">
+          <a href="#rdv" class="btn btn--accent">Prendre rendez-vous</a>
+          <a href="#panne" class="tlink">Une panne&nbsp;? On vient aujourd'hui</a>
+        </div>
+        <ul class="proofs" aria-label="Qualifications">
+          <li>Qualifelec</li>
+          <li>Installateur IRVE</li>
+          <li>Garantie décennale</li>
+          <li>Consuel fourni</li>
+        </ul>
+      </div>
+      <div class="hero-img"><img src="img/hero-1200.webp" srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" sizes="(min-width: 900px) 42vw, 100vw" alt="Suspensions en cuivre allumées à différentes hauteurs" width="1200" height="1500" fetchpriority="high"></div>
+    </section>
+
+    <!-- Panne : diagnostic express -->
+    <section class="panne" id="panne">
+      <div class="wrap panne-in">
+        <div class="panne-txt">
+          <p class="live" id="live"><span class="live-dot" aria-hidden="true"></span><span id="liveTxt">Dépannage possible aujourd'hui</span></p>
+          <h2>Une panne&nbsp;? Regardons d'abord ensemble.</h2>
+          <p>La moitié des pannes se règlent sans déplacement. Choisissez ce qui se passe&nbsp;:</p>
+          <div class="chips" role="radiogroup" aria-label="Que se passe-t-il ?" id="faults"></div>
+        </div>
+        <div class="advice" id="advice" aria-live="polite">
+          <p class="adv-t">Choisissez un symptôme</p>
+          <p class="adv-b">Nous vous disons quoi vérifier, puis si un déplacement est utile.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projets -->
+    <section class="wrap projects" id="projets">
+      <div class="sec-head">
+        <h2>Vos projets, de la prise au tableau</h2>
+        <p class="muted">Chaque chantier commence par une visite gratuite et un devis détaillé, ligne par ligne.</p>
+      </div>
+      <div class="pgrid" id="pgrid"></div>
+    </section>
+
+    <!-- Simulateur borne -->
+    <section class="ev" id="borne">
+      <div class="ev-img"><img src="img/borne-1500.webp" srcset="img/borne-900.webp 900w, img/borne-1500.webp 1500w" sizes="100vw" alt="Une voiture électrique en charge devant une maison au crépuscule" width="1500" height="938" loading="lazy" decoding="async"></div>
+      <div class="wrap ev-in">
+        <div class="ev-head">
+          <h2>Combien coûte votre borne&nbsp;?</h2>
+          <p class="muted">Prix posé, mise en service et attestation IRVE comprises. Ajustez, le total suit.</p>
+        </div>
+        <form class="ev-card" id="evForm" novalidate>
+          <fieldset><legend>Votre logement</legend><div class="chips" role="radiogroup" id="evHome"></div></fieldset>
+          <fieldset><legend>Puissance</legend><div class="chips" role="radiogroup" id="evPow"></div></fieldset>
+          <label class="range"><span>Distance entre le tableau et la place&nbsp;: <b id="distV">12 m</b></span><input type="range" id="dist" min="3" max="40" value="12" step="1"></label>
+          <fieldset class="checks"><legend>Options</legend>
+            <label class="opt"><input type="checkbox" id="optApp"> Pilotage par appli, recharge aux heures creuses <b>+120&nbsp;€</b></label>
+            <label class="opt"><input type="checkbox" id="optSurge"> Parafoudre au tableau <b>+90&nbsp;€</b></label>
+          </fieldset>
+          <div class="ev-sum" id="evSum"></div>
+          <button type="button" class="btn btn--accent btn--full" id="evGo">Réserver la visite technique gratuite</button>
+          <p class="muted small">Aides indicatives selon les règles en vigueur, confirmées au devis.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Check-up sécurité -->
+    <section class="wrap check" id="check">
+      <div class="check-head">
+        <h2>Votre installation est-elle sûre&nbsp;?</h2>
+        <p class="lead">Cinq questions, trente secondes. Plus de la moitié des logements de plus de quinze ans ont au moins une anomalie.</p>
+      </div>
+      <div class="quiz" id="quiz"></div>
+      <div class="verdict" id="verdict" hidden aria-live="polite"></div>
+    </section>
+
+    <!-- Rendez-vous -->
+    <section class="rdv" id="rdv">
+      <div class="wrap rdv-in">
+        <div class="rdv-txt">
+          <h2>Une visite, un devis, sans engagement</h2>
+          <p class="muted">Thomas ou Sofia passent chez vous, regardent l'installation et vous envoient le devis sous 48&nbsp;h.</p>
+        </div>
+        <form class="rdv-card" id="rdvForm" novalidate>
+          <label class="f"><span>Pour quel projet&nbsp;?</span>
+            <select id="motif"></select>
+          </label>
+          <div class="f"><span id="dayL">Le jour</span><div class="chips" role="radiogroup" aria-labelledby="dayL" id="days"></div></div>
+          <div class="f"><span id="halfL">Le moment</span><div class="chips" role="radiogroup" aria-labelledby="halfL" id="halves"></div></div>
+          <div class="two">
+            <label class="f"><span>Nom</span><input type="text" id="nm" autocomplete="name"></label>
+            <label class="f"><span>Téléphone</span><input type="tel" id="tel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78"></label>
+          </div>
+          <button type="submit" class="btn btn--accent btn--full">Confirmer la visite</button>
+          <p class="form-msg" id="rdvMsg" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Artisan -->
+    <section class="wrap who">
+      <div class="who-img"><img src="img/artisan-1100.webp" srcset="img/artisan-700.webp 700w, img/artisan-1100.webp 1100w" sizes="(min-width: 900px) 36vw, 100vw" alt="Un électricien casqué vérifie un boîtier au mur" width="1100" height="1375" loading="lazy" decoding="async"></div>
+      <div class="who-txt">
+        <h2>Une petite équipe, toujours la même</h2>
+        <p>Thomas a créé l'entreprise en 2012, Sofia l'a rejointe pour les bornes et la domotique. Pas de sous-traitance&nbsp;: ceux qui font le devis sont ceux qui font le chantier.</p>
+        <dl class="facts">
+          <div><dt>48&nbsp;h</dt><dd>pour recevoir le devis après la visite</dd></div>
+          <div><dt>1 jour</dt><dd>pour poser une borne en maison</dd></div>
+          <div><dt>10 ans</dt><dd>de garantie décennale sur les travaux</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <div>
+        <p class="ft-name" data-bind="nom">Delmas Électricité</p>
+        <p class="ft-zone">Villeurbanne, Lyon 3<sup>e</sup>, 6<sup>e</sup> et 8<sup>e</sup>, Bron, Vaulx-en-Velin, Décines, Meyzieu, Caluire.</p>
+      </div>
+      <dl class="ft-info">
+        <div><dt>Téléphone</dt><dd><a href="tel:+33465711256">04 65 71 12 56</a></dd></div>
+        <div><dt>Horaires</dt><dd>Du lundi au vendredi, 8&nbsp;h – 18&nbsp;h · dépannage le samedi matin</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:contact@delmas-electricite.example">contact@delmas-electricite.example</a></dd></div>
+      </dl>
+    </div>
+    <p class="wrap ft-credit">Entreprise fictive · numéro réservé à la fiction · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <!-- Barre mobile -->
+  <div class="m-bar" id="mBar">
+    <a class="m-call" href="tel:+33465711256">Appeler</a>
+    <a class="m-go" href="#rdv">Prendre rendez-vous</a>
+  </div>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs de l'artisan</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom</span><input type="text" id="czNom" maxlength="28"></label>
+    <label class="cz-f"><span>Couleur principale</span><input type="color" id="czAccent"></label>
+    <button type="button" class="btn btn--cz btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir à Delmas Électricité</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

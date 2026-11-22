@@ -71,6 +71,15 @@
         ],
         "createdAt": "2026-11-21T18:16:47.583Z",
         "reason": "faux positif statique : sections pleine largeur avec enfant .wrap (max(20px,4vw)) ; détecteur au rendu propre en 390/1440"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "demo/electricien/index.html"
+        ],
+        "createdAt": "2026-11-22T09:34:47.960Z",
+        "reason": "faux positif statique : sections pleine largeur avec enfant .wrap (max(20px,4vw)) ; détecteur au rendu propre en 390/1440"
       }
     ]
   }
