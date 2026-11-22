@@ -35,7 +35,7 @@ Demo built by BuildWebAI to show prospects an award-level hotel site. Booking is
 
 ## Brand Commitments
 
-Name "L'Arolle" and the "A-pente" monogram (didone A whose crossbar follows the 12° slope) are approved by the user. Brief: luxury = restraint, lots of space, strong editorial serif with a thin sans, palette taken from the place; no purple gradients, no stock rounded cards, no emojis.
+Name "L'Arolle" and the "A-pente" monogram (didone A whose crossbar follows the 12° slope) are approved by the user. The user named white-desert.com as the main reference site (tengilemalamala.com second) and chose to move the site to that spirit: white, ruled, editorial, mist, strips. The reference is inspiration only: none of its code, copy, pictures or signature effects are reused as such. Brief: luxury = restraint, lots of space, strong editorial serif with a thin sans, palette taken from the place; no purple gradients, no stock rounded cards, no emojis.
 
 ## Evidence on Hand
 

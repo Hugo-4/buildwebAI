@@ -12,6 +12,7 @@ import ScrollSequence from "@/components/sequence/ScrollSequence";
 import { SEQUENCES } from "@/lib/sequences";
 import { registerGsap, gsap, DUR, EASE, prefersReducedMotion } from "@/lib/motion";
 import { READY_EVENT } from "@/components/ui/Preloader";
+import { useLiteMode } from "@/lib/useMedia";
 
 const Mist = dynamic(() => import("./Mist"), { ssr: false });
 
@@ -32,8 +33,20 @@ export default function Hero() {
   const mist = useRef(0);
   const [active, setActive] = useState(true);
   const [reduced, setReduced] = useState(false);
+  const [wantMist, setWantMist] = useState(false);
+  const lite = useLiteMode();
 
   useEffect(() => setReduced(prefersReducedMotion()), []);
+
+  // La brume WebGL n'est chargée qu'au premier geste : au repos elle est invisible,
+  // et three.js ne pèse pas sur le premier affichage. Téléphone : pas de WebGL,
+  // le nom se brouille et s'efface seul (même timeline).
+  useEffect(() => {
+    const go = () => setWantMist(true);
+    const evts = ["wheel", "touchstart", "pointerdown", "keydown", "scroll"] as const;
+    evts.forEach((e) => window.addEventListener(e, go, { once: true, passive: true }));
+    return () => evts.forEach((e) => window.removeEventListener(e, go));
+  }, []);
 
   // brume active seulement quand le hero est à l'écran
   useEffect(() => {
@@ -108,7 +121,7 @@ export default function Hero() {
       </div>
 
       {/* La brume (WebGL) au-dessus du nom */}
-      {!reduced && (
+      {!reduced && !lite && wantMist && (
         <div className="pointer-events-none absolute inset-0">
           <Mist progress={mist} active={active} />
         </div>
