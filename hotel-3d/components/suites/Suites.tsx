@@ -8,48 +8,97 @@
  * CONTENU DE DÉMONSTRATION : noms, surfaces et équipements sont à remplacer
  * par ceux de l'hôtel (aucun tarif n'est affiché).
  */
+import Image from "next/image";
 import ScrollSequence from "@/components/sequence/ScrollSequence";
+import { useReducedMotion } from "@/lib/useMedia";
 import { SEQUENCES } from "@/lib/sequences";
 import type { gsap } from "@/lib/motion";
 
 const SUITES = [
   {
+    still: "/images/suite-fenetre-sommets.webp",
+    alt: "Suite Arête : baie ouverte sur les sommets, baignoire en pierre",
     name: "Suite Arête",
     size: "40 m²",
     lines: ["Baie ouverte sur les sommets", "Baignoire en pierre, cheminée", "Lit de 200, bois d’arolle"],
   },
   {
+    still: "/images/suite-cheminee-suspendue.webp",
+    alt: "Suite Lauze : cheminée suspendue et lit face à la vallée",
     name: "Suite Lauze",
     size: "45 m²",
     lines: ["Cheminée suspendue", "Baignoire face à la vallée", "Plein sud, soleil du matin"],
   },
   {
+    still: "/images/suite-baignoire-vue.webp",
+    alt: "Suite Combe : baignoire en pierre devant la baie, sommets au soleil",
     name: "Suite Combe",
     size: "70 m²",
     lines: ["Salon et cheminée suspendue", "Baignoire en pierre face aux sommets", "Balcon filant plein sud"],
   },
   {
+    still: "/images/lieu-terrasse-bain-nordique.webp",
+    alt: "Suite Cembro : terrasse et bain nordique à l'heure bleue",
     name: "Suite Cembro",
     size: "120 m²",
     lines: ["Duplex sous la charpente", "Feu ouvert, chambre en mezzanine", "Terrasse et bain nordique"],
   },
 ];
 
-/** Chaque suite occupe un tiers ; les panneaux se relaient sans blanc. */
+/**
+ * Chaque suite occupe une part égale. Le passage est net : la suite sortante a
+ * fini de partir (lignes d'abord, titre en dernier) avant que l'entrante monte ;
+ * le compteur tourne exactement à la frontière.
+ */
 function suitesTimeline(tl: gsap.core.Timeline) {
-  tl.fromTo("[data-suites-intro]", { opacity: 1, y: 0 }, { opacity: 0, y: -24, duration: 0.06 }, 0.03);
-  tl.fromTo("[data-suites-panel]", { yPercent: 110 }, { yPercent: 0, duration: 0.1, ease: "power3.out" }, 0.08);
+  const part = 1 / SUITES.length;
+  tl.fromTo("[data-suites-intro]", { opacity: 1, y: 0 }, { opacity: 0, y: -24, duration: 0.05 }, 0.02);
+  tl.fromTo("[data-suites-panel]", { yPercent: 110 }, { yPercent: 0, duration: 0.08, ease: "power3.out" }, 0.06);
   SUITES.forEach((_, i) => {
     const sel = `[data-suite="${i}"] [data-rise]`;
-    const start = i / SUITES.length;
-    if (i > 0) tl.fromTo(sel, { yPercent: 110 }, { yPercent: 0, duration: 0.06, stagger: 0.012, ease: "power3.out" }, start + 0.01);
+    const start = i * part;
+    if (i > 0) tl.fromTo(sel, { yPercent: 110 }, { yPercent: 0, duration: 0.04, stagger: 0.006, ease: "power3.out" }, start + 0.005);
     if (i < SUITES.length - 1)
-      tl.to(sel, { yPercent: -110, duration: 0.05, stagger: 0.01, ease: "power2.in" }, start + 1 / SUITES.length - 0.05);
-    tl.to("[data-suite-index]", { yPercent: (-100 / SUITES.length) * i, duration: 0.05, ease: "power3.inOut" }, Math.max(start - 0.03, 0));
+      tl.to(sel, { yPercent: -110, duration: 0.035, stagger: { each: 0.004, from: "end" }, ease: "power2.in" }, start + part - 0.06);
+    if (i > 0) tl.to("[data-suite-index]", { yPercent: (-100 / SUITES.length) * i, duration: 0.02, ease: "power3.inOut" }, start - 0.01);
   });
 }
 
+/** Mouvement réduit : les quatre suites à plat, chacune avec son image. */
+function StaticSuites() {
+  return (
+    <section id="suites" data-header="dark" aria-labelledby="suites-title" className="bg-snow py-[var(--section-y)] text-granite">
+      <h2 id="suites-title" className="display px-[var(--gutter)] text-[clamp(2.75rem,7vw,6.5rem)]">
+        Vingt-quatre suites, aucune pareille.
+      </h2>
+      <div className="mt-14 grid gap-x-[var(--gutter)] gap-y-16 px-[var(--gutter)] md:grid-cols-2">
+        {SUITES.map((s) => (
+          <article key={s.name}>
+            <div className="relative aspect-[16/10] overflow-hidden">
+              <Image src={s.still} alt={s.alt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+            </div>
+            <h3 className="display mt-6 text-[clamp(2rem,3.4vw,3.25rem)] text-altitude">{s.name}</h3>
+            <p className="caps mt-3">{s.size}</p>
+            <ul className="mt-3 space-y-1">
+              {s.lines.map((l) => (
+                <li key={l}>{l}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+      <div className="mt-14 px-[var(--gutter)]">
+        <a href="#reserver" className="btn-slope caps">
+          Réserver une suite
+        </a>
+      </div>
+    </section>
+  );
+}
+
 export default function Suites() {
+  const reduced = useReducedMotion();
+  if (reduced) return <StaticSuites />;
   return (
     <ScrollSequence
       id="suites"
@@ -74,32 +123,14 @@ export default function Suites() {
       {/* Panneau neige coupé à 12° */}
       <div
         data-suites-panel
-        className="absolute bottom-0 left-0 w-full bg-snow px-[var(--gutter)] pb-8 pt-[clamp(72px,9vw,128px)] text-granite md:w-[min(46rem,56vw)] md:pb-12"
-        style={{ clipPath: "polygon(0 calc(min(9vw,128px) * 0.6), 100% 0, 100% 100%, 0 100%)" }}
+        className="absolute bottom-0 left-0 w-[var(--pw)] bg-snow px-[var(--gutter)] pb-8 pt-[calc(var(--pw)*0.2126+28px)] text-granite [--pw:100vw] md:pb-12 md:[--pw:min(46rem,56vw)]"
+        // arête à 12° : montée = tan(12°) × largeur du panneau
+        style={{ clipPath: "polygon(0 calc(var(--pw) * 0.2126), 100% 0, 100% 100%, 0 100%)" }}
       >
-        <div className="flex items-baseline justify-between">
-          <p className="caps text-granite/70">
-            Suite{" "}
-            <span className="relative inline-block h-[1.2em] overflow-hidden tabular-nums" style={{ verticalAlign: "-0.28em" }}>
-              <span data-suite-index className="flex flex-col">
-                {SUITES.map((_, i) => (
-                  <span key={i} className="block h-[1.2em] leading-[1.2em]">
-                    {i + 1}
-                  </span>
-                ))}
-              </span>
-            </span>{" "}
-            sur {SUITES.length}
-          </p>
-          <a href="#reserver" className="caps link-line">
-            Toutes les suites
-          </a>
-        </div>
-
         {/* Les trois suites, superposées ; la timeline fait passer de l'une à l'autre */}
-        <div className="relative mt-6 h-[clamp(220px,30svh,300px)] motion-reduce:h-auto motion-reduce:space-y-8">
+        <div className="relative h-[clamp(200px,28svh,280px)]">
           {SUITES.map((s, i) => (
-            <article key={s.name} data-suite={i} className="absolute inset-0 motion-reduce:static" aria-label={`${s.name}, ${s.size}`}>
+            <article key={s.name} data-suite={i} className="absolute inset-0" aria-label={`${s.name}, ${s.size}`}>
               <div className="overflow-hidden">
                 <h3 data-rise className="display text-[clamp(2.5rem,5.2vw,4.75rem)] text-altitude">
                   {s.name}
@@ -125,9 +156,28 @@ export default function Suites() {
           ))}
         </div>
 
-        <a href="#reserver" className="btn-slope caps mt-2">
-          Réserver une suite
-        </a>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-6">
+          <a href="#reserver" className="btn-slope caps">
+            Réserver une suite
+          </a>
+          <p className="caps flex items-baseline gap-5 text-granite/70">
+            <span>
+              <span className="relative inline-block h-[1.2em] overflow-hidden tabular-nums" style={{ verticalAlign: "-0.28em" }}>
+                <span data-suite-index className="flex flex-col">
+                  {SUITES.map((_, i) => (
+                    <span key={i} className="block h-[1.2em] leading-[1.2em]">
+                      {i + 1}
+                    </span>
+                  ))}
+                </span>
+              </span>{" "}
+              / {SUITES.length}
+            </span>
+            <a href="#reserver" className="link-line text-granite">
+              Toutes les suites
+            </a>
+          </p>
+        </div>
       </div>
     </ScrollSequence>
   );

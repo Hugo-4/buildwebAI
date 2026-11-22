@@ -11,12 +11,8 @@
 import { useEffect, useRef } from "react";
 import LoopVideo from "@/components/ui/LoopVideo";
 import RevealLines from "@/components/ui/RevealLines";
-import { registerGsap, gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/motion";
-
-const TONES = {
-  table: { bg: "#16245a", fg: "#f2f4f3" },
-  spa: { bg: "#24211f", fg: "#efe9e2" },
-};
+import { registerGsap, gsap, prefersReducedMotion } from "@/lib/motion";
+import { slopeRise, slopeShut } from "@/lib/slope";
 
 export default function TableSpa() {
   const root = useRef<HTMLDivElement>(null);
@@ -28,18 +24,20 @@ export default function TableSpa() {
     const reduced = prefersReducedMotion();
 
     const ctx = gsap.context(() => {
-      // 1. Transitions de couleur de fond entre les sections
-      const setTone = (bg: string, fg: string) =>
-        gsap.to(el, { backgroundColor: bg, color: fg, duration: reduced ? 0 : 0.9, ease: "power2.out", overwrite: "auto" });
-      el.querySelectorAll<HTMLElement>("[data-tone]").forEach((sec) => {
-        const t = TONES[sec.dataset.tone as keyof typeof TONES];
-        ScrollTrigger.create({
-          trigger: sec,
-          start: "top 55%",
-          end: "bottom 55%",
-          onEnter: () => setTone(t.bg, t.fg),
-          onEnterBack: () => setTone(t.bg, t.fg),
-        });
+      // 1. Changement de matière : le champ de la section (bleu, puis pierre)
+      //    monte en biseau à 12° par-dessus le précédent, lié au scroll.
+      el.querySelectorAll<HTMLElement>("[data-tone-field]").forEach((f) => {
+        const sec = f.parentElement!;
+        if (reduced) return gsap.set(f, { clipPath: "none" });
+        gsap.fromTo(
+          f,
+          { clipPath: () => slopeShut(slopeRise(f, 400)) },
+          {
+            clipPath: () => `polygon(0% 0%, 100% ${(-slopeRise(f, 400)).toFixed(2)}%, 100% 100%, 0% 100%)`,
+            ease: "none",
+            scrollTrigger: { trigger: sec, start: "top bottom", end: "top 35%", scrub: true, invalidateOnRefresh: true },
+          },
+        );
       });
 
       if (reduced) return;
@@ -71,9 +69,10 @@ export default function TableSpa() {
   }, []);
 
   return (
-    <div ref={root} className="bg-snow text-granite">
+    <div ref={root} className="bg-snow">
       {/* ------------------------------ LA TABLE ------------------------------ */}
-      <section id="table" data-tone="table" data-header="light" aria-labelledby="table-title" className="pb-[var(--section-y)] pt-[var(--section-y)]">
+      <section id="table" data-header="light" aria-labelledby="table-title" className="relative isolate pb-[var(--section-y)] pt-[var(--section-y)] text-snow">
+        <div data-tone-field aria-hidden className="absolute inset-0 -z-10 bg-altitude" />
         <div className="mx-auto max-w-[1600px] px-[var(--gutter)] text-center">
           <RevealLines
             as="h2"
@@ -128,12 +127,12 @@ export default function TableSpa() {
       {/* ------------------------------- LE SPA ------------------------------- */}
       <section
         id="spa"
-        data-tone="spa"
         data-spa
         data-header="light"
         aria-labelledby="spa-title"
-        className="overflow-hidden pb-[var(--section-y)] pt-[calc(var(--section-y)*0.6)]"
+        className="relative isolate overflow-hidden bg-altitude pb-[var(--section-y)] pt-[calc(var(--section-y)*0.6)] text-[#efe9e2]"
       >
+        <div data-tone-field aria-hidden className="absolute inset-0 -z-10 bg-[#24211f]" />
         <div className="mx-auto grid max-w-[1600px] items-center gap-12 px-[var(--gutter)] md:grid-cols-12">
           {/* Cadre vertical : la piscine en perspective centrale, recadrée en hauteur */}
           <div data-spa-frame className="relative aspect-[3/4] w-full overflow-hidden md:col-span-5">
@@ -151,6 +150,10 @@ export default function TableSpa() {
               lineClass={(i) => (i === 1 ? "italic" : "")}
               className="display text-[clamp(2.5rem,6vw,5.5rem)]"
             />
+            <p className="mt-8 max-w-[46ch] text-[1.125rem] leading-relaxed opacity-85 md:hidden">
+              Un couloir de pierre, une lumière posée au plafond, puis le bassin, aligné sur la vallée. On y vient après le
+              ski, on en repart à la nuit.
+            </p>
             <RevealLines
               lines={[
                 "Un couloir de pierre, une lumière posée au plafond,",
@@ -158,7 +161,7 @@ export default function TableSpa() {
                 "On y vient après le ski, on en repart à la nuit.",
               ]}
               delay={0.2}
-              className="mt-8 max-w-[46ch] text-[1.125rem] leading-relaxed opacity-85"
+              className="mt-8 hidden max-w-[46ch] text-[1.125rem] leading-relaxed opacity-85 md:block"
             />
             <ul className="caps mt-10 grid grid-cols-2 gap-x-8 gap-y-4 border-t border-[#efe9e2]/20 pt-8">
               <li>Piscine intérieure</li>

@@ -15,8 +15,8 @@ export default function Magnetic({ children, strength = 0.35, className = "" }: 
   useEffect(() => {
     const el = ref.current;
     if (!el || prefersReducedMotion() || !window.matchMedia("(hover: hover)").matches) return;
-    const x = gsap.quickTo(el, "x", { duration: 0.6, ease: "elastic.out(1, 0.45)" });
-    const y = gsap.quickTo(el, "y", { duration: 0.6, ease: "elastic.out(1, 0.45)" });
+    const x = gsap.quickTo(el, "x", { duration: 0.6, ease: "expo.out" });
+    const y = gsap.quickTo(el, "y", { duration: 0.6, ease: "expo.out" });
     const move = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
       x((e.clientX - (r.left + r.width / 2)) * strength);

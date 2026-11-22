@@ -5,13 +5,21 @@
  * dessous. app/template.tsx est remonté à chaque changement de route.
  */
 import { motion, useReducedMotion } from "framer-motion";
+import { useEffect } from "react";
 import { BEZIER } from "@/lib/motion";
+
+// Premier affichage du site : c'est le préchargeur qui joue l'entrée, pas ce rideau
+let firstMount = true;
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const reduce = useReducedMotion();
+  const curtain = !firstMount && !reduce;
+  useEffect(() => {
+    firstMount = false;
+  }, []);
   return (
     <>
-      {!reduce && (
+      {curtain && (
         <motion.div
           aria-hidden
           className="pointer-events-none fixed inset-0 z-[95] bg-altitude"

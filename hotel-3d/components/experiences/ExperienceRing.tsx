@@ -16,11 +16,18 @@ type Props = {
   progress: MutableRefObject<number>;
   velocity: MutableRefObject<number>;
   onHover?: (i: number | null) => void;
+  /** Première image rendue : l'affiche posée dessous peut s'effacer. */
+  onReady?: () => void;
+  /** Section à l'écran : sinon la boucle de rendu s'arrête. */
+  active: boolean;
 };
 
+// Les textures partent dès que ce module est chargé (avant l'épinglage)
+useTexture.preload(EXPERIENCES.map((e) => e.image));
+
 const N = EXPERIENCES.length;
-const R = 4.2; // rayon de l'anneau
-const STEP = (Math.PI * 2) / N;
+const R = 6; // rayon de l'arc
+const STEP = THREE.MathUtils.degToRad(30); // écart entre cartes : la voisine reste dans le champ
 const W = 2.4;
 const H = 3.2;
 
@@ -109,7 +116,8 @@ function Card({ i, tex, onHover }: { i: number; tex: THREE.Texture; onHover?: (i
   );
 }
 
-function Ring({ progress, velocity, onHover }: Props) {
+function Ring({ progress, velocity, onHover, onReady }: Omit<Props, "active">) {
+  const first = useRef(false);
   const textures = useTexture(EXPERIENCES.map((e) => e.image));
   textures.forEach((t) => {
     t.colorSpace = THREE.SRGBColorSpace;
@@ -119,6 +127,10 @@ function Ring({ progress, velocity, onHover }: Props) {
   const rot = useRef(0);
   const bend = useRef(0);
   useFrame(({ pointer }, dt) => {
+    if (!first.current) {
+      first.current = true;
+      requestAnimationFrame(() => onReady?.());
+    }
     // carte i de face quand progress = i / (N - 1)
     const target = -progress.current * (N - 1) * STEP;
     rot.current = THREE.MathUtils.damp(rot.current, target, 5, dt);
@@ -145,15 +157,22 @@ function Ring({ progress, velocity, onHover }: Props) {
 function Rig() {
   const { camera, size } = useThree();
   // recule la caméra sur les écrans étroits pour garder la carte entière
-  const z = size.width / size.height < 1.2 ? R + 8.5 : R + 6.2;
+  const z = size.width / size.height < 1.2 ? R + 10 : R + 7.5;
   camera.position.set(0, 0, z);
   camera.lookAt(0, 0, 0);
   return null;
 }
 
-export default function ExperienceRing(props: Props) {
+export default function ExperienceRing({ active, ...props }: Props) {
   return (
-    <Canvas dpr={[1, 1.75]} camera={{ fov: 35, near: 0.1, far: 50 }} gl={{ antialias: true, alpha: true }} aria-hidden>
+    <Canvas
+      // hors écran : plus aucune image calculée (les séquences vidéo gardent le GPU)
+      frameloop={active ? "always" : "never"}
+      dpr={[1, 1.5]}
+      camera={{ fov: 40, near: 0.1, far: 50 }}
+      gl={{ antialias: true, alpha: true }}
+      aria-hidden
+    >
       <Rig />
       <Ring {...props} />
     </Canvas>

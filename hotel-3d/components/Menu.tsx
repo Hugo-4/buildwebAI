@@ -33,7 +33,7 @@ export default function Menu({ open, onClose }: Props) {
     lenis?.stop();
     const el = panel.current;
     const first = el?.querySelector<HTMLElement>("a, button");
-    first?.focus();
+    first?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
       // piège du focus
@@ -80,7 +80,7 @@ export default function Menu({ open, onClose }: Props) {
           <nav aria-label="Chapitres" className="relative flex-1">
             <ol className="space-y-1">
               {CHAPTERS.map((c, i) => (
-                <li key={c.href} className="overflow-hidden">
+                <li key={c.href} className="-mt-[0.14em] overflow-hidden pt-[0.14em]">
                   <motion.a
                     href={c.href}
                     onClick={(e) => (e.preventDefault(), go(c.href))}

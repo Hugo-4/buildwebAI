@@ -126,6 +126,18 @@ export default function ScrollSequence({
       const h = img.naturalHeight * s;
       if (night) ctx.filter = "brightness(0.62) saturate(0.8) contrast(1.08)";
       ctx.drawImage(img, (cw - w) / 2, (boxH - h) / 2, w, h);
+      if (portrait) {
+        // le champ du bas est coupé à 12° : l'image s'y termine en pente, comme une affiche
+        const rise = cw * 0.2126;
+        ctx.fillStyle = bg;
+        ctx.beginPath();
+        ctx.moveTo(0, boxH);
+        ctx.lineTo(cw, boxH - rise);
+        ctx.lineTo(cw, ch);
+        ctx.lineTo(0, ch);
+        ctx.closePath();
+        ctx.fill();
+      }
       if (night) {
         // nuit : on noie l'image dans le bleu d'altitude, seules les lumières chaudes résistent
         ctx.filter = "none";
@@ -148,13 +160,21 @@ export default function ScrollSequence({
     const ro = new ResizeObserver(resize);
     ro.observe(cv);
 
-    // Chargement progressif, 6 requêtes en parallèle
+    // Chargement progressif, 6 requêtes en parallèle.
+    // Rien d'autre que l'affiche n'est téléchargé avant que ce soit utile :
+    // la séquence démarre quand la section approche ET que le visiteur a
+    // interagi (scroll, toucher, clavier). Les images proches de la position
+    // courante passent devant la file (priorité au scrub).
     const order = loadOrder(count);
-    const queue = reduced ? [state.frame] : reverse ? order.map((i) => count - 1 - i) : order;
+    const queue: number[] = reduced ? [state.frame] : reverse ? order.map((i) => count - 1 - i) : order;
+    const requested = new Set<number>();
     let active = 0;
+    let started = false;
     const next = () => {
-      while (!cancelled && active < 6 && queue.length) {
+      while (started && !cancelled && active < 6 && queue.length) {
         const i = queue.shift()!;
+        if (requested.has(i)) continue;
+        requested.add(i);
         const img = new Image();
         img.decoding = "async";
         active++;
@@ -171,28 +191,66 @@ export default function ScrollSequence({
         img.src = src(i);
       }
     };
-    next();
+    /** Met en tête de file les images autour de la position courante. */
+    const prioritize = () => {
+      const t = Math.round(state.frame);
+      for (const d of [2, 1, 0]) {
+        for (const i of [t - d, t + d]) if (i >= 0 && i < count && !requested.has(i)) queue.unshift(i);
+      }
+      next();
+    };
+    const start = () => {
+      if (started) return;
+      started = true;
+      next();
+    };
+    let near = false;
+    let interacted = reduced; // en mouvement réduit, une seule image : on la charge tout de suite
+    const maybeStart = () => near && interacted && start();
+    const io = new IntersectionObserver(([e]) => ((near = e.isIntersecting), maybeStart()), { rootMargin: "150% 0px" });
+    io.observe(el);
+    const onFirst = () => ((interacted = true), maybeStart());
+    const evts = ["wheel", "touchstart", "pointerdown", "keydown", "scroll"] as const;
+    evts.forEach((ev) => window.addEventListener(ev, onFirst, { once: true, passive: true }));
 
+    const cleanupLoad = () => {
+      io.disconnect();
+      evts.forEach((ev) => window.removeEventListener(ev, onFirst));
+    };
     if (reduced) {
       return () => {
         cancelled = true;
         ro.disconnect();
+        cleanupLoad();
       };
     }
 
     const gctx = gsap.context(() => {
       const tl = gsap.timeline({
         defaults: { ease: "none" },
-        scrollTrigger: { trigger: el, start: "top top", end: "bottom bottom", scrub: 0.6 },
+        // scrub direct : Lenis lisse déjà le défilement, on n'ajoute pas un second retard
+        scrollTrigger: { trigger: el, start: "top top", end: "bottom bottom", scrub: true },
       });
       // la séquence couvre toute la timeline ; les textes s'y calent (0 → 1)
-      tl.to(state, { frame: reverse ? 0 : count - 1, duration: 1, onUpdate: () => draw() }, 0);
+      tl.to(
+        state,
+        {
+          frame: reverse ? 0 : count - 1,
+          duration: 1,
+          onUpdate: () => {
+            if (!images[Math.round(state.frame)]) prioritize();
+            draw();
+          },
+        },
+        0,
+      );
       timeline?.(tl, el);
     }, el);
 
     return () => {
       cancelled = true;
       ro.disconnect();
+      cleanupLoad();
       gctx.revert();
     };
   }, [manifest, reduced, stillFrame, timeline, portraitBox, night, reverse, bg]);

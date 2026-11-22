@@ -11,6 +11,7 @@ import ScrollSequence from "@/components/sequence/ScrollSequence";
 import { SEQUENCES } from "@/lib/sequences";
 import { registerGsap, gsap, DUR, EASE, prefersReducedMotion } from "@/lib/motion";
 import { READY_EVENT } from "@/components/ui/Preloader";
+import { slopeOpen, slopeRise, slopeShut } from "@/lib/slope";
 
 const TITLE = "L’Arolle";
 
@@ -25,8 +26,9 @@ const CAPTIONS: { text: string; at: [number, number] }[] = [
 ];
 
 // Masques à 12° : le cartouche s'ouvre depuis le bas, en suivant la pente
-const CLIP_SHUT = "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)";
-const CLIP_OPEN = "polygon(0% 22%, 100% 0%, 100% 100%, 0% 100%)";
+// Masques à 12° calculés depuis la largeur réelle de chaque cartouche (lib/slope)
+const shut = (_: number, el: HTMLElement) => slopeShut(slopeRise(el));
+const open = (_: number, el: HTMLElement) => slopeOpen(slopeRise(el));
 
 /** Timeline scrubbée (définie hors du composant : identité stable). */
 function heroTimeline(tl: gsap.core.Timeline) {
@@ -37,10 +39,10 @@ function heroTimeline(tl: gsap.core.Timeline) {
   CAPTIONS.forEach((_, i) => {
     const sel = `[data-caption="${i}"]`;
     const [a, b] = CAPTIONS[i].at;
-    tl.fromTo(sel, { clipPath: CLIP_SHUT }, { clipPath: CLIP_OPEN, duration: 0.04, ease: "power2.out" }, a);
+    tl.fromTo(sel, { clipPath: shut }, { clipPath: open, duration: 0.04, ease: "power2.out" }, a);
     tl.fromTo(`${sel} [data-caption-text]`, { yPercent: 60 }, { yPercent: 0, duration: 0.05, ease: "power2.out" }, a);
     // la dernière phrase reste jusqu'au chapitre suivant
-    if (b < 1) tl.to(sel, { clipPath: CLIP_SHUT, duration: 0.03, ease: "power2.in" }, b - 0.03);
+    if (b < 1) tl.to(sel, { clipPath: shut, duration: 0.03, ease: "power2.in" }, b - 0.03);
   });
 }
 
@@ -56,18 +58,23 @@ export default function Hero() {
     if (!band || prefersReducedMotion()) return;
     // GSAP n'interpole pas var() : on calcule la montée de l'arête en % de l'aplat
     const rise = Math.min(((0.2126 * window.innerWidth) / band.offsetHeight) * 100, 60).toFixed(2);
-    const ctx = gsap.context(() => {});
+    // état de départ posé tout de suite : rien n'apparaît puis ne disparaît sous le préchargeur
+    const ctx = gsap.context(() => {
+      gsap.set(band, { clipPath: `polygon(0% ${100 + Number(rise)}%, 100% 100%, 100% 100%, 0% 100%)` });
+      gsap.set(letters, { yPercent: 110 });
+      gsap.set("[data-hero-fade]", { opacity: 0 });
+    });
     // le titre entre quand le préchargeur a levé son rideau
     const start = () => ctx.add(() => {
       gsap
-        .timeline({ delay: 0.2 })
+        .timeline({ delay: 0.05 })
         .fromTo(band, { clipPath: `polygon(0% ${100 + Number(rise)}%, 100% 100%, 100% 100%, 0% 100%)` }, {
           clipPath: `polygon(0% ${rise}%, 100% 0%, 100% 100%, 0% 100%)`,
           duration: 1.1,
           ease: EASE.outExpo,
         })
         .fromTo(letters, { yPercent: 110 }, { yPercent: 0, duration: DUR.title, stagger: DUR.letter, ease: EASE.outExpo }, 0.35)
-        .fromTo("[data-hero-fade]", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.08 }, 0.9);
+        .fromTo("[data-hero-fade]", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.06 }, 0.6);
     });
     if ((window as unknown as { __larolleReady?: boolean }).__larolleReady) start();
     else window.addEventListener(READY_EVENT, start, { once: true });
@@ -96,10 +103,10 @@ export default function Hero() {
         <div
           key={i}
           data-caption={i}
-          className="absolute right-[var(--gutter)] top-[30svh] max-w-[min(34rem,84vw)] bg-altitude px-7 pb-6 pt-12 text-snow md:top-[34svh] md:px-9 md:pb-8 md:pt-16"
-          style={{ clipPath: CLIP_SHUT }}
+          className="absolute inset-x-[var(--gutter)] top-[56svh] bg-altitude pb-6 pt-[calc(100vw*0.2126+8px)] text-snow md:inset-x-auto md:right-[var(--gutter)] md:top-[30svh] md:w-[34rem] md:px-9 md:pb-8 md:pt-[calc(34rem*0.2126+16px)]"
+          style={{ clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }}
         >
-          <p data-caption-text className="display text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.02]">
+          <p data-caption-text className="display text-[clamp(2.25rem,9vw,3rem)] leading-[1.02] md:text-[clamp(1.75rem,3.4vw,3rem)]">
             {c.text}
           </p>
         </div>
@@ -115,7 +122,6 @@ export default function Hero() {
           clipPath: "polygon(0% var(--band-rise), 100% 0%, 100% 100%, 0% 100%)",
         }}
       >
-        <div className="grain absolute inset-0" aria-hidden />
         {/* Titre et légende posés sur l'arête, parallèles à la pente */}
         <div
           className="absolute bottom-6 left-[var(--gutter)] origin-bottom-left md:bottom-8"

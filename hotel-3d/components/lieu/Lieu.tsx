@@ -12,10 +12,16 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import Counter from "@/components/ui/Counter";
 import { registerGsap, gsap, prefersReducedMotion } from "@/lib/motion";
+import { slopeOpen, slopeRise, slopeShut } from "@/lib/slope";
 
 // Masque à 12° : l'arête monte de gauche à droite, du bas vers le haut du cadre
-const CLIP_CLOSED = "polygon(0% 130%, 100% 100%, 100% 100%, 0% 100%)";
-const CLIP_OPEN = "polygon(0% 0%, 100% -30%, 100% 100%, 0% 100%)";
+// Arête à 12° calculée sur la largeur réelle (lib/slope). Ouvert : l'arête passe
+// au-dessus du cadre (image entière), sauf si data-cut : la coupe reste visible.
+const closed = (el: HTMLElement) => slopeShut(slopeRise(el, 200));
+const opened = (el: HTMLElement) =>
+  el.dataset.cut !== undefined
+    ? slopeOpen(slopeRise(el))
+    : `polygon(0% 0%, 100% ${(-slopeRise(el, 200)).toFixed(2)}%, 100% 100%, 0% 100%)`;
 
 export default function Lieu() {
   const root = useRef<HTMLElement>(null);
@@ -24,8 +30,13 @@ export default function Lieu() {
     registerGsap();
     const el = root.current;
     if (!el) return;
+    // l'aplat bleu : arête à 12° recalculée à chaque redimensionnement
+    const field = el.querySelector<HTMLElement>("[data-slope-field]");
+    const cutField = () => field && (field.style.clipPath = slopeOpen(slopeRise(field)));
+    cutField();
+    window.addEventListener("resize", cutField);
     if (prefersReducedMotion()) {
-      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((n) => gsap.set(n, { clipPath: n.dataset.cut ?? CLIP_OPEN }));
+      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((n) => gsap.set(n, { clipPath: opened(n) }));
       return;
     }
 
@@ -34,9 +45,9 @@ export default function Lieu() {
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((node) => {
         gsap.fromTo(
           node,
-          { clipPath: CLIP_CLOSED },
+          { clipPath: closed(node) },
           {
-            clipPath: node.dataset.cut ?? CLIP_OPEN,
+            clipPath: opened(node),
             duration: 1.4,
             ease: "expo.out",
             delay: Number(node.dataset.delay ?? 0),
@@ -114,13 +125,13 @@ export default function Lieu() {
           data-speed="-0.6"
           aria-hidden
           className="grain absolute left-[38%] top-[50%] h-[42%] w-[58%] bg-altitude md:top-[6%] md:h-[64%]"
-          style={{ clipPath: "polygon(0 21%, 100% 0, 100% 100%, 0 100%)" }}
+          data-slope-field
         />
 
         {/* Couche 2 — grande photo : le massif */}
         <figure data-speed="-0.3" className="absolute left-[var(--gutter)] top-0 h-[44%] w-[78%] md:h-[58%] md:w-[64%]">
           {/* l'arête coupée à 12° reste : c'est la signature du photomontage */}
-          <div data-reveal data-cut="polygon(0% 13%, 100% 0%, 100% 100%, 0% 100%)" className="relative h-full w-full overflow-hidden">
+          <div data-reveal data-cut className="relative h-full w-full overflow-hidden">
             <Image
               src="/images/lieu-salon-vue.webp"
               alt="Le salon double hauteur, ses canapés clairs et ses baies ouvertes sur les sommets enneigés"

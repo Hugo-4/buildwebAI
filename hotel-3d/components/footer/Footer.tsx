@@ -18,7 +18,7 @@ export default function Footer() {
   return (
     <footer aria-labelledby="footer-title" className="relative">
       <ScrollSequence
-        id="depart"
+        id="au-revoir"
         manifest={SEQUENCES.hero}
         length={2.6}
         night

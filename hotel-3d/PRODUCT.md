@@ -28,18 +28,20 @@ Demo built by BuildWebAI to show prospects an award-level hotel site. Booking is
 
 ## Capabilities and Constraints
 
-- 24 suites, spa, gastronomic restaurant, rooftop, tailored experiences (offer chosen by the user).
+- 24 suites (four suite types shown: Arête, Lauze, Combe, Cembro), spa with indoor pool, restaurant, tailored experiences (offer chosen by the user).
 - Ski-in / ski-out and the Courchevel 1850 location are assumptions of the demo.
 - 60 fps target, Lighthouse > 85, lazy-loaded 3D, lighter mobile version.
 - No real prices, awards, press quotes or reviews: none exist and none may be invented.
 
 ## Brand Commitments
 
-None yet: name, logo and identity are to be created (logo via logo-design). Brief: luxury = restraint, lots of space, strong editorial serif with a thin sans, palette taken from the place; no purple gradients, no stock rounded cards, no emojis.
+Name "L'Arolle" and the "A-pente" monogram (didone A whose crossbar follows the 12° slope) are approved by the user. Brief: luxury = restraint, lots of space, strong editorial serif with a thin sans, palette taken from the place; no purple gradients, no stock rounded cards, no emojis.
 
 ## Evidence on Hand
 
-No photos. Every image is a clearly named mood placeholder for the client to replace.
+- Client-supplied AI-generated videos of the house (entrance, living room, four suites, restaurant, pool), used as scroll sequences (`public/sequences/`), ambient loops (`public/video/`) and stills (`public/images/lieu-*`, `suite-*`, `table-*`, `spa-*`). They depict the intended house, not a photographed real building.
+- Two experience images are Unsplash photos (credited in `public/images/CREDITS.md`).
+- Suite names, sizes and amenities, opening hours, address, phone and e-mail are demo content to confirm. No prices, awards, press or reviews exist; none may be invented.
 
 ## Product Principles
 

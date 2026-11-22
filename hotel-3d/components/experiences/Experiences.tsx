@@ -18,7 +18,6 @@ const ExperienceRing = dynamic(() => import("./ExperienceRing"), { ssr: false })
 export default function Experiences() {
   const lite = useLiteMode();
   const reduced = useReducedMotion();
-  const flat = lite || reduced;
 
   return (
     <section
@@ -27,7 +26,7 @@ export default function Experiences() {
       aria-labelledby="exp-title"
       className="relative bg-snow text-granite"
     >
-      {flat ? <FlatGallery /> : <RingGallery />}
+      {lite ? <FlatGallery /> : reduced ? <StaticGallery /> : <RingGallery />}
     </section>
   );
 }
@@ -48,14 +47,18 @@ function RingGallery() {
   const velocity = useRef(0);
   const [active, setActive] = useState(0);
   const [mount, setMount] = useState(false);
+  const [onScreen, setOnScreen] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     registerGsap();
     const el = root.current;
     if (!el) return;
     // la scène n'est chargée qu'à l'approche de la section
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && setMount(true), { rootMargin: "100% 0px" });
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setMount(true), { rootMargin: "200% 0px" });
     io.observe(el);
+    const vis = new IntersectionObserver(([e]) => setOnScreen(e.isIntersecting));
+    vis.observe(el);
     const st = ScrollTrigger.create({
       trigger: el,
       start: "top top",
@@ -66,13 +69,14 @@ function RingGallery() {
         setActive(Math.round(self.progress * (EXPERIENCES.length - 1)));
       },
     });
-    // la vitesse retombe quand on s'arrête
+    // la vitesse retombe quand on s'arrête (rien à faire une fois retombée)
     const decay = () => {
-      velocity.current *= 0.9;
+      if (Math.abs(velocity.current) > 1) velocity.current *= 0.9;
     };
     gsap.ticker.add(decay);
     return () => {
       io.disconnect();
+      vis.disconnect();
       st.kill();
       gsap.ticker.remove(decay);
     };
@@ -94,7 +98,7 @@ function RingGallery() {
                   style={{ width: i === active ? 40 : 0 }}
                 />
                 <span
-                  className={`text-[1.125rem] transition-opacity duration-500 ${i === active ? "opacity-100" : "opacity-45"}`}
+                  className={`text-[1.125rem] transition-opacity duration-500 ${i === active ? "opacity-100" : "opacity-60"}`}
                   aria-current={i === active ? "true" : undefined}
                 >
                   {x.title}
@@ -110,8 +114,21 @@ function RingGallery() {
           className="absolute inset-0 left-[24%]"
           onPointerLeave={() => setCursorLabel(null)}
         >
+          {/* affiche de la carte de face, sous le canvas, jusqu'à la 1re image rendue */}
+          <div
+            aria-hidden
+            className={`pointer-events-none absolute left-1/2 top-1/2 aspect-[3/4] w-[min(26vw,22rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden transition-opacity duration-500 ${ready ? "opacity-0" : "opacity-100"}`}
+          >
+            <Image src={e.image} alt="" fill sizes="26vw" className="object-cover" />
+          </div>
           {mount && (
-            <ExperienceRing progress={progress} velocity={velocity} onHover={(i) => setCursorLabel(i === null ? null : "Découvrir")} />
+            <ExperienceRing
+              active={onScreen}
+              progress={progress}
+              velocity={velocity}
+              onReady={() => setReady(true)}
+              onHover={(i) => setCursorLabel(i === null ? null : "Découvrir")}
+            />
           )}
         </div>
       </div>
@@ -125,7 +142,7 @@ function FlatGallery() {
       <div className="px-[var(--gutter)]">
         <Heading />
       </div>
-      <ul className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--gutter)] pb-4 [scrollbar-width:none]" aria-label="Expériences">
+      <ul className="mt-10 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-4 overflow-x-auto px-[var(--gutter)] pb-4 [scrollbar-width:none]" aria-label="Expériences">
         {EXPERIENCES.map((x) => (
           <li key={x.title} className="w-[76vw] max-w-[22rem] shrink-0 snap-start">
             <figure>
@@ -140,6 +157,39 @@ function FlatGallery() {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+/** Mouvement réduit sur grand écran : la liste, et une seule image (celle choisie). */
+function StaticGallery() {
+  const [i, setI] = useState(0);
+  const x = EXPERIENCES[i];
+  return (
+    <div className="grid min-h-[100svh] grid-cols-12 items-center gap-x-[var(--gutter)] px-[var(--gutter)] py-[var(--section-y)]">
+      <div className="col-span-5">
+        <Heading />
+        <ul className="mt-12 space-y-3" aria-label="Expériences">
+          {EXPERIENCES.map((e, k) => (
+            <li key={e.title}>
+              <button
+                type="button"
+                aria-pressed={k === i}
+                onClick={() => setI(k)}
+                onFocus={() => setI(k)}
+                onPointerEnter={() => setI(k)}
+                className={`text-left text-[1.125rem] ${k === i ? "opacity-100" : "opacity-60"}`}
+              >
+                {e.title}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-10 max-w-[30ch] leading-relaxed text-granite/80">{x.text}</p>
+      </div>
+      <figure className="relative col-span-5 col-start-7 aspect-[3/4] overflow-hidden">
+        <Image src={x.image} alt={x.alt} fill sizes="40vw" className="object-cover" />
+      </figure>
     </div>
   );
 }
