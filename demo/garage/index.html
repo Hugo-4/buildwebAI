@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Garage Ferrand · Mécanique toutes marques à Saint-Priest</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un garage fictif pour montrer ce que nous pouvons construire pour votre atelier.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F4F5F7">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%231F3FA8'/%3E%3Ctext x='24' y='33' font-family='Arial' font-weight='700' font-size='24' text-anchor='middle' fill='%23FFFFFF'%3EF%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <div class="wrap hd-in">
+      <a class="logo" href="#top"><span class="logo-name" data-bind="nom">Garage Ferrand</span><span class="logo-sub">Mécanique toutes marques · Saint-Priest</span></a>
+      <nav class="hd-nav" aria-label="Navigation">
+        <a href="#voyant">Un voyant&nbsp;?</a>
+        <a href="#rdv">Rendez-vous</a>
+        <a href="#suivi">Suivi</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="#rappels">Rappels</a>
+      </nav>
+      <a class="btn btn--accent btn--sm" href="#rdv">Prendre RDV</a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero : la plaque d'abord -->
+    <section class="wrap hero" id="top">
+      <div class="hero-txt">
+        <h1>Déposée le matin, rendue le soir, au prix annoncé.</h1>
+        <p class="lead">Entretien, freins, pneus, diagnostic&nbsp;: entrez votre plaque, on reconnaît votre voiture et on vous donne les prix tout de suite.</p>
+        <form class="plate-form" id="plateForm" novalidate>
+          <label class="sr-only" for="plate">Votre plaque d'immatriculation</label>
+          <div class="plate"><span class="plate-eu" aria-hidden="true">F</span><input id="plate" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="9" placeholder="AB-123-CD" spellcheck="false"></div>
+          <button type="submit" class="btn btn--accent">Voir mes prix</button>
+        </form>
+        <p class="form-msg" id="plateMsg" role="status"></p>
+        <div class="veh" id="veh" hidden aria-live="polite"></div>
+      </div>
+      <div class="hero-img"><img src="img/hero-1200.webp" srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" sizes="(min-width: 900px) 40vw, 100vw" alt="Une voiture grise capot ouvert sur un pont élévateur dans l'atelier" width="1200" height="1500" fetchpriority="high"></div>
+    </section>
+
+    <!-- Pré-diagnostic -->
+    <section class="voy" id="voyant">
+      <div class="wrap voy-in">
+        <div class="voy-txt">
+          <img class="voy-img" src="img/voyant-1100.webp" srcset="img/voyant-700.webp 700w, img/voyant-1100.webp 1100w" sizes="(min-width: 900px) 40vw, 100vw" alt="Compteur de vitesse rétroéclairé d'un tableau de bord" width="1100" height="825" loading="lazy" decoding="async">
+          <h2>Un voyant, un bruit&nbsp;? Dites-nous avant de venir.</h2>
+          <p class="muted">Trois questions et une photo&nbsp;: on prépare le bon créneau, et le mécanicien sait ce qu'il cherche avant que vous arriviez.</p>
+        </div>
+        <form class="voy-card" id="voyForm" novalidate>
+          <fieldset><legend>Ce qui se passe</legend><div class="chips" role="radiogroup" id="symptoms"></div></fieldset>
+          <fieldset><legend>La voiture roule-t-elle&nbsp;?</legend><div class="chips" role="radiogroup" id="rolls"></div></fieldset>
+          <label class="f file"><span>Photo du voyant ou de la pièce (facultatif)</span><input type="file" id="voyPhoto" accept="image/*"><small class="muted" id="voyPhotoName">Une photo du tableau de bord suffit souvent.</small></label>
+          <div class="voy-res" id="voyRes" hidden aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Rendez-vous -->
+    <section class="wrap rdv" id="rdv">
+      <div class="sec-head">
+        <h2>Un rendez-vous qui tient</h2>
+        <p class="muted">Les diagnostics ont leurs créneaux de 30 minutes, les entretiens se déposent le matin. Deux créneaux par jour restent réservés aux urgences.</p>
+      </div>
+      <form class="rdv-card" id="rdvForm" novalidate>
+        <fieldset><legend>Pour quoi&nbsp;?</legend><div class="chips" role="radiogroup" id="services"></div></fieldset>
+        <p class="rdv-veh" id="rdvVeh"></p>
+        <fieldset><legend>Le jour</legend><div class="chips" role="radiogroup" id="days"></div></fieldset>
+        <fieldset id="slotBox"><legend id="slotL">L'heure</legend><div class="chips" role="radiogroup" id="slots"></div></fieldset>
+        <div class="rdv-opts">
+          <label class="opt"><input type="checkbox" id="loan"> Véhicule de courtoisie <b id="loanTxt">gratuit, sur réservation</b></label>
+          <label class="opt"><input type="checkbox" id="sms" checked> Rappel par SMS la veille, à confirmer d'un mot</label>
+        </div>
+        <div class="two">
+          <label class="f"><span>Nom</span><input type="text" id="nm" autocomplete="name"></label>
+          <label class="f"><span>Téléphone</span><input type="tel" id="tel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78"></label>
+        </div>
+        <button type="submit" class="btn btn--accent btn--full">Confirmer le rendez-vous</button>
+        <p class="form-msg" id="rdvMsg" role="status"></p>
+        <div class="sms" id="rdvSms" hidden></div>
+      </form>
+    </section>
+
+    <!-- Suivi + devis en ligne -->
+    <section class="track" id="suivi">
+      <div class="track-img"><img src="img/atelier-1500.webp" srcset="img/atelier-900.webp 900w, img/atelier-1500.webp 1500w" sizes="100vw" alt="Un mécanicien travaille sous le capot d'une voiture dans un atelier lumineux" width="1500" height="844" loading="lazy" decoding="async"></div>
+      <div class="wrap track-in">
+        <div class="track-head">
+          <h2>Suivez la réparation, validez le devis du bout du doigt</h2>
+          <p class="muted">Chaque étape arrive par SMS. Le devis se valide en ligne&nbsp;: pas besoin de rappeler le garage entre deux réunions.</p>
+          <p class="dossier">Dossier <b>R-2481</b> · <span data-veh-name>Peugeot 308</span></p>
+        </div>
+        <div class="track-body">
+          <ol class="steps" id="steps"></ol>
+          <div class="quote" id="quote"></div>
+        </div>
+        <div class="phone" aria-label="SMS reçus par le client">
+          <p class="phone-t">SMS reçus</p>
+          <ul class="phone-list" id="smsList" aria-live="polite"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tarifs -->
+    <section class="wrap prices" id="tarifs">
+      <div class="sec-head">
+        <h2>Les forfaits, sans surprise</h2>
+        <p class="muted">Pièces et main-d'œuvre comprises, TTC. Le prix exact pour votre voiture s'affiche quand vous entrez la plaque.</p>
+      </div>
+      <div class="switch" role="radiogroup" aria-label="Type de véhicule" id="cats"></div>
+      <table class="ptable"><thead><tr><th scope="col">Forfait</th><th scope="col">Prix</th></tr></thead><tbody id="ptable"></tbody></table>
+    </section>
+
+    <!-- Rappels CT / révision -->
+    <section class="remind" id="rappels">
+      <div class="wrap remind-in">
+        <div class="remind-txt">
+          <h2>On vous prévient avant le contrôle technique</h2>
+          <p class="muted">Indiquez deux dates, on calcule les échéances et on vous envoie un SMS un mois avant. Fini les amendes pour CT dépassé.</p>
+        </div>
+        <form class="remind-card" id="remForm" novalidate>
+          <div class="two">
+            <label class="f"><span>Dernier contrôle technique</span><input type="month" id="ct"></label>
+            <label class="f"><span>Dernière révision</span><input type="month" id="rev"></label>
+          </div>
+          <label class="range"><span>Kilomètres par an&nbsp;: <b id="kmV">12 000 km</b></span><input type="range" id="km" min="5000" max="40000" step="1000" value="12000"></label>
+          <ul class="due" id="due"></ul>
+          <label class="f"><span>Votre portable</span><input type="tel" id="remTel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78"></label>
+          <button type="submit" class="btn btn--accent btn--full">Activer les rappels</button>
+          <p class="form-msg" id="remMsg" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Équipe -->
+    <section class="wrap who">
+      <div class="who-img"><img src="img/equipe-1100.webp" srcset="img/equipe-700.webp 700w, img/equipe-1100.webp 1100w" sizes="(min-width: 900px) 36vw, 100vw" alt="Un mécanicien penché sur le moteur d'une voiture" width="1100" height="1375" loading="lazy" decoding="async"></div>
+      <div class="who-txt">
+        <h2>Quatre mécaniciens, un atelier ouvert</h2>
+        <p>Vous pouvez voir votre voiture sur le pont et poser vos questions au mécanicien. Les pièces changées vous sont rendues, sauf si vous préférez qu'on les recycle.</p>
+        <dl class="facts">
+          <div><dt>1 jour</dt><dd>pour un entretien ou des freins, déposé le matin</dd></div>
+          <div><dt>12 mois</dt><dd>de garantie pièces et main-d'œuvre</dd></div>
+          <div><dt>0&nbsp;€</dt><dd>de travaux sans votre accord écrit</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <div>
+        <p class="ft-name" data-bind="nom">Garage Ferrand</p>
+        <p class="ft-zone">Rue de l'Industrie, Saint-Priest · à 5 minutes de l'A43 et du tram T2.</p>
+      </div>
+      <dl class="ft-info">
+        <div><dt>Téléphone</dt><dd><a href="tel:+33465711278">04 65 71 12 78</a></dd></div>
+        <div><dt>Horaires</dt><dd>Du lundi au vendredi, 7&nbsp;h 45 – 18&nbsp;h 30 · samedi 8&nbsp;h – 12&nbsp;h</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:atelier@garage-ferrand.example">atelier@garage-ferrand.example</a></dd></div>
+      </dl>
+    </div>
+    <p class="wrap ft-credit">Garage fictif · numéro réservé à la fiction · véhicules reconnus au hasard pour la démonstration · site réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <div class="m-bar" id="mBar">
+    <a class="m-call" href="tel:+33465711278">Appeler</a>
+    <a class="m-go" href="#rdv">Prendre rendez-vous</a>
+  </div>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs du garage</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom</span><input type="text" id="czNom" maxlength="28"></label>
+    <label class="cz-f"><span>Couleur principale</span><input type="color" id="czAccent"></label>
+    <button type="button" class="btn btn--cz btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir au Garage Ferrand</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
