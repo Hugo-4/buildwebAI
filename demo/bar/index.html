@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Le Sémaphore · Bar depuis 1932</title>
+  <meta name="description" content="Site de démonstration BuildWebAI : un bar fictif pour montrer ce que nous pouvons construire pour votre établissement.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#13221B">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='6' fill='%2313221B'/%3E%3Ctext x='24' y='34' font-family='Georgia' font-weight='700' font-size='28' text-anchor='middle' fill='%23C9A050'%3ES%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="hd">
+    <div class="wrap hd-in">
+      <a class="logo" href="#top"><span class="logo-name" data-bind="nom">Le Sémaphore</span><span class="logo-sub">Bar · depuis 1932</span></a>
+      <nav class="hd-nav" aria-label="Navigation">
+        <a href="#carte">La carte</a>
+        <a href="#emporter">À emporter</a>
+        <a href="#agenda">Agenda</a>
+        <a href="#reserver">Réserver</a>
+      </nav>
+      <a class="btn btn--brass btn--sm" href="#emporter">Commander</a>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <picture class="hero-bg">
+        <source media="(max-width: 700px)" srcset="img/hero-m-700.webp">
+        <img src="img/hero-1600.webp" srcset="img/hero-900.webp 900w, img/hero-1600.webp 1600w" sizes="100vw" alt="Le comptoir en bois du bar, ses tabourets, les ardoises et les bouteilles éclairées" width="1600" height="900" fetchpriority="high">
+      </picture>
+      <div class="wrap hero-in">
+        <p class="open" id="open"><span class="dot" aria-hidden="true"></span><span id="openTxt">Ouvert</span></p>
+        <h1>Le comptoir du quartier, depuis 1932.</h1>
+        <p class="lead">Des pressions bien tirées, des cocktails classiques, une cuisine de bistrot jusqu'à 22&nbsp;h&nbsp;30. Et la planche du soir à emporter, prête quand vous passez.</p>
+        <div class="actions">
+          <a href="#carte" class="btn btn--brass">Voir la carte</a>
+          <a href="#emporter" class="tlink">Commander à emporter</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ardoise -->
+    <section class="wrap slate-wrap" aria-labelledby="slateT">
+      <div class="slate">
+        <p class="slate-k" id="slateT">L'ardoise du jour</p>
+        <p class="slate-day" id="slateDay"></p>
+        <ul class="slate-list" id="slate"></ul>
+      </div>
+      <div class="hh" id="hh">
+        <p class="hh-t">Happy hour</p>
+        <p class="hh-b">Tous les jours de 17&nbsp;h à 20&nbsp;h&nbsp;: 2&nbsp;€ de moins sur les pressions et les cocktails de la carte.</p>
+        <p class="hh-now" id="hhNow"></p>
+      </div>
+    </section>
+
+    <!-- Carte -->
+    <section class="menu" id="carte">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>La carte</h2>
+          <div class="tabs" role="tablist" aria-label="Rubriques de la carte" id="tabs"></div>
+        </div>
+        <div class="menu-in">
+          <div class="menu-img"><img id="menuImg" src="img/grignoter-800.webp" alt="" width="800" height="1000" loading="lazy" decoding="async"></div>
+          <div class="menu-list" role="tabpanel" id="menuList" aria-live="polite"></div>
+        </div>
+        <p class="legend"><span class="tag">À emporter</span> se commande en ligne. Les cocktails et les pressions se servent au comptoir.</p>
+      </div>
+    </section>
+
+    <!-- Click & Collect -->
+    <section class="wrap cc" id="emporter">
+      <div class="cc-txt">
+        <h2>Commandé en ligne, prêt au comptoir</h2>
+        <p class="muted">Choisissez un créneau, payez sur place. Votre sac vous attend au bout du comptoir, sans faire la queue derrière les habitués.</p>
+        <div class="packs" id="packs"></div>
+        <div class="slot-box">
+          <p class="slot-t" id="slotT">Votre créneau de retrait</p>
+          <div class="chips" role="radiogroup" aria-labelledby="slotT" id="slots"></div>
+        </div>
+      </div>
+      <aside class="cart" id="cart" aria-label="Votre commande">
+        <div id="cartForm">
+          <h3>Votre commande</h3>
+          <p class="muted" id="cartEmpty">Ajoutez une planche, un plat ou un pack depuis la carte.</p>
+          <ul class="cart-lines" id="cartLines"></ul>
+          <p class="cart-total"><span>Total</span><b id="cartTotal">0&nbsp;€</b></p>
+          <p class="muted small" id="cartWhere"></p>
+          <label class="opt age" id="ageBox" hidden><input type="checkbox" id="age"> J'ai 18 ans ou plus. Une pièce d'identité peut être demandée au retrait.</label>
+          <button type="button" class="btn btn--brass btn--full" id="order">Valider la commande</button>
+          <p class="form-msg" id="orderMsg" role="status"></p>
+        </div>
+        <div id="cartDone" hidden>
+          <span class="done-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7.5"></path></svg></span>
+          <h3 id="doneT">C'est commandé</h3>
+          <p class="muted" id="doneTxt"></p>
+          <button type="button" class="btn btn--line btn--sm" id="again">Nouvelle commande</button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Agenda -->
+    <section class="agenda" id="agenda">
+      <div class="wrap agenda-in">
+        <div class="agenda-img"><img src="img/comptoir-1100.webp" srcset="img/comptoir-700.webp 700w, img/comptoir-1100.webp 1100w" sizes="(min-width: 900px) 36vw, 100vw" alt="Le barman prépare un cocktail au shaker derrière le comptoir" width="1100" height="1375" loading="lazy" decoding="async"></div>
+        <div class="agenda-txt">
+          <h2>Cette semaine au comptoir</h2>
+          <ol class="events" id="events"></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Réserver / privatiser -->
+    <section class="wrap book" id="reserver">
+      <div class="book-head">
+        <div class="book-img"><img src="img/salle-1500.webp" srcset="img/salle-900.webp 900w, img/salle-1500.webp 1500w" sizes="(min-width: 900px) 50vw, 100vw" alt="La salle chaleureuse et le bar éclairé, bouteilles alignées" width="1500" height="938" loading="lazy" decoding="async"></div>
+        <div class="book-txt">
+          <h2>Une table, un afterwork, la salle du fond</h2>
+          <p class="muted">Jusqu'à 8 personnes, réservez une table. Au-delà, la salle du fond se privatise jusqu'à 40 personnes, avec planches à partager et un verre compris.</p>
+        </div>
+      </div>
+      <form class="book-card" id="bookForm" novalidate>
+        <fieldset><legend>L'occasion</legend><div class="chips" role="radiogroup" id="kinds"></div></fieldset>
+        <div class="people">
+          <span id="pplL">Nombre de personnes</span>
+          <div class="stepper" role="group" aria-labelledby="pplL"><button type="button" id="pplDec" aria-label="Une personne de moins">−</button><output id="ppl" aria-live="polite">4</output><button type="button" id="pplInc" aria-label="Une personne de plus">+</button></div>
+        </div>
+        <fieldset><legend>Le jour</legend><div class="chips" role="radiogroup" id="days"></div></fieldset>
+        <fieldset><legend>L'heure</legend><div class="chips" role="radiogroup" id="hours"></div></fieldset>
+        <p class="group-note" id="groupNote"></p>
+        <div class="two">
+          <label class="f"><span>Nom</span><input type="text" id="nm" autocomplete="name"></label>
+          <label class="f"><span>Téléphone</span><input type="tel" id="tel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78"></label>
+        </div>
+        <button type="submit" class="btn btn--brass btn--full">Envoyer la demande</button>
+        <p class="form-msg" id="bookMsg" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <div>
+        <p class="ft-name" data-bind="nom">Le Sémaphore</p>
+        <p class="ft-addr">Place Sathonay, Lyon 1<sup>er</sup></p>
+      </div>
+      <dl class="ft-info">
+        <div><dt>Horaires</dt><dd>Du mardi au samedi, 16&nbsp;h – 1&nbsp;h · cuisine jusqu'à 22&nbsp;h&nbsp;30</dd></div>
+        <div><dt>Téléphone</dt><dd><a href="tel:+33465711233">04 65 71 12 33</a></dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:bonjour@lesemaphore.example">bonjour@lesemaphore.example</a></dd></div>
+      </dl>
+    </div>
+    <p class="wrap ft-law">L'abus d'alcool est dangereux pour la santé, à consommer avec modération. Vente d'alcool interdite aux mineurs.</p>
+    <p class="wrap ft-credit">Bar fictif · numéro réservé à la fiction · site de démonstration réalisé par <a href="https://buildwebia.com">BuildWebAI</a> · photographies Unsplash</p>
+  </footer>
+
+  <a class="f-cart" href="#emporter" id="fCart" hidden><span id="fCount">0</span> article(s) · <b id="fTotal">0&nbsp;€</b><span class="f-go">Ma commande</span></a>
+
+  <!-- Personnalisation (outil commercial BuildWebAI) -->
+  <button class="cz-btn" id="czBtn" type="button" aria-expanded="false" aria-controls="cz">Personnaliser</button>
+  <aside class="cz" id="cz" aria-label="Personnaliser la démonstration" hidden>
+    <div class="cz-head"><p class="cz-t">Aux couleurs du bar</p><button class="cz-x" type="button" id="czClose" aria-label="Fermer le panneau">×</button></div>
+    <label class="cz-f"><span>Nom</span><input type="text" id="czNom" maxlength="26"></label>
+    <label class="cz-f"><span>Couleur des murs</span><input type="color" id="czWall"></label>
+    <label class="cz-f"><span>Couleur du laiton</span><input type="color" id="czAccent"></label>
+    <button type="button" class="btn btn--cz btn--full" id="czCopy">Copier le lien de cette version</button>
+    <button type="button" class="cz-reset" id="czReset">Revenir au Sémaphore</button>
+    <p class="cz-status" id="czStatus" role="status"></p>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
