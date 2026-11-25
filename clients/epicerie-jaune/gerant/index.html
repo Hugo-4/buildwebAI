@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Menu du jour · Espace gérant</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FDC633">
+  <link rel="icon" href="../img/fruit-pomme.webp" type="image/webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Gochi+Hand&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="gerant.css">
+</head>
+<body>
+  <main class="g">
+    <header class="g-hd">
+      <img src="../img/perso.webp" alt="" width="640" height="1384">
+      <div>
+        <p class="g-eyebrow">Espace gérant</p>
+        <h1>Menu du jour</h1>
+      </div>
+    </header>
+
+    <!-- Étape 0 : connexion -->
+    <form class="card" id="login">
+      <label for="mdp">Mot de passe</label>
+      <input id="mdp" name="mdp" type="password" autocomplete="current-password" required>
+      <button class="btn btn--ink" type="submit">Entrer</button>
+      <p class="msg" id="login-msg" role="alert"></p>
+    </form>
+
+    <div id="app" hidden>
+      <!-- Étape 1 : photo -->
+      <section class="card">
+        <h2><span class="step">1</span>Photographiez l'ardoise</h2>
+        <p class="help">Bien en face, toute l'ardoise dans l'image. Le menu est lu automatiquement, vous pourrez le corriger avant de publier.</p>
+        <label class="btn btn--yellow photo-btn" for="photo">Prendre la photo</label>
+        <input id="photo" type="file" accept="image/*" capture="environment" class="sr">
+        <div id="apercu-photo"></div>
+        <p class="msg" id="photo-msg" role="status" aria-live="polite"></p>
+        <button class="link" type="button" id="sans-photo">Modifier le menu actuel sans photo</button>
+      </section>
+
+      <!-- Étape 2 : vérifier -->
+      <form class="card" id="edition" hidden>
+        <h2><span class="step">2</span>Vérifiez et corrigez</h2>
+        <label for="date">Date du menu</label>
+        <input id="date" type="date" required>
+
+        <fieldset>
+          <legend>Plats</legend>
+          <div id="plats" class="rows"></div>
+          <button class="link" type="button" id="add-plat">+ Ajouter un plat</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Arrivages (facultatif)</legend>
+          <div id="arrivages" class="rows"></div>
+          <button class="link" type="button" id="add-arr">+ Ajouter un arrivage</button>
+        </fieldset>
+
+        <label for="message">Petit mot (facultatif)</label>
+        <input id="message" type="text" maxlength="200" placeholder="Ex. : Fermé lundi pour inventaire">
+
+        <h2 class="mt"><span class="step">3</span>Publiez</h2>
+        <button class="btn btn--yellow" type="submit" id="publier">Publier sur le site</button>
+        <p class="msg" id="pub-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </main>
+
+  <template id="tpl-plat">
+    <div class="row">
+      <input type="text" data-k="nom" placeholder="Plat" maxlength="80" aria-label="Plat">
+      <input type="text" data-k="detail" placeholder="Détail" maxlength="160" aria-label="Détail">
+      <input type="text" data-k="prix" placeholder="Prix" maxlength="20" aria-label="Prix" class="prix">
+      <button type="button" class="del" aria-label="Supprimer cette ligne">×</button>
+    </div>
+  </template>
+  <template id="tpl-arr">
+    <div class="row">
+      <input type="text" data-k="nom" placeholder="Produit" maxlength="60" aria-label="Produit">
+      <input type="text" data-k="detail" placeholder="Détail" maxlength="120" aria-label="Détail">
+      <button type="button" class="del" aria-label="Supprimer cette ligne">×</button>
+    </div>
+  </template>
+
+  <script src="gerant.js" defer></script>
+</body>
+</html>

@@ -1,7 +1,8 @@
 /* ==========================================================================
    Açai Lab Café — interactions
-   - FrameSeq: image sequences drawn on <canvas> (scrubbed or played)
-   - Hero: GSAP ScrollTrigger pin, 2 sequences chained, smoothed with rAF
+   - FrameSeq: image sequences on <canvas>, pre-decoded, sub-frame blending
+   - Smooth scroll: Lenis on pointer devices, native momentum on touch
+   - Hero: GSAP ScrollTrigger pin, 2 sequences chained, time-based smoothing
    - La Carta: click & tap morph (café ⇄ matcha), bowl toppings replay
    - Outro: unboxing auto-plays once when it enters the viewport
    ========================================================================== */
@@ -12,8 +13,10 @@
   const RAPPI_URL = 'https://www.rappi.com.pe/'; // ← reemplazar por el enlace directo de Açai Lab en Rappi
   const SEQ_BASE = './assets/seq/';
   const FPS = 24;
+  const BG = '#F7F5F0';
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const mqDesktop = window.matchMedia('(min-width: 900px)');
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const $ = (s, r = document) => r.querySelector(s);
@@ -21,6 +24,41 @@
 
   $$('.js-rappi').forEach(a => { a.href = RAPPI_URL; });
   const y = $('#year'); if (y) y.textContent = new Date().getFullYear();
+
+  /* ======================================================================
+     Smooth scroll (Lenis) — desktop wheel/trackpad only; touch stays native
+     ====================================================================== */
+  let lenis = null;
+  const hasGsap = !!(window.gsap && window.ScrollTrigger);
+  if (hasGsap) gsap.registerPlugin(ScrollTrigger);
+
+  if (window.Lenis && finePointer && !reduceMotion) {
+    lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: true });
+    document.documentElement.classList.add('lenis', 'lenis-smooth');
+    if (hasGsap) {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(t => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      const loop = t => { lenis.raf(t); requestAnimationFrame(loop); };
+      requestAnimationFrame(loop);
+    }
+  }
+
+  const scrollToY = top => {
+    if (lenis) lenis.scrollTo(top, { duration: 1.1, easing: t => 1 - Math.pow(1 - t, 4) });
+    else window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
+  };
+
+  // in-page anchors go through the same smooth scroller
+  $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    const el = id.length > 1 && document.querySelector(id);
+    if (!el) return;
+    e.preventDefault();
+    const top = id === '#top' ? 0 : el.getBoundingClientRect().top + window.scrollY - (id === '#ritual' ? 0 : header.offsetHeight);
+    scrollToY(top);
+  }));
 
   /* ======================================================================
      FrameSeq
@@ -34,29 +72,31 @@
       this.imgs = new Array(count);
       this.loaded = new Uint8Array(count);
       this.nLoaded = 0;
-      this.want = 0;
-      this.drawn = -1;
-      this.pos = 0;           // fractional frame for play()
+      this.want = 0;         // fractional frame requested
+      this.key = -1;         // what is currently painted
+      this.pos = 0;          // fractional frame for play()
       this.raf = 0;
       this.started = false;
-      this.variant = null;
       this._allWaiters = [];
       this._resize();
       if ('ResizeObserver' in window) new ResizeObserver(() => this._resize()).observe(canvas);
     }
 
+    _dpr() { return Math.min(window.devicePixelRatio || 1, 2); }
+
+    /** hd = native 1080p master, md = 720p. Chosen from the canvas' physical size. */
     _pickVariant() {
-      const w = (this.cv.clientWidth || 400) * Math.min(window.devicePixelRatio || 1, 2);
-      return w > 640 ? 'lg' : 'sm';
+      const w = Math.max(this.cv.clientWidth, this.cv.clientHeight) || 400;
+      return w * this._dpr() > 760 ? 'hd' : 'md';
     }
 
     _resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = this._dpr();
       const w = Math.max(1, Math.round(this.cv.clientWidth * dpr));
       const h = Math.max(1, Math.round(this.cv.clientHeight * dpr));
       if (this.cv.width === w && this.cv.height === h) return;
       this.cv.width = w; this.cv.height = h;
-      this.drawn = -1;
+      this.key = -1;
       this.draw(this.want);
     }
 
@@ -81,32 +121,32 @@
       const queue = this._order();
       let resolveReady;
       this._ready = new Promise(r => { resolveReady = r; });
-      let active = 0;
+      let active = 0, settled = 0;
       const next = () => {
         while (active < 6 && queue.length) {
           const i = queue.shift();
           active++;
           const img = new Image();
           img.decoding = 'async';
-          img.onload = img.onerror = () => {
-            active--;
-            if (img.naturalWidth) {
-              this.imgs[i] = img; this.loaded[i] = 1; this.nLoaded++;
-              if (i === 0) resolveReady();
-              // redraw if this frame is closer to what we want than what is shown
-              if (this.drawn < 0 || Math.abs(i - this.want) < Math.abs(this.drawn - this.want)) this.draw(this.want, true);
-            } else if (i === 0) resolveReady();
-            if (!queue.length && active === 0) this._allWaiters.splice(0).forEach(f => f());
-            next();
-          };
           img.src = this.src(i);
+          // decode off the main thread BEFORE the frame can be painted: no decode hitch while scrubbing
+          img.decode().then(() => {
+            this.imgs[i] = img; this.loaded[i] = 1; this.nLoaded++;
+            if (i === 0) resolveReady();
+            this.draw(this.want, true);
+          }, () => { if (i === 0) resolveReady(); })
+            .finally(() => {
+              active--; settled++;
+              if (settled === this.count) this._allWaiters.splice(0).forEach(f => f());
+              next();
+            });
         }
       };
       next();
       return this._ready;
     }
 
-    /** Resolves when every frame is loaded, or after `timeout` ms. */
+    /** Resolves when every frame is decoded, or after `timeout` ms. */
     whenAll(timeout = 3000) {
       this.load();
       if (this.nLoaded >= this.count) return Promise.resolve();
@@ -125,20 +165,40 @@
       return -1;
     }
 
-    draw(i, force = false) {
-      i = Math.round(clamp(i, 0, this.count - 1));
-      this.want = i;
-      const k = this._nearest(i);
-      if (k < 0 || (k === this.drawn && !force)) return;
-      const img = this.imgs[k];
+    _paint(img, alpha) {
       const { width: cw, height: ch } = this.cv;
-      const ctx = this.ctx;
-      ctx.fillStyle = '#F7F5F0';
-      ctx.fillRect(0, 0, cw, ch);
       const s = Math.min(cw / img.naturalWidth, ch / img.naturalHeight);   // contain
       const w = img.naturalWidth * s, h = img.naturalHeight * s;
-      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
-      this.drawn = k;
+      this.ctx.globalAlpha = alpha;
+      this.ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    }
+
+    /** Draw a (fractional) frame. Between two decoded frames, cross-blends them for sub-frame smoothness. */
+    draw(f, force = false) {
+      f = clamp(f, 0, this.count - 1);
+      this.want = f;
+      const i0 = Math.floor(f);
+      const i1 = Math.min(i0 + 1, this.count - 1);
+      let a = f - i0;
+      let base, over = -1;
+      if (this.loaded[i0] && this.loaded[i1] && a > 0.04 && a < 0.96) { base = i0; over = i1; }
+      else {
+        base = this._nearest(Math.round(f));
+        a = 0;
+        if (base < 0) return;
+      }
+      const key = over < 0 ? base : base + Math.round(a * 16) / 17;
+      if (key === this.key && !force) return;
+      const ctx = this.ctx;
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = BG;
+      ctx.fillRect(0, 0, this.cv.width, this.cv.height);
+      this._paint(this.imgs[base], 1);
+      if (over >= 0) this._paint(this.imgs[over], a);
+      ctx.globalAlpha = 1;
+      this.key = key;
       if (!this.cv.classList.contains('is-ready')) this.cv.classList.add('is-ready');
     }
 
@@ -190,16 +250,20 @@
   const steps = $$('.ritual-step', hero);
   const bar = $('.ritual-progress span', hero);
 
-  blend.load().then(() => {
-    blend.draw(0, true);
-    // second clip starts once the first one has its keyframes in
-    setTimeout(() => dispense.load(), 600);
-  });
+  // The hero gets the network first; everything else waits for it (or 5 s at most).
+  blend.load().then(() => { blend.draw(0, true); dispense.load(); });
+  const heroReady = Promise.race([
+    Promise.all([blend.whenAll(8000), dispense.whenAll(8000)]),
+    new Promise(r => setTimeout(r, 5000)),
+  ]);
 
-  let target = 0, smooth = 0, phase2 = false, heroRaf = 0;
-  const renderHero = () => {
-    smooth += (target - smooth) * 0.2;
-    if (Math.abs(target - smooth) < 0.0004) smooth = target;
+  let target = 0, smooth = 0, phase2 = false, heroRaf = 0, last = 0;
+  const renderHero = now => {
+    const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
+    last = now;
+    // frame-rate independent easing (same feel at 60 Hz and 120 Hz)
+    smooth += (target - smooth) * (1 - Math.exp(-dt * 11));
+    if (Math.abs(target - smooth) < 0.0002) smooth = target;
     const p = smooth;
     blend.draw(clamp(p / 0.5) * (blend.count - 1));
     dispense.draw(clamp((p - 0.5) / 0.5) * (dispense.count - 1));
@@ -210,12 +274,12 @@
     steps[0].classList.toggle('is-active', !phase2);
     steps[1].classList.toggle('is-active', phase2);
     bar.style.transform = `scaleX(${p})`;
-    heroRaf = smooth !== target ? requestAnimationFrame(renderHero) : 0;
+    if (smooth !== target) heroRaf = requestAnimationFrame(renderHero);
+    else { heroRaf = 0; last = 0; }
   };
   const kickHero = () => { if (!heroRaf) heroRaf = requestAnimationFrame(renderHero); };
 
-  if (window.gsap && window.ScrollTrigger) {
-    gsap.registerPlugin(ScrollTrigger);
+  if (hasGsap) {
     ScrollTrigger.config({ ignoreMobileResize: true });
     ScrollTrigger.create({
       trigger: hero,
@@ -223,10 +287,9 @@
       end: '+=180%',          // 100vh viewport + 180vh of scroll = 280vh total
       pin: true,
       anticipatePin: 1,
-      onUpdate: self => { target = self.progress; if (self.progress > 0.02) dispense.load(); kickHero(); },
+      onUpdate: self => { target = self.progress; kickHero(); },
     });
 
-    // Hero copy entrance
     if (!reduceMotion) {
       gsap.from('.ritual-head > *', { y: 26, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.08, delay: 0.1 });
       gsap.from('.ritual-steps, .skip-carta', { opacity: 0, duration: 1.2, ease: 'expo.out', delay: 0.5 });
@@ -257,14 +320,16 @@
   };
   const setPoster = key => { poster.src = POSTERS[key][0]; poster.alt = POSTERS[key][1]; };
 
-  // preload the carta sequences before the user gets there
+  // carta sequences load after the hero, as the user approaches
+  let cartaRequested = false;
+  const loadCarta = () => {
+    if (cartaRequested) return;
+    cartaRequested = true;
+    heroReady.then(() => drinkSeq.load()).then(() => drinkSeq.whenAll(6000)).then(() => bowlSeq.load());
+  };
   new IntersectionObserver((entries, io) => {
-    if (!entries.some(e => e.isIntersecting)) return;
-    io.disconnect();
-    drinkSeq.load();
-    const idle = window.requestIdleCallback || (f => setTimeout(f, 1200));
-    idle(() => bowlSeq.load());
-  }, { rootMargin: '1200px 0px' }).observe(carta);
+    if (entries.some(e => e.isIntersecting)) { io.disconnect(); loadCarta(); }
+  }, { rootMargin: '150% 0px' }).observe(carta);
 
   // bottom edge of the sticky area once it is stuck (not its current, possibly un-stuck, position)
   const stuckBottom = () => header.offsetHeight + (mqDesktop.matches ? 0 : visual.offsetHeight);
@@ -272,8 +337,7 @@
   /** Scroll so `el` sits just under the sticky visual (mobile) or header (desktop). */
   const scrollToInList = el => {
     const offset = stuckBottom() + (mqDesktop.matches ? 24 : 12);
-    const top = el.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
+    scrollToY(el.getBoundingClientRect().top + window.scrollY - offset);
   };
 
   let drink = 'cafe';
@@ -289,7 +353,8 @@
     carta.dataset.drink = kind;
     label.textContent = POSTERS[kind][1];
     setPoster(kind);
-    // forward (café → matcha) at 1.5× or backwards (matcha → café)
+    loadCarta();
+    // forward (café → matcha) at 1.5× or backwards (matcha → café) from wherever it is
     drinkSeq.play(kind === 'matcha' ? drinkSeq.count - 1 : 0, FPS * 1.5);
   };
 
@@ -298,8 +363,9 @@
     const token = ++bowlPlayToken;
     bowlSeq.stop();
     bowlSeq.pos = 0;
+    bowlSeq.load();
     bowlSeq.draw(0, true);
-    await bowlSeq.whenAll(2500);
+    await bowlSeq.whenAll(4000);
     if (token !== bowlPlayToken || carta.dataset.mode !== 'comer') return;
     bowlSeq.play(bowlSeq.count - 1, FPS, 0);
   };
@@ -321,6 +387,8 @@
     label.textContent = comer ? POSTERS.bowl[1] : POSTERS[drink][1];
     setPoster(comer ? 'bowl' : drink);
     if (comer) playBowl(); else bowlSeq.stop();
+    if (lenis) requestAnimationFrame(() => lenis.resize());
+    if (hasGsap) ScrollTrigger.refresh();
     // bring the start of the list back under the visual if the user was deep in it
     const list = $('.carta-list');
     if (list.getBoundingClientRect().top < stuckBottom() - 4) scrollToInList(list);
@@ -351,33 +419,21 @@
   });
 
   /* ======================================================================
-     3. El Universo Lab — photos with designed fallbacks
-     ====================================================================== */
-  const FALLBACK_LABELS = { collab: 'Curva Studio Pilates', collab2: 'Mugler · The Charming Booth' };
-  $$('.tile-media').forEach(m => {
-    const img = $('img', m);
-    const miss = () => {
-      m.classList.add('is-missing');
-      if (FALLBACK_LABELS[m.dataset.fallback]) m.dataset.label = FALLBACK_LABELS[m.dataset.fallback];
-    };
-    if (img.complete && !img.naturalWidth) miss();
-    img.addEventListener('error', miss);
-  });
-
-  /* ======================================================================
      4. Outro — unboxing plays once
      ====================================================================== */
   const box = new FrameSeq($('#cv-box'), 'outro-box', 102);
   const outro = $('#outro-stage');
   new IntersectionObserver((entries, io) => {
-    if (entries.some(e => e.isIntersecting)) { io.disconnect(); box.load().then(() => box.draw(0, true)); }
-  }, { rootMargin: '1000px 0px' }).observe(outro);
+    if (!entries.some(e => e.isIntersecting)) return;
+    io.disconnect();
+    heroReady.then(() => box.load()).then(() => box.draw(0, true));
+  }, { rootMargin: '150% 0px' }).observe(outro);
 
   new IntersectionObserver(async (entries, io) => {
     if (!entries.some(e => e.isIntersecting)) return;
     io.disconnect();
     await box.load();
-    await box.whenAll(3000);
+    await box.whenAll(4000);
     box.play(box.count - 1, FPS, 0);
   }, { threshold: 0.45 }).observe(outro);
 
@@ -390,9 +446,9 @@
       e.target.classList.add('is-in');
       revealIO.unobserve(e.target);
     });
-  }, { rootMargin: '0px 0px -10% 0px' });
-  $$('.reveal').forEach((el, i) => { el.style.transitionDelay = `${(i % 3) * 80}ms`; revealIO.observe(el); });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  $$('.reveal').forEach((el, i) => { el.style.transitionDelay = `${(i % 3) * 70}ms`; revealIO.observe(el); });
 
   // Recompute pin positions once fonts/images settle
-  window.addEventListener('load', () => window.ScrollTrigger && ScrollTrigger.refresh());
+  window.addEventListener('load', () => { if (hasGsap) ScrollTrigger.refresh(); if (lenis) lenis.resize(); });
 })();

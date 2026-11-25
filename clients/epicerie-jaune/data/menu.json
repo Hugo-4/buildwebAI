@@ -1,0 +1,18 @@
+{
+  "maj": "2026-11-21T10:00:00+01:00",
+  "date": "2026-11-21",
+  "plats": [
+    { "nom": "Soupe de saison", "detail": "Potiron, châtaigne et crème de la crèmerie", "prix": "" },
+    { "nom": "Quiche maison", "detail": "Poireaux et comté", "prix": "" },
+    { "nom": "Salade du marché", "detail": "Selon les arrivages du matin", "prix": "" },
+    { "nom": "Plat du jour", "detail": "", "prix": "" },
+    { "nom": "Dessert maison", "detail": "", "prix": "" }
+  ],
+  "arrivages": [
+    { "nom": "Poires", "detail": "Conférence et williams" },
+    { "nom": "Pommes", "detail": "Reinette et golden" },
+    { "nom": "Clémentines", "detail": "Les premières de la saison" },
+    { "nom": "Oignons", "detail": "Rosés et jaunes" }
+  ],
+  "message": "Exemple de menu : il sera remplacé par la première photo de l'ardoise."
+}

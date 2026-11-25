@@ -1,0 +1,4 @@
+# Seul ardoise.php est appelable depuis le navigateur
+<FilesMatch "^(config|config\.example)\.php$">
+  Require all denied
+</FilesMatch>
