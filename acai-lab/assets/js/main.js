@@ -3,7 +3,7 @@
    - FrameSeq: image sequences on <canvas>, pre-decoded, sub-frame blending
    - Smooth scroll: Lenis on pointer devices, native momentum on touch
    - Hero: GSAP ScrollTrigger pin, 2 sequences chained, time-based smoothing
-   - La Carta: click & tap morph (café ⇄ matcha), bowl toppings replay
+   - La Carta: every drink change is a liquid fill in the same cup; bowl toppings replay
    - Outro: unboxing auto-plays once when it enters the viewport
    ========================================================================== */
 (() => {
@@ -13,7 +13,7 @@
   const RAPPI_URL = 'https://www.rappi.com.pe/'; // ← reemplazar por el enlace directo de Açai Lab en Rappi
   const SEQ_BASE = './assets/seq/';
   const FPS = 24;          // Gemini toppings clip
-  const VIDEO_FPS = 30;    // studio clips (blender, pour, drink morph, unboxing)
+  const VIDEO_FPS = 30;    // studio clips (blender, pour, unboxing)
   const BG = '#F7F5F0';
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -311,10 +311,9 @@
      2. La Carta
      ====================================================================== */
   const carta = $('#carta');
-  const drinkSeq = new FrameSeq($('#cv-drink'), 'carta-drink', 298);
   const bowlSeq = new FrameSeq($('#cv-bowl'), 'hero-toppings', 120);
   bowlSeq.shareWith = toppings;
-  const cvDrink = $('#cv-drink'), cvBowl = $('#cv-bowl');
+  const cvBowl = $('#cv-bowl');
   const poster = $('#carta-poster');
   const label = $('#stage-label');
   const replayBtn = $('#replay');
@@ -326,13 +325,13 @@
   const panels = { bebidas: $('#panel-bebidas'), comer: $('#panel-comer') };
 
   const POSTERS = {
-    cafe: ['./assets/img/frame-carta-latte.jpg', 'Peanut Butter Latte'],
-    matcha: ['./assets/img/frame-carta-matcha.jpg', 'Mango Matcha'],
+    cafe: ['./assets/img/carta/latte-peanut-butter.jpg', 'Peanut Butter Latte'],
+    matcha: ['./assets/img/carta/matcha-mango.jpg', 'Mango Matcha'],
     bowl: ['./assets/img/frame-carta-bowl.jpg', 'Açai Bowl'],
   };
   const setPoster = key => { poster.src = POSTERS[key][0]; poster.alt = POSTERS[key][1]; };
 
-  // Matcha flavours: Mango is the end of the morph; the others are photos cross-faded on top
+  // Drink photos (all aligned on the same cup): café still + matcha flavours
   const STILLS = {
     cafe: './assets/img/carta/latte-peanut-butter.jpg',
     bowl: './assets/img/carta/acai-bowl.jpg',
@@ -433,7 +432,8 @@
     if (cartaRequested) return;
     cartaRequested = true;
     if (drink === 'cafe' && carta.dataset.mode === 'bebidas') showPhoto(STILLS.cafe, 'Peanut Butter Latte');
-    heroReady.then(() => drinkSeq.load()).then(() => drinkSeq.whenAll(6000)).then(() => bowlSeq.load());
+    preloadFlavours();                                    // the drink photos are light (~0.5 MB in all)
+    heroReady.then(() => bowlSeq.load());
   };
   new IntersectionObserver((entries, io) => {
     if (entries.some(e => e.isIntersecting)) { io.disconnect(); loadCarta(); }
@@ -448,29 +448,27 @@
     scrollToY(el.getBoundingClientRect().top + window.scrollY - offset);
   };
 
-  let drink = 'cafe', morph = null;
-  const setDrink = kind => {
+  let drink = 'cafe';
+  /** Every drink change (café ⇄ matcha, matcha ⇄ matcha) is the same liquid fill in the same cup. */
+  const setDrink = (kind, key = 'mango') => {
     if (carta.dataset.mode !== 'bebidas') setMode('bebidas');
     subtabs.forEach(b => {
       const on = b.dataset.drink === kind;
       b.classList.toggle('is-active', on);
       b.setAttribute('aria-pressed', on);
     });
-    if (kind === drink) return morph || Promise.resolve();
-    drink = kind;
-    carta.dataset.drink = kind;
-    flavourToken++;
-    flavour = 'mango';
-    hidePhotos();
-    label.textContent = POSTERS[kind][1];
-    setPoster(kind);
     loadCarta();
-    if (kind === 'matcha') preloadFlavours();
-    // forward (café → matcha) at 1.5× or backwards (matcha → café) from wherever it is
-    const token = flavourToken;
-    morph = drinkSeq.play(kind === 'matcha' ? drinkSeq.count - 1 : 0, VIDEO_FPS * 1.5)
-      .then(() => { if (drink === kind && flavourToken === token && carta.dataset.mode === 'bebidas' && kind === 'cafe') showPhoto(STILLS.cafe, 'Peanut Butter Latte'); });
-    return morph;
+    if (kind === 'matcha') {
+      if (drink === 'matcha' && flavour === key) return;
+      if (drink !== 'matcha') preloadFlavours();
+      drink = 'matcha'; carta.dataset.drink = 'matcha'; setPoster('matcha');
+      showFlavour(key);
+    } else {
+      if (drink === 'cafe') return;
+      drink = 'cafe'; carta.dataset.drink = 'cafe'; setPoster('cafe');
+      label.textContent = POSTERS.cafe[1];
+      showPhoto(STILLS.cafe, POSTERS.cafe[1], true);
+    }
   };
 
   let bowlPlayToken = 0;
@@ -498,7 +496,6 @@
     });
     Object.entries(panels).forEach(([k, p]) => { p.hidden = k !== mode; });
     const comer = mode === 'comer';
-    cvDrink.classList.toggle('is-hidden', comer);
     cvBowl.classList.toggle('is-hidden', !comer);
     replayBtn.hidden = !comer;
     label.textContent = comer ? POSTERS.bowl[1] : drink === 'matcha' ? FLAVOURS[flavour][0] : POSTERS[drink][1];
@@ -526,34 +523,23 @@
 
   const markCurrent = it => items.forEach(o => o.classList.toggle('is-current', o === it));
   subtabs.forEach(b => b.addEventListener('click', () => {
-    if (b.dataset.drink === 'matcha') {   // Matcha opens on Mango, selected by default
-      markCurrent($('[data-flavour="mango"]', carta));
-      if (drink === 'matcha') showFlavour('mango');
-    } else markCurrent(null);
-    const wasMatcha = drink === 'matcha';
-    const done = setDrink(b.dataset.drink);
-    if (b.dataset.drink === 'matcha' && !wasMatcha) {
-      const token = flavourToken;
-      done.then(() => { if (drink === 'matcha' && flavourToken === token && carta.dataset.mode === 'bebidas') showFlavour('mango'); });
-    }
-    scrollToInList(document.getElementById(b.dataset.drink === 'matcha' ? 'g-matcha' : 'g-cafes'));
+    const kind = b.dataset.drink;
+    markCurrent(kind === 'matcha' ? $('[data-flavour="mango"]', carta) : null);   // Matcha opens on Mango
+    setDrink(kind, 'mango');
+    scrollToInList(document.getElementById(kind === 'matcha' ? 'g-matcha' : 'g-cafes'));
   }));
 
   items.forEach(it => it.addEventListener('click', () => {
     markCurrent(it);
-    const key = it.dataset.flavour;
-    if (!key) { setDrink(it.dataset.drink); return; }       // café: back to the latte
-    if (drink === 'matcha') { showFlavour(key); return; }
-    const done = setDrink('matcha');                         // morph to Mango first, then fade to the flavour
-    const token = flavourToken;
-    label.textContent = FLAVOURS[key][0];
-    done.then(() => { if (drink === 'matcha' && flavourToken === token && carta.dataset.mode === 'bebidas') showFlavour(key); });
+    setDrink(it.dataset.drink, it.dataset.flavour || 'mango');   // café → latte, matcha → its own photo
   }));
 
   replayBtn.addEventListener('click', e => { e.stopPropagation(); playBowl(); });
   stage.addEventListener('click', () => {
-    if (carta.dataset.mode === 'comer') playBowl();
-    else { markCurrent(drink === 'cafe' ? $('[data-flavour="mango"]', carta) : null); setDrink(drink === 'cafe' ? 'matcha' : 'cafe'); }
+    if (carta.dataset.mode === 'comer') { playBowl(); return; }
+    const next = drink === 'cafe' ? 'matcha' : 'cafe';
+    markCurrent(next === 'matcha' ? $('[data-flavour="mango"]', carta) : null);
+    setDrink(next, 'mango');
   });
 
   /* ======================================================================
