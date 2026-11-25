@@ -1,0 +1,411 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-22T15:09:02+00:00",
+  "title": "Design System: L'Arolle",
+  "extensions": {
+    "colorMeta": {
+      "snow": {
+        "role": "neutral",
+        "displayName": "Neige",
+        "canonical": "#ebe5d9",
+        "tonalRamp": [
+          "oklch(15% 0.002 100)",
+          "oklch(25% 0.003 100)",
+          "oklch(36% 0.004 100)",
+          "oklch(48% 0.005 100)",
+          "oklch(60% 0.005 100)",
+          "oklch(72% 0.004 100)",
+          "oklch(84% 0.003 100)",
+          "oklch(95% 0.002 100)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "Blanc",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.0 100)",
+          "oklch(25% 0.0 100)",
+          "oklch(36% 0.0 100)",
+          "oklch(48% 0.0 100)",
+          "oklch(60% 0.0 100)",
+          "oklch(72% 0.0 100)",
+          "oklch(84% 0.0 100)",
+          "oklch(95% 0.0 100)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Encre",
+        "canonical": "#1c1915",
+        "tonalRamp": [
+          "oklch(15% 0.004 250)",
+          "oklch(25% 0.006 250)",
+          "oklch(36% 0.008 250)",
+          "oklch(48% 0.011 250)",
+          "oklch(60% 0.011 250)",
+          "oklch(72% 0.009 250)",
+          "oklch(84% 0.006 250)",
+          "oklch(95% 0.004 250)"
+        ]
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Gris de brume",
+        "canonical": "#8a9096",
+        "tonalRamp": [
+          "oklch(15% 0.004 245)",
+          "oklch(25% 0.006 245)",
+          "oklch(36% 0.008 245)",
+          "oklch(48% 0.011 245)",
+          "oklch(60% 0.011 245)",
+          "oklch(72% 0.009 245)",
+          "oklch(84% 0.006 245)",
+          "oklch(95% 0.004 245)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Filet",
+        "canonical": "rgb(21 25 29 / 0.09)",
+        "tonalRamp": [
+          "oklch(15% 0.004 250)",
+          "oklch(25% 0.006 250)",
+          "oklch(36% 0.008 250)",
+          "oklch(48% 0.011 250)",
+          "oklch(60% 0.011 250)",
+          "oklch(72% 0.009 250)",
+          "oklch(84% 0.006 250)",
+          "oklch(95% 0.004 250)"
+        ]
+      },
+      "amber": {
+        "role": "primary",
+        "displayName": "Ambre d'arolle",
+        "canonical": "#b8955a",
+        "tonalRamp": [
+          "oklch(15% 0.036 65)",
+          "oklch(25% 0.06 65)",
+          "oklch(36% 0.082 65)",
+          "oklch(48% 0.106 65)",
+          "oklch(60% 0.11 65)",
+          "oklch(72% 0.086 65)",
+          "oklch(84% 0.062 65)",
+          "oklch(95% 0.036 65)"
+        ]
+      },
+      "amber-hover": {
+        "role": "primary",
+        "displayName": "Ambre éclairé",
+        "canonical": "#d4964d",
+        "tonalRamp": [
+          "oklch(15% 0.033 68)",
+          "oklch(25% 0.055 68)",
+          "oklch(36% 0.075 68)",
+          "oklch(48% 0.097 68)",
+          "oklch(60% 0.101 68)",
+          "oklch(72% 0.079 68)",
+          "oklch(84% 0.057 68)",
+          "oklch(95% 0.033 68)"
+        ]
+      },
+      "night": {
+        "role": "neutral",
+        "displayName": "Nuit",
+        "canonical": "#0c1424",
+        "tonalRamp": [
+          "oklch(15% 0.012 262)",
+          "oklch(25% 0.02 262)",
+          "oklch(36% 0.027 262)",
+          "oklch(48% 0.035 262)",
+          "oklch(60% 0.037 262)",
+          "oklch(72% 0.029 262)",
+          "oklch(84% 0.021 262)",
+          "oklch(95% 0.012 262)"
+        ]
+      },
+      "error": {
+        "role": "error",
+        "displayName": "Rouge brique",
+        "canonical": "#9b2c1f",
+        "tonalRamp": [
+          "oklch(15% 0.039 32)",
+          "oklch(25% 0.065 32)",
+          "oklch(36% 0.089 32)",
+          "oklch(48% 0.115 32)",
+          "oklch(60% 0.119 32)",
+          "oklch(72% 0.093 32)",
+          "oklch(84% 0.067 32)",
+          "oklch(95% 0.039 32)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display (.display)",
+        "purpose": "Le nom dans le hero, les chiffres de la maison, l'adieu du pied de page. Jamais un titre de section."
+      },
+      "headline": {
+        "displayName": "Title (.title)",
+        "purpose": "Titres de chapitre, énoncé du lieu, liens du menu."
+      },
+      "title": {
+        "displayName": "Title, petit",
+        "purpose": "Phrases posées sur le film."
+      },
+      "label": {
+        "displayName": "Label (.label)",
+        "purpose": "Nommer : suites (avec .swash), expériences, étiquette du hero."
+      },
+      "body": {
+        "displayName": "Corps",
+        "purpose": "Paragraphes, 34 à 46ch."
+      },
+      "caps": {
+        "displayName": "Caps (.caps)",
+        "purpose": "Navigation, libellés, onglet, boutons, listes, mentions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "halo-lisibilite",
+        "value": "text-shadow: 0 2px 30px rgba(21,25,29,.35)",
+        "purpose": "Titre neige sur film clair (intro des suites) uniquement."
+      },
+      {
+        "name": "voile-encre-haut",
+        "value": "linear-gradient(to bottom, rgb(21 25 29 / 0.4), transparent) sur 144 à 160px",
+        "purpose": "Lisibilité de l'en-tête sur un film."
+      },
+      {
+        "name": "voile-encre-bas",
+        "value": "linear-gradient(to top, rgb(21 25 29 / 0.45), transparent) sur 45 % de la hauteur",
+        "purpose": "Lisibilité des phrases posées sur le film (ordinateur)."
+      },
+      {
+        "name": "voile-neige",
+        "value": "background: #f7f7f5; opacity: 0.45",
+        "purpose": "Éteint les bandes d'expériences fermées."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1) / GSAP expo.out",
+        "purpose": "Toutes les entrées et états d'interface ; défaut GSAP."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.65, 0, 0.35, 1) / GSAP power3.inOut",
+        "purpose": "Trajets liés au scroll, rideau du menu, indice Descendre."
+      },
+      {
+        "name": "ease-in",
+        "value": "cubic-bezier(0.55, 0, 1, 0.45) / GSAP power2.in",
+        "purpose": "Sorties, ~75 % de la durée d'entrée."
+      },
+      {
+        "name": "dur-micro",
+        "value": "160ms",
+        "purpose": "Appui (scale 0.98 / 0.94)."
+      },
+      {
+        "name": "dur-ui",
+        "value": "320ms",
+        "purpose": "Survols, focus, trait de champ, liens soulignés."
+      },
+      {
+        "name": "dur-reveal",
+        "value": "1.1s",
+        "purpose": "Révélations GSAP par défaut."
+      },
+      {
+        "name": "dur-lines",
+        "value": "1.15s",
+        "purpose": "Lignes de titre (RevealLines) et défilement Lenis."
+      },
+      {
+        "name": "dur-title",
+        "value": "1.4s (+0.2s pour le nom du hero), stagger 0.06s",
+        "purpose": "Montée lettre par lettre du nom."
+      },
+      {
+        "name": "word-light",
+        "value": "0.45s expo-out, scroll top 85% → bottom 45%",
+        "purpose": "Énoncé qui s'allume mot à mot."
+      },
+      {
+        "name": "strip-reveal",
+        "value": "scrub top 85% → top 15%, départ i/n×0.55, ouverture 0.45, power2.out",
+        "purpose": "Images révélées par bandes."
+      },
+      {
+        "name": "accordion",
+        "value": "flex-grow 7/1, 900ms expo-out ; voile 700ms ; contenu +300ms",
+        "purpose": "Accordéon d'expériences."
+      },
+      {
+        "name": "menu-curtain",
+        "value": "clip-path 0.9s in-out (ouverture), 0.55s in (fermeture)",
+        "purpose": "Rideau de neige du menu."
+      },
+      {
+        "name": "mist",
+        "value": "montée 0→13 % du scroll du hero, retrait jusqu'à 24 % ; amorti 5/s ; flou du nom ≤ 8px",
+        "purpose": "Signature : le nom se dissout dans la brume."
+      },
+      {
+        "name": "anchor-scroll",
+        "value": "Lenis 1.6s (ancres), 1.8s (Réserver)",
+        "purpose": "Défilement vers une section."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animations et transitions à 0.01ms ; versions à plat",
+        "purpose": "prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lite",
+        "value": "(max-width: 767px), (pointer: coarse)"
+      },
+      {
+        "name": "fine-pointer",
+        "value": "(hover: hover) and (pointer: fine)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Bouton principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Action de réservation, ambre, coins carrés.",
+      "html": "<button class=\"ds-btn\">Demander la disponibilité</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;gap:.9em;padding:1.05em 1.7em;background:var(--amber,#c8873a);color:var(--ink,#15191d);border:0;border-radius:0;font-family:Jost,sans-serif;font-weight:400;font-size:.8125rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background-color 320ms cubic-bezier(.16,1,.3,1),transform 160ms cubic-bezier(.16,1,.3,1)}.ds-btn:hover{background:#d4964d}.ds-btn:active{transform:scale(.98)}.ds-btn:focus-visible{outline:1.5px solid #c8873a;outline-offset:4px}"
+    },
+    {
+      "name": "Bouton filet",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "Action secondaire, contour 1px qui se remplit d'encre.",
+      "html": "<a class=\"ds-btn-line\" href=\"#\">Voir les suites</a>",
+      "css": ".ds-btn-line{display:inline-flex;align-items:center;gap:.9em;padding:.95em 1.5em;border:1px solid currentColor;color:#15191d;text-decoration:none;font-family:Jost,sans-serif;font-weight:400;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;transition:background-color 320ms cubic-bezier(.16,1,.3,1),color 320ms cubic-bezier(.16,1,.3,1),border-color 320ms cubic-bezier(.16,1,.3,1)}.ds-btn-line:hover{background:#15191d;color:#f7f7f5;border-color:#15191d}.ds-btn-line:focus-visible{outline:1.5px solid #c8873a;outline-offset:4px}"
+    },
+    {
+      "name": "Lien souligné",
+      "kind": "custom",
+      "refersTo": "link-line",
+      "description": "Trait de 1px qui se retire vers la droite au survol.",
+      "html": "<a class=\"ds-link\" href=\"#\">sejour@larolle.example</a>",
+      "css": ".ds-link{color:#15191d;text-decoration:none;background:linear-gradient(currentColor,currentColor) no-repeat 0 100%/100% 1px;padding-bottom:2px;transition:background-size 320ms cubic-bezier(.16,1,.3,1)}.ds-link:hover{background-size:0% 1px;background-position:100% 100%}.ds-link:focus-visible{outline:1.5px solid #c8873a;outline-offset:4px}"
+    },
+    {
+      "name": "Onglet Réserver",
+      "kind": "custom",
+      "refersTo": "book-tab",
+      "description": "Onglet ambre fixé au bord droit, texte vertical ; seule surface colorée.",
+      "html": "<a class=\"ds-tab\" href=\"#\"><span>Réserver</span><svg viewBox=\"0 0 12 12\" width=\"12\" height=\"12\" aria-hidden=\"true\"><path d=\"M6 1v10M1 6h10\" stroke=\"currentColor\" stroke-width=\"1.2\"/></svg></a>",
+      "css": ".ds-tab{display:inline-flex;flex-direction:column;align-items:center;gap:12px;padding:24px 12px;background:#c8873a;color:#15191d;text-decoration:none;font-family:Jost,sans-serif;font-weight:400;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;transition:padding 300ms cubic-bezier(.16,1,.3,1),background-color 300ms cubic-bezier(.16,1,.3,1)}.ds-tab span{writing-mode:vertical-rl;transform:rotate(180deg)}.ds-tab svg{transition:transform 300ms cubic-bezier(.16,1,.3,1)}.ds-tab:hover{background:#d4964d;padding-right:16px}.ds-tab:hover svg{transform:rotate(90deg)}.ds-tab:focus-visible{outline:1.5px solid #c8873a;outline-offset:4px}"
+    },
+    {
+      "name": "Champ",
+      "kind": "input",
+      "refersTo": "field-input",
+      "description": "Trait inférieur seul ; un trait d'encre se déroule au focus.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field-label\" for=\"ds-mail\">E-mail</label><input class=\"ds-field-input\" id=\"ds-mail\" type=\"email\" placeholder=\"vous@exemple.fr\"><span class=\"ds-field-line\"></span></div>",
+      "css": ".ds-field{position:relative;display:flex;flex-direction:column;gap:.5rem;padding-top:1.25rem;max-width:22rem}.ds-field-label{font-family:Jost,sans-serif;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:rgb(21 25 29/.7)}.ds-field-input{appearance:none;background:transparent;border:0;border-bottom:1px solid rgb(21 25 29/.25);border-radius:0;padding:.5rem 0 .75rem;font-family:Jost,sans-serif;font-weight:300;font-size:1.25rem;color:#15191d;caret-color:#c8873a}.ds-field-input::placeholder{color:rgb(21 25 29/.5)}.ds-field-input:focus{outline:none}.ds-field-input[aria-invalid=true]{border-bottom-color:#9b2c1f}.ds-field-line{position:absolute;left:0;right:0;bottom:0;height:1.5px;background:#15191d;transform:scaleX(0);transform-origin:left;transition:transform 320ms cubic-bezier(.16,1,.3,1)}.ds-field:focus-within .ds-field-line{transform:scaleX(1)}"
+    },
+    {
+      "name": "Puce de suite",
+      "kind": "chip",
+      "refersTo": "suite-chip",
+      "description": "Choix exclusif carré ; choisie = pleine encre.",
+      "html": "<label class=\"ds-chip\"><input type=\"radio\" name=\"ds-s\" checked><span>Arête</span></label><label class=\"ds-chip\"><input type=\"radio\" name=\"ds-s\"><span>Lauze</span></label>",
+      "css": ".ds-chip input{position:absolute;opacity:0;width:1px;height:1px}.ds-chip span{display:inline-block;margin-right:8px;padding:.7em 1.3em;border:1px solid rgb(21 25 29/.25);font-family:Jost,sans-serif;font-weight:300;color:#15191d;cursor:pointer;transition:background-color 320ms cubic-bezier(.16,1,.3,1),color 320ms cubic-bezier(.16,1,.3,1),border-color 320ms cubic-bezier(.16,1,.3,1)}.ds-chip:hover span{border-color:#15191d}.ds-chip input:checked+span{background:#15191d;border-color:#15191d;color:#f7f7f5}.ds-chip input:focus-visible+span{outline:1.5px solid #c8873a;outline-offset:3px}"
+    },
+    {
+      "name": "En-tête",
+      "kind": "nav",
+      "refersTo": "header",
+      "description": "Chapitres à gauche, monogramme et nom au centre, Menu à droite ; ton neige sur fond neige.",
+      "html": "<header class=\"ds-head\"><nav><a href=\"#\">Suites</a><a href=\"#\">Table</a><a href=\"#\">Spa</a></nav><a class=\"ds-mark\" href=\"#\"><svg viewBox=\"44 28 198 196\" height=\"32\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M124 36 L132 36 L66.5 216 L58.5 216 Z\"/><path d=\"M124 36 L136 36 L201.5 216 L172.2 216 Z\"/><path d=\"M50 210 L76 210 L76 216 L50 216 Z M160 210 L212 210 L212 216 L160 216 Z\"/><path d=\"M78 168 L236 134.42 L236 140.42 L78 174 Z\"/></svg><span>L'Arolle</span></a><button type=\"button\">Menu</button></header>",
+      "css": ".ds-head{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:20px 32px;background:#f7f7f5;color:#15191d;border-bottom:1px solid rgb(21 25 29/.09);font-family:Jost,sans-serif;font-weight:400;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase}.ds-head nav{display:flex;gap:32px}.ds-head a,.ds-head button{color:inherit;text-decoration:none;background:linear-gradient(currentColor,currentColor) no-repeat 0 100%/100% 1px;padding-bottom:2px;border:0;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;transition:background-size 320ms cubic-bezier(.16,1,.3,1)}.ds-head a:hover,.ds-head button:hover{background-size:0% 1px;background-position:100% 100%}.ds-head button{justify-self:end;background-color:transparent}.ds-mark{display:flex;flex-direction:column;align-items:center;gap:4px;background:none!important}.ds-mark span{font-size:.6875rem}.ds-head :focus-visible{outline:1.5px solid #c8873a;outline-offset:4px}"
+    },
+    {
+      "name": "Nom de suite souligné",
+      "kind": "custom",
+      "refersTo": "swash",
+      "description": "Bodoni italique et trait tracé à la main en masque SVG.",
+      "html": "<h3 class=\"ds-suite\"><span class=\"ds-swash\">Cembro</span></h3>",
+      "css": ".ds-suite{font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;font-size:3rem;line-height:1.05;color:#15191d;margin:0}.ds-swash{position:relative;display:inline-block;padding-bottom:.28em}.ds-swash::after{content:'';position:absolute;left:-.15em;right:-.35em;bottom:0;height:.32em;background:currentColor;opacity:.55;-webkit-mask:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'><path d='M2 13 C 50 6, 130 4, 198 8 M18 17 C 80 12, 150 11, 186 13' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'/></svg>\") center/100% 100% no-repeat;mask:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'><path d='M2 13 C 50 6, 130 4, 198 8 M18 17 C 80 12, 150 11, 186 13' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'/></svg>\") center/100% 100% no-repeat}"
+    },
+    {
+      "name": "Énoncé qui s'allume",
+      "kind": "custom",
+      "refersTo": "scroll-words",
+      "description": "Mots en gris de brume qui passent à l'encre (ici figé à mi-parcours).",
+      "html": "<p class=\"ds-words\"><span class=\"on\">Là où la route s'arrête, </span><span>la maison commence.</span></p>",
+      "css": ".ds-words{font-family:Tenor Sans,serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em;line-height:1.06;font-size:2.25rem;margin:0}.ds-words span{color:#8a9096;transition:color .45s cubic-bezier(.16,1,.3,1)}.ds-words span.on,.ds-words:hover span{color:#15191d}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Neige et brume",
+    "overview": "Le site est une feuille de neige (`snow`) réglée comme un plan d'architecte : six filets verticaux fixes traversent toute la page, au-dessus des fonds et des images, sous le texte. Tout ce qui n'est pas le film de la maison est blanc, calme et exact : l'encre pour le texte, un gris de brume pour la part encore « non lue » des phrases, et une seule note chaude, l'ambre d'arolle, pour l'action de réserver et les instruments qui l'accompagnent (focus, curseur, barre de lecture).\n\nLe geste signature est le nom « L'AROLLE », en capitales condensées géantes, qui se dissout dans une brume de montagne WebGL montant du bas de l'écran au premier scroll, au-dessus du film d'arrivée. Ensuite le récit avance par énoncés qui s'allument mot à mot, images qui s'ouvrent par bandes verticales calées sur les filets, et un onglet ambré toujours fixé au bord droit. Le mouvement est lent et doux : entrées en expo-out d'environ 1,1 à 1,6 s, tout ce qui est lié au scroll est scrubé, rien ne rebondit, rien n'est incliné.\n\nDensité basse, beaucoup d'air (`section-y` jusqu'à 220px), coins carrés, filets d'un pixel, aucun aplat de couleur. Historique : ce monde a remplacé, à la demande de l'utilisateur, un premier monde « Photomontage alpin » (champs bleus coupés à 12°, Bodoni en display) ; seuls le monogramme A-pente, l'ambre d'action, les films et la mécanique de scroll ont été conservés.",
+    "keyCharacteristics": [
+      "Fond neige, six filets verticaux fixes (quatre sur téléphone) alignés sur la gouttière.",
+      "Quatre voix typographiques à rôles stricts : condensée géante, capitales serif, italique didone, sans légère.",
+      "Une seule couleur chaude, réservée à l'action ; aucun aplat, aucun dégradé décoratif.",
+      "Coins carrés partout ; le cercle n'existe que pour les instruments (curseur, spinner).",
+      "Mouvement scrubé par le scroll, expo-out pour les entrées, in-out pour les trajets."
+    ],
+    "rules": [
+      {
+        "name": "La règle de la seule note chaude",
+        "body": "L'ambre ne sert qu'à l'action de réserver et aux instruments du pointeur et du focus. Les seules surfaces ambrées sont l'onglet et le bouton principal ; aucun titre, fond ou illustration n'est ambré.",
+        "section": "colors"
+      },
+      {
+        "name": "La règle sans aplat",
+        "body": "Aucun champ de couleur. Les seuls dégradés autorisés sont la brume WebGL et les voiles d'encre fonctionnels (encre 25 à 55 % vers transparent) qui rendent le texte lisible sur un film.",
+        "section": "colors"
+      },
+      {
+        "name": "La règle d'un nom géant",
+        "body": "La condensée géante est réservée au nom de la maison, aux chiffres et à l'adieu final. Un titre de section parle en Tenor Sans, jamais en condensée.",
+        "section": "typography"
+      },
+      {
+        "name": "La règle de l'italique qui nomme",
+        "body": "La Bodoni italique nomme (une suite, une expérience, un lieu) ; elle ne sert jamais de surtitre au-dessus d'un titre.",
+        "section": "typography"
+      },
+      {
+        "name": "La règle de la brume",
+        "body": "La seule matière atmosphérique est la brume : bruit fbm à cinq octaves, couleur proche de la neige (0.965, 0.97, 0.975), rendue à 75 % de densité de pixels. Elle ne recouvre que le hero.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** poser toute nouvelle surface sur la neige (`snow`) et aligner ses blocs sur les six colonnes de `GridLines` (quatre sous 768px), entre gouttières `gutter`.",
+      "**Do** espacer les chapitres de `section-y` (clamp(112px, 18vh, 220px)).",
+      "**Do** réserver l'ambre à l'action de réserver et aux instruments (focus, caret, curseur, barre de lecture).",
+      "**Do** utiliser expo-out pour entrer, in-out pour les trajets scrubés, in pour sortir, avec les durées 160ms / 320ms / 1.1s du système.",
+      "**Do** révéler les images par bandes verticales alignées sur les colonnes, et faire s'allumer les énoncés mot à mot plutôt que de les faire glisser.",
+      "**Do** fournir pour chaque effet de scroll une version à plat en mouvement réduit et une version allégée sur téléphone.",
+      "**Do** garder les coins carrés et les filets d'un pixel."
+    ],
+    "donts": [
+      "**Don't** créer d'aplat de couleur ni de dégradé décoratif ; seuls la brume et les voiles d'encre de lisibilité sont admis.",
+      "**Don't** utiliser la condensée géante pour un titre de section, ni la Bodoni italique comme surtitre.",
+      "**Don't** incliner une mise en page, une image ou un bloc : la seule oblique du système est la traverse du monogramme.",
+      "**Don't** arrondir un bouton, une carte, un champ ou une image ; le cercle est réservé au curseur et au spinner.",
+      "**Don't** ajouter d'ombre portée à un élément d'interface ni de rebond au mouvement."
+    ]
+  }
+}

@@ -1,0 +1,445 @@
+/* ==========================================================================
+   Açai Lab Café — landing
+   Quiet luxury · mobile-first · only transform/opacity are animated
+   ========================================================================== */
+
+:root {
+  --cream: #F7F5F0;      /* page + every frame background, must stay exact */
+  --plum: #3B1E36;
+  --plum-70: rgba(59, 30, 54, .8);
+  --plum-55: rgba(59, 30, 54, .72);
+  --plum-12: rgba(59, 30, 54, .12);
+  --sage: #5C7457;
+  --sand: #E8E2D5;
+  --white: #FFFFFF;
+  --accent: var(--plum);
+
+  --serif: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+  --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: .7s;
+  --header-h: 64px;
+  --gutter: 20px;
+  --maxw: 1280px;
+}
+@media (min-width: 900px) {
+  :root { --header-h: 72px; --gutter: 40px; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--header-h); }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--plum);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+img, canvas { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+.skip-link {
+  position: fixed; left: 12px; top: 12px; z-index: 100;
+  padding: 10px 16px; background: var(--plum); color: var(--cream); border-radius: 999px;
+  transform: translateY(-160%); transition: transform .4s var(--ease); text-decoration: none;
+}
+.skip-link:focus { transform: none; }
+
+/* ---------- type ---------- */
+.eyebrow {
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 500;
+  color: var(--plum-70);
+}
+.display {
+  font-family: var(--serif); font-weight: 400; letter-spacing: -.02em;
+  font-size: clamp(52px, 13vw, 128px); line-height: .9;
+}
+.h2 {
+  font-family: var(--serif); font-weight: 400; letter-spacing: -.015em;
+  font-size: clamp(40px, 9vw, 84px); line-height: .95;
+}
+.display em, .h2 em { font-style: italic; color: var(--accent); transition: color var(--dur) var(--ease); }
+.lede { font-size: 15px; color: var(--plum-70); max-width: 30ch; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 52px; padding: 0 26px; border-radius: 999px;
+  font-size: 15px; font-weight: 500; text-decoration: none; white-space: nowrap;
+  transition: transform .5s var(--ease), background-color .5s var(--ease), color .5s var(--ease), box-shadow .5s var(--ease);
+}
+.btn:active { transform: scale(.97); }
+.btn-sm { height: 40px; padding: 0 18px; font-size: 14px; }
+.btn-primary { background: var(--plum); color: var(--cream); }
+.btn-secondary { background: transparent; color: var(--plum); box-shadow: inset 0 0 0 1px var(--plum-55); }
+@media (hover: hover) {
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(59, 30, 54, .55); }
+  .btn-secondary:hover { background: var(--plum); color: var(--cream); }
+}
+
+/* ---------- header ---------- */
+.site-header {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  height: var(--header-h);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 0 var(--gutter);
+  padding-top: env(safe-area-inset-top);
+  background: rgba(247, 245, 240, 0);
+  transition: background-color .6s var(--ease), box-shadow .6s var(--ease);
+}
+.site-header.is-scrolled {
+  background: rgba(247, 245, 240, .86);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  backdrop-filter: saturate(140%) blur(14px);
+  box-shadow: 0 1px 0 var(--plum-12);
+}
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand img { width: 30px; height: auto; }
+.brand span { font-family: var(--serif); font-size: 24px; letter-spacing: -.01em; line-height: 1; padding-top: 2px; }
+.nav { display: none; }
+@media (min-width: 900px) {
+  .nav { display: flex; gap: 36px; position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav a { font-size: 14px; text-decoration: none; position: relative; padding: 6px 0; color: var(--plum-70); transition: color .4s var(--ease); }
+  .nav a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor;
+    transform: scaleX(0); transform-origin: right; transition: transform .6s var(--ease);
+  }
+  .nav a:hover, .nav a.is-current { color: var(--plum); }
+  .nav a:hover::after, .nav a.is-current::after { transform: scaleX(1); transform-origin: left; }
+}
+.hide-xs { display: none; }
+@media (min-width: 420px) { .hide-xs { display: inline; } }
+
+/* ---------- sequence canvases ---------- */
+.seq-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  background: var(--cream);       /* frames fade into the page, no border, no shadow */
+}
+.seq-canvas:not(.is-ready) { visibility: hidden; }
+/* soft edge mask on the static posters only (frames already fade to #F7F5F0; no per-frame mask cost on canvases) */
+.ritual-poster, .carta-poster, .outro-poster {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent), linear-gradient(to bottom, transparent, #000 6%, #000 92%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent), linear-gradient(to bottom, transparent, #000 6%, #000 92%, transparent);
+  mask-composite: intersect;
+}   /* poster shows until the first frame is drawn */
+
+/* ==========================================================================
+   1. HERO — El Ritual del Lab
+   ========================================================================== */
+.ritual { position: relative; }
+.ritual-inner {
+  position: relative; height: 100vh; height: 100svh; overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: calc(var(--header-h) + 12px) var(--gutter) 56px;
+}
+.ritual-head { position: relative; z-index: 2; display: grid; gap: 12px; }
+.ritual-head .lede { margin-top: 4px; }
+.ritual-stage {
+  position: relative; z-index: 1;
+  /* height-driven on mobile so the square always fits the 1fr row (overlaps the lede's empty top area slightly) */
+  height: calc(100% + 8px); margin-top: -8px; min-height: 0;
+  width: auto; max-width: 100%; aspect-ratio: 1; justify-self: center; align-self: center;
+}
+.ritual-stage:has(.ritual-a.is-ready) .ritual-poster { visibility: hidden; }
+.carta-stage:has(canvas.is-ready:not(.is-hidden)) .carta-poster { visibility: hidden; }
+.outro-stage:has(canvas.is-ready) .outro-poster { visibility: hidden; }
+.ritual-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+/* 3 phases: blender → (slide + fade) → pour → (pure crossfade, same scale) → toppings */
+.ritual-a, .ritual-b, .ritual-c { transition: opacity .3s var(--ease), transform .3s var(--ease); will-change: transform, opacity; }
+.ritual-b { opacity: 0; transform: translateY(8%); }
+.ritual-c { opacity: 0; }
+.ritual[data-phase="2"] .ritual-a, .ritual[data-phase="3"] .ritual-a { opacity: 0; transform: translateY(-8%); }
+.ritual[data-phase="2"] .ritual-b { opacity: 1; transform: none; }
+.ritual[data-phase="3"] .ritual-b { opacity: 0; transform: none; }
+.ritual[data-phase="3"] .ritual-c { opacity: 1; }
+.hero-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .35s var(--ease); pointer-events: none; }
+.ritual.is-final .hero-still { opacity: 1; }
+
+.ritual-steps { position: relative; z-index: 2; display: grid; min-height: 64px; }
+.ritual-step {
+  grid-area: 1 / 1; display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: baseline;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+.ritual-step.is-active { opacity: 1; transform: none; }
+.step-num { font-size: 12px; letter-spacing: .18em; color: var(--plum-55); }
+.step-title { font-family: var(--serif); font-size: 32px; line-height: 1; text-transform: uppercase; letter-spacing: .02em; }
+.step-text { grid-column: 2; font-size: 14px; color: var(--plum-70); margin-top: 6px; }
+
+.ritual-progress {
+  position: absolute; left: var(--gutter); right: calc(var(--gutter) + 160px); bottom: 26px; height: 1px;
+  background: var(--plum-12); z-index: 2;
+}
+.ritual-progress span { position: absolute; inset: 0; background: var(--plum); transform-origin: left; transform: scaleX(0); }
+
+.skip-carta {
+  position: absolute; right: var(--gutter); bottom: 10px; z-index: 3;
+  font-size: 12px; letter-spacing: .06em; text-decoration: none; color: var(--plum-70);
+  padding: 8px 14px; border-radius: 999px; background: rgba(247, 245, 240, .8);
+  box-shadow: inset 0 0 0 1px var(--plum-12);
+  transition: color .4s var(--ease), box-shadow .4s var(--ease);
+}
+.skip-carta:hover { color: var(--plum); box-shadow: inset 0 0 0 1px var(--plum-55); }
+
+@media (min-width: 900px) {
+  .ritual-inner {
+    grid-template-columns: 1fr minmax(0, 78vh) 1fr; grid-template-rows: 1fr;
+    align-items: center; padding-bottom: 40px;
+  }
+  .ritual-head { align-self: end; padding-bottom: 12vh; position: relative; z-index: 3; }
+  .ritual-head .display { font-size: clamp(64px, 7.4vw, 120px); white-space: nowrap; }
+  .ritual-stage { grid-column: 2; grid-row: 1; width: 100%; height: auto; max-width: 78vh; margin: 0; }
+  .ritual-steps { grid-column: 3; grid-row: 1; justify-self: end; align-self: end; padding-bottom: 12vh; width: min(100%, 280px); }
+  .step-title { font-size: 40px; }
+  .ritual-progress { bottom: 24px; right: auto; width: 180px; }
+  .skip-carta { bottom: 14px; }
+}
+
+/* ==========================================================================
+   2. LA CARTA
+   ========================================================================== */
+.carta { position: relative; padding: 96px 0 72px; }
+.carta[data-drink="matcha"][data-mode="bebidas"] { --accent: var(--sage); }
+.carta-intro { padding: 0 var(--gutter); display: grid; gap: 14px; margin-bottom: 28px; max-width: var(--maxw); margin-inline: auto; }
+
+.carta-grid { position: relative; max-width: var(--maxw); margin: 0 auto; }
+
+/* Mobile: sticky visual + tabs on top, list scrolls freely below */
+.carta-visual {
+  position: sticky; top: var(--header-h); z-index: 5;
+  background: var(--cream);
+  padding: 0 var(--gutter) 10px;
+  box-shadow: 0 1px 0 var(--plum-12);
+}
+.carta-stage {
+  position: relative; height: 36vh; height: 36svh;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.carta-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.seq-canvas.is-hidden { opacity: 0; pointer-events: none; }
+#cv-bowl { transition: opacity .45s var(--ease); }
+/* drink photos: two layers, the newcomer fills the cup over the previous one */
+.flavour-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+  opacity: 0; pointer-events: none; transition: opacity .3s var(--ease);
+}
+.flavour-photo.is-on { opacity: 1; }
+
+/* matcha → matcha: the new drink rises in the cup behind a moving, wavy liquid line
+   (clip-path polygon driven frame by frame in main.js) */
+.flavour-photo.is-filling { opacity: 1; transition: none; will-change: clip-path; }
+
+.stage-label {
+  position: absolute; left: 0; bottom: 6px; z-index: 2;
+  font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--accent);
+  transition: color var(--dur) var(--ease), opacity .4s var(--ease);
+}
+.replay {
+  position: absolute; right: 0; bottom: 4px; z-index: 2;
+  font-size: 12px; letter-spacing: .04em; padding: 7px 12px; border-radius: 999px;
+  background: rgba(247, 245, 240, .85); box-shadow: inset 0 0 0 1px var(--plum-12); color: var(--plum-70);
+  transition: color .4s var(--ease), box-shadow .4s var(--ease), opacity .4s var(--ease);
+}
+.replay:hover { color: var(--plum); box-shadow: inset 0 0 0 1px var(--plum-55); }
+
+.carta-controls { display: grid; gap: 10px; padding-top: 8px; }
+.tabs {
+  position: relative; display: grid; grid-template-columns: 1fr 1.6fr;
+  background: var(--sand); border-radius: 999px; padding: 4px;
+}
+.tab {
+  position: relative; z-index: 1; height: 40px; border-radius: 999px;
+  font-size: 13px; font-weight: 500; color: var(--plum-70);
+  transition: color .5s var(--ease);
+}
+.tab.is-active { color: var(--cream); }
+.tab-pill {
+  position: absolute; top: 4px; bottom: 4px; left: 4px; border-radius: 999px; background: var(--plum);
+  width: calc((100% - 8px) * (1 / 2.6));
+  transition: transform .6s var(--ease), width .6s var(--ease), background-color var(--dur) var(--ease);
+}
+.carta[data-mode="comer"] .tab-pill { width: calc((100% - 8px) * (1.6 / 2.6)); transform: translateX(calc((100% / 1.6) * 1)); }
+
+.subtabs { display: flex; gap: 8px; transition: opacity .4s var(--ease); }
+.carta[data-mode="comer"] .subtabs { display: none; }
+.subtab {
+  height: 32px; padding: 0 16px; border-radius: 999px; font-size: 13px;
+  color: var(--plum-70); box-shadow: inset 0 0 0 1px var(--plum-12);
+  transition: color .5s var(--ease), background-color .5s var(--ease), box-shadow .5s var(--ease);
+}
+.subtab.is-active { color: var(--white); background: var(--accent); box-shadow: none; }
+
+.carta-list { padding: 24px var(--gutter) 0; }
+.panel { animation: panelIn .7s var(--ease) both; }
+.panel[hidden] { display: none; }
+@keyframes panelIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.menu-group { padding: 8px 0 28px; scroll-margin-top: calc(var(--header-h) + 36vh + 120px); }
+.group-head { display: grid; gap: 4px; padding-bottom: 10px; border-bottom: 1px solid var(--plum-12); margin-bottom: 4px; }
+.group-head h3 { font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1.15; }
+.group-head p { font-size: 13px; color: var(--plum-70); }
+.group-head p strong { color: var(--plum); font-weight: 600; }
+
+.item {
+  width: 100%; text-align: left;
+  display: grid; grid-template-columns: 1fr auto; align-items: baseline; column-gap: 12px; row-gap: 4px;
+  padding: 14px 10px; margin: 0 -10px; width: calc(100% + 20px);
+  border-radius: 14px;
+  transition: background-color .5s var(--ease), transform .5s var(--ease);
+}
+button.item:active { transform: scale(.985); }
+@media (hover: hover) { button.item:hover { background: rgba(232, 226, 213, .55); } }
+.item-name { font-size: 16px; font-weight: 500; }
+.item.is-featured .item-name { font-family: var(--serif); font-size: 22px; font-weight: 400; line-height: 1.1; }
+.item-note { font-size: 12px; color: var(--plum-55); white-space: nowrap; }
+.item-desc { grid-column: 1 / -1; font-size: 14px; color: var(--plum-70); }
+.menu li + li .item { border-top: 1px solid rgba(59, 30, 54, .06); border-radius: 0; }
+@media (hover: hover) { .menu li + li button.item:hover { border-radius: 14px; } }
+button.item.is-current { background: rgba(232, 226, 213, .7); border-radius: 14px; }
+.menu li + li button.item.is-current { border-radius: 14px; }
+.item.is-current .item-name::before {
+  content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  margin-right: 10px; vertical-align: middle; transform: translateY(-2px);
+}
+
+.badge {
+  align-self: center;
+  font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap;
+  padding: 5px 11px; border-radius: 999px;
+  color: var(--cream); background: var(--plum);
+}
+.badge-matcha { color: var(--white); background: var(--sage); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 0 6px; }
+.chips li {
+  font-size: 13px; padding: 8px 14px; border-radius: 999px; background: var(--white);
+  box-shadow: inset 0 0 0 1px var(--sand);
+}
+.chips-extra li { background: transparent; box-shadow: inset 0 0 0 1px var(--plum-12); }
+.extras-title { margin-top: 14px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--plum-70); }
+.extras-title span { letter-spacing: 0; text-transform: none; color: var(--plum); font-weight: 500; margin-left: 6px; }
+
+.carta-cta { margin-top: 12px; width: 100%; }
+
+@media (min-width: 900px) {
+  .carta { padding-top: 140px; }
+  .carta-intro { margin-bottom: 40px; }
+  .carta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 56px; padding: 0 var(--gutter); }
+  .carta-visual {
+    top: var(--header-h); height: calc(100vh - var(--header-h));
+    display: grid; grid-template-rows: 1fr auto; padding: 0 0 32px; box-shadow: none;
+  }
+  .carta-stage { height: auto; min-height: 0; }
+  .stage-label { font-size: 22px; bottom: 12px; }
+  .replay { bottom: 10px; }
+  .tab { height: 46px; font-size: 14px; }
+  .carta-list { padding: 8px 0 0; }
+  .menu-group { padding-bottom: 44px; scroll-margin-top: calc(var(--header-h) + 24px); }
+  .group-head h3 { font-size: 44px; }
+  .carta-cta { width: auto; }
+}
+
+/* ==========================================================================
+   3. EL UNIVERSO LAB
+   ========================================================================== */
+.universo { padding: 96px var(--gutter); max-width: var(--maxw); margin: 0 auto; }
+.universo-head { display: grid; gap: 14px; margin-bottom: 36px; }
+
+/* editorial masonry: photos keep their real proportions, nothing is cropped */
+.bento { columns: 2; column-gap: 12px; }
+.tile { break-inside: avoid; margin: 0 0 14px; }
+.tile-media { position: relative; border-radius: 18px; overflow: hidden; background: var(--sand); }
+.tile-media img { width: 100%; height: auto; transition: transform 1.4s var(--ease); }
+@media (hover: hover) { figure.tile:hover .tile-media img { transform: scale(1.035); } }
+.tile figcaption { font-size: 12px; line-height: 1.45; color: var(--plum-70); padding: 10px 2px 0; }
+.tile figcaption span { display: block; font-size: 11px; letter-spacing: .14em; color: var(--plum); margin-bottom: 2px; }
+
+.t-quote {
+  padding: 24px 18px; border-radius: 18px; background: var(--plum); color: var(--cream);
+  display: grid; gap: 14px;
+}
+.t-quote p { font-family: var(--serif); font-size: 24px; line-height: 1.15; font-style: italic; }
+.t-quote footer { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; opacity: .8; }
+.t-names {
+  padding: 20px 18px; border-radius: 18px; box-shadow: inset 0 0 0 1px var(--plum-12);
+  display: grid; gap: 6px;
+}
+.t-names li { font-family: var(--serif); font-size: 22px; line-height: 1.15; }
+
+@media (min-width: 700px) {
+  .bento { columns: 3; column-gap: 22px; }
+  .tile { margin-bottom: 26px; }
+  .tile-media, .t-quote, .t-names { border-radius: 22px; }
+  .tile figcaption { font-size: 13px; padding-top: 12px; }
+  .t-quote { padding: 40px 34px; }
+  .t-quote p { font-size: clamp(30px, 3vw, 42px); }
+  .t-names { padding: 32px 34px; }
+  .t-names li { font-size: 30px; }
+}
+@media (min-width: 900px) {
+  .universo { padding-top: 160px; padding-bottom: 140px; }
+  .universo-head { margin-bottom: 56px; }
+}
+
+/* ==========================================================================
+   4. TAKE-AWAY & VISÍTANOS
+   ========================================================================== */
+.visitanos { padding: 80px var(--gutter) 64px; max-width: var(--maxw); margin: 0 auto; text-align: center; }
+.visit-head { display: grid; gap: 14px; justify-items: center; }
+.outro-stage { position: relative; width: min(100%, 560px); aspect-ratio: 1; margin: 12px auto 0; }
+.outro-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+/* outro states: rest (HD closed box) → play (unboxing) → done (HD open box).
+   The closed photo is aligned on the first frame (cross-fade); the open photo is a different
+   composition, so the video dips out first and the photo fades in after it (no double exposure). */
+.outro-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .35s var(--ease); }
+.outro-stage[data-state="rest"] .outro-still.is-closed { opacity: 1; }
+.outro-stage[data-state="done"] .outro-still.is-open { opacity: 1; transition: opacity .45s var(--ease) .22s; }
+#cv-box { transition: opacity .3s var(--ease); }
+.outro-stage[data-state="done"]:has(.is-open) #cv-box { opacity: 0; }
+.outro-caption { font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--plum-70); margin-top: 8px; }
+
+.visit-info { display: grid; gap: 28px; margin-top: 48px; justify-items: center; }
+.info-block h3 { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 500; color: var(--plum-55); margin-bottom: 8px; }
+.info-block p { font-family: var(--serif); font-size: 26px; line-height: 1.2; }
+.visit-actions { display: grid; gap: 12px; width: 100%; max-width: 420px; }
+.ig-link {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px;
+  font-size: 15px; text-decoration: none; color: var(--plum-70); transition: color .4s var(--ease);
+}
+.ig-link:hover { color: var(--plum); }
+
+@media (min-width: 900px) {
+  .visitanos { padding-top: 140px; }
+  .visit-info { grid-template-columns: 1fr 1fr 1.1fr; align-items: start; text-align: left; justify-items: start; gap: 40px; border-top: 1px solid var(--plum-12); padding-top: 40px; }
+  .visit-actions { justify-self: end; }
+  .ig-link { justify-content: flex-start; }
+}
+
+/* ---------- footer ---------- */
+.site-footer {
+  display: grid; justify-items: center; gap: 8px; text-align: center;
+  padding: 40px var(--gutter) calc(40px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--plum-12); font-size: 13px;
+}
+.site-footer img { width: 28px; height: auto; margin-bottom: 4px; }
+.muted { color: var(--plum-55); }
+
+/* ---------- reveal (JS adds .is-in; without JS everything is visible) ---------- */
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+.js .reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  .js .reveal { opacity: 1; transform: none; }
+}

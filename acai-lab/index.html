@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="es-PE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Açai Lab Café — Açaí bowls y bebidas en capas · San Isidro, Lima</title>
+  <meta name="description" content="Açai Lab Café: café wellness y laboratorio de bebidas en capas y açaí bowls sin azúcar añadida. Av. Los Conquistadores 701, San Isidro, Lima.">
+  <meta name="theme-color" content="#F7F5F0">
+  <meta property="og:title" content="Açai Lab Café — El Ritual del Lab">
+  <meta property="og:description" content="Açaí orgánico sin azúcar añadida, matcha y cafés de especialidad en San Isidro, Lima.">
+  <meta property="og:image" content="./assets/img/frame-carta-bowl.jpg">
+  <meta property="og:locale" content="es_PE">
+  <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <link rel="preload" as="image" href="./assets/img/frame-hero-start.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CafeOrCoffeeShop",
+    "name": "Açai Lab Café",
+    "servesCuisine": ["Açaí bowls", "Café", "Matcha"],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Los Conquistadores 701",
+      "addressLocality": "San Isidro",
+      "addressRegion": "Lima",
+      "addressCountry": "PE"
+    },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], "opens": "08:00", "closes": "20:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "08:00", "closes": "17:00" }
+    ],
+    "sameAs": ["https://www.instagram.com/acailab.pe/"]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#carta">Saltar a la carta</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="Açai Lab Café, inicio">
+      <img src="./assets/img/logo-acai-lab.png" alt="" width="32" height="33">
+      <span>açai lab</span>
+    </a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#ritual">El Ritual</a>
+      <a href="#carta">La Carta</a>
+      <a href="#collabs">Collabs</a>
+      <a href="#visitanos">Visítanos</a>
+    </nav>
+    <a class="btn btn-primary btn-sm js-rappi" href="#" target="_blank" rel="noopener">
+      <span class="hide-xs">Pedir en </span>Rappi
+    </a>
+  </header>
+
+  <main>
+    <!-- ============ 1. HERO — EL RITUAL DEL LAB ============ -->
+    <section class="ritual" id="ritual" aria-label="El Ritual del Lab">
+      <div class="ritual-inner">
+        <div class="ritual-head">
+          <p class="eyebrow">Açai Lab Café · San Isidro, Lima</p>
+          <h1 class="display">El Ritual<br><em>del Lab</em></h1>
+          <p class="lede">Açaí bowls y bebidas en capas, hechos al momento. Desliza para verlo nacer.</p>
+        </div>
+
+        <div class="ritual-stage" aria-hidden="true">
+          <img class="ritual-poster" src="./assets/img/frame-hero-start.jpg" alt="" width="1080" height="1080" fetchpriority="high">
+          <canvas class="seq-canvas ritual-a" id="cv-blend"></canvas>
+          <canvas class="seq-canvas ritual-b" id="cv-dispense"></canvas>
+          <canvas class="seq-canvas ritual-c" id="cv-toppings"></canvas>
+        </div>
+
+        <ol class="ritual-steps">
+          <li class="ritual-step is-active" data-step="1">
+            <span class="step-num">01.</span>
+            <span class="step-title">Pureza</span>
+            <span class="step-text">Açaí orgánico sin azúcar añadida.</span>
+          </li>
+          <li class="ritual-step" data-step="2">
+            <span class="step-num">02.</span>
+            <span class="step-title">Precisión</span>
+            <span class="step-text">Textura cremosa hecha al momento.</span>
+          </li>
+          <li class="ritual-step" data-step="3">
+            <span class="step-num">03.</span>
+            <span class="step-title">Carácter</span>
+            <span class="step-text">Fruta fresca, granola y peanut butter de la casa.</span>
+          </li>
+        </ol>
+
+        <div class="ritual-progress" aria-hidden="true"><span></span></div>
+
+        <a class="skip-carta" href="#carta">Saltar a la carta <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+
+    <!-- ============ 2. LA CARTA ============ -->
+    <section class="carta" id="carta" data-mode="bebidas" data-drink="cafe" aria-labelledby="carta-title">
+      <div class="carta-intro">
+        <p class="eyebrow">La Carta</p>
+        <h2 class="h2" id="carta-title">Hecho en capas,<br><em>pensado con calma.</em></h2>
+      </div>
+
+      <div class="carta-grid">
+        <!-- Visual sticky -->
+        <div class="carta-visual">
+          <div class="carta-stage" id="carta-stage">
+            <img class="carta-poster" id="carta-poster" src="./assets/img/carta/latte-peanut-butter.jpg" alt="Peanut Butter Latte de Açai Lab" width="1080" height="1080" loading="lazy">
+            <canvas class="seq-canvas is-hidden" id="cv-bowl" aria-hidden="true"></canvas>
+            <p class="stage-label" id="stage-label" aria-live="polite">Peanut Butter Latte</p>
+            <button class="replay" id="replay" type="button" hidden><span aria-hidden="true">↻</span> Reproducir</button>
+          </div>
+
+          <div class="carta-controls">
+            <div class="tabs" role="tablist" aria-label="Categorías de la carta">
+              <button class="tab is-active" role="tab" id="tab-bebidas" aria-selected="true" aria-controls="panel-bebidas" data-mode="bebidas">Bebidas</button>
+              <button class="tab" role="tab" id="tab-comer" aria-selected="false" aria-controls="panel-comer" data-mode="comer" tabindex="-1">Açai Bowl &amp; Para Comer</button>
+              <span class="tab-pill" aria-hidden="true"></span>
+            </div>
+            <div class="subtabs" id="subtabs" aria-label="Tipo de bebida">
+              <button class="subtab is-active" type="button" data-drink="cafe" aria-pressed="true">Cafés</button>
+              <button class="subtab" type="button" data-drink="matcha" aria-pressed="false">Matcha</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista -->
+        <div class="carta-list">
+          <!-- Panel Bebidas -->
+          <div class="panel is-active" id="panel-bebidas" role="tabpanel" aria-labelledby="tab-bebidas">
+            <div class="menu-group" id="g-cafes">
+              <header class="group-head">
+                <h3>Cafés</h3>
+                <p><strong>Elige tu leche</strong> · sin lactosa · leches vegetales (almendras, coco)</p>
+              </header>
+              <ul class="menu">
+                <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Espresso</span></button></li>
+                <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Americano</span></button></li>
+                <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Latte</span><span class="item-note">+ cold foam S/ 2</span></button></li>
+                <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Capuccino</span></button></li>
+                <li><button class="item is-featured" data-drink="cafe" type="button"><span class="item-name">Peanut Butter Latte</span><span class="badge">Xime’s choice</span><span class="item-desc">Cold foam de mantequilla de maní de la casa.</span></button></li>
+                <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Salted Caramel Latte</span><span class="item-desc">Caramelo de dátiles, toque salado.</span></button></li>
+              </ul>
+            </div>
+
+            <div class="menu-group" id="g-matcha">
+              <header class="group-head">
+                <h3>Matcha</h3>
+              </header>
+              <ul class="menu">
+                <li><button class="item" data-drink="matcha" data-flavour="latte" type="button"><span class="item-name">Matcha Latte</span><span class="item-note">+ cold foam S/ 2</span></button></li>
+                <li><button class="item is-featured" data-drink="matcha" data-flavour="mango" type="button"><span class="item-name">Mango Matcha</span><span class="badge badge-matcha">Fran’s choice</span><span class="item-desc">Coulis de mango.</span></button></li>
+                <li><button class="item" data-drink="matcha" data-flavour="strawberry" type="button"><span class="item-name">Strawberry Matcha</span><span class="item-desc">Coulis de fresa.</span></button></li>
+                <li><button class="item" data-drink="matcha" data-flavour="acai" type="button"><span class="item-name">Açai Matcha</span><span class="item-desc">Jelly y cold foam de açaí.</span></button></li>
+                <li><button class="item" data-drink="matcha" data-flavour="pistacho" type="button"><span class="item-name">Pistacho Matcha</span><span class="item-desc">Cold foam de pistacho, pistacho crumble de la casa.</span></button></li>
+              </ul>
+            </div>
+
+            <div class="menu-group" id="g-infusiones">
+              <header class="group-head">
+                <h3>Infusiones &amp; Té</h3>
+              </header>
+              <ul class="menu">
+                <li><div class="item is-static"><span class="item-name">Infusiones</span><span class="item-desc">Frías o calientes.</span></div></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Panel Comer -->
+          <div class="panel" id="panel-comer" role="tabpanel" aria-labelledby="tab-comer" hidden>
+            <div class="menu-group" id="g-bowl">
+              <header class="group-head">
+                <h3>Açai Bowl</h3>
+                <p><strong>Sin azúcar</strong> · elige 4 toppings incluidos</p>
+              </header>
+              <ul class="chips" aria-label="Toppings incluidos">
+                <li>Fresa</li><li>Mango</li><li>Plátano</li><li>Arándanos</li><li>Granola clásica</li>
+              </ul>
+              <p class="extras-title">Extras <span>S/ 3.50 c/u</span></p>
+              <ul class="chips chips-extra" aria-label="Extras">
+                <li>Peanut butter de la casa</li><li>Pistacho crumble</li><li>Proteína vegana</li><li>Miel</li>
+              </ul>
+            </div>
+
+            <div class="menu-group" id="g-salado">
+              <header class="group-head"><h3>Salado</h3></header>
+              <ul class="menu">
+                <li><div class="item is-static"><span class="item-name">Caprese</span><span class="item-desc">Focaccia, pesto, queso mozzarella, tomate.</span></div></li>
+                <li><div class="item is-static is-featured"><span class="item-name">Grilled Cheese</span><span class="badge">Xime’s favorite</span><span class="item-desc">Focaccia, mix de quesos fundidos, salsa de tomate de la casa.</span></div></li>
+                <li><div class="item is-static"><span class="item-name">TLT</span><span class="item-desc">Focaccia, jamón de pavo, lechuga, tomate, mayonesa de la casa.</span></div></li>
+                <li><div class="item is-static is-featured"><span class="item-name">Egg Sandwich</span><span class="badge">Fran’s favorite</span><span class="item-desc">Bagel, egg salad, mayonesa de la casa.</span></div></li>
+                <li><div class="item is-static"><span class="item-name">Avocado Toast</span><span class="item-desc">Bagel, palta, queso cottage, special seasoning.</span></div></li>
+              </ul>
+            </div>
+
+            <div class="menu-group" id="g-dulces">
+              <header class="group-head"><h3>Dulces</h3></header>
+              <ul class="menu">
+                <li><div class="item is-static is-featured"><span class="item-name">Snickers Overnight Oats</span><span class="badge">Must try</span><span class="item-desc">Avena, peanut butter de la casa, caramelo de dátiles, chocolate negro.</span></div></li>
+                <li><div class="item is-static"><span class="item-name">Chia Pudding</span><span class="item-desc">Fresa, mango, jelly de açaí.</span></div></li>
+                <li><div class="item is-static is-featured"><span class="item-name">PB&amp;J Bagel</span><span class="badge">Bestie’s choice</span><span class="item-desc">Peanut butter de la casa, jelly de açaí.</span></div></li>
+                <li><div class="item is-static"><span class="item-name">Cinnamon Roll Cookie</span></div></li>
+              </ul>
+            </div>
+          </div>
+
+          <a class="btn btn-primary carta-cta js-rappi" href="#" target="_blank" rel="noopener">Pedir en Rappi</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3. EL UNIVERSO LAB ============ -->
+    <section class="universo" id="collabs" aria-labelledby="universo-title">
+      <div class="universo-head">
+        <p class="eyebrow">El Universo Lab</p>
+        <h2 class="h2" id="universo-title">Un lugar que habla<br><em>en silencio.</em></h2>
+      </div>
+
+      <div class="bento">
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-1.jpg" alt="Matcha lattes helados sobre el azulejo violeta de Açai Lab" width="1000" height="1250" loading="lazy" decoding="async"></div>
+          <figcaption><span>01</span>El azulejo violeta, nuestra firma.</figcaption>
+        </figure>
+
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-4.jpg" alt="Raspberry Pulp Matcha y la fragancia Alien Pulp en la activación Mugler × Açai Lab" width="1000" height="1250" loading="lazy" decoding="async"></div>
+          <figcaption><span>02</span>Mugler × Açai Lab: Raspberry Pulp Matcha, inspirado en Alien Pulp.</figcaption>
+        </figure>
+
+        <blockquote class="tile t-quote reveal">
+          <p>“Una marca que habla en silencio, pero que se queda.”</p>
+          <footer>— Açai Lab</footer>
+        </blockquote>
+
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-3.jpg" alt="Café y matcha para llevar con flores sobre una mesa blanca, junto a la banca violeta" width="1000" height="1249" loading="lazy" decoding="async"></div>
+          <figcaption><span>03</span>Mesas blancas, banca violeta y flores de temporada.</figcaption>
+        </figure>
+
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-2.jpg" alt="Açai bowl, matcha, café y cookie con sprinkles sobre bandeja de acero" width="1000" height="1250" loading="lazy" decoding="async"></div>
+          <figcaption><span>04</span>Bandejas de acero y rituales de colores.</figcaption>
+        </figure>
+
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-5.jpg" alt="Bebidas con charms y tiras de fotos de The Charming Booth" width="1200" height="1006" loading="lazy" decoding="async"></div>
+          <figcaption><span>05</span>The Charming Booth: drinks, charms &amp; photobooth.</figcaption>
+        </figure>
+
+        <ul class="tile t-names reveal" aria-label="Colaboraciones">
+          <li>Mugler</li>
+          <li>Curva Studio Pilates</li>
+          <li>The Charming Booth</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 4. TAKE-AWAY & VISÍTANOS ============ -->
+    <section class="visitanos" id="visitanos" aria-labelledby="visit-title">
+      <div class="visit-head">
+        <p class="eyebrow">Take-Away</p>
+        <h2 class="h2" id="visit-title">El ritual,<br><em>para llevar.</em></h2>
+      </div>
+
+      <div class="outro-stage" id="outro-stage" aria-hidden="true">
+        <img class="outro-poster" src="./assets/img/frame-outro-box.jpg" alt="" width="1080" height="1080" loading="lazy">
+        <canvas class="seq-canvas" id="cv-box"></canvas>
+      </div>
+      <p class="outro-caption">Mango Matcha · Açai Bowl · PB&amp;J Bagel</p>
+
+      <div class="visit-info">
+        <div class="info-block reveal">
+          <h3>Dirección</h3>
+          <p>Av. Los Conquistadores 701<br>San Isidro, Lima</p>
+        </div>
+        <div class="info-block reveal">
+          <h3>Horario</h3>
+          <p>Lun – Sáb: 8:00 am – 8:00 pm<br>Dom: 8:00 am – 5:00 pm</p>
+        </div>
+        <div class="visit-actions reveal">
+          <a class="btn btn-primary js-rappi" href="#" target="_blank" rel="noopener">Pedir por Rappi</a>
+          <a class="btn btn-secondary" href="https://www.google.com/maps/search/?api=1&amp;query=A%C3%A7ai%20Lab%20Caf%C3%A9%2C%20Av.%20Los%20Conquistadores%20701%2C%20San%20Isidro%2C%20Lima" target="_blank" rel="noopener">Ver en Google Maps</a>
+          <a class="ig-link" href="https://www.instagram.com/acailab.pe/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/></svg>
+            @acailab.pe
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <img src="./assets/img/logo-acai-lab.png" alt="" width="28" height="29">
+    <p>Açai Lab Café · San Isidro, Lima</p>
+    <p class="muted">© <span id="year">2026</span> Açai Lab. Hecho con calma.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="./assets/vendor/lenis-1.1.20.min.js"></script>
+  <script src="./assets/js/main.js" defer></script>
+</body>
+</html>
