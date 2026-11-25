@@ -12,7 +12,8 @@
   /* ---- Config: the only place to edit links ---- */
   const RAPPI_URL = 'https://www.rappi.com.pe/'; // ← reemplazar por el enlace directo de Açai Lab en Rappi
   const SEQ_BASE = './assets/seq/';
-  const FPS = 24;
+  const FPS = 24;          // Gemini toppings clip
+  const VIDEO_FPS = 30;    // studio clips (blender, pour, drink morph, unboxing)
   const BG = '#F7F5F0';
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -245,8 +246,8 @@
      1. Hero — El Ritual del Lab
      ====================================================================== */
   const hero = $('#ritual');
-  const blend = new FrameSeq($('#cv-blend'), 'hero-blend', 145);
-  const dispense = new FrameSeq($('#cv-dispense'), 'hero-dispense', 92);
+  const blend = new FrameSeq($('#cv-blend'), 'hero-blend', 181);
+  const dispense = new FrameSeq($('#cv-dispense'), 'hero-dispense', 114);
   const toppings = new FrameSeq($('#cv-toppings'), 'hero-toppings', 120);
   const steps = $$('.ritual-step', hero);
   const bar = $('.ritual-progress span', hero);
@@ -310,7 +311,7 @@
      2. La Carta
      ====================================================================== */
   const carta = $('#carta');
-  const drinkSeq = new FrameSeq($('#cv-drink'), 'carta-drink', 239);
+  const drinkSeq = new FrameSeq($('#cv-drink'), 'carta-drink', 298);
   const bowlSeq = new FrameSeq($('#cv-bowl'), 'hero-toppings', 120);
   bowlSeq.shareWith = toppings;
   const cvDrink = $('#cv-drink'), cvBowl = $('#cv-bowl');
@@ -422,7 +423,7 @@
     if (kind === 'matcha') preloadFlavours();
     // forward (café → matcha) at 1.5× or backwards (matcha → café) from wherever it is
     const token = flavourToken;
-    morph = drinkSeq.play(kind === 'matcha' ? drinkSeq.count - 1 : 0, FPS * 1.5)
+    morph = drinkSeq.play(kind === 'matcha' ? drinkSeq.count - 1 : 0, VIDEO_FPS * 1.5)
       .then(() => { if (drink === kind && flavourToken === token && carta.dataset.mode === 'bebidas' && kind === 'cafe') showPhoto(STILLS.cafe, 'Peanut Butter Latte'); });
     return morph;
   };
@@ -514,7 +515,7 @@
      4. Outro — unboxing replays on every visit
      HD closed box at rest → (dip) → unboxing → (dip) → HD open box
      ====================================================================== */
-  const box = new FrameSeq($('#cv-box'), 'outro-box', 102);
+  const box = new FrameSeq($('#cv-box'), 'outro-box', 127);
   const outro = $('#outro-stage');
   // studio stills are attached only once their file has loaded (no empty <img> in the page)
   const makeStill = (cls, src) => {
@@ -552,7 +553,7 @@
     if (ready(stillClosed) && !reduceMotion) await wait(450);    // let the HD closed box breathe a beat
     if (token !== boxToken) return;
     setOutro('play');
-    await box.play(box.count - 1, FPS, 0);
+    await box.play(box.count - 1, VIDEO_FPS, 0);
     if (token === boxToken) setOutro('done');
   }, { threshold: 0.45 }).observe(outro);
 
