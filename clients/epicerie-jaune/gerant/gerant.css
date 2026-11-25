@@ -3,7 +3,7 @@
 body { margin: 0; background: var(--jaune); color: var(--encre); font-family: "Montserrat", system-ui, sans-serif; font-size: 16px; line-height: 1.5; }
 .g { max-width: 640px; margin: 0 auto; padding: calc(24px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; }
 .g-hd { display: flex; align-items: center; gap: 14px; }
-.g-hd img { width: 44px; }
+.g-hd img { width: 44px; height: auto; flex: none; }
 .g-eyebrow { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 h1 { margin: 0; font-family: "Wilden", "Lilita One", sans-serif; font-weight: 400; text-transform: uppercase; font-size: 40px; line-height: 1; }
 h2 { margin: 0 0 6px; font-size: 18px; display: flex; align-items: center; gap: 10px; }
