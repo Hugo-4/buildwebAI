@@ -356,14 +356,50 @@
   const preloadFlavours = () => [...Object.values(FLAVOURS).map(f => f[1]), STILLS.cafe, STILLS.bowl]
     .forEach(src => { if (src) { const i = new Image(); i.src = src; } });
 
-  const hidePhotos = () => { layers.forEach(l => l.classList.remove('is-on')); layerOn = -1; };
+  const hidePhotos = () => {
+    layers.forEach(l => {
+      cancelAnimationFrame(l._fillRaf);                       // stop any liquid fill in progress
+      if (l._fillResolve) { l._fillResolve(false); l._fillResolve = null; }
+      l.style.clipPath = ''; l.classList.remove('is-on', 'is-filling');
+    });
+    layerOn = -1;
+  };
   const showFlavour = key => {
     flavour = key;
     label.textContent = FLAVOURS[key][0];
-    showPhoto(FLAVOURS[key][1], FLAVOURS[key][0]);
+    showPhoto(FLAVOURS[key][1], FLAVOURS[key][0], true);
   };
+  /** Reveal `layer` from the bottom up behind a wavy liquid surface (clip-path polygon), ~0.95 s.
+   *  The surface sloshes while it rises and settles flat at the top. Resolves true when finished. */
+  const fillReveal = layer => new Promise(resolve => {
+    cancelAnimationFrame(layer._fillRaf);
+    if (layer._fillResolve) layer._fillResolve(false);      // interrupted by a newer fill on this layer
+    layer._fillResolve = resolve;
+    layer.classList.add('is-on', 'is-filling');
+    const D = 950, start = performance.now();
+    const ease = t => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const tick = now => {
+      const t = Math.min((now - start) / D, 1);
+      const level = 103 - 108 * ease(t);                     // surface: just below the cup → just above it (%)
+      const amp = 2.2 * Math.sin(Math.PI * t);               // calm at both ends
+      const ph = t * 7;
+      const pts = [];
+      for (let x = 0; x <= 100; x += 5) {
+        const y = level + amp * Math.sin((x / 100) * Math.PI * 2.4 + ph) + amp * .45 * Math.sin((x / 100) * Math.PI * 5.3 - ph * 1.6);
+        pts.push(`${x}% ${y.toFixed(2)}%`);
+      }
+      layer.style.clipPath = `polygon(${pts.join(',')}, 100% 100%, 0% 100%)`;
+      if (t < 1) layer._fillRaf = requestAnimationFrame(tick);
+      else {
+        layer.style.clipPath = ''; layer.classList.remove('is-filling');
+        layer._fillResolve = null; resolve(true);
+      }
+    };
+    layer._fillRaf = requestAnimationFrame(tick);
+  });
+
   /** Cross-fade a studio photo over the canvas (two layers, 0.3 s). Missing file: keep the animation. */
-  function showPhoto(src, alt) {
+  function showPhoto(src, alt, fill = false) {
     const token = ++flavourToken;
     if (!src) { hidePhotos(); return; }
     const key = alt;
@@ -371,8 +407,17 @@
     const layer = layers[nextIdx];
     const swap = () => {
       if (token !== flavourToken) return;
-      layer.classList.add('is-on');
-      if (layerOn >= 0 && layerOn !== nextIdx) layers[layerOn].classList.remove('is-on');
+      const prev = layerOn >= 0 && layerOn !== nextIdx ? layers[layerOn] : null;
+      if (fill && prev && !reduceMotion) {
+        // matcha → matcha: the new drink fills the same cup from the bottom (wavy liquid line)
+        prev.style.zIndex = 1; layer.style.zIndex = 2;
+        fillReveal(layer).then(done => {
+          if (done && layerOn === nextIdx) prev.classList.remove('is-on');   // still current: drop the old drink
+        });
+      } else {
+        layer.classList.add('is-on');
+        if (prev) prev.classList.remove('is-on');
+      }
       layerOn = nextIdx;
     };
     layer.alt = key;

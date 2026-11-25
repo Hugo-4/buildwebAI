@@ -236,6 +236,9 @@ h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
 }
 .flavour-photo.is-on { opacity: 1; }
 
+/* matcha → matcha: the new drink rises in the cup behind a moving, wavy liquid line
+   (clip-path polygon driven frame by frame in main.js) */
+.flavour-photo.is-filling { opacity: 1; transition: none; will-change: clip-path; }
 
 .stage-label {
   position: absolute; left: 0; bottom: 6px; z-index: 2;
