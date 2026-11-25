@@ -73,7 +73,7 @@
         </div>
 
         <div class="ritual-stage" aria-hidden="true">
-          <img class="ritual-poster" src="./assets/img/frame-hero-start.jpg" alt="" width="900" height="900" fetchpriority="high">
+          <img class="ritual-poster" src="./assets/img/frame-hero-start.jpg" alt="" width="1080" height="1080" fetchpriority="high">
           <canvas class="seq-canvas ritual-a" id="cv-blend"></canvas>
           <canvas class="seq-canvas ritual-b" id="cv-dispense"></canvas>
         </div>
@@ -108,7 +108,7 @@
         <!-- Visual sticky -->
         <div class="carta-visual">
           <div class="carta-stage" id="carta-stage">
-            <img class="carta-poster" id="carta-poster" src="./assets/img/frame-carta-latte.jpg" alt="Peanut Butter Latte de Açai Lab" width="900" height="900" loading="lazy">
+            <img class="carta-poster" id="carta-poster" src="./assets/img/frame-carta-latte.jpg" alt="Peanut Butter Latte de Açai Lab" width="1080" height="1080" loading="lazy">
             <canvas class="seq-canvas" id="cv-drink" aria-hidden="true"></canvas>
             <canvas class="seq-canvas is-hidden" id="cv-bowl" aria-hidden="true"></canvas>
             <p class="stage-label" id="stage-label" aria-live="polite">Peanut Butter Latte</p>
@@ -135,7 +135,7 @@
             <div class="menu-group" id="g-cafes">
               <header class="group-head">
                 <h3>Cafés</h3>
-                <p>Elige tu leche: sin lactosa, almendras o coco.</p>
+                <p><strong>Elige tu leche</strong> · sin lactosa · leches vegetales (almendras, coco)</p>
               </header>
               <ul class="menu">
                 <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Espresso</span></button></li>
@@ -143,14 +143,13 @@
                 <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Latte</span><span class="item-note">+ cold foam S/ 2</span></button></li>
                 <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Capuccino</span></button></li>
                 <li><button class="item is-featured" data-drink="cafe" type="button"><span class="item-name">Peanut Butter Latte</span><span class="badge">Xime’s choice</span><span class="item-desc">Cold foam de mantequilla de maní de la casa.</span></button></li>
-                <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Salted Caramel Latte</span><span class="item-desc">Caramelo de dátiles, con un toque salado.</span></button></li>
+                <li><button class="item" data-drink="cafe" type="button"><span class="item-name">Salted Caramel Latte</span><span class="item-desc">Caramelo de dátiles, toque salado.</span></button></li>
               </ul>
             </div>
 
             <div class="menu-group" id="g-matcha">
               <header class="group-head">
                 <h3>Matcha</h3>
-                <p>Ceremonial, batido al momento.</p>
               </header>
               <ul class="menu">
                 <li><button class="item" data-drink="matcha" type="button"><span class="item-name">Matcha Latte</span><span class="item-note">+ cold foam S/ 2</span></button></li>
@@ -176,7 +175,7 @@
             <div class="menu-group" id="g-bowl">
               <header class="group-head">
                 <h3>Açai Bowl</h3>
-                <p>Sin azúcar. Elige 4 toppings incluidos.</p>
+                <p><strong>Sin azúcar</strong> · elige 4 toppings incluidos</p>
               </header>
               <ul class="chips" aria-label="Toppings incluidos">
                 <li>Fresa</li><li>Mango</li><li>Plátano</li><li>Arándanos</li><li>Granola clásica</li>
@@ -190,19 +189,19 @@
             <div class="menu-group" id="g-salado">
               <header class="group-head"><h3>Salado</h3></header>
               <ul class="menu">
-                <li><div class="item is-static"><span class="item-name">Caprese</span><span class="item-desc">Focaccia, pesto, mozzarella, tomate.</span></div></li>
+                <li><div class="item is-static"><span class="item-name">Caprese</span><span class="item-desc">Focaccia, pesto, queso mozzarella, tomate.</span></div></li>
                 <li><div class="item is-static is-featured"><span class="item-name">Grilled Cheese</span><span class="badge">Xime’s favorite</span><span class="item-desc">Focaccia, mix de quesos fundidos, salsa de tomate de la casa.</span></div></li>
-                <li><div class="item is-static"><span class="item-name">TLT</span></div></li>
-                <li><div class="item is-static is-featured"><span class="item-name">Egg Sandwich</span><span class="badge">Fran’s favorite</span></div></li>
-                <li><div class="item is-static"><span class="item-name">Avocado Toast</span></div></li>
+                <li><div class="item is-static"><span class="item-name">TLT</span><span class="item-desc">Focaccia, jamón de pavo, lechuga, tomate, mayonesa de la casa.</span></div></li>
+                <li><div class="item is-static is-featured"><span class="item-name">Egg Sandwich</span><span class="badge">Fran’s favorite</span><span class="item-desc">Bagel, egg salad, mayonesa de la casa.</span></div></li>
+                <li><div class="item is-static"><span class="item-name">Avocado Toast</span><span class="item-desc">Bagel, palta, queso cottage, special seasoning.</span></div></li>
               </ul>
             </div>
 
             <div class="menu-group" id="g-dulces">
               <header class="group-head"><h3>Dulces</h3></header>
               <ul class="menu">
-                <li><div class="item is-static is-featured"><span class="item-name">Snickers Overnight Oats</span><span class="badge badge-solid">Must try</span></div></li>
-                <li><div class="item is-static"><span class="item-name">Chia Pudding</span></div></li>
+                <li><div class="item is-static is-featured"><span class="item-name">Snickers Overnight Oats</span><span class="badge">Must try</span><span class="item-desc">Avena, peanut butter de la casa, caramelo de dátiles, chocolate negro.</span></div></li>
+                <li><div class="item is-static"><span class="item-name">Chia Pudding</span><span class="item-desc">Fresa, mango, jelly de açaí.</span></div></li>
                 <li><div class="item is-static is-featured"><span class="item-name">PB&amp;J Bagel</span><span class="badge">Bestie’s choice</span><span class="item-desc">Peanut butter de la casa, jelly de açaí.</span></div></li>
                 <li><div class="item is-static"><span class="item-name">Cinnamon Roll Cookie</span></div></li>
               </ul>
@@ -222,40 +221,42 @@
       </div>
 
       <div class="bento">
-        <figure class="tile tile-piso reveal">
-          <div class="tile-media" data-fallback="piso">
-            <img src="./assets/img/social/social-1.jpg" alt="El piso de azulejos violeta de Açai Lab" loading="lazy">
-          </div>
-          <figcaption><span>01</span> El piso violeta. Nuestro azulejo, nuestra firma: lo reconoces antes de leer el nombre.</figcaption>
+        <figure class="tile t-piso reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-1.jpg" alt="Matcha lattes sobre el azulejo violeta de Açai Lab" width="500" height="562" loading="lazy" decoding="async"></div>
+          <figcaption><span>01</span>El azulejo violeta, nuestra firma.</figcaption>
         </figure>
 
-        <figure class="tile tile-bandeja reveal">
-          <div class="tile-media" data-fallback="bandeja">
-            <img src="./assets/img/social/social-2.jpg" alt="Bandeja de acero inoxidable con el monograma de Açai Lab" loading="lazy">
-          </div>
-          <figcaption><span>02</span> Bandejas de acero con monograma. Cada pedido llega como un pequeño ritual.</figcaption>
+        <figure class="tile t-bandeja reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-2.jpg" alt="PB&amp;J Bagels sobre bandeja de acero con papel monogramado" width="696" height="838" loading="lazy" decoding="async"></div>
+          <figcaption><span>02</span>Bandejas de acero y papel monogramado. PB&amp;J Bagel, peanut butter de la casa.</figcaption>
         </figure>
 
-        <blockquote class="tile tile-quote reveal">
+        <blockquote class="tile t-quote reveal">
           <p>“Una marca que habla en silencio, pero que se queda.”</p>
           <footer>— Açai Lab</footer>
         </blockquote>
 
-        <figure class="tile tile-collab reveal">
-          <div class="tile-media" data-fallback="collab">
-            <img src="./assets/img/social/social-3.jpg" alt="Colaboración de Açai Lab con Curva Studio Pilates" loading="lazy">
-          </div>
-          <figcaption><span>03</span> Collabs con quienes comparten el ritmo: Curva Studio Pilates.</figcaption>
+        <figure class="tile t-bowl reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-3.jpg" alt="Açai bowl con plátano, arándanos, fresa y peanut butter de la casa" width="696" height="836" loading="lazy" decoding="async"></div>
+          <figcaption><span>03</span>Açai bowl sin azúcar, con zigzag de peanut butter de la casa.</figcaption>
         </figure>
 
-        <figure class="tile tile-collab2 reveal">
-          <div class="tile-media" data-fallback="collab2">
-            <img src="./assets/img/social/social-4.jpg" alt="Activación de Açai Lab con Mugler y The Charming Booth" loading="lazy">
-          </div>
-          <figcaption><span>04</span> Mugler, The Charming Booth y más momentos del Lab.</figcaption>
+        <figure class="tile t-mesa reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-4.jpg" alt="Mesa blanca con el monograma de Açai Lab grabado y un matcha" width="678" height="846" loading="lazy" decoding="async"></div>
+          <figcaption><span>04</span>Mesas blancas con el monograma grabado. Luz de San Isidro.</figcaption>
         </figure>
 
-        <ul class="tile tile-names reveal" aria-label="Colaboraciones">
+        <figure class="tile t-mugler reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-5.jpg" alt="Raspberry Pulp Matcha de la colaboración Mugler × Açai Lab" width="696" height="360" loading="lazy" decoding="async"></div>
+          <figcaption><span>05</span>Mugler × Açai Lab: Raspberry Pulp Matcha.</figcaption>
+        </figure>
+
+        <figure class="tile t-booth reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-6.jpg" alt="Bebidas con charms y tiras de fotos de The Charming Booth" width="512" height="440" loading="lazy" decoding="async"></div>
+          <figcaption><span>06</span>The Charming Booth: drinks, charms &amp; photobooth.</figcaption>
+        </figure>
+
+        <ul class="tile t-names reveal" aria-label="Colaboraciones">
           <li>Mugler</li>
           <li>Curva Studio Pilates</li>
           <li>The Charming Booth</li>
@@ -271,7 +272,7 @@
       </div>
 
       <div class="outro-stage" id="outro-stage" aria-hidden="true">
-        <img class="outro-poster" src="./assets/img/frame-outro-box.jpg" alt="" width="900" height="900" loading="lazy">
+        <img class="outro-poster" src="./assets/img/frame-outro-box.jpg" alt="" width="1080" height="1080" loading="lazy">
         <canvas class="seq-canvas" id="cv-box"></canvas>
       </div>
       <p class="outro-caption">Mango Matcha · Açai Bowl · PB&amp;J Bagel</p>
@@ -305,6 +306,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="./assets/vendor/lenis-1.1.20.min.js"></script>
   <script src="./assets/js/main.js" defer></script>
 </body>
 </html>
