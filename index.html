@@ -434,37 +434,44 @@
       </div>
     </section>
 
-    <!-- ============ AVANT / APRÈS ============ -->
-    <section id="avant-apres" class="bg-night relative overflow-hidden">
+    <!-- @ba (généré par scripts/build-secteurs.mjs) -->
+    <section id="avant-apres" class="bg-night relative overflow-hidden" aria-labelledby="ba-title">
       <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28 min-h-[100svh] flex flex-col justify-center">
         <div class="grid lg:grid-cols-12 gap-6 items-end">
           <div class="lg:col-span-7">
-            <h2 class="display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Avant / après&nbsp;: le même samedi soir<span class="text-ember">.</span></h2>
+            <h2 id="ba-title" class="display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Avant / après&nbsp;: <span data-ba-when>le même samedi soir</span><span class="text-ember">.</span></h2>
           </div>
-          <p class="lg:col-span-5 text-lg leading-relaxed text-white/70 max-w-[34rem]">Faites glisser la poignée. À gauche, la salle gérée au cahier et au téléphone. À droite, la même salle avec le standardiste vocal, le rappel SMS H-3 et la lecture des factures.</p>
+          <p class="lg:col-span-5 text-lg leading-relaxed text-white/70 max-w-[34rem]" data-ba-lead>Faites glisser la poignée. À gauche, la salle gérée au cahier et au téléphone. À droite, la même salle avec le standardiste vocal, le rappel SMS H-3 et la lecture des factures.</p>
         </div>
+        <div class="ba-pick mt-8" role="group" aria-label="Choisir votre métier">
+          <button type="button" class="ba-pick-b" data-ba="restaurants" aria-pressed="true">Restaurants &amp; bars</button>
+          <button type="button" class="ba-pick-b" data-ba="hotels" aria-pressed="false">Hôtels</button>
+          <button type="button" class="ba-pick-b" data-ba="commerces" aria-pressed="false">Commerces de bouche</button>
+          <button type="button" class="ba-pick-b" data-ba="artisans" aria-pressed="false">Artisans du bâtiment</button>
+          <button type="button" class="ba-pick-b" data-ba="garages-ateliers" aria-pressed="false">Garages &amp; ateliers</button>
+          <button type="button" class="ba-pick-b" data-ba="clubs" aria-pressed="false">Clubs &amp; associations</button>
+        </div>
+        <script type="application/json" id="baData">{"restaurants":{"img":["assets/img/salle-service.webp",1600,1067],"alt":"Salle de restaurant pendant le service du soir","when":"le même samedi soir","lead":"Faites glisser la poignée. À gauche, la salle gérée au cahier et au téléphone. À droite, la même salle avec le standardiste vocal, le rappel SMS H-3 et la lecture des factures.","before":["\u003cb>7\u003c/b> appels manqués entre 19h et 21h","\u003cb>2\u003c/b> tables vides à 20h30","Cahier papier, ressaisi en caisse","\u003cb>2&nbsp;h\u003c/b> de factures le lundi"],"after":["\u003cb>7/7\u003c/b> appels pris par l’IA","SMS H-3&nbsp;: \u003cb>2\u003c/b> tables relouées","Réservations synchronisées en caisse","Factures lues sur \u003cb>photo\u003c/b>"],"mods":[["Standardiste vocal IA","Décroche 24 h/24, répond aux questions allergènes et parking, prend la réservation."],["Rappel SMS H-3","Le client confirme ou libère sa table d’un clic ; la liste d’attente est prévenue."],["Lecture des factures","Une photo du bon de livraison, et la viande ou la marée arrive dans votre suivi de food cost."]]},"hotels":{"img":["assets/img/ba/hotels.webp",1600,1066],"alt":"Terrasse d’une chambre d’hôtel face au lac et aux montagnes","when":"le même week-end complet","lead":"Faites glisser la poignée. À gauche, un hôtel qui dépend des plateformes et d’une réception débordée. À droite, le même week-end avec la réservation directe et la conciergerie IA.","before":["\u003cb>62&nbsp;%\u003c/b> des nuits vendues par les plateformes","\u003cb>18&nbsp;%\u003c/b> de commission sur chaque nuit","Téléphone de la réception à \u003cb>23&nbsp;h\u003c/b>","Spa et table à moitié vides"],"after":["\u003cb>41&nbsp;%\u003c/b> des nuits réservées en direct","Conciergerie IA&nbsp;: \u003cb>38\u003c/b> questions traitées","Table et spa proposés à la réservation","Offre de retour envoyée au départ"],"mods":[["Réservation directe","Le prix du séjour calculé en direct, payé chez vous, sans commission."],["Conciergerie IA","Répond de nuit comme de jour : spa, parking, arrivée tardive."],["Ventes additionnelles","La table et le spa se réservent avec la chambre."]]},"commerces":{"img":["assets/img/ba/commerces.webp",1600,1066],"alt":"Étal de légumes frais dans une épicerie de quartier","when":"le même samedi matin","lead":"Faites glisser la poignée. À gauche, la file du samedi et les invendus du soir. À droite, le même samedi avec le Click & Collect, les paniers et la fidélité en ligne.","before":["File de \u003cb>12\u003c/b> personnes à 10&nbsp;h","Des clients repartis sans attendre","\u003cb>9&nbsp;kg\u003c/b> d’invendus le soir","Carte de fidélité en carton oubliée"],"after":["\u003cb>23\u003c/b> commandes prêtes au comptoir coupe-file","Un créneau toutes les \u003cb>15&nbsp;min\u003c/b>","Invendus vendus en paniers anti-gaspi","Fidélité en ligne&nbsp;: \u003cb>140\u003c/b> clients inscrits"],"mods":[["Click & Collect par créneaux","La vitrine du jour en ligne, le retrait au comptoir coupe-file."],["Paniers et anti-gaspi","Paniers composés le matin, invendus proposés le soir."],["Fidélité en ligne","La carte vit dans le compte du client, les abonnements reviennent chaque semaine."]]},"artisans":{"img":["assets/img/ba/artisans.webp",1600,1066],"alt":"Un plombier répare les tuyaux sous un évier","when":"la même semaine de chantier","lead":"Faites glisser la poignée. À gauche, le téléphone qui sonne sur le chantier et les devis oubliés. À droite, la même semaine avec l’estimateur, le pré-diagnostic et les relances.","before":["\u003cb>31\u003c/b> appels pris sur le chantier","\u003cb>4\u003c/b> déplacements sans la bonne pièce","\u003cb>6\u003c/b> devis jamais relancés","Planning tenu sur un carnet"],"after":["Estimations en ligne&nbsp;: \u003cb>18\u003c/b> demandes triées","Photo avant visite&nbsp;: la bonne pièce","Relance à J+3&nbsp;: \u003cb>3\u003c/b> devis signés","Rendez-vous confirmés par SMS"],"mods":[["Estimateur de prix","Le client décrit la panne et voit une fourchette de prix avant d’appeler."],["Devis signé en ligne","Signature en un clic et relance automatique trois jours après."],["Contrats d’entretien","Le client revient chaque année, le rappel part tout seul."]]},"garages-ateliers":{"img":["assets/img/ba/garages-ateliers.webp",1264,842],"alt":"Un mécanicien travaille sous le capot d’une voiture dans l’atelier","when":"la même semaine d’atelier","lead":"Faites glisser la poignée. À gauche, les appels « c’est prêt ? » et les trous dans le planning. À droite, la même semaine avec le pré-diagnostic, les rappels et le devis en ligne.","before":["\u003cb>40\u003c/b> appels « c’est prêt&nbsp;? »","\u003cb>3\u003c/b> rendez-vous non honorés","Devis en attente, sans relance","Aucun rappel avant le contrôle technique"],"after":["Suivi par SMS&nbsp;: appels divisés par \u003cb>3\u003c/b>","Rappel la veille&nbsp;: \u003cb>0\u003c/b> trou dans le planning","Devis validés en ligne, relance à J+3","Rappels CT&nbsp;: \u003cb>12\u003c/b> rendez-vous pris"],"mods":[["Pré-diagnostic en ligne","Véhicule, symptôme et photo avant le premier appel."],["Rappel SMS de rendez-vous","Le client confirme ou libère son créneau d’un mot."],["Relances et rappels CT","Devis relancés à J+3, contrôle technique et révision rappelés un mois avant."]]},"clubs":{"img":["assets/img/ba/clubs.webp",1350,900],"alt":"Des joueurs de rugby couverts de boue se disputent le ballon","when":"la même rentrée","lead":"Faites glisser la poignée. À gauche, les dossiers papier et la caisse du jour de match. À droite, la même rentrée avec les licences, la billetterie et les partenaires en ligne.","before":["\u003cb>180\u003c/b> dossiers papier et chèques","File à la caisse le jour du match","\u003cb>2\u003c/b> partenaires seulement","Bénévoles relancés le soir"],"after":["Licences en ligne, payées en \u003cb>3\u003c/b> fois","Billets avec QR code à l’entrée","Packs partenaires&nbsp;: \u003cb>6\u003c/b> sponsors","L’assistant répond aux parents"],"mods":[["Licences en ligne","Paiement en une ou trois fois, Pass’Sport et remise famille appliqués."],["Billetterie","Billets avec QR code, repas d’avant-match et abonnement saison."],["Partenaires et dons","Packs avec le coût après réduction d’impôt, dons défiscalisés."]]}}</script>
 
-        <div id="ba" class="ba mt-10" style="--p:50">
-          <!-- AVANT -->
+        <div id="ba" class="ba mt-8" style="--p:50" data-ba-stage>
           <div class="ba-layer ba-before">
             <img src="assets/img/salle-service.webp" alt="Salle de restaurant pendant le service du soir" width="1600" height="1067" loading="lazy" decoding="async">
             <div class="ba-shade ba-shade--before"></div>
             <span class="ba-tag">Avant<span class="hidden sm:inline"> · gestion manuelle</span></span>
-            <ul class="ba-chips ba-chips--left">
-              <li class="chip chip-bad"><b>7</b> appels manqués entre 19h et 21h</li>
-              <li class="chip chip-bad"><b>2</b> tables vides à 20h30</li>
-              <li class="chip chip-bad">Cahier papier, ressaisi en caisse</li>
-              <li class="chip chip-bad"><b>2&nbsp;h</b> de factures le lundi</li>
+            <ul class="ba-chips ba-chips--left" data-ba-before>
+                <li class="chip chip-bad"><b>7</b> appels manqués entre 19h et 21h</li>
+                <li class="chip chip-bad"><b>2</b> tables vides à 20h30</li>
+                <li class="chip chip-bad">Cahier papier, ressaisi en caisse</li>
+                <li class="chip chip-bad"><b>2&nbsp;h</b> de factures le lundi</li>
             </ul>
           </div>
-          <!-- APRÈS (révélé par transform uniquement) -->
-          <div class="ba-after-clip" aria-hidden="false">
+          <div class="ba-after-clip">
             <div class="ba-layer ba-after">
               <img src="assets/img/salle-service.webp" alt="" width="1600" height="1067" loading="lazy" decoding="async">
               <div class="ba-shade ba-shade--after"></div>
               <span class="ba-tag ba-tag--right">Après<span class="hidden sm:inline"> · BuildWebAI</span></span>
-              <ul class="ba-chips ba-chips--right">
-                <li class="chip chip-good"><b>7/7</b> appels pris par l'IA</li>
+              <ul class="ba-chips ba-chips--right" data-ba-after>
+                <li class="chip chip-good"><b>7/7</b> appels pris par l’IA</li>
                 <li class="chip chip-good">SMS H-3&nbsp;: <b>2</b> tables relouées</li>
                 <li class="chip chip-good">Réservations synchronisées en caisse</li>
                 <li class="chip chip-good">Factures lues sur <b>photo</b></li>
@@ -478,22 +485,14 @@
           </div>
         </div>
 
-        <div class="mt-8 grid sm:grid-cols-3 gap-3">
-          <div class="mod">
-            <p class="mod-name">Standardiste vocal IA</p>
-            <p class="mod-txt">Décroche 24 h/24, répond aux questions allergènes et parking, prend la réservation.</p>
-          </div>
-          <div class="mod">
-            <p class="mod-name">Rappel SMS H-3</p>
-            <p class="mod-txt">Le client confirme ou libère sa table d'un clic&nbsp;; la liste d'attente est prévenue.</p>
-          </div>
-          <div class="mod">
-            <p class="mod-name">Lecture des factures</p>
-            <p class="mod-txt">Une photo du bon de livraison, et la viande ou la marée arrive dans votre suivi de food cost.</p>
-          </div>
+        <div class="mt-8 grid sm:grid-cols-3 gap-3" data-ba-mods>
+          <div class="mod"><p class="mod-name">Standardiste vocal IA</p><p class="mod-txt">Décroche 24 h/24, répond aux questions allergènes et parking, prend la réservation.</p></div>
+          <div class="mod"><p class="mod-name">Rappel SMS H-3</p><p class="mod-txt">Le client confirme ou libère sa table d’un clic&nbsp;; la liste d’attente est prévenue.</p></div>
+          <div class="mod"><p class="mod-name">Lecture des factures</p><p class="mod-txt">Une photo du bon de livraison, et la viande ou la marée arrive dans votre suivi de food cost.</p></div>
         </div>
       </div>
     </section>
+    <!-- /@ba -->
 
     <!-- ============ TARIFS ============ -->
     <section id="tarifs" class="bg-mist text-ink">

@@ -216,6 +216,55 @@
       </div>
     </section>
 
+    <section id="avant-apres" class="bg-night relative overflow-hidden" aria-labelledby="ba-title">
+      <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28">
+        <div class="grid lg:grid-cols-12 gap-6 items-end">
+          <div class="lg:col-span-7">
+            <h2 id="ba-title" class="display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Avant / après&nbsp;: <span data-ba-when>le même samedi soir</span><span class="text-ember">.</span></h2>
+          </div>
+          <p class="lg:col-span-5 text-lg leading-relaxed text-white/70 max-w-[34rem]" data-ba-lead>Faites glisser la poignée. À gauche, la salle gérée au cahier et au téléphone. À droite, la même salle avec le standardiste vocal, le rappel SMS H-3 et la lecture des factures.</p>
+        </div>
+
+        <div id="ba" class="ba mt-8" style="--p:50" data-ba-stage>
+          <div class="ba-layer ba-before">
+            <img src="assets/img/salle-service.webp" alt="Salle de restaurant pendant le service du soir" width="1600" height="1067" loading="lazy" decoding="async">
+            <div class="ba-shade ba-shade--before"></div>
+            <span class="ba-tag">Avant<span class="hidden sm:inline"> · gestion manuelle</span></span>
+            <ul class="ba-chips ba-chips--left" data-ba-before>
+                <li class="chip chip-bad"><b>7</b> appels manqués entre 19h et 21h</li>
+                <li class="chip chip-bad"><b>2</b> tables vides à 20h30</li>
+                <li class="chip chip-bad">Cahier papier, ressaisi en caisse</li>
+                <li class="chip chip-bad"><b>2&nbsp;h</b> de factures le lundi</li>
+            </ul>
+          </div>
+          <div class="ba-after-clip">
+            <div class="ba-layer ba-after">
+              <img src="assets/img/salle-service.webp" alt="" width="1600" height="1067" loading="lazy" decoding="async">
+              <div class="ba-shade ba-shade--after"></div>
+              <span class="ba-tag ba-tag--right">Après<span class="hidden sm:inline"> · BuildWebAI</span></span>
+              <ul class="ba-chips ba-chips--right" data-ba-after>
+                <li class="chip chip-good"><b>7/7</b> appels pris par l’IA</li>
+                <li class="chip chip-good">SMS H-3&nbsp;: <b>2</b> tables relouées</li>
+                <li class="chip chip-good">Réservations synchronisées en caisse</li>
+                <li class="chip chip-good">Factures lues sur <b>photo</b></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ba-handle" id="baHandle" role="slider" tabindex="0" aria-label="Comparer avant et après" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 % après">
+            <span class="ba-knob" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6 3 12l6 6V6zm6 0v12l6-6-6-6z"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-8 grid sm:grid-cols-3 gap-3" data-ba-mods>
+          <div class="mod"><p class="mod-name">Standardiste vocal IA</p><p class="mod-txt">Décroche 24 h/24, répond aux questions allergènes et parking, prend la réservation.</p></div>
+          <div class="mod"><p class="mod-name">Rappel SMS H-3</p><p class="mod-txt">Le client confirme ou libère sa table d’un clic&nbsp;; la liste d’attente est prévenue.</p></div>
+          <div class="mod"><p class="mod-name">Lecture des factures</p><p class="mod-txt">Une photo du bon de livraison, et la viande ou la marée arrive dans votre suivi de food cost.</p></div>
+        </div>
+      </div>
+    </section>
+
     <section id="demo" class="bg-night relative overflow-hidden" aria-labelledby="dm-title">
       <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28">
         <div class="grid lg:grid-cols-12 gap-6 items-end">

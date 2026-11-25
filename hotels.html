@@ -120,6 +120,55 @@
       </div>
     </section>
 
+    <section id="avant-apres" class="bg-night relative overflow-hidden" aria-labelledby="ba-title">
+      <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28">
+        <div class="grid lg:grid-cols-12 gap-6 items-end">
+          <div class="lg:col-span-7">
+            <h2 id="ba-title" class="display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Avant / après&nbsp;: <span data-ba-when>le même week-end complet</span><span class="text-ember">.</span></h2>
+          </div>
+          <p class="lg:col-span-5 text-lg leading-relaxed text-white/70 max-w-[34rem]" data-ba-lead>Faites glisser la poignée. À gauche, un hôtel qui dépend des plateformes et d’une réception débordée. À droite, le même week-end avec la réservation directe et la conciergerie IA.</p>
+        </div>
+
+        <div id="ba" class="ba mt-8" style="--p:50" data-ba-stage>
+          <div class="ba-layer ba-before">
+            <img src="assets/img/ba/hotels.webp" alt="Terrasse d’une chambre d’hôtel face au lac et aux montagnes" width="1600" height="1066" loading="lazy" decoding="async">
+            <div class="ba-shade ba-shade--before"></div>
+            <span class="ba-tag">Avant<span class="hidden sm:inline"> · gestion manuelle</span></span>
+            <ul class="ba-chips ba-chips--left" data-ba-before>
+                <li class="chip chip-bad"><b>62&nbsp;%</b> des nuits vendues par les plateformes</li>
+                <li class="chip chip-bad"><b>18&nbsp;%</b> de commission sur chaque nuit</li>
+                <li class="chip chip-bad">Téléphone de la réception à <b>23&nbsp;h</b></li>
+                <li class="chip chip-bad">Spa et table à moitié vides</li>
+            </ul>
+          </div>
+          <div class="ba-after-clip">
+            <div class="ba-layer ba-after">
+              <img src="assets/img/ba/hotels.webp" alt="" width="1600" height="1066" loading="lazy" decoding="async">
+              <div class="ba-shade ba-shade--after"></div>
+              <span class="ba-tag ba-tag--right">Après<span class="hidden sm:inline"> · BuildWebAI</span></span>
+              <ul class="ba-chips ba-chips--right" data-ba-after>
+                <li class="chip chip-good"><b>41&nbsp;%</b> des nuits réservées en direct</li>
+                <li class="chip chip-good">Conciergerie IA&nbsp;: <b>38</b> questions traitées</li>
+                <li class="chip chip-good">Table et spa proposés à la réservation</li>
+                <li class="chip chip-good">Offre de retour envoyée au départ</li>
+              </ul>
+            </div>
+          </div>
+          <div class="ba-handle" id="baHandle" role="slider" tabindex="0" aria-label="Comparer avant et après" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 % après">
+            <span class="ba-knob" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6 3 12l6 6V6zm6 0v12l6-6-6-6z"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-8 grid sm:grid-cols-3 gap-3" data-ba-mods>
+          <div class="mod"><p class="mod-name">Réservation directe</p><p class="mod-txt">Le prix du séjour calculé en direct, payé chez vous, sans commission.</p></div>
+          <div class="mod"><p class="mod-name">Conciergerie IA</p><p class="mod-txt">Répond de nuit comme de jour&nbsp;: spa, parking, arrivée tardive.</p></div>
+          <div class="mod"><p class="mod-name">Ventes additionnelles</p><p class="mod-txt">La table et le spa se réservent avec la chambre.</p></div>
+        </div>
+      </div>
+    </section>
+
     <section id="demo" class="bg-night relative overflow-hidden" aria-labelledby="dm-title">
       <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28">
         <div class="grid lg:grid-cols-12 gap-6 items-end">

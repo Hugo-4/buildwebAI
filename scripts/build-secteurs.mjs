@@ -2,7 +2,7 @@
 // « Secteurs » et « Démos » de index.html entre les marqueurs <!-- @secteurs --> et <!-- @demos -->.
 // Usage : node scripts/build-secteurs.mjs (appelé par npm run build)
 import { readFileSync, writeFileSync } from 'node:fs';
-import { SECTORS, DEMOS, DEMO_ROWS, DEMO_BASE, MODULES } from './secteurs-data.mjs';
+import { SECTORS, DEMOS, DEMO_ROWS, DEMO_BASE, MODULES, BA } from './secteurs-data.mjs';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const nb = (s) => esc(s).replace(/ ([:;?!»€%])/g, '&nbsp;$1');
@@ -26,6 +26,57 @@ function accordion(keys, label) {
         </a>`;
   }).join('\n');
   return `      <div class="acc${keys.length === 1 ? ' acc--one' : ''}" data-acc role="list" aria-label="${esc(label)}">\n${items}\n      </div>`;
+}
+
+/* ---------- Avant / après (accueil : avec le choix du métier ; pages secteurs : version du métier) ---------- */
+function baSection(slug, picker) {
+  const d = BA[slug];
+  const chips = (list, cls) => list.map((t) => `                <li class="chip ${cls}">${t}</li>`).join('\n');
+  const pick = picker ? `
+        <div class="ba-pick mt-8" role="group" aria-label="Choisir votre métier">
+${SECTORS.map((o) => `          <button type="button" class="ba-pick-b" data-ba="${o.slug}" aria-pressed="${o.slug === slug}">${esc(o.short)}</button>`).join('\n')}
+        </div>
+        <script type="application/json" id="baData">${JSON.stringify(BA).replace(/</g, '\\u003c')}</script>` : '';
+  return `    <section id="avant-apres" class="bg-night relative overflow-hidden" aria-labelledby="ba-title">
+      <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28${picker ? ' min-h-[100svh] flex flex-col justify-center' : ''}">
+        <div class="grid lg:grid-cols-12 gap-6 items-end">
+          <div class="lg:col-span-7">
+            <h2 id="ba-title" class="display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Avant / après&nbsp;: <span data-ba-when>${esc(d.when)}</span><span class="text-ember">.</span></h2>
+          </div>
+          <p class="lg:col-span-5 text-lg leading-relaxed text-white/70 max-w-[34rem]" data-ba-lead>${nb(d.lead)}</p>
+        </div>${pick}
+
+        <div id="ba" class="ba mt-8" style="--p:50" data-ba-stage>
+          <div class="ba-layer ba-before">
+            <img src="${d.img[0]}" alt="${esc(d.alt)}" width="${d.img[1]}" height="${d.img[2]}" loading="lazy" decoding="async">
+            <div class="ba-shade ba-shade--before"></div>
+            <span class="ba-tag">Avant<span class="hidden sm:inline"> · gestion manuelle</span></span>
+            <ul class="ba-chips ba-chips--left" data-ba-before>
+${chips(d.before, 'chip-bad')}
+            </ul>
+          </div>
+          <div class="ba-after-clip">
+            <div class="ba-layer ba-after">
+              <img src="${d.img[0]}" alt="" width="${d.img[1]}" height="${d.img[2]}" loading="lazy" decoding="async">
+              <div class="ba-shade ba-shade--after"></div>
+              <span class="ba-tag ba-tag--right">Après<span class="hidden sm:inline"> · BuildWebAI</span></span>
+              <ul class="ba-chips ba-chips--right" data-ba-after>
+${chips(d.after, 'chip-good')}
+              </ul>
+            </div>
+          </div>
+          <div class="ba-handle" id="baHandle" role="slider" tabindex="0" aria-label="Comparer avant et après" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 % après">
+            <span class="ba-knob" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6 3 12l6 6V6zm6 0v12l6-6-6-6z"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-8 grid sm:grid-cols-3 gap-3" data-ba-mods>
+${d.mods.map(([n, t]) => `          <div class="mod"><p class="mod-name">${esc(n)}</p><p class="mod-txt">${nb(t)}</p></div>`).join('\n')}
+        </div>
+      </div>
+    </section>`;
 }
 
 /* ---------- Sections de l'accueil ---------- */
@@ -210,6 +261,8 @@ ${pains}
       </div>
     </section>
 
+${baSection(s.slug, false)}
+
     <section id="demo" class="bg-night relative overflow-hidden" aria-labelledby="dm-title">
       <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28">
         <div class="grid lg:grid-cols-12 gap-6 items-end">
@@ -268,6 +321,7 @@ ${footer()}
 for (const s of SECTORS) writeFileSync(`${s.slug}.html`, page(s));
 
 let idx = readFileSync('index.html', 'utf8');
+idx = idx.replace(/ {4}<!-- @ba[\s\S]*?<!-- \/@ba -->/, `    <!-- @ba (généré par scripts/build-secteurs.mjs) -->\n${baSection('restaurants', true)}\n    <!-- /@ba -->`);
 idx = idx.replace(/ {4}<!-- @secteurs[\s\S]*?<!-- \/@secteurs -->/, homeSecteurs()).replace(/ {4}<!-- @demos[\s\S]*?<!-- \/@demos -->/, homeDemos());
 writeFileSync('index.html', idx);
 console.log(`Pages secteurs : ${SECTORS.map((s) => s.slug).join(', ')} · accueil mis à jour`);

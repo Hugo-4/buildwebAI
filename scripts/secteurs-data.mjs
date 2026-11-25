@@ -80,7 +80,7 @@ export const SECTORS = [
     ],
   },
   {
-    slug: 'commerces', short: 'Commerces de bouche', ex: 'Épicerie, boulangerie, caviste', activite: '',
+    slug: 'commerces', short: 'Commerces de bouche', ex: 'Épicerie, boulangerie, caviste', activite: 'Commerce de bouche',
     title: 'Site et Click & Collect pour épiceries, boulangeries et cavistes',
     desc: 'Vitrine en ligne, Click & Collect avec créneaux, paniers et abonnements pour épiceries, boulangeries et cavistes.',
     h1: ['Votre comptoir', 'ouvert en ligne'],
@@ -100,7 +100,7 @@ export const SECTORS = [
     ],
   },
   {
-    slug: 'artisans', short: 'Artisans du bâtiment', ex: 'Plombier, électricien, chauffagiste', activite: '',
+    slug: 'artisans', short: 'Artisans du bâtiment', ex: 'Plombier, électricien, chauffagiste', activite: 'Artisan du bâtiment',
     title: 'Site, devis et rendez-vous en ligne pour artisans',
     desc: 'Estimateur de prix, prise de rendez-vous, devis signé en ligne et contrats d’entretien pour plombiers, électriciens et chauffagistes.',
     h1: ['Moins de téléphone', 'plus de chantiers'],
@@ -120,7 +120,7 @@ export const SECTORS = [
     ],
   },
   {
-    slug: 'garages-ateliers', short: 'Garages & ateliers', ex: 'Garage, réparation de vélos', activite: '',
+    slug: 'garages-ateliers', short: 'Garages & ateliers', ex: 'Garage, réparation de vélos', activite: 'Garage ou atelier',
     title: 'Site, rendez-vous et devis en ligne pour garages et ateliers',
     desc: 'Pré-diagnostic en ligne, rendez-vous par type d’intervention, devis validé par SMS et rappels de contrôle technique pour garages et ateliers vélo.',
     h1: ['Un atelier plein', 'un téléphone calme'],
@@ -140,7 +140,7 @@ export const SECTORS = [
     ],
   },
   {
-    slug: 'clubs', short: 'Clubs & associations', ex: 'Rugby, handball, club amateur', activite: '',
+    slug: 'clubs', short: 'Clubs & associations', ex: 'Rugby, handball, club amateur', activite: 'Club ou association',
     title: 'Site, billetterie et licences en ligne pour clubs sportifs',
     desc: 'Billetterie en ligne, licences payables en plusieurs fois, boutique, partenaires et dons pour clubs sportifs et associations.',
     h1: ['Votre club', 'financé en ligne'],
@@ -160,3 +160,56 @@ export const SECTORS = [
     ],
   },
 ];
+
+// Avant / après par métier : même photo, à gauche la gestion manuelle, à droite avec BuildWebAI.
+// Les chiffres sont des exemples réalistes, présentés comme tels.
+export const BA = {
+  restaurants: {
+    img: ['assets/img/salle-service.webp', 1600, 1067], alt: 'Salle de restaurant pendant le service du soir',
+    when: 'le même samedi soir',
+    lead: 'Faites glisser la poignée. À gauche, la salle gérée au cahier et au téléphone. À droite, la même salle avec le standardiste vocal, le rappel SMS H-3 et la lecture des factures.',
+    before: ['<b>7</b> appels manqués entre 19h et 21h', '<b>2</b> tables vides à 20h30', 'Cahier papier, ressaisi en caisse', '<b>2&nbsp;h</b> de factures le lundi'],
+    after: ['<b>7/7</b> appels pris par l’IA', 'SMS H-3&nbsp;: <b>2</b> tables relouées', 'Réservations synchronisées en caisse', 'Factures lues sur <b>photo</b>'],
+    mods: [['Standardiste vocal IA', 'Décroche 24 h/24, répond aux questions allergènes et parking, prend la réservation.'], ['Rappel SMS H-3', 'Le client confirme ou libère sa table d’un clic ; la liste d’attente est prévenue.'], ['Lecture des factures', 'Une photo du bon de livraison, et la viande ou la marée arrive dans votre suivi de food cost.']],
+  },
+  hotels: {
+    img: ['assets/img/ba/hotels.webp', 1600, 1066], alt: 'Terrasse d’une chambre d’hôtel face au lac et aux montagnes',
+    when: 'le même week-end complet',
+    lead: 'Faites glisser la poignée. À gauche, un hôtel qui dépend des plateformes et d’une réception débordée. À droite, le même week-end avec la réservation directe et la conciergerie IA.',
+    before: ['<b>62&nbsp;%</b> des nuits vendues par les plateformes', '<b>18&nbsp;%</b> de commission sur chaque nuit', 'Téléphone de la réception à <b>23&nbsp;h</b>', 'Spa et table à moitié vides'],
+    after: ['<b>41&nbsp;%</b> des nuits réservées en direct', 'Conciergerie IA&nbsp;: <b>38</b> questions traitées', 'Table et spa proposés à la réservation', 'Offre de retour envoyée au départ'],
+    mods: [['Réservation directe', 'Le prix du séjour calculé en direct, payé chez vous, sans commission.'], ['Conciergerie IA', 'Répond de nuit comme de jour : spa, parking, arrivée tardive.'], ['Ventes additionnelles', 'La table et le spa se réservent avec la chambre.']],
+  },
+  commerces: {
+    img: ['assets/img/ba/commerces.webp', 1600, 1066], alt: 'Étal de légumes frais dans une épicerie de quartier',
+    when: 'le même samedi matin',
+    lead: 'Faites glisser la poignée. À gauche, la file du samedi et les invendus du soir. À droite, le même samedi avec le Click & Collect, les paniers et la fidélité en ligne.',
+    before: ['File de <b>12</b> personnes à 10&nbsp;h', 'Des clients repartis sans attendre', '<b>9&nbsp;kg</b> d’invendus le soir', 'Carte de fidélité en carton oubliée'],
+    after: ['<b>23</b> commandes prêtes au comptoir coupe-file', 'Un créneau toutes les <b>15&nbsp;min</b>', 'Invendus vendus en paniers anti-gaspi', 'Fidélité en ligne&nbsp;: <b>140</b> clients inscrits'],
+    mods: [['Click & Collect par créneaux', 'La vitrine du jour en ligne, le retrait au comptoir coupe-file.'], ['Paniers et anti-gaspi', 'Paniers composés le matin, invendus proposés le soir.'], ['Fidélité en ligne', 'La carte vit dans le compte du client, les abonnements reviennent chaque semaine.']],
+  },
+  artisans: {
+    img: ['assets/img/ba/artisans.webp', 1600, 1066], alt: 'Un plombier répare les tuyaux sous un évier',
+    when: 'la même semaine de chantier',
+    lead: 'Faites glisser la poignée. À gauche, le téléphone qui sonne sur le chantier et les devis oubliés. À droite, la même semaine avec l’estimateur, le pré-diagnostic et les relances.',
+    before: ['<b>31</b> appels pris sur le chantier', '<b>4</b> déplacements sans la bonne pièce', '<b>6</b> devis jamais relancés', 'Planning tenu sur un carnet'],
+    after: ['Estimations en ligne&nbsp;: <b>18</b> demandes triées', 'Photo avant visite&nbsp;: la bonne pièce', 'Relance à J+3&nbsp;: <b>3</b> devis signés', 'Rendez-vous confirmés par SMS'],
+    mods: [['Estimateur de prix', 'Le client décrit la panne et voit une fourchette de prix avant d’appeler.'], ['Devis signé en ligne', 'Signature en un clic et relance automatique trois jours après.'], ['Contrats d’entretien', 'Le client revient chaque année, le rappel part tout seul.']],
+  },
+  'garages-ateliers': {
+    img: ['assets/img/ba/garages-ateliers.webp', 1264, 842], alt: 'Un mécanicien travaille sous le capot d’une voiture dans l’atelier',
+    when: 'la même semaine d’atelier',
+    lead: 'Faites glisser la poignée. À gauche, les appels « c’est prêt ? » et les trous dans le planning. À droite, la même semaine avec le pré-diagnostic, les rappels et le devis en ligne.',
+    before: ['<b>40</b> appels « c’est prêt&nbsp;? »', '<b>3</b> rendez-vous non honorés', 'Devis en attente, sans relance', 'Aucun rappel avant le contrôle technique'],
+    after: ['Suivi par SMS&nbsp;: appels divisés par <b>3</b>', 'Rappel la veille&nbsp;: <b>0</b> trou dans le planning', 'Devis validés en ligne, relance à J+3', 'Rappels CT&nbsp;: <b>12</b> rendez-vous pris'],
+    mods: [['Pré-diagnostic en ligne', 'Véhicule, symptôme et photo avant le premier appel.'], ['Rappel SMS de rendez-vous', 'Le client confirme ou libère son créneau d’un mot.'], ['Relances et rappels CT', 'Devis relancés à J+3, contrôle technique et révision rappelés un mois avant.']],
+  },
+  clubs: {
+    img: ['assets/img/ba/clubs.webp', 1350, 900], alt: 'Des joueurs de rugby couverts de boue se disputent le ballon',
+    when: 'la même rentrée',
+    lead: 'Faites glisser la poignée. À gauche, les dossiers papier et la caisse du jour de match. À droite, la même rentrée avec les licences, la billetterie et les partenaires en ligne.',
+    before: ['<b>180</b> dossiers papier et chèques', 'File à la caisse le jour du match', '<b>2</b> partenaires seulement', 'Bénévoles relancés le soir'],
+    after: ['Licences en ligne, payées en <b>3</b> fois', 'Billets avec QR code à l’entrée', 'Packs partenaires&nbsp;: <b>6</b> sponsors', 'L’assistant répond aux parents'],
+    mods: [['Licences en ligne', 'Paiement en une ou trois fois, Pass’Sport et remise famille appliqués.'], ['Billetterie', 'Billets avec QR code, repas d’avant-match et abonnement saison.'], ['Partenaires et dons', 'Packs avec le coût après réduction d’impôt, dons défiscalisés.']],
+  },
+};

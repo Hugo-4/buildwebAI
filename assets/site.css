@@ -431,3 +431,16 @@ html:not(.js) #preloader { display: none; }
 .sp-offer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; padding: 22px 24px; border-radius: 14px; background: rgb(11 24 48 / .06); }
 .sp-offer p { max-width: 48rem; font-size: 16px; line-height: 1.55; }
 .sp-offer .btn-dark { align-self: center; }
+
+/* ============ Avant / après : choix du métier ============ */
+.ba-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.ba-pick-b { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgb(255 255 255 / .22); background: transparent; color: rgb(255 255 255 / .82); font-size: 15px; font-weight: 500; cursor: pointer; transition: transform .16s var(--ease-out); }
+.ba-pick-b:hover { color: #fff; border-color: rgb(255 255 255 / .45); }
+.ba-pick-b:active { transform: scale(.96); }
+.ba-pick-b[aria-pressed="true"] { background: #fff; border-color: #fff; color: var(--night); }
+.ba-pick-b:focus-visible { outline: 2px solid var(--steel); outline-offset: 2px; }
+@media (max-width: 640px) {
+  .ba-pick { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
+  .ba-pick::-webkit-scrollbar { display: none; }
+  .ba-pick-b { flex: 0 0 auto; }
+}

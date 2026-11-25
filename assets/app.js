@@ -592,6 +592,49 @@
     }
   }
 
+  /* ---------- Avant / après : le contenu suit le métier choisi (accueil) ---------- */
+  const baJson = $('#baData');
+  if (baJson) {
+    const BA = JSON.parse(baJson.textContent);
+    const picks = $$('[data-ba]');
+    const parts = () => [$('[data-ba-when]'), $('[data-ba-lead]'), $('[data-ba-before]'), $('[data-ba-after]'), $('[data-ba-mods]'), ...$$('#ba .ba-layer img')];
+    const fill = (d) => {
+      $('[data-ba-when]').textContent = d.when;
+      $('[data-ba-lead]').textContent = d.lead;
+      $$('#ba .ba-layer img').forEach((img, i) => {
+        img.src = d.img[0]; img.width = d.img[1]; img.height = d.img[2];
+        img.alt = i === 0 ? d.alt : '';
+      });
+      $('[data-ba-before]').innerHTML = d.before.map((t) => `<li class="chip chip-bad">${t}</li>`).join('');
+      $('[data-ba-after]').innerHTML = d.after.map((t) => `<li class="chip chip-good">${t}</li>`).join('');
+      const mods = $('[data-ba-mods]');
+      mods.replaceChildren(...d.mods.map(([n, t]) => {
+        const div = document.createElement('div'); div.className = 'mod';
+        const a = document.createElement('p'); a.className = 'mod-name'; a.textContent = n;
+        const b = document.createElement('p'); b.className = 'mod-txt'; b.textContent = t;
+        div.append(a, b); return div;
+      }));
+    };
+    // Précharge les photos des autres métiers au premier survol du sélecteur
+    let warmed = false;
+    const warm = () => { if (warmed) return; warmed = true; Object.values(BA).forEach((d) => { const i = new Image(); i.src = d.img[0]; }); };
+    picks.forEach((btn) => {
+      btn.addEventListener('pointerenter', warm, { once: true });
+      btn.addEventListener('focus', warm, { once: true });
+      btn.addEventListener('click', () => {
+        if (btn.getAttribute('aria-pressed') === 'true') return;
+        picks.forEach((x) => x.setAttribute('aria-pressed', String(x === btn)));
+        const d = BA[btn.dataset.ba];
+        if (hasGsap && !reduce) {
+          gsap.to(parts(), { opacity: 0, duration: 0.18, ease: 'power1.out', overwrite: true, onComplete: () => {
+            fill(d);
+            gsap.fromTo(parts(), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.45, ease: 'expo.out', stagger: 0.03 });
+          } });
+        } else fill(d);
+      });
+    });
+  }
+
   /* ---------- Onglets tarifs ---------- */
   const tabs = $$('.tab');
   const ind = $('.tab-ind');

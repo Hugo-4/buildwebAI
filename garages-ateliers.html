@@ -41,7 +41,7 @@
         </ul>
       </nav>
       <div class="flex items-center gap-2">
-        <a href="devis.html?offre=sur_mesure" class="btn btn-ghost hidden sm:inline-flex">Demander un devis</a>
+        <a href="devis.html?offre=sur_mesure&amp;activite=Garage%20ou%20atelier" class="btn btn-ghost hidden sm:inline-flex">Demander un devis</a>
         <button id="menuBtn" class="menu-btn lg:hidden" aria-expanded="false" aria-controls="mobileMenu" aria-label="Ouvrir le menu">
           <span></span><span></span>
         </button>
@@ -76,7 +76,7 @@
           <p class="hero-in mt-6 max-w-[36rem] text-[17px] lg:text-lg leading-relaxed text-white/75">Le client choisit son véhicule, décrit le symptôme et réserve le bon créneau. Le devis se valide en ligne, la voiture ou le vélo ne dort pas à l’atelier.</p>
           <div class="hero-in mt-9 flex flex-col sm:flex-row gap-3">
             <a href="#demo" class="btn btn-primary">Voir les démos</a>
-            <a href="devis.html?offre=sur_mesure" class="btn btn-outline">Demander un devis</a>
+            <a href="devis.html?offre=sur_mesure&amp;activite=Garage%20ou%20atelier" class="btn btn-outline">Demander un devis</a>
           </div>
           <p class="hero-in mt-8 text-[15px] text-white/60">Garage, réparation de vélos</p>
         </div>
@@ -117,6 +117,55 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <section id="avant-apres" class="bg-night relative overflow-hidden" aria-labelledby="ba-title">
+      <div class="mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28">
+        <div class="grid lg:grid-cols-12 gap-6 items-end">
+          <div class="lg:col-span-7">
+            <h2 id="ba-title" class="display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">Avant / après&nbsp;: <span data-ba-when>la même semaine d’atelier</span><span class="text-ember">.</span></h2>
+          </div>
+          <p class="lg:col-span-5 text-lg leading-relaxed text-white/70 max-w-[34rem]" data-ba-lead>Faites glisser la poignée. À gauche, les appels « c’est prêt&nbsp;?&nbsp;» et les trous dans le planning. À droite, la même semaine avec le pré-diagnostic, les rappels et le devis en ligne.</p>
+        </div>
+
+        <div id="ba" class="ba mt-8" style="--p:50" data-ba-stage>
+          <div class="ba-layer ba-before">
+            <img src="assets/img/ba/garages-ateliers.webp" alt="Un mécanicien travaille sous le capot d’une voiture dans l’atelier" width="1264" height="842" loading="lazy" decoding="async">
+            <div class="ba-shade ba-shade--before"></div>
+            <span class="ba-tag">Avant<span class="hidden sm:inline"> · gestion manuelle</span></span>
+            <ul class="ba-chips ba-chips--left" data-ba-before>
+                <li class="chip chip-bad"><b>40</b> appels « c’est prêt&nbsp;? »</li>
+                <li class="chip chip-bad"><b>3</b> rendez-vous non honorés</li>
+                <li class="chip chip-bad">Devis en attente, sans relance</li>
+                <li class="chip chip-bad">Aucun rappel avant le contrôle technique</li>
+            </ul>
+          </div>
+          <div class="ba-after-clip">
+            <div class="ba-layer ba-after">
+              <img src="assets/img/ba/garages-ateliers.webp" alt="" width="1264" height="842" loading="lazy" decoding="async">
+              <div class="ba-shade ba-shade--after"></div>
+              <span class="ba-tag ba-tag--right">Après<span class="hidden sm:inline"> · BuildWebAI</span></span>
+              <ul class="ba-chips ba-chips--right" data-ba-after>
+                <li class="chip chip-good">Suivi par SMS&nbsp;: appels divisés par <b>3</b></li>
+                <li class="chip chip-good">Rappel la veille&nbsp;: <b>0</b> trou dans le planning</li>
+                <li class="chip chip-good">Devis validés en ligne, relance à J+3</li>
+                <li class="chip chip-good">Rappels CT&nbsp;: <b>12</b> rendez-vous pris</li>
+              </ul>
+            </div>
+          </div>
+          <div class="ba-handle" id="baHandle" role="slider" tabindex="0" aria-label="Comparer avant et après" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 % après">
+            <span class="ba-knob" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6 3 12l6 6V6zm6 0v12l6-6-6-6z"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-8 grid sm:grid-cols-3 gap-3" data-ba-mods>
+          <div class="mod"><p class="mod-name">Pré-diagnostic en ligne</p><p class="mod-txt">Véhicule, symptôme et photo avant le premier appel.</p></div>
+          <div class="mod"><p class="mod-name">Rappel SMS de rendez-vous</p><p class="mod-txt">Le client confirme ou libère son créneau d’un mot.</p></div>
+          <div class="mod"><p class="mod-name">Relances et rappels CT</p><p class="mod-txt">Devis relancés à J+3, contrôle technique et révision rappelés un mois avant.</p></div>
+        </div>
       </div>
     </section>
 
@@ -199,7 +248,7 @@
           <p class="mt-6 text-lg leading-relaxed text-white/70 max-w-[34rem]">Trois minutes pour décrire votre activité, ou une vidéo de 90&nbsp;secondes qui compare votre site actuel à ce qu'il pourrait être.</p>
         </div>
         <div class="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3">
-          <a href="devis.html?offre=sur_mesure" class="btn btn-primary">Demander un devis</a>
+          <a href="devis.html?offre=sur_mesure&amp;activite=Garage%20ou%20atelier" class="btn btn-primary">Demander un devis</a>
           <a href="index.html#audit" class="btn btn-outline">Recevoir l'audit vidéo gratuit</a>
         </div>
       </div>
