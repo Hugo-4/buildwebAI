@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Site vitrine BuildWebAI",
   "scripts": {
-    "build": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --minify",
+    "secteurs": "node scripts/build-secteurs.mjs",
+    "build": "node scripts/build-secteurs.mjs && tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --minify",
     "dev": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --watch",
     "package": "npm run build && node scripts/package.mjs"
   },

@@ -107,6 +107,34 @@
         ],
         "createdAt": "2026-11-24T15:23:17.262Z",
         "reason": "faux positif statique : sections pleine largeur avec enfant .wrap (max(20px,4vw)) ; détecteur au rendu propre en 390/1440"
+      },
+      {
+        "rule": "radial-spotlight-glow",
+        "value": "*",
+        "files": [
+          "artisans.html",
+          "clubs.html",
+          "commerces.html",
+          "garages-ateliers.html",
+          "hotels.html",
+          "restaurants.html"
+        ],
+        "createdAt": "2026-11-25T21:41:00.361Z",
+        "reason": "charte BuildWebAI imposée par le brief : halo rouge #E62E2D sur fond #081426, repris tel quel de l'accueil"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "artisans.html",
+          "clubs.html",
+          "commerces.html",
+          "garages-ateliers.html",
+          "hotels.html",
+          "restaurants.html"
+        ],
+        "createdAt": "2026-11-25T21:41:01.006Z",
+        "reason": "charte BuildWebAI imposée par le brief : micro-grille sur fond #081426, reprise de l'accueil"
       }
     ]
   }

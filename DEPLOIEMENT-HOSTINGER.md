@@ -15,6 +15,12 @@ Résultat : `dist/buildwebai-hostinger.zip` (le contenu exact de `public_html`) 
 public_html/
 ├── .htaccess               HTTPS forcé, www → sans www, /devis → devis.html, cache, compression, sécurité
 ├── index.html              accueil
+├── restaurants.html        pages secteurs (générées, voir section 6) : restaurants, hôtels,
+├── hotels.html             commerces de bouche, artisans, garages et ateliers, clubs
+├── commerces.html
+├── artisans.html
+├── garages-ateliers.html
+├── clubs.html
 ├── devis.html              questionnaire de devis
 ├── mentions-legales.html
 ├── confidentialite.html
@@ -27,7 +33,7 @@ public_html/
 ├── assets/
 │   ├── site.css  tailwind.css  devis.css  legal.css
 │   ├── app.js  devis.js
-│   └── img/                photos de la salle (avant / après)
+│   └── img/                photos de la salle (avant / après), demos/ (accordéon), secteurs/ (pages secteurs)
 └── public/
     ├── editorial/          visuels des onglets Fast-Food, Épicerie, Bar
     ├── frames-bistrot/     frame_0001.webp → frame_0120.webp (1080×1920)
@@ -60,6 +66,7 @@ public_html/
 ## 6. Mettre à jour le site plus tard
 
 1. Modifier les fichiers, puis `npm run package`.
+   Les 6 pages secteurs et les sections « Secteurs » et « Démos » de l'accueil sont générées par `scripts/build-secteurs.mjs` : pour changer un texte, un problème, un module ou une démo, modifier `scripts/secteurs-data.mjs` (jamais les fichiers HTML générés). L'animation Click & Collect de la page Restaurants vit dans `src/partials/vitrine.html`.
 2. Réimporter le zip et l'extraire dans `public_html` en écrasant les fichiers.
 
 Les CSS et JS reçoivent un numéro de version à chaque paquet (`?v=…`) : les visiteurs voient la nouvelle version tout de suite malgré le cache d'un an.

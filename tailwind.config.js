@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './devis.html', './mentions-legales.html', './confidentialite.html', './cgv.html', './404.html', './assets/app.js', './assets/devis.js'],
+  content: ['./index.html', './devis.html', './mentions-legales.html', './confidentialite.html', './cgv.html', './404.html', './restaurants.html', './hotels.html', './commerces.html', './artisans.html', './garages-ateliers.html', './clubs.html', './scripts/build-secteurs.mjs', './assets/app.js', './assets/devis.js'],
   theme: {
     extend: {
       colors: {

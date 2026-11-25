@@ -1,0 +1,98 @@
+    <!-- ============ MODULE 2 : PRÉSENCE DIGITALE & CLICK & COLLECT ============ -->
+    <section id="vitrine" class="cc relative bg-night" aria-labelledby="cc-title">
+      <div class="cc-stage" id="ccStage">
+        <div class="grid-bg grid-bg--soft" aria-hidden="true"></div>
+
+        <div class="cc-grid mx-auto max-w-wrap px-4 sm:px-6 lg:px-8">
+          <div class="cc-copy">
+            <h2 id="cc-title" class="display cc-title">Présence digitale <span class="whitespace-nowrap">&amp; Click &amp; Collect</span><span class="text-ember">.</span></h2>
+            <p class="cc-lead">Un site qui s'affiche en moins de 1,2&nbsp;seconde, une carte qui se commande en un clic et un panier qui grossit avec les bonnes suggestions. Le paiement arrive chez vous, sans commission.</p>
+            <ul class="cc-cards cc-cards--stage" aria-label="Résultats mesurés">
+              <li class="metric">
+                <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <span class="metric-val">&lt;&nbsp;1,2&nbsp;s</span>
+                <span class="metric-txt">Temps de chargement sur mobile, contre 4 à 6&nbsp;s pour un site classique.</span>
+              </li>
+              <li class="metric">
+                <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 18 18 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7.5" cy="7.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="16.5" cy="16.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>
+                <span class="metric-val metric-val--ember">0&nbsp;%</span>
+                <span class="metric-txt">De commission sur le Click &amp; Collect&nbsp;: Stripe ou Apple Pay, encaissé chez vous.</span>
+              </li>
+              <li class="metric" data-metric="upsell">
+                <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 5h2.5l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 8H6.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="20" r="1.4" fill="currentColor"/><circle cx="17.5" cy="20" r="1.4" fill="currentColor"/></svg></span>
+                <span class="metric-val">+20&nbsp;%</span>
+                <span class="metric-txt">De panier moyen grâce à l'upsell automatique&nbsp;: accords, boissons, menus.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="cc-phone-col">
+            <div class="phone" id="phone">
+              <div class="phone-screen" id="phoneScreen" data-theme-site="bistrot">
+                <div class="ph-media" id="phMedia">
+                  <canvas id="phoneCanvas" aria-hidden="true"></canvas>
+                  <img class="ph-media-still" src="public/frames-bistrot/540/frame_0120.webp" alt="" width="540" height="960" loading="lazy" decoding="async">
+                  <div class="ph-status" aria-hidden="true">
+                    <span>20:34</span>
+                    <span class="ph-status-ico"><i></i><i></i><i></i><b></b></span>
+                  </div>
+                  <div class="ph-brand">
+                    <p class="ph-name" id="phName">Maison Comptoir</p>
+                    <p class="ph-meta" id="phMeta">Bistrot · Retrait en 15 min</p>
+                  </div>
+                </div>
+                <div class="ph-body" id="phBody">
+                  <div class="ph-tabs" role="tablist" aria-label="Type d'établissement">
+                    <span class="ph-tab-ind" aria-hidden="true"></span>
+                    <button class="ph-tab" role="tab" aria-selected="true" data-theme="bistrot">Bistrot</button>
+                    <button class="ph-tab" role="tab" aria-selected="false" tabindex="-1" data-theme="fastfood">Fast-Food</button>
+                    <button class="ph-tab" role="tab" aria-selected="false" tabindex="-1" data-theme="bar">Bar</button>
+                    <button class="ph-tab" role="tab" aria-selected="false" tabindex="-1" data-theme="epicerie">Épicerie</button>
+                  </div>
+                  <ul class="ph-menu" id="phMenu" aria-label="Carte">
+                    <li class="ph-item"><div class="ph-item-txt"><p class="ph-item-name">Saint-Jacques snackées, riz noir</p><p class="ph-item-desc">Beurre noisette, jus corsé</p></div><p class="ph-price">26,00&nbsp;€</p><button class="ph-add" type="button" aria-label="Ajouter Saint-Jacques snackées au panier">+</button></li>
+                    <li class="ph-item"><div class="ph-item-txt"><p class="ph-item-name">Tartare de bœuf au couteau</p><p class="ph-item-desc">Frites maison, salade de saison</p></div><p class="ph-price">19,00&nbsp;€</p><button class="ph-add" type="button" aria-label="Ajouter Tartare de bœuf au panier">+</button></li>
+                    <li class="ph-item"><div class="ph-item-txt"><p class="ph-item-name">Mousse au chocolat</p><p class="ph-item-desc">Fleur de sel, éclats de noisette</p></div><p class="ph-price">8,50&nbsp;€</p><button class="ph-add" type="button" aria-label="Ajouter Mousse au chocolat au panier">+</button></li>
+                  </ul>
+                  <div class="ph-upsell" id="phUpsell" aria-hidden="true">
+                    <p class="ph-upsell-k">Suggestion automatique</p>
+                    <p class="ph-upsell-t" id="phUpsellText">Un verre de Chablis avec vos Saint-Jacques&nbsp;?</p>
+                    <div class="ph-upsell-row">
+                      <button class="ph-btn ph-btn--ghost" type="button" id="phUpsellNo" tabindex="-1">Non merci</button>
+                      <button class="ph-btn" type="button" id="phUpsellYes" tabindex="-1">Ajouter · <span id="phUpsellPrice">7,00&nbsp;€</span></button>
+                    </div>
+                  </div>
+                  <div class="ph-cart" id="phCart">
+                    <span class="ph-count" id="phCount" aria-hidden="true">0</span>
+                    <p class="ph-cart-txt"><span id="phCartLabel">Panier vide</span><b id="phTotal">0,00&nbsp;€</b></p>
+                    <button class="ph-btn ph-order" type="button" id="phOrder" disabled>Commander</button>
+                  </div>
+                  <p class="sr-only" role="status" id="phLive"></p>
+                  <div class="ph-done" id="phDone" aria-hidden="true">
+                    <span class="ph-done-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M5 12.5 10 17 19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <p class="ph-done-t">Commande confirmée</p>
+                    <p class="ph-done-s" id="phDoneText">Payée par Apple Pay · retrait à 20h50</p>
+                    <button class="ph-btn ph-btn--ghost" type="button" id="phReset" tabindex="-1">Nouvelle commande</button>
+                  </div>
+                </div>
+              </div>
+              <span class="phone-island" aria-hidden="true"></span>
+            </div>
+            <p class="cc-hint" id="ccHint" aria-hidden="true">À vous&nbsp;: choisissez un établissement, ajoutez un plat.</p>
+          </div>
+        </div>
+
+        <!-- Accroche + séquence plein cadre (phase 1), qui vient se loger dans l'iPhone (phase 2) -->
+        <div class="cc-hook" aria-hidden="true">
+          <p class="display">Donnez faim<span class="text-ember">.</span></p>
+          <p class="display">Encaissez en direct<span class="text-ember">.</span></p>
+        </div>
+        <div class="seq" id="seq" aria-hidden="true">
+          <div class="seq-clip" id="seqClip"><div class="seq-inner" id="seqInner"><canvas id="seqCanvas"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- Cartes métriques en flux normal sous la scène, sur mobile -->
+      <div class="cc-cards-mobile mx-auto max-w-wrap px-4 sm:px-6 pb-20" aria-hidden="true"></div>
+    </section>
+

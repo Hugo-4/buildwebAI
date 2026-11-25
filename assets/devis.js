@@ -249,5 +249,11 @@
     const input = $(`input[name="type_offre"][value="${pre}"]`);
     if (input) input.checked = true;
   }
+  // Pré-sélection de l'activité depuis les pages secteurs : devis.html?activite=Hôtel
+  const act = new URLSearchParams(location.search).get('activite');
+  if (act) {
+    const input = [...document.querySelectorAll('input[name="activite"]')].find((i) => i.value === act);
+    if (input) input.checked = true;
+  }
   paintProgress();
 })();

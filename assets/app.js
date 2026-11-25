@@ -625,7 +625,7 @@
       if (e.key === 'End') { selectTab(n - 1, true); e.preventDefault(); }
     });
   });
-  mq.addEventListener?.('change', () => placeInd(tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true')));
+  if (ind) mq.addEventListener?.('change', () => placeInd(tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true')));
   if (ind && tabs.length) {
     // état initial sans animation : l'onglet sélectionné dans le HTML (Pack Performance)
     ind.style.transition = 'none';
@@ -659,6 +659,17 @@
     const body = `Établissement : ${d.get('etablissement')}\nType : ${d.get('type')}\nSite / Instagram : ${d.get('lien')}\nEmail : ${d.get('email')}`;
     window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Audit Flash Vidéo · ' + d.get('etablissement'))}&body=${encodeURIComponent(body)}`;
     $('#formNote').textContent = 'Votre messagerie s’ouvre avec la demande pré-remplie : il ne reste qu’à l’envoyer.';
+  });
+
+  /* ---------- Démos : accordéon (le panneau survolé ou focalisé s'élargit et s'éclaire) ---------- */
+  $$('[data-acc]').forEach((acc) => {
+    const items = $$('.acc-item', acc);
+    const activate = (it) => items.forEach((x) => x.classList.toggle('is-active', x === it));
+    items.forEach((it) => {
+      it.setAttribute('role', 'listitem');
+      it.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') activate(it); });
+      it.addEventListener('focus', () => activate(it));
+    });
   });
 
   window.addEventListener('load', () => { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
