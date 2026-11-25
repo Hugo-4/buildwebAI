@@ -252,7 +252,14 @@
   const bar = $('.ritual-progress span', hero);
 
   // The hero gets the network first; everything else waits for it (or 5 s at most).
-  blend.load().then(() => { blend.draw(0, true); dispense.load().then(() => toppings.load()); });
+  // HD bowl photo for the end of the hero (aligned on the last toppings frame), attached once loaded
+  const heroStill = document.createElement('img');
+  heroStill.className = 'hero-still'; heroStill.alt = ''; heroStill.decoding = 'async';
+  heroStill.onload = () => $('.ritual-stage', hero).appendChild(heroStill);
+  blend.load().then(() => {
+    blend.draw(0, true);
+    dispense.load().then(() => toppings.load()).then(() => { heroStill.src = './assets/img/carta/acai-bowl.jpg'; });
+  });
   const heroReady = Promise.race([
     Promise.all([blend.whenAll(8000), dispense.whenAll(8000), toppings.whenAll(8000)]),
     new Promise(r => setTimeout(r, 5000)),
@@ -275,6 +282,8 @@
     if (next !== phase) { phase = next; hero.dataset.phase = phase; }
     steps.forEach((st, i) => st.classList.toggle('is-active', i === phase - 1));
     bar.style.transform = `scaleX(${p})`;
+    // last frames of the ritual: the bowl settles into its HD studio photo
+    hero.classList.toggle('is-final', p > 0.975 && heroStill.isConnected);
     if (smooth !== target) heroRaf = requestAnimationFrame(renderHero);
     else { heroRaf = 0; last = 0; }
   };
@@ -502,35 +511,49 @@
   });
 
   /* ======================================================================
-     4. Outro — unboxing plays once
+     4. Outro — unboxing replays on every visit
+     HD closed box at rest → (dip) → unboxing → (dip) → HD open box
      ====================================================================== */
   const box = new FrameSeq($('#cv-box'), 'outro-box', 102);
   const outro = $('#outro-stage');
-  // studio still for the end of the unboxing: attached only once the file has loaded
-  const outroStill = document.createElement('img');
-  outroStill.className = 'outro-still'; outroStill.alt = ''; outroStill.decoding = 'async';
-  outroStill.onload = () => outro.appendChild(outroStill);
+  // studio stills are attached only once their file has loaded (no empty <img> in the page)
+  const makeStill = (cls, src) => {
+    const img = document.createElement('img');
+    img.className = 'outro-still ' + cls; img.alt = ''; img.decoding = 'async';
+    img.onload = () => outro.appendChild(img);
+    img.dataset.src = src;
+    return img;
+  };
+  const stillClosed = makeStill('is-closed', './assets/img/carta/box-closed.jpg');
+  const stillOpen = makeStill('is-open', './assets/img/carta/box-open.jpg');
+  const ready = img => img.complete && img.naturalWidth > 0;
+  const setOutro = state => { outro.dataset.state = state; };   // rest | play | done
+  setOutro('rest');
   new IntersectionObserver((entries, io) => {
     if (!entries.some(e => e.isIntersecting)) return;
     io.disconnect();
-    outroStill.src = './assets/img/carta/box-open.jpg';
+    [stillClosed, stillOpen].forEach(i => { i.src = i.dataset.src; });
     heroReady.then(() => box.load()).then(() => box.draw(0, true));
   }, { rootMargin: '150% 0px' }).observe(outro);
 
   let boxToken = 0;
+  const wait = ms => new Promise(r => setTimeout(r, ms));
   new IntersectionObserver(async entries => {
     const e = entries[entries.length - 1];
     const token = ++boxToken;
     if (!e.isIntersecting) {            // left the viewport: rewind, ready for the next visit
       box.stop(); box.pos = 0; box.draw(0, true);
-      outroStill.classList.remove('is-on');
+      setOutro('rest');
       return;
     }
     await box.load();
     await box.whenAll(4000);
     if (token !== boxToken) return;
+    if (ready(stillClosed) && !reduceMotion) await wait(450);    // let the HD closed box breathe a beat
+    if (token !== boxToken) return;
+    setOutro('play');
     await box.play(box.count - 1, FPS, 0);
-    if (token === boxToken && outroStill.complete && outroStill.naturalWidth) outroStill.classList.add('is-on');
+    if (token === boxToken) setOutro('done');
   }, { threshold: 0.45 }).observe(outro);
 
   /* ======================================================================

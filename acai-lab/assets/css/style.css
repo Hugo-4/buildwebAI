@@ -163,6 +163,8 @@ h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
 .ritual[data-phase="2"] .ritual-b { opacity: 1; transform: none; }
 .ritual[data-phase="3"] .ritual-b { opacity: 0; transform: none; }
 .ritual[data-phase="3"] .ritual-c { opacity: 1; }
+.hero-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .35s var(--ease); pointer-events: none; }
+.ritual.is-final .hero-still { opacity: 1; }
 
 .ritual-steps { position: relative; z-index: 2; display: grid; min-height: 64px; }
 .ritual-step {
@@ -394,8 +396,14 @@ button.item.is-current { background: rgba(232, 226, 213, .7); border-radius: 14p
 .visit-head { display: grid; gap: 14px; justify-items: center; }
 .outro-stage { position: relative; width: min(100%, 560px); aspect-ratio: 1; margin: 12px auto 0; }
 .outro-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.outro-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .5s var(--ease); }
-.outro-still.is-on { opacity: 1; }
+/* outro states: rest (HD closed box) → play (unboxing) → done (HD open box).
+   The closed photo is aligned on the first frame (cross-fade); the open photo is a different
+   composition, so the video dips out first and the photo fades in after it (no double exposure). */
+.outro-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .35s var(--ease); }
+.outro-stage[data-state="rest"] .outro-still.is-closed { opacity: 1; }
+.outro-stage[data-state="done"] .outro-still.is-open { opacity: 1; transition: opacity .45s var(--ease) .22s; }
+#cv-box { transition: opacity .3s var(--ease); }
+.outro-stage[data-state="done"]:has(.is-open) #cv-box { opacity: 0; }
 .outro-caption { font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--plum-70); margin-top: 8px; }
 
 .visit-info { display: grid; gap: 28px; margin-top: 48px; justify-items: center; }

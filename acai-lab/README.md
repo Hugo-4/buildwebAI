@@ -49,5 +49,5 @@ acai-lab/
 
 1. **Lien Rappi** : `RAPPI_URL` en haut de `assets/js/main.js` (pour l'instant la page d'accueil de Rappi Pérou).
 2. **Photos en pleine résolution** : les 6 photos de `assets/img/social/` sont recadrées depuis des captures d'écran Instagram (~350 px de large, agrandies ×2). Pour un rendu parfait, les remplacer par les originaux (≥ 1200 px de large) en gardant les mêmes noms : 1 azulejo violeta, 2 bagels sur bandeja, 3 açai bowl, 4 mesa monogramada, 5 Mugler, 6 The Charming Booth.
-3. **Photos studio HD restantes** dans `assets/img/carta/` : `latte-peanut-butter.jpg`, `acai-bowl.jpg`, `box-open.jpg` (les 5 matchas sont en place, alignés sur la fin du morphing).
+3. ~~Photos studio HD~~ : en place dans `assets/img/carta/` (latte, 5 matchas, bowl, boîte fermée et ouverte), chacune alignée sur l'image de l'animation qu'elle prolonge. Pour en remplacer une, garder le même nom, un fond crème uni et un cadrage proche.
 4. **Prix** : la carte n'affiche que les prix fournis (cold foam S/ 2, extras S/ 3.50).
