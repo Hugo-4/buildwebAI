@@ -3,10 +3,11 @@
  * Compteur mécanique : chaque chiffre est une bande 0→9 dans une fenêtre fixe,
  * comme un compteur de remontée mécanique. Les unités tournent d'abord,
  * les rangs supérieurs font un tour complet de plus avant de se caler.
- * Le chiffre final reste affiché (l'état révélé est un acquis, pas un effet).
+ * Ils roulent à chaque apparition à l'écran (aller comme retour) et se remettent à
+ * zéro dès qu'ils en sortent. Mouvement réduit : le chiffre final, sans roulement.
  */
 import { useEffect, useRef } from "react";
-import { registerGsap, gsap, prefersReducedMotion } from "@/lib/motion";
+import { registerGsap, gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/motion";
 
 type Props = { value: string; className?: string };
 
@@ -32,12 +33,22 @@ export default function Counter({ value, className }: Props) {
 
     const ctx = gsap.context(() => {
       gsap.set(strips, { yPercent: 0 });
-      gsap.to(strips, {
+      const roll = gsap.to(strips, {
         yPercent: (_i, s: HTMLElement) => finalY(s),
         duration: (i) => 1.3 + (strips.length - 1 - i) * 0.18,
         ease: "expo.inOut",
         stagger: { each: 0.06, from: "end" },
-        scrollTrigger: { trigger: el, start: "top 85%", once: true },
+        paused: true,
+      });
+      // Les chiffres repartent de zéro à chaque fois qu'ils réapparaissent à l'écran
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 88%",
+        end: "bottom top",
+        onEnter: () => roll.restart(),
+        onEnterBack: () => roll.restart(),
+        onLeave: () => roll.pause(0),
+        onLeaveBack: () => roll.pause(0),
       });
     }, el);
     return () => ctx.revert();

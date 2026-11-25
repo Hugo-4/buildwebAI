@@ -14,6 +14,15 @@ export function useMedia(query: string, initial = false) {
   return match;
 }
 
-export const useReducedMotion = () => useMedia("(prefers-reduced-motion: reduce)");
-/** Écrans tactiles ou étroits : on sert la version allégée de la 3D. */
-export const useLiteMode = () => useMedia("(max-width: 767px), (pointer: coarse)");
+const forced = () => typeof document !== "undefined" && document.documentElement.classList.contains("force-motion");
+
+/** Mouvement réduit demandé par le système (sauf animations complètes forcées). */
+export const useReducedMotion = () => {
+  const m = useMedia("(prefers-reduced-motion: reduce)");
+  return m && !forced();
+};
+/** Écrans tactiles ou étroits : version allégée (sauf animations complètes forcées). */
+export const useLiteMode = () => {
+  const m = useMedia("(max-width: 767px), (pointer: coarse)");
+  return m && !forced();
+};

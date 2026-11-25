@@ -7,7 +7,7 @@
  * alors l'entrée de son titre.
  */
 import { useEffect, useRef, useState } from "react";
-import { gsap, prefersReducedMotion } from "@/lib/motion";
+import { gsap, motionForced, prefersReducedMotion } from "@/lib/motion";
 import { firstFrame, SEQUENCES } from "@/lib/sequences";
 
 export const READY_EVENT = "larolle:ready";
@@ -36,7 +36,7 @@ export default function Preloader() {
       sessionStorage.setItem("larolle-intro", "1");
     } catch {}
     // Mobile (version allégée) : pas de préchargeur, le hero s'ouvre tout de suite
-    const phone = window.matchMedia("(max-width: 767px)").matches;
+    const phone = window.matchMedia("(max-width: 767px)").matches && !motionForced();
     if (!el || seen || phone || prefersReducedMotion()) return finish();
 
     document.documentElement.style.overflow = "hidden";

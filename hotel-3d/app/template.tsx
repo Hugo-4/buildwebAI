@@ -4,7 +4,8 @@
  * couvre l'écran puis se lève comme une brume, et la page arrive
  * dessous. app/template.tsx est remonté à chaque changement de route.
  */
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/useMedia";
 import { useEffect } from "react";
 import { BEZIER } from "@/lib/motion";
 

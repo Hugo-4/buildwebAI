@@ -1,4 +1,4 @@
 {
-  "prompt": "Origin: still frame extracted with ffmpeg from a client-supplied AI-generated video (entrée.mp4, t=0.2s, letterbox cropped). Not a photograph of a real building.",
-  "createdAt": "2026-11-22T14:40:33.522Z"
+  "prompt": "Origin: still frame extracted with ffmpeg (lanczos, 1920px, WebP q90) from a client-supplied AI-generated video (entrée.mp4, t=0.2s, letterbox cropped). Not a photograph of a real building.",
+  "createdAt": "2026-11-25T10:17:00.440Z"
 }

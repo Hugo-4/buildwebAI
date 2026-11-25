@@ -6,7 +6,8 @@
  * piégé dans le menu et revient sur le bouton à la fermeture ; le scroll de la
  * page est suspendu pendant l'ouverture.
  */
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/useMedia";
 import { useEffect, useRef } from "react";
 import { useLenis } from "@/components/SmoothScroll";
 import { BEZIER } from "@/lib/motion";

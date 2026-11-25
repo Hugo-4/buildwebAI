@@ -83,6 +83,7 @@ export default function ScrollSequence({
     if (!el || !cv) return;
     const ctx = cv.getContext("2d", { alpha: false });
     if (!ctx) return;
+    ctx.imageSmoothingQuality = "high";
 
     const { count, sizes, name, ext } = manifest;
     const images: (HTMLImageElement | null)[] = new Array(count).fill(null);
@@ -252,7 +253,7 @@ export default function ScrollSequence({
         <img
           src={firstFrame(manifest, manifest.sizes[1])}
           srcSet={`${firstFrame(manifest, manifest.sizes[1])} ${manifest.sizes[1]}w, ${firstFrame(manifest)} ${manifest.sizes[0]}w`}
-          sizes={portraitBox < 1 ? "(orientation: portrait) 240vw, 100vw" : "100vw"}
+          sizes="100vw"
           alt=""
           fetchPriority={id === "top" ? "high" : "auto"}
           // portrait : même cadrage que le canvas (bande du haut)

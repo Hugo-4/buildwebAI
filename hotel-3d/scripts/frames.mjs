@@ -2,7 +2,7 @@
 /**
  * Transforme une vidéo en séquence d'images pilotée par le scroll.
  *
- *   npm run frames -- <video.mp4> <nom> [--frames 150] [--start 0] [--end 0]
+ *   npm run frames -- <video.mp4> <nom> [--frames 150] [--quality 84] [--start 0] [--end 0]
  *
  * Exemple : npm run frames -- ~/Videos/arrivee.mp4 hero
  *
@@ -29,7 +29,7 @@ const flag = (name, def) => {
 };
 const [input, name] = args.filter((a, i) => !a.startsWith("--") && !args[i - 1]?.startsWith("--"));
 if (!input || !name || !existsSync(input)) {
-  console.error("Usage : npm run frames -- <video.mp4> <nom> [--frames 150] [--start s] [--end s]");
+  console.error("Usage : npm run frames -- <video.mp4> <nom> [--frames 150] [--quality 84] [--start s] [--end s]");
   process.exit(1);
 }
 
@@ -37,7 +37,7 @@ const TARGET = flag("frames", 150); // ~150 images : fluide au scroll, poids rai
 const START = flag("start", 0);
 const END = flag("end", 0);
 const SIZES = [1920, 960];
-const QUALITY = 62; // au-delà, le poids grimpe sans gain visible en mouvement
+const QUALITY = flag("quality", 84); // 84 : détail net et peu d'artefacts ; 62 si le poids prime
 
 /** Durée de la vidéo (via ffmpeg -i, pour ne pas dépendre de ffprobe). */
 function duration(file) {

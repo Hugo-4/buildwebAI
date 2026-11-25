@@ -26,11 +26,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <head>
-        {/* Avant le 1er rendu : état de départ de l'entrée du hero (.intro) ; seconde visite,
-            mobile ou mouvement réduit → pas de préchargeur peint (.pl-skip) */}
+        {/* Avant le 1er rendu : ?animations=on force les animations complètes (.force-motion) ;
+            état de départ du hero (.intro) ; seconde visite, mobile ou mouvement réduit →
+            pas de préchargeur peint (.pl-skip) */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var d=document.documentElement,r=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r)d.classList.add('intro');if(r||sessionStorage.getItem('larolle-intro')==='1'||matchMedia('(max-width: 767px)').matches)d.classList.add('pl-skip')}catch(e){}`,
+            __html: `try{var d=document.documentElement,q=new URLSearchParams(location.search).get('animations');if(q==='on')localStorage.setItem('larolle-motion','full');if(q==='off')localStorage.removeItem('larolle-motion');var f=localStorage.getItem('larolle-motion')==='full';if(f)d.classList.add('force-motion');var r=!f&&matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r)d.classList.add('intro');if(r||sessionStorage.getItem('larolle-intro')==='1'||(!f&&matchMedia('(max-width: 767px)').matches))d.classList.add('pl-skip')}catch(e){}`,
           }}
         />
       </head>

@@ -1,4 +1,4 @@
 {
-  "prompt": "Origin: still frame extracted with ffmpeg from a client-supplied AI-generated video (restaurant.mp4, t=2.5s), poster of the ambient loop.",
-  "createdAt": "2026-11-22T14:40:33.570Z"
+  "prompt": "Origin: poster frame (t=2.5s) of client-supplied AI-generated video (restaurant.mp4), lanczos 1600px, WebP q90.",
+  "createdAt": "2026-11-25T10:17:00.545Z"
 }
