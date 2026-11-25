@@ -40,8 +40,8 @@ const frag = /* glsl */ `
     float line = mix(0.18, 1.25, uProgress);
     float edge = smoothstep(line, line - 0.45, vUv.y + (n - 0.5) * 0.55);
     float a = clamp(edge * (0.55 + n * 0.6), 0.0, 1.0) * uFade;
-    // couleur : blanc de neige légèrement bleuté
-    gl_FragColor = vec4(vec3(0.965, 0.97, 0.975), a);
+    // couleur : pierre chaude, jamais blanc franc
+    gl_FragColor = vec4(vec3(0.90, 0.875, 0.83), a * 0.8);
   }
 `;
 

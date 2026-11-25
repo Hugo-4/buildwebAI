@@ -25,15 +25,15 @@ export default function Footer() {
         reverse
         portraitBox={0.5}
         stillFrame={0}
-        bg="#0c1424"
+        bg="#0e1218"
         timeline={footerTimeline}
         label="Départ de nuit : on ressort du salon, les portes se referment, le chalet s’éloigne dans la neige"
         header="light"
       >
         <div className="absolute inset-0 flex flex-col justify-end px-[var(--gutter)] pb-8 text-snow">
-          <h2 id="footer-title" data-footer-title className="giant text-[clamp(4rem,15vw,15rem)]">
+          <h2 id="footer-title" data-footer-title className="display italic text-[clamp(3.6rem,13vw,13rem)]">
             {["À bientôt", "là-haut."].map((l, i) => (
-              <span key={l} className="-mt-[0.26em] block overflow-hidden pb-[0.06em] pt-[0.26em]">
+              <span key={l} className="-mt-[0.1em] block overflow-hidden pb-[0.14em] pt-[0.1em]">
                 <span data-l className="block">
                   {l}
                 </span>

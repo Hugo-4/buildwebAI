@@ -12,10 +12,10 @@ const config: Config = {
         mist: "rgb(var(--mist-rgb) / <alpha-value>)",
         rule: "var(--rule)",
         amber: "rgb(var(--amber-rgb) / <alpha-value>)",
+        pine: "rgb(var(--pine-rgb) / <alpha-value>)",
         night: "rgb(var(--night-rgb) / <alpha-value>)",
       },
       fontFamily: {
-        condensed: ["var(--font-condensed)", "sans-serif"],
         caps: ["var(--font-caps)", "serif"],
         italic: ["var(--font-italic)", "serif"],
         sans: ["var(--font-sans)", "sans-serif"],

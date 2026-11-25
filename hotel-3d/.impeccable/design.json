@@ -7,7 +7,7 @@
       "snow": {
         "role": "neutral",
         "displayName": "Neige",
-        "canonical": "#f7f7f5",
+        "canonical": "#ebe5d9",
         "tonalRamp": [
           "oklch(15% 0.002 100)",
           "oklch(25% 0.003 100)",
@@ -37,7 +37,7 @@
       "ink": {
         "role": "neutral",
         "displayName": "Encre",
-        "canonical": "#15191d",
+        "canonical": "#1c1915",
         "tonalRamp": [
           "oklch(15% 0.004 250)",
           "oklch(25% 0.006 250)",
@@ -82,7 +82,7 @@
       "amber": {
         "role": "primary",
         "displayName": "Ambre d'arolle",
-        "canonical": "#c8873a",
+        "canonical": "#b8955a",
         "tonalRamp": [
           "oklch(15% 0.036 65)",
           "oklch(25% 0.06 65)",
@@ -142,7 +142,7 @@
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Giant (.giant)",
+        "displayName": "Display (.display)",
         "purpose": "Le nom dans le hero, les chiffres de la maison, l'adieu du pied de page. Jamais un titre de section."
       },
       "headline": {

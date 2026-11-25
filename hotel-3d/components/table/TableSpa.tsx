@@ -1,8 +1,8 @@
 "use client";
 /**
- * Chapitre 4 — La table et le spa.
+ * Chapitre 4 — La table et l'espace détente.
  * La table : la salle filmée, révélée par bandes verticales alignées sur les filets.
- * Le spa : le fond passe de la neige à l'encre (le bassin est sombre), le champ
+ * L'espace détente : le fond passe de la pierre au vert sapin (le bassin est sombre), le champ
  * sombre monte depuis le bas avec le scroll ; la piscine est révélée de même.
  *
  * CONTENU DE DÉMONSTRATION : horaires, cuisine et équipements à confirmer.
@@ -40,7 +40,7 @@ const CARTE = [
   },
 ];
 
-const SPA = ["Piscine intérieure", "Sauna d’arolle", "Cabines de soin", "Hammam"];
+const DETENTE = ["Piscine intérieure", "Sauna d’arolle", "Cabines de soin", "Hammam"];
 
 export default function TableSpa() {
   const spa = useRef<HTMLElement>(null);
@@ -66,31 +66,30 @@ export default function TableSpa() {
     <>
       {/* ------------------------------ LA TABLE ------------------------------ */}
       <section id="table" data-header="dark" aria-labelledby="table-title" className="bg-snow py-[var(--section-y)] text-ink">
-        <div className="grid grid-cols-4 px-[var(--gutter)] md:grid-cols-6">
-          <h2 id="table-title" className="title col-span-4 text-[clamp(2.4rem,5vw,5rem)] md:col-span-4 md:col-start-2">
-            Notre restaurant vous attend
-          </h2>
-        </div>
-
-        <StripReveal strips={6} className="mx-[var(--gutter)] mt-16 aspect-[4/5] sm:aspect-[16/9]">
-          <LoopVideo
-            src="/video/table-salle.mp4"
-            poster="/video/table-salle-poster.webp"
-            label="La salle du restaurant, ses tables dressées et ses baies sur les sommets à l'heure bleue"
-          />
-        </StripReveal>
-
-        <div className="mt-16 grid grid-cols-4 gap-y-10 px-[var(--gutter)] md:grid-cols-6 md:gap-x-[var(--gutter)]">
-          <p className="col-span-4 max-w-[46ch] text-[1.1875rem] font-light leading-[1.75] text-ink/85 md:col-span-2 md:col-start-2">
-            Une longue table d&rsquo;arolle et des baies sur toute la largeur. Fromages de Tarentaise, truites du lac, gibier
-            en saison, pain cuit au feu de bois : le menu change avec ce que la montagne donne.
-          </p>
-          <dl className="caps col-span-4 grid grid-cols-[auto_1fr] content-start gap-x-8 gap-y-3 md:col-span-2 md:col-start-5">
-            <dt className="text-ink/60">Dîner</dt>
-            <dd>19 h 30 – 22 h 00</dd>
-            <dt className="text-ink/60">Bar</dt>
-            <dd>16 h 00 – minuit</dd>
-          </dl>
+        <div className="grid grid-cols-1 items-stretch gap-y-10 px-[var(--gutter)] md:grid-cols-2 md:gap-x-[var(--gutter)]">
+          <StripReveal strips={4} className="aspect-[4/5] md:aspect-auto md:min-h-[82svh]">
+            <LoopVideo
+              src="/video/table-salle.mp4"
+              poster="/video/table-salle-poster.webp"
+              label="La salle du restaurant, ses tables dressées et ses baies sur les sommets à l'heure bleue"
+            />
+          </StripReveal>
+          <div className="flex flex-col justify-center md:pl-[3vw]">
+            <h2 id="table-title" className="title text-[1.35rem] md:!whitespace-nowrap md:text-[clamp(1rem,1.6vw,1.6rem)]">
+              Notre restaurant vous attend
+            </h2>
+            <div aria-hidden className="mt-8 h-px w-20 bg-amber" />
+            <p className="mt-10 max-w-[44ch] text-[1.1875rem] font-light leading-[1.8] text-ink/85">
+              Une longue table d&rsquo;arolle et des baies sur toute la largeur. Fromages de Tarentaise, truites du lac, gibier
+              en saison, pain cuit au feu de bois : le menu change avec ce que la montagne donne.
+            </p>
+            <dl className="caps mt-12 grid max-w-md grid-cols-[auto_1fr] gap-x-10 gap-y-4 border-t border-rule pt-8">
+              <dt className="text-ink/60">Dîner</dt>
+              <dd>19 h 30 – 22 h 00</dd>
+              <dt className="text-ink/60">Bar</dt>
+              <dd>16 h 00 – minuit</dd>
+            </dl>
+          </div>
         </div>
 
         {/* La carte */}
@@ -100,7 +99,7 @@ export default function TableSpa() {
             {CARTE.map((g) => (
               <section key={g.name} aria-label={g.name}>
                 <h4 className="caps border-b border-rule pb-4 text-ink/60">{g.name}</h4>
-                <ul className="mt-2 divide-y divide-[rgb(21_25_29/0.09)]">
+                <ul className="mt-2 divide-y divide-[rgb(28_25_21/0.12)]">
                   {g.dishes.map((d) => (
                     <li key={d.name} className="py-5">
                       <p className="dish text-[1.375rem]">{d.name}</p>
@@ -115,8 +114,8 @@ export default function TableSpa() {
       </section>
 
       {/* ------------------------------- LE SPA ------------------------------- */}
-      <section ref={spa} id="spa" data-header="ink" aria-labelledby="spa-title" className="relative isolate bg-snow py-[var(--section-y)] text-snow">
-        <div data-tone-field aria-hidden className="absolute inset-0 -z-10 bg-ink" />
+      <section ref={spa} id="detente" data-header="ink" aria-labelledby="detente-title" className="relative isolate bg-snow py-[var(--section-y)] text-snow">
+        <div data-tone-field aria-hidden className="absolute inset-0 -z-10 bg-pine" />
         <div className="grid grid-cols-4 items-center gap-y-14 px-[var(--gutter)] md:grid-cols-6">
           <StripReveal strips={2} start="top 65%" className="col-span-4 aspect-[3/4] md:col-span-2 md:col-start-1">
             <LoopVideo
@@ -126,11 +125,11 @@ export default function TableSpa() {
             />
           </StripReveal>
           <div className="col-span-4 md:col-span-3 md:col-start-4">
-            <h2 id="spa-title" className="title text-[clamp(2.4rem,5vw,5rem)]">
-              Le spa
+            <h2 id="detente-title" className="title text-[1.8rem] md:!whitespace-nowrap md:text-[clamp(1.6rem,3vw,3rem)]">
+              L’espace détente
             </h2>
             <ul className="mt-12 border-t border-snow/20">
-              {SPA.map((x) => (
+              {DETENTE.map((x) => (
                 <li key={x} className="dish border-b border-snow/20 py-6 text-[clamp(1.5rem,2.4vw,2.2rem)] tracking-[0.04em]">
                   {x}
                 </li>
