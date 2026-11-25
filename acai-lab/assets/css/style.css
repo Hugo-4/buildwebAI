@@ -155,10 +155,16 @@ h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
 .carta-stage:has(canvas.is-ready:not(.is-hidden)) .carta-poster { visibility: hidden; }
 .outro-stage:has(canvas.is-ready) .outro-poster { visibility: hidden; }
 .ritual-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.ritual-a, .ritual-b { transition: opacity .3s var(--ease), transform .3s var(--ease); will-change: transform, opacity; }
+/* 3 phases: blender → (slide + fade) → pour → (pure crossfade, same scale) → toppings */
+.ritual-a, .ritual-b, .ritual-c { transition: opacity .3s var(--ease), transform .3s var(--ease); will-change: transform, opacity; }
 .ritual-b { opacity: 0; transform: translateY(8%); }
-.ritual.is-phase2 .ritual-a { opacity: 0; transform: translateY(-8%); }
-.ritual.is-phase2 .ritual-b { opacity: 1; transform: none; }
+.ritual-c { opacity: 0; }
+.ritual[data-phase="2"] .ritual-a, .ritual[data-phase="3"] .ritual-a { opacity: 0; transform: translateY(-8%); }
+.ritual[data-phase="2"] .ritual-b { opacity: 1; transform: none; }
+.ritual[data-phase="3"] .ritual-b { opacity: 0; transform: none; }
+.ritual[data-phase="3"] .ritual-c { opacity: 1; }
+.hero-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .35s var(--ease); pointer-events: none; }
+.ritual.is-final .hero-still { opacity: 1; }
 
 .ritual-steps { position: relative; z-index: 2; display: grid; min-height: 64px; }
 .ritual-step {
@@ -223,6 +229,13 @@ h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
 .carta-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .seq-canvas.is-hidden { opacity: 0; pointer-events: none; }
 #cv-drink, #cv-bowl { transition: opacity .45s var(--ease); }
+/* matcha flavours: two photo layers cross-fade over the morph canvas */
+.flavour-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+  opacity: 0; pointer-events: none; transition: opacity .3s var(--ease);
+}
+.flavour-photo.is-on { opacity: 1; }
+
 
 .stage-label {
   position: absolute; left: 0; bottom: 6px; z-index: 2;
@@ -290,6 +303,8 @@ button.item:active { transform: scale(.985); }
 .item-desc { grid-column: 1 / -1; font-size: 14px; color: var(--plum-70); }
 .menu li + li .item { border-top: 1px solid rgba(59, 30, 54, .06); border-radius: 0; }
 @media (hover: hover) { .menu li + li button.item:hover { border-radius: 14px; } }
+button.item.is-current { background: rgba(232, 226, 213, .7); border-radius: 14px; }
+.menu li + li button.item.is-current { border-radius: 14px; }
 .item.is-current .item-name::before {
   content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
   margin-right: 10px; vertical-align: middle; transform: translateY(-2px);
@@ -381,6 +396,14 @@ button.item:active { transform: scale(.985); }
 .visit-head { display: grid; gap: 14px; justify-items: center; }
 .outro-stage { position: relative; width: min(100%, 560px); aspect-ratio: 1; margin: 12px auto 0; }
 .outro-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+/* outro states: rest (HD closed box) → play (unboxing) → done (HD open box).
+   The closed photo is aligned on the first frame (cross-fade); the open photo is a different
+   composition, so the video dips out first and the photo fades in after it (no double exposure). */
+.outro-still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .35s var(--ease); }
+.outro-stage[data-state="rest"] .outro-still.is-closed { opacity: 1; }
+.outro-stage[data-state="done"] .outro-still.is-open { opacity: 1; transition: opacity .45s var(--ease) .22s; }
+#cv-box { transition: opacity .3s var(--ease); }
+.outro-stage[data-state="done"]:has(.is-open) #cv-box { opacity: 0; }
 .outro-caption { font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--plum-70); margin-top: 8px; }
 
 .visit-info { display: grid; gap: 28px; margin-top: 48px; justify-items: center; }

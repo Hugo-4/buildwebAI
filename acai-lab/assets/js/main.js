@@ -117,7 +117,7 @@
     load() {
       if (this.started) return this._ready;
       this.started = true;
-      this.variant = this._pickVariant();
+      this.variant = (this.shareWith && this.shareWith.variant) || this._pickVariant();
       const queue = this._order();
       let resolveReady;
       this._ready = new Promise(r => { resolveReady = r; });
@@ -247,17 +247,26 @@
   const hero = $('#ritual');
   const blend = new FrameSeq($('#cv-blend'), 'hero-blend', 145);
   const dispense = new FrameSeq($('#cv-dispense'), 'hero-dispense', 92);
+  const toppings = new FrameSeq($('#cv-toppings'), 'hero-toppings', 120);
   const steps = $$('.ritual-step', hero);
   const bar = $('.ritual-progress span', hero);
 
   // The hero gets the network first; everything else waits for it (or 5 s at most).
-  blend.load().then(() => { blend.draw(0, true); dispense.load(); });
+  // HD bowl photo for the end of the hero (aligned on the last toppings frame), attached once loaded
+  const heroStill = document.createElement('img');
+  heroStill.className = 'hero-still'; heroStill.alt = ''; heroStill.decoding = 'async';
+  heroStill.onload = () => $('.ritual-stage', hero).appendChild(heroStill);
+  blend.load().then(() => {
+    blend.draw(0, true);
+    dispense.load().then(() => toppings.load()).then(() => { heroStill.src = './assets/img/carta/acai-bowl.jpg'; });
+  });
   const heroReady = Promise.race([
-    Promise.all([blend.whenAll(8000), dispense.whenAll(8000)]),
+    Promise.all([blend.whenAll(8000), dispense.whenAll(8000), toppings.whenAll(8000)]),
     new Promise(r => setTimeout(r, 5000)),
   ]);
 
-  let target = 0, smooth = 0, phase2 = false, heroRaf = 0, last = 0;
+  let target = 0, smooth = 0, phase = 1, heroRaf = 0, last = 0;
+  const T1 = 1 / 3, T2 = 2 / 3, H = 0.01;   // chapter boundaries (with hysteresis)
   const renderHero = now => {
     const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
     last = now;
@@ -265,15 +274,16 @@
     smooth += (target - smooth) * (1 - Math.exp(-dt * 11));
     if (Math.abs(target - smooth) < 0.0002) smooth = target;
     const p = smooth;
-    blend.draw(clamp(p / 0.5) * (blend.count - 1));
-    dispense.draw(clamp((p - 0.5) / 0.5) * (dispense.count - 1));
-    // hysteresis around 50% so the crossfade never flickers
-    if (!phase2 && p > 0.51) phase2 = true;
-    else if (phase2 && p < 0.49) phase2 = false;
-    hero.classList.toggle('is-phase2', phase2);
-    steps[0].classList.toggle('is-active', !phase2);
-    steps[1].classList.toggle('is-active', phase2);
+    blend.draw(clamp(p / T1) * (blend.count - 1));
+    dispense.draw(clamp((p - T1) / (T2 - T1)) * (dispense.count - 1));
+    toppings.draw(clamp((p - T2) / (1 - T2)) * (toppings.count - 1));
+    // hysteresis around each boundary so the crossfades never flicker
+    const next = p > T2 + H ? 3 : (p < T2 - H && p > T1 + H) ? 2 : p < T1 - H ? 1 : phase;
+    if (next !== phase) { phase = next; hero.dataset.phase = phase; }
+    steps.forEach((st, i) => st.classList.toggle('is-active', i === phase - 1));
     bar.style.transform = `scaleX(${p})`;
+    // last frames of the ritual: the bowl settles into its HD studio photo
+    hero.classList.toggle('is-final', p > 0.975 && heroStill.isConnected);
     if (smooth !== target) heroRaf = requestAnimationFrame(renderHero);
     else { heroRaf = 0; last = 0; }
   };
@@ -284,7 +294,7 @@
     ScrollTrigger.create({
       trigger: hero,
       start: 'top top',
-      end: '+=180%',          // 100vh viewport + 180vh of scroll = 280vh total
+      end: '+=240%',          // 3 chapters: 100vh viewport + 240vh of scroll
       pin: true,
       anticipatePin: 1,
       onUpdate: self => { target = self.progress; kickHero(); },
@@ -301,7 +311,8 @@
      ====================================================================== */
   const carta = $('#carta');
   const drinkSeq = new FrameSeq($('#cv-drink'), 'carta-drink', 239);
-  const bowlSeq = new FrameSeq($('#cv-bowl'), 'carta-bowl', 240);
+  const bowlSeq = new FrameSeq($('#cv-bowl'), 'hero-toppings', 120);
+  bowlSeq.shareWith = toppings;
   const cvDrink = $('#cv-drink'), cvBowl = $('#cv-bowl');
   const poster = $('#carta-poster');
   const label = $('#stage-label');
@@ -320,11 +331,62 @@
   };
   const setPoster = key => { poster.src = POSTERS[key][0]; poster.alt = POSTERS[key][1]; };
 
+  // Matcha flavours: Mango is the end of the morph; the others are photos cross-faded on top
+  const STILLS = {
+    cafe: './assets/img/carta/latte-peanut-butter.jpg',
+    bowl: './assets/img/carta/acai-bowl.jpg',
+  };
+  const FLAVOURS = {
+    mango: ['Mango Matcha', './assets/img/carta/matcha-mango.jpg'],
+    strawberry: ['Strawberry Matcha', './assets/img/carta/matcha-strawberry.jpg'],
+    acai: ['Açai Matcha', './assets/img/carta/matcha-acai.jpg'],
+    pistacho: ['Pistacho Matcha', './assets/img/carta/matcha-pistacho.jpg'],
+    latte: ['Matcha Latte', './assets/img/carta/matcha-latte.jpg'],
+  };
+  // photo layers are created here, not in the HTML, so no empty <img> ever ships
+  const layers = [0, 1].map(() => {
+    const img = document.createElement('img');
+    img.className = 'flavour-photo'; img.alt = ''; img.decoding = 'async';
+    img.setAttribute('aria-hidden', 'true');
+    stage.insertBefore(img, label);
+    return img;
+  });
+  let flavour = 'mango', layerOn = -1, flavourToken = 0;
+  const preloadFlavours = () => [...Object.values(FLAVOURS).map(f => f[1]), STILLS.cafe, STILLS.bowl]
+    .forEach(src => { if (src) { const i = new Image(); i.src = src; } });
+
+  const hidePhotos = () => { layers.forEach(l => l.classList.remove('is-on')); layerOn = -1; };
+  const showFlavour = key => {
+    flavour = key;
+    label.textContent = FLAVOURS[key][0];
+    showPhoto(FLAVOURS[key][1], FLAVOURS[key][0]);
+  };
+  /** Cross-fade a studio photo over the canvas (two layers, 0.3 s). Missing file: keep the animation. */
+  function showPhoto(src, alt) {
+    const token = ++flavourToken;
+    if (!src) { hidePhotos(); return; }
+    const key = alt;
+    const nextIdx = layerOn === 0 ? 1 : 0;
+    const layer = layers[nextIdx];
+    const swap = () => {
+      if (token !== flavourToken) return;
+      layer.classList.add('is-on');
+      if (layerOn >= 0 && layerOn !== nextIdx) layers[layerOn].classList.remove('is-on');
+      layerOn = nextIdx;
+    };
+    layer.alt = key;
+    if (layer.getAttribute('src') === src && layer.complete && layer.naturalWidth) { swap(); return; }
+    layer.onload = swap;
+    layer.onerror = () => { if (token === flavourToken) hidePhotos(); };   // photo missing: keep the animation
+    layer.src = src;
+  }
+
   // carta sequences load after the hero, as the user approaches
   let cartaRequested = false;
   const loadCarta = () => {
     if (cartaRequested) return;
     cartaRequested = true;
+    if (drink === 'cafe' && carta.dataset.mode === 'bebidas') showPhoto(STILLS.cafe, 'Peanut Butter Latte');
     heroReady.then(() => drinkSeq.load()).then(() => drinkSeq.whenAll(6000)).then(() => bowlSeq.load());
   };
   new IntersectionObserver((entries, io) => {
@@ -340,7 +402,7 @@
     scrollToY(el.getBoundingClientRect().top + window.scrollY - offset);
   };
 
-  let drink = 'cafe';
+  let drink = 'cafe', morph = null;
   const setDrink = kind => {
     if (carta.dataset.mode !== 'bebidas') setMode('bebidas');
     subtabs.forEach(b => {
@@ -348,26 +410,35 @@
       b.classList.toggle('is-active', on);
       b.setAttribute('aria-pressed', on);
     });
-    if (kind === drink) return;
+    if (kind === drink) return morph || Promise.resolve();
     drink = kind;
     carta.dataset.drink = kind;
+    flavourToken++;
+    flavour = 'mango';
+    hidePhotos();
     label.textContent = POSTERS[kind][1];
     setPoster(kind);
     loadCarta();
+    if (kind === 'matcha') preloadFlavours();
     // forward (café → matcha) at 1.5× or backwards (matcha → café) from wherever it is
-    drinkSeq.play(kind === 'matcha' ? drinkSeq.count - 1 : 0, FPS * 1.5);
+    const token = flavourToken;
+    morph = drinkSeq.play(kind === 'matcha' ? drinkSeq.count - 1 : 0, FPS * 1.5)
+      .then(() => { if (drink === kind && flavourToken === token && carta.dataset.mode === 'bebidas' && kind === 'cafe') showPhoto(STILLS.cafe, 'Peanut Butter Latte'); });
+    return morph;
   };
 
   let bowlPlayToken = 0;
   const playBowl = async () => {
     const token = ++bowlPlayToken;
     bowlSeq.stop();
+    hidePhotos();
     bowlSeq.pos = 0;
     bowlSeq.load();
     bowlSeq.draw(0, true);
     await bowlSeq.whenAll(4000);
     if (token !== bowlPlayToken || carta.dataset.mode !== 'comer') return;
-    bowlSeq.play(bowlSeq.count - 1, FPS, 0);
+    await bowlSeq.play(bowlSeq.count - 1, FPS / 2, 0);   // 120 frames, blended: 10 s like the original clip
+    if (token === bowlPlayToken && carta.dataset.mode === 'comer') showPhoto(STILLS.bowl, 'Açai Bowl');
   };
 
   const setMode = mode => {
@@ -384,9 +455,14 @@
     cvDrink.classList.toggle('is-hidden', comer);
     cvBowl.classList.toggle('is-hidden', !comer);
     replayBtn.hidden = !comer;
-    label.textContent = comer ? POSTERS.bowl[1] : POSTERS[drink][1];
+    label.textContent = comer ? POSTERS.bowl[1] : drink === 'matcha' ? FLAVOURS[flavour][0] : POSTERS[drink][1];
     setPoster(comer ? 'bowl' : drink);
-    if (comer) playBowl(); else bowlSeq.stop();
+    hidePhotos();
+    if (comer) playBowl();
+    else {
+      bowlSeq.stop();
+      if (drink === 'matcha') showFlavour(flavour); else showPhoto(STILLS.cafe, 'Peanut Butter Latte');
+    }
     if (lenis) requestAnimationFrame(() => lenis.resize());
     if (hasGsap) ScrollTrigger.refresh();
     // bring the start of the list back under the visual if the user was deep in it
@@ -402,39 +478,82 @@
     n.focus(); setMode(n.dataset.mode);
   });
 
+  const markCurrent = it => items.forEach(o => o.classList.toggle('is-current', o === it));
   subtabs.forEach(b => b.addEventListener('click', () => {
-    setDrink(b.dataset.drink);
+    if (b.dataset.drink === 'matcha') {   // Matcha opens on Mango, selected by default
+      markCurrent($('[data-flavour="mango"]', carta));
+      if (drink === 'matcha') showFlavour('mango');
+    } else markCurrent(null);
+    const wasMatcha = drink === 'matcha';
+    const done = setDrink(b.dataset.drink);
+    if (b.dataset.drink === 'matcha' && !wasMatcha) {
+      const token = flavourToken;
+      done.then(() => { if (drink === 'matcha' && flavourToken === token && carta.dataset.mode === 'bebidas') showFlavour('mango'); });
+    }
     scrollToInList(document.getElementById(b.dataset.drink === 'matcha' ? 'g-matcha' : 'g-cafes'));
   }));
 
   items.forEach(it => it.addEventListener('click', () => {
-    items.forEach(o => o.classList.toggle('is-current', o === it));
-    setDrink(it.dataset.drink);
+    markCurrent(it);
+    const key = it.dataset.flavour;
+    if (!key) { setDrink(it.dataset.drink); return; }       // café: back to the latte
+    if (drink === 'matcha') { showFlavour(key); return; }
+    const done = setDrink('matcha');                         // morph to Mango first, then fade to the flavour
+    const token = flavourToken;
+    label.textContent = FLAVOURS[key][0];
+    done.then(() => { if (drink === 'matcha' && flavourToken === token && carta.dataset.mode === 'bebidas') showFlavour(key); });
   }));
 
   replayBtn.addEventListener('click', e => { e.stopPropagation(); playBowl(); });
   stage.addEventListener('click', () => {
     if (carta.dataset.mode === 'comer') playBowl();
-    else setDrink(drink === 'cafe' ? 'matcha' : 'cafe');
+    else { markCurrent(drink === 'cafe' ? $('[data-flavour="mango"]', carta) : null); setDrink(drink === 'cafe' ? 'matcha' : 'cafe'); }
   });
 
   /* ======================================================================
-     4. Outro — unboxing plays once
+     4. Outro — unboxing replays on every visit
+     HD closed box at rest → (dip) → unboxing → (dip) → HD open box
      ====================================================================== */
   const box = new FrameSeq($('#cv-box'), 'outro-box', 102);
   const outro = $('#outro-stage');
+  // studio stills are attached only once their file has loaded (no empty <img> in the page)
+  const makeStill = (cls, src) => {
+    const img = document.createElement('img');
+    img.className = 'outro-still ' + cls; img.alt = ''; img.decoding = 'async';
+    img.onload = () => outro.appendChild(img);
+    img.dataset.src = src;
+    return img;
+  };
+  const stillClosed = makeStill('is-closed', './assets/img/carta/box-closed.jpg');
+  const stillOpen = makeStill('is-open', './assets/img/carta/box-open.jpg');
+  const ready = img => img.complete && img.naturalWidth > 0;
+  const setOutro = state => { outro.dataset.state = state; };   // rest | play | done
+  setOutro('rest');
   new IntersectionObserver((entries, io) => {
     if (!entries.some(e => e.isIntersecting)) return;
     io.disconnect();
+    [stillClosed, stillOpen].forEach(i => { i.src = i.dataset.src; });
     heroReady.then(() => box.load()).then(() => box.draw(0, true));
   }, { rootMargin: '150% 0px' }).observe(outro);
 
-  new IntersectionObserver(async (entries, io) => {
-    if (!entries.some(e => e.isIntersecting)) return;
-    io.disconnect();
+  let boxToken = 0;
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  new IntersectionObserver(async entries => {
+    const e = entries[entries.length - 1];
+    const token = ++boxToken;
+    if (!e.isIntersecting) {            // left the viewport: rewind, ready for the next visit
+      box.stop(); box.pos = 0; box.draw(0, true);
+      setOutro('rest');
+      return;
+    }
     await box.load();
     await box.whenAll(4000);
-    box.play(box.count - 1, FPS, 0);
+    if (token !== boxToken) return;
+    if (ready(stillClosed) && !reduceMotion) await wait(450);    // let the HD closed box breathe a beat
+    if (token !== boxToken) return;
+    setOutro('play');
+    await box.play(box.count - 1, FPS, 0);
+    if (token === boxToken) setOutro('done');
   }, { threshold: 0.45 }).observe(outro);
 
   /* ======================================================================
