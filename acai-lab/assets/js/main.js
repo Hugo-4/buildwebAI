@@ -334,7 +334,14 @@
     pistacho: ['Pistacho Matcha', './assets/img/carta/matcha-pistacho.jpg'],
     latte: ['Matcha Latte', './assets/img/carta/matcha-latte.jpg'],
   };
-  const layers = $$('.flavour-photo', carta);
+  // photo layers are created here, not in the HTML, so no empty <img> ever ships
+  const layers = [0, 1].map(() => {
+    const img = document.createElement('img');
+    img.className = 'flavour-photo'; img.alt = ''; img.decoding = 'async';
+    img.setAttribute('aria-hidden', 'true');
+    stage.insertBefore(img, label);
+    return img;
+  });
   let flavour = 'mango', layerOn = -1, flavourToken = 0;
   const preloadFlavours = () => [...Object.values(FLAVOURS).map(f => f[1]), STILLS.cafe, STILLS.bowl]
     .forEach(src => { if (src) { const i = new Image(); i.src = src; } });
@@ -499,10 +506,14 @@
      ====================================================================== */
   const box = new FrameSeq($('#cv-box'), 'outro-box', 102);
   const outro = $('#outro-stage');
-  const outroStill = $('.outro-still', outro) || document.createElement('img');
+  // studio still for the end of the unboxing: attached only once the file has loaded
+  const outroStill = document.createElement('img');
+  outroStill.className = 'outro-still'; outroStill.alt = ''; outroStill.decoding = 'async';
+  outroStill.onload = () => outro.appendChild(outroStill);
   new IntersectionObserver((entries, io) => {
     if (!entries.some(e => e.isIntersecting)) return;
     io.disconnect();
+    outroStill.src = './assets/img/carta/box-open.jpg';
     heroReady.then(() => box.load()).then(() => box.draw(0, true));
   }, { rootMargin: '150% 0px' }).observe(outro);
 
