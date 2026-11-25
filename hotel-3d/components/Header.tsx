@@ -76,7 +76,7 @@ export default function Header() {
       <header
         className={`fixed inset-x-0 top-0 z-[80] grid grid-cols-3 items-center border-b px-[var(--gutter)] py-5 transition-[background-color,color,border-color] duration-500 ease-out-expo ${skin}`}
       >
-        <nav aria-label="Chapitres" className="caps hidden gap-8 md:flex">
+        <nav aria-label="Chapitres" className={`caps hidden gap-8 transition-opacity duration-300 md:flex ${open ? "pointer-events-none opacity-0" : ""}`}>
           {LINKS.map((l) => (
             <a key={l.href} href={l.href} className="link-line [background-size:0%_1px] hover:[background-size:100%_1px]" onClick={(e) => go(e, l.href)}>
               {l.label}

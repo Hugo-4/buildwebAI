@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow_Condensed, Bodoni_Moda, Jost, Marcellus } from "next/font/google";
+import { Barlow_Condensed, Bodoni_Moda, Jost, Tenor_Sans } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 // Polices auto-hébergées par next/font (aucune requête vers Google au runtime)
 const condensed = Barlow_Condensed({ subsets: ["latin"], weight: ["300"], variable: "--font-condensed", display: "swap" });
-const caps = Marcellus({ subsets: ["latin"], weight: ["400"], variable: "--font-caps", display: "swap" });
+// Tenor Sans : capitales modernes et élégantes (remplace Marcellus, trop « inscription romaine »)
+const caps = Tenor_Sans({ subsets: ["latin"], weight: ["400"], variable: "--font-caps", display: "swap" });
 const italic = Bodoni_Moda({ subsets: ["latin"], style: ["italic"], weight: ["400"], variable: "--font-italic", display: "swap" });
 const sans = Jost({ subsets: ["latin"], weight: ["300", "400"], variable: "--font-sans", display: "swap" });
 

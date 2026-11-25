@@ -19,13 +19,13 @@ typography:
     lineHeight: 0.82
     letterSpacing: "-0.01em"
   headline:
-    fontFamily: "Marcellus, serif"
+    fontFamily: "Tenor Sans, serif"
     fontSize: "clamp(2.4rem, 5vw, 5rem)"
     fontWeight: 400
     lineHeight: 1.06
     letterSpacing: "0.01em"
   title:
-    fontFamily: "Marcellus, serif"
+    fontFamily: "Tenor Sans, serif"
     fontSize: "clamp(1.75rem, 3.6vw, 3.25rem)"
     fontWeight: 400
     lineHeight: 1.06
@@ -144,7 +144,7 @@ Une palette de neige et d'encre, sans aplat : la couleur vient des films ; l'int
 ## Typography
 
 **Display Font:** Barlow Condensed 300 (repli sans-serif), variable `--font-condensed`
-**Headline Font:** Marcellus 400 (repli serif), variable `--font-caps`
+**Headline Font:** Tenor Sans 400 (repli serif), variable `--font-caps`
 **Label Font:** Bodoni Moda italique 400 (repli serif), variable `--font-italic`
 **Body Font:** Jost 300 et 400 (repli sans-serif), variable `--font-sans`
 
@@ -154,14 +154,14 @@ Toutes chargées et auto-hébergées par `next/font` avec `display: swap`.
 
 ### Hierarchy
 - **Display** (`.giant` : Barlow Condensed 300, capitales, interlignage 0.82, approche -0.01em) : le nom dans le hero (21vw ordinateur, 30vw téléphone), les chiffres de la maison (clamp(4.5rem, 11vw, 11rem)), l'adieu du pied de page (clamp(4rem, 15vw, 15rem)). Jamais pour un titre de section.
-- **Headline** (`.title` : Marcellus 400, capitales, interlignage 1.06, approche 0.01em, `text-wrap: balance`) : titres de chapitre de clamp(1.9rem, 3.4vw, 3.4rem) à clamp(2.5rem, 5.6vw, 5.5rem) ; les liens du menu clamp(2.2rem, 6.4vh, 4.5rem).
+- **Headline** (`.title` : Tenor Sans 400, capitales, interlignage 1.16, approche 0.045em, `text-wrap: balance`) : titres de chapitre de clamp(1.9rem, 3.4vw, 3.4rem) à clamp(2.5rem, 5.6vw, 5.5rem) ; les liens du menu clamp(2.2rem, 6.4vh, 4.5rem).
 - **Title** (`.title`, plus petit) : phrases posées sur le film, clamp(1.75rem, 3.6vw, 3.25rem) ; version à plat en mouvement réduit clamp(1.6rem, 2.6vw, 2.4rem).
 - **Label** (`.label` : Bodoni Moda italique 400) : noms des suites (clamp(1.5rem, 2.6vw, 2.6rem), interlignage 1.05, soulignés du trait `.swash`), titres d'expériences (clamp(1.8rem, 2.6vw, 2.6rem)), l'étiquette de deux lignes du hero (1.0625rem).
 - **Body** (Jost 300, 1.0625rem / 1.65) : paragraphes, largeur 34 à 46ch, interlignage `relaxed` ; paragraphe d'introduction à 1.125rem.
 - **Caps** (`.caps` : Jost 400, 0.75rem, capitales, approche 0.2em, chiffres tabulaires) : navigation, libellés de formulaire, onglet, bouton, listes de prestations, mentions. Nom sous le monogramme à 0.6875rem ; bouton d'envoi à 0.8125rem.
 
 ### Named Rules
-**La règle d'un nom géant.** La condensée géante est réservée au nom de la maison, aux chiffres et à l'adieu final. Un titre de section parle en Marcellus, jamais en condensée.
+**La règle d'un nom géant.** La condensée géante est réservée au nom de la maison, aux chiffres et à l'adieu final. Un titre de section parle en Tenor Sans, jamais en condensée.
 
 **La règle de l'italique qui nomme.** La Bodoni italique nomme (une suite, une expérience, un lieu) ; elle ne sert jamais de surtitre au-dessus d'un titre.
 
@@ -215,7 +215,7 @@ Fixé au bord droit, centré verticalement, ambre, texte `caps` vertical (`verti
 - **Puces de suite :** radio masqué, étiquette 0.7em × 1.3em bordée d'encre à 25 % ; survol bord encre ; choisie : pleine encre, texte neige.
 
 ### Navigation
-En-tête décrit dans Layout ; liens de chapitres en `caps` avec `.link-line`. Le **menu** plein écran est un rideau de neige qui descend (`clip-path` inset 100 % → 0, 0.9s in-out) et remonte à la fermeture (0.55s in) ; ses liens en Marcellus montent de 105 % (0.9s expo-out, décalés de 0.05s à partir de 0.25s) et sortent vers le haut (0.3s in). Bas du menu : adresse et e-mail en `caps` sur un filet.
+En-tête décrit dans Layout ; liens de chapitres en `caps` avec `.link-line`. Le **menu** plein écran est un rideau de neige qui descend (`clip-path` inset 100 % → 0, 0.9s in-out) et remonte à la fermeture (0.55s in) ; ses liens en Tenor Sans montent de 105 % (0.9s expo-out, décalés de 0.05s à partir de 0.25s) et sortent vers le haut (0.3s in). Bas du menu : adresse et e-mail en `caps` sur un filet.
 
 ### Suites en bloc de quatre cases (`Suites`)
 Un seul bloc 2 × 2 (`gap-x` 4px, 12px dès `sm`), sans épinglage ni scroll imposé. Chaque case : un film H.264 de 1600px (`/video/suite-*.mp4`, sans son, boucle, téléchargé à l'approche de l'écran) sous une affiche WebP ; en dessous, le nom en Bodoni italique souligné du trait `.swash`, la surface en `caps`, trois lignes d'équipements (masquées sous `sm`). Lecture : souris = survol (re-clic verrouille/déverrouille) ; tactile = maintenir appuyé (relâcher ou faire glisser pour défiler arrête) ; clavier = Entrée ou Espace. Une puce d'invitation (« Survoler pour visiter » / « Maintenir pour visiter ») disparaît pendant la lecture ; un trait de 3px en pied de case montre l'avancement.
@@ -223,8 +223,8 @@ Un seul bloc 2 × 2 (`gap-x` 4px, 12px dès `sm`), sans épinglage ni scroll imp
 ### Chiffres du lieu (`Counter`)
 Roulement `expo.inOut` de 1.3s à 1.3s + 0.18s par rang, décalé de 0.06s ; il rejoue à chaque apparition à l'écran (haut à 88 %), aller comme retour, et se remet à zéro dès que le bloc sort. Mouvement réduit : valeur finale.
 
-### Énoncé qui s'allume (`ScrollWords`)
-Une phrase en Marcellus repose en gris de brume et passe à l'encre mot à mot quand elle traverse l'écran (du haut de la phrase à 85 % au bas à 45 %), dans les deux sens ; chaque mot change de couleur en 0.45s expo-out. Variante sur fond sombre : neige à 45 % puis neige. Un double `sr-only` porte la phrase entière.
+### (retiré) Énoncé qui s'allume
+Une phrase en Tenor Sans repose en gris de brume et passe à l'encre mot à mot quand elle traverse l'écran (du haut de la phrase à 85 % au bas à 45 %), dans les deux sens ; chaque mot change de couleur en 0.45s expo-out. Variante sur fond sombre : neige à 45 % puis neige. Un double `sr-only` porte la phrase entière.
 
 ### Révélation par bandes (`StripReveal`)
 Une image ou un film découpé en six bandes (quatre sur téléphone) par un `clip-path` unique ; chaque bande s'ouvre depuis son axe en `power2.out`, la bande i démarrant à i/n × 0.55 du parcours et s'ouvrant sur 0.45. Scrubé de « haut à 85 % » à « haut à 15 % ».
