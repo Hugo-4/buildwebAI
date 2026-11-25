@@ -1,7 +1,8 @@
 "use client";
 /**
  * Vidéo d'ambiance en boucle (muette, sans contrôles visibles).
- * - Ne se charge et ne joue que lorsqu'elle est à l'écran (économie de données).
+ * - L'affiche est une image chargée à la demande (lazy) ; la vidéo ne se charge et ne
+ *   joue que lorsqu'elle est à l'écran, puis remplace l'affiche dès qu'elle tourne.
  * - prefers-reduced-motion : l'affiche seule, aucune lecture.
  * - Les fichiers sont des allers-retours (aucun saut à la boucle).
  */
@@ -13,6 +14,7 @@ type Props = { src: string; poster: string; label: string; className?: string };
 export default function LoopVideo({ src, poster, label, className = "" }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
   const [still, setStill] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const v = ref.current;
@@ -34,20 +36,22 @@ export default function LoopVideo({ src, poster, label, className = "" }: Props)
     return () => io.disconnect();
   }, [src]);
 
-  if (still) {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={poster} alt={label} className={`h-full w-full object-cover ${className}`} />;
-  }
   return (
-    <video
-      ref={ref}
-      poster={poster}
-      muted
-      loop
-      playsInline
-      preload="none"
-      aria-label={label}
-      className={`h-full w-full object-cover ${className}`}
-    />
+    <div className={`relative h-full w-full ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={poster} alt={still ? label : ""} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+      {!still && (
+        <video
+          ref={ref}
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-label={label}
+          onPlaying={() => setPlaying(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${playing ? "opacity-100" : "opacity-0"}`}
+        />
+      )}
+    </div>
   );
 }

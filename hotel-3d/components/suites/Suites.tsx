@@ -1,185 +1,211 @@
 "use client";
 /**
  * Chapitre 3 — Les suites.
- * La visite (séquence d'images) défile avec le scroll ; chaque tiers de la
- * vidéo correspond à une suite. Un panneau couleur neige change
- * de suite au fil de la visite : nom, surface, ce qu'on y trouve, réservation.
+ * Un seul bloc de quatre cases (2 × 2) : chaque suite est une image que l'on
+ * visite en la gardant sous le doigt. Aucun scroll n'est imposé : la page
+ * défile normalement.
+ *
+ * - Souris : survoler lit la visite ; cliquer la verrouille (re-cliquer l'arrête).
+ * - Tactile : maintenir appuyé lit la visite, relâcher l'arrête. Faire glisser le
+ *   doigt pour défiler annule la lecture (la page garde la main).
+ * - Clavier : Entrée ou Espace lit / arrête.
+ * - Mouvement réduit : jamais de lecture au survol, seulement sur action explicite.
  *
  * CONTENU DE DÉMONSTRATION : noms, surfaces et équipements sont à remplacer
  * par ceux de l'hôtel (aucun tarif n'est affiché).
  */
-import Image from "next/image";
-import ScrollSequence from "@/components/sequence/ScrollSequence";
+import { useEffect, useRef, useState } from "react";
+import RevealLines from "@/components/ui/RevealLines";
 import { useReducedMotion } from "@/lib/useMedia";
-import { SEQUENCES } from "@/lib/sequences";
-import type { gsap } from "@/lib/motion";
 
 const SUITES = [
   {
-    still: "/images/suite-fenetre-sommets.webp",
-    alt: "Suite Arête : baie ouverte sur les sommets, baignoire en pierre",
+    id: "arete",
     name: "Suite Arête",
     size: "40 m²",
     lines: ["Baie ouverte sur les sommets", "Baignoire en pierre, cheminée", "Lit de 200, bois d’arolle"],
   },
   {
-    still: "/images/suite-cheminee-suspendue.webp",
-    alt: "Suite Lauze : cheminée suspendue et lit face à la vallée",
+    id: "lauze",
     name: "Suite Lauze",
     size: "45 m²",
     lines: ["Cheminée suspendue", "Baignoire face à la vallée", "Plein sud, soleil du matin"],
   },
   {
-    still: "/images/suite-baignoire-vue.webp",
-    alt: "Suite Combe : baignoire en pierre devant la baie, sommets au soleil",
+    id: "combe",
     name: "Suite Combe",
     size: "70 m²",
     lines: ["Salon et cheminée suspendue", "Baignoire en pierre face aux sommets", "Balcon filant plein sud"],
   },
   {
-    still: "/images/lieu-terrasse-bain-nordique.webp",
-    alt: "Suite Cembro : terrasse et bain nordique à l'heure bleue",
+    id: "cembro",
     name: "Suite Cembro",
     size: "120 m²",
     lines: ["Duplex sous la charpente", "Feu ouvert, chambre en mezzanine", "Terrasse et bain nordique"],
   },
 ];
 
-/**
- * Chaque suite occupe une part égale. Le passage est net : la suite sortante a
- * fini de partir (lignes d'abord, titre en dernier) avant que l'entrante monte ;
- * le compteur tourne exactement à la frontière.
- */
-function suitesTimeline(tl: gsap.core.Timeline) {
-  const part = 1 / SUITES.length;
-  tl.fromTo("[data-suites-intro]", { opacity: 1, y: 0 }, { opacity: 0, y: -24, duration: 0.05 }, 0.02);
-  tl.fromTo("[data-suites-panel]", { yPercent: 110 }, { yPercent: 0, duration: 0.08, ease: "power3.out" }, 0.06);
-  SUITES.forEach((_, i) => {
-    const sel = `[data-suite="${i}"] [data-rise]`;
-    const start = i * part;
-    if (i > 0) tl.fromTo(sel, { yPercent: 110 }, { yPercent: 0, duration: 0.04, stagger: 0.006, ease: "power3.out" }, start - 0.02);
-    if (i < SUITES.length - 1)
-      tl.to(sel, { yPercent: -110, duration: 0.035, stagger: { each: 0.004, from: "end" }, ease: "power2.in" }, start + part - 0.06);
-    if (i > 0) tl.to("[data-suite-index]", { yPercent: (-100 / SUITES.length) * i, duration: 0.02, ease: "power3.inOut" }, start - 0.02);
-  });
-}
+type Suite = (typeof SUITES)[number];
 
-/** Mouvement réduit : les quatre suites à plat, chacune avec son image. */
-function StaticSuites() {
+function SuiteCard({ suite, reduced }: { suite: Suite; reduced: boolean }) {
+  const video = useRef<HTMLVideoElement>(null);
+  const bar = useRef<HTMLSpanElement>(null);
+  const box = useRef<HTMLDivElement>(null);
+  const lastType = useRef<string>("mouse");
+  const [armed, setArmed] = useState(false); // la vidéo ne se télécharge qu'à l'approche
+  const [hover, setHover] = useState(false); // souris au-dessus
+  const [held, setHeld] = useState(false); // doigt appuyé
+  const [locked, setLocked] = useState(false); // clic ou clavier
+  const [started, setStarted] = useState(false); // la vidéo remplace l'affiche au premier lancement
+  const active = hover || held || locked;
+
+  // On prépare la vidéo quand la carte approche de l'écran
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setArmed(true), { rootMargin: "100% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // Lecture / pause selon l'état
+  useEffect(() => {
+    const v = video.current;
+    if (!v) return;
+    if (active) {
+      setArmed(true);
+      setStarted(true);
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+    }
+  }, [active, armed]);
+
+  const progress = () => {
+    const v = video.current;
+    if (v && bar.current && v.duration) bar.current.style.transform = `scaleX(${v.currentTime / v.duration})`;
+  };
+
   return (
-    <section id="suites" data-header="dark" aria-labelledby="suites-title" className="bg-snow py-[var(--section-y)] text-ink">
-      <h2 id="suites-title" className="title px-[var(--gutter)] text-[clamp(2.5rem,5.6vw,5.5rem)]">
-        Vingt-quatre suites, aucune pareille.
-      </h2>
-      <div className="mt-14 grid gap-x-[var(--gutter)] gap-y-16 px-[var(--gutter)] md:grid-cols-2">
-        {SUITES.map((s) => (
-          <article key={s.name}>
-            <div className="relative aspect-[16/10] overflow-hidden">
-              <Image src={s.still} alt={s.alt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
-            </div>
-            <h3 className="label mt-6 text-[clamp(2rem,3.4vw,3.25rem)]">
-              <span className="swash">{s.name}</span>
-            </h3>
-            <p className="caps mt-3">{s.size}</p>
-            <ul className="mt-3 space-y-1">
-              {s.lines.map((l) => (
-                <li key={l}>{l}</li>
-              ))}
-            </ul>
-          </article>
-        ))}
+    <article aria-label={`${suite.name}, ${suite.size}`} className="min-w-0">
+      <div ref={box} className="relative aspect-[3/4] overflow-hidden bg-ink sm:aspect-[4/3]">
+        <button
+          type="button"
+          aria-pressed={locked}
+          aria-label={`Visiter la ${suite.name.toLowerCase()} en vidéo`}
+          className="absolute inset-0 z-10 block h-full w-full cursor-pointer select-none [-webkit-touch-callout:none] [-webkit-tap-highlight-color:transparent]"
+          onPointerEnter={(e) => {
+            lastType.current = e.pointerType;
+            if (e.pointerType === "mouse" && !reduced) setHover(true);
+          }}
+          onPointerLeave={(e) => {
+            if (e.pointerType === "mouse") setHover(false);
+          }}
+          onPointerDown={(e) => {
+            lastType.current = e.pointerType;
+            if (e.pointerType !== "mouse") setHeld(true);
+          }}
+          // pointercancel : le navigateur a repris le geste pour faire défiler la page
+          onPointerUp={(e) => e.pointerType !== "mouse" && setHeld(false)}
+          onPointerCancel={() => setHeld(false)}
+          onContextMenu={(e) => e.preventDefault()}
+          onClick={(e) => {
+            // un appui tactile court ne verrouille rien : seul le maintien lit la visite
+            if (e.detail !== 0 && lastType.current !== "mouse") return;
+            setLocked((l) => !l);
+          }}
+        >
+          <span className="sr-only">Maintenir ou cliquer pour lancer la visite, de nouveau pour l’arrêter.</span>
+        </button>
+
+        {/* Affiche : chargée à la demande (lazy), pour ne pas concurrencer l'image du hero */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/video/suite-${suite.id}-poster.webp`}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <video
+          ref={video}
+          src={armed ? `/video/suite-${suite.id}.mp4` : undefined}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden
+          onTimeUpdate={progress}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-200 ${started ? "opacity-100" : "opacity-0"}`}
+        />
+
+        {/* Invitation : disparaît pendant la visite */}
+        <span
+          aria-hidden
+          className={`caps pointer-events-none absolute left-3 top-3 z-20 flex items-center gap-2 bg-snow/90 px-3 py-2 text-ink transition-opacity duration-300 ${
+            active ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <svg viewBox="0 0 10 10" className="h-2.5 w-2.5" fill="currentColor">
+            <path d="M2 1l7 4-7 4z" />
+          </svg>
+          <span className="hidden sm:inline [@media(hover:none)]:hidden">Survoler pour visiter</span>
+          <span className="hidden [@media(hover:none)]:inline">
+            Maintenir<span className="hidden sm:inline"> pour visiter</span>
+          </span>
+          <span className="sm:hidden [@media(hover:none)]:hidden">Visiter</span>
+        </span>
+
+        {/* Avancement de la visite */}
+        <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[3px] bg-snow/25">
+          <span ref={bar} className="block h-full origin-left scale-x-0 bg-snow" />
+        </span>
       </div>
-      <div className="mt-14 px-[var(--gutter)]">
-        <a href="#reserver" className="btn caps">
-          Réserver une suite
-        </a>
+
+      <div className="pt-5">
+        <h3 className="label text-[clamp(1.5rem,2.6vw,2.6rem)] leading-[1.05]">
+          <span className="swash">{suite.name}</span>
+        </h3>
+        <p className="caps mt-4 text-ink/70">{suite.size}</p>
+        <ul className="mt-3 hidden space-y-1 text-[0.9375rem] text-ink/85 sm:block">
+          {suite.lines.map((l) => (
+            <li key={l}>{l}</li>
+          ))}
+        </ul>
       </div>
-    </section>
+    </article>
   );
 }
 
 export default function Suites() {
   const reduced = useReducedMotion();
-  if (reduced) return <StaticSuites />;
   return (
-    <ScrollSequence
-      id="suites"
-      manifest={SEQUENCES.suites}
-      length={7}
-      portraitBox={0.5}
-      bg="#f7f7f5"
-      stillFrame={0}
-      timeline={suitesTimeline}
-      label="Visite de quatre suites, de la suite Arête à la suite Cembro et sa terrasse au bain nordique"
-      header="light"
-    >
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-ink/40 to-transparent" />
-
-      <h2
-        data-suites-intro
-        className="title absolute left-[var(--gutter)] top-[20svh] max-w-[14ch] text-[clamp(2.5rem,5.6vw,5.5rem)] text-snow"
-        style={{ textShadow: "0 2px 30px rgba(21,25,29,.35)" }}
-      >
-        Vingt-quatre suites, aucune pareille.
-      </h2>
-
-      {/* Panneau neige, en pied d'écran */}
-      <div
-        data-suites-panel
-        className="absolute bottom-0 left-0 w-full border-t border-rule bg-snow px-[var(--gutter)] pb-24 pt-10 text-ink md:bottom-[var(--gutter)] md:left-[var(--gutter)] md:w-[min(40rem,48vw)] md:border-0 md:px-10 md:pb-10"
-      >
-        {/* Les trois suites, superposées ; la timeline fait passer de l'une à l'autre */}
-        <div className="relative h-[clamp(200px,28svh,280px)]">
-          {SUITES.map((s, i) => (
-            <article key={s.name} data-suite={i} className="absolute inset-0" aria-label={`${s.name}, ${s.size}`}>
-              <div className="overflow-hidden">
-                <h3 data-rise className="label text-[clamp(2.4rem,4.4vw,4rem)] leading-[1.05]">
-                  <span className="swash">{s.name}</span>
-                </h3>
-              </div>
-              <div className="mt-4 grid grid-cols-[auto_1fr] items-start gap-x-8">
-                <div className="overflow-hidden">
-                  <p data-rise className="caps pt-1">
-                    {s.size}
-                  </p>
-                </div>
-                <ul className="space-y-1">
-                  {s.lines.map((l) => (
-                    <li key={l} className="overflow-hidden">
-                      <span data-rise className="block">
-                        {l}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-6">
-          <a href="#reserver" className="btn caps">
-            Réserver une suite
-          </a>
-          <p className="caps flex items-baseline gap-5 text-ink/70">
-            <span>
-              <span className="relative inline-block h-[1.2em] overflow-hidden tabular-nums" style={{ verticalAlign: "-0.28em" }}>
-                <span data-suite-index className="flex flex-col">
-                  {SUITES.map((_, i) => (
-                    <span key={i} className="block h-[1.2em] leading-[1.2em]">
-                      {i + 1}
-                    </span>
-                  ))}
-                </span>
-              </span>{" "}
-              / {SUITES.length}
-            </span>
-            <a href="#reserver" className="link-line text-ink">
-              Toutes les suites
-            </a>
-          </p>
-        </div>
+    <section id="suites" data-header="dark" aria-labelledby="suites-title" className="bg-snow py-[var(--section-y)] text-ink">
+      <div className="grid grid-cols-4 gap-y-6 px-[var(--gutter)] md:grid-cols-6">
+        <RevealLines
+          as="h2"
+          id="suites-title"
+          lines={["Vingt-quatre suites,", "aucune pareille"]}
+          className="title col-span-4 text-[clamp(2.4rem,5vw,5rem)] md:col-span-4 md:col-start-2"
+        />
+        <p className="col-span-4 max-w-[46ch] text-[1.0625rem] leading-relaxed text-ink/75 md:col-span-3 md:col-start-2">
+          Quatre d’entre elles, à visiter : survolez une image, ou gardez le doigt dessus. La page continue de défiler
+          normalement.
+        </p>
       </div>
-    </ScrollSequence>
+
+      <div className="mx-[var(--gutter)] mt-14 grid grid-cols-2 gap-x-1 gap-y-12 sm:gap-x-3">
+        {SUITES.map((s) => (
+          <SuiteCard key={s.id} suite={s} reduced={reduced} />
+        ))}
+      </div>
+
+      <div className="mx-[var(--gutter)] mt-16">
+        <a href="#reserver" className="btn caps">
+          Réserver une suite
+        </a>
+      </div>
+    </section>
   );
 }

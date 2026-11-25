@@ -79,21 +79,6 @@
           "oklch(95% 0.004 250)"
         ]
       },
-      "grid-hairline": {
-        "role": "neutral",
-        "displayName": "Filet de grille",
-        "canonical": "rgb(128 134 140 / 0.16)",
-        "tonalRamp": [
-          "oklch(15% 0.003 245)",
-          "oklch(25% 0.005 245)",
-          "oklch(36% 0.007 245)",
-          "oklch(48% 0.009 245)",
-          "oklch(60% 0.009 245)",
-          "oklch(72% 0.007 245)",
-          "oklch(84% 0.005 245)",
-          "oklch(95% 0.003 245)"
-        ]
-      },
       "amber": {
         "role": "primary",
         "displayName": "Ambre d'arolle",

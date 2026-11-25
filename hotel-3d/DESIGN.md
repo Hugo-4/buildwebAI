@@ -7,7 +7,6 @@ colors:
   ink: "#15191d"
   mist: "#8a9096"
   rule: "rgb(21 25 29 / 0.09)"
-  grid-hairline: "rgb(128 134 140 / 0.16)"
   amber: "#c8873a"
   amber-hover: "#d4964d"
   night: "#0c1424"
@@ -106,14 +105,14 @@ components:
 
 **Creative North Star: "Neige et brume"**
 
-Le site est une feuille de neige (`snow`) réglée comme un plan d'architecte : six filets verticaux fixes traversent toute la page, au-dessus des fonds et des images, sous le texte. Tout ce qui n'est pas le film de la maison est blanc, calme et exact : l'encre pour le texte, un gris de brume pour la part encore « non lue » des phrases, et une seule note chaude, l'ambre d'arolle, pour l'action de réserver et les instruments qui l'accompagnent (focus, curseur, barre de lecture).
+Le site est une feuille de neige (`snow`) réglée comme un plan d'architecte sur six colonnes (quatre sur téléphone), sans quadrillage visible : la grille ne se lit que dans l'alignement des blocs et des bandes. Tout ce qui n'est pas le film de la maison est blanc, calme et exact : l'encre pour le texte, un gris de brume pour la part encore « non lue » des phrases, et une seule note chaude, l'ambre d'arolle, pour l'action de réserver et les instruments qui l'accompagnent (focus, curseur, barre de lecture).
 
-Le geste signature est le nom « L'AROLLE », en capitales condensées géantes, qui se dissout dans une brume de montagne WebGL montant du bas de l'écran au premier scroll, au-dessus du film d'arrivée. Ensuite le récit avance par énoncés qui s'allument mot à mot, images qui s'ouvrent par bandes verticales calées sur les filets, et un onglet ambré toujours fixé au bord droit. Le mouvement est lent et doux : entrées en expo-out d'environ 1,1 à 1,6 s, tout ce qui est lié au scroll est scrubé, rien ne rebondit, rien n'est incliné.
+Le geste signature est le nom « L'AROLLE », en capitales condensées géantes, qui se dissout dans une brume de montagne WebGL montant du bas de l'écran au premier scroll, au-dessus du film d'arrivée. Ensuite le récit avance par énoncés qui s'allument mot à mot, images qui s'ouvrent par bandes verticales calées sur les colonnes, et un onglet ambré toujours fixé au bord droit. Le mouvement est lent et doux : entrées en expo-out d'environ 1,1 à 1,6 s, tout ce qui est lié au scroll est scrubé, rien ne rebondit, rien n'est incliné.
 
 Densité basse, beaucoup d'air (`section-y` jusqu'à 220px), coins carrés, filets d'un pixel, aucun aplat de couleur. Historique : ce monde a remplacé, à la demande de l'utilisateur, un premier monde « Photomontage alpin » (champs bleus coupés à 12°, Bodoni en display) ; seuls le monogramme A-pente, l'ambre d'action, les films et la mécanique de scroll ont été conservés.
 
 **Key Characteristics:**
-- Fond neige, six filets verticaux fixes (quatre sur téléphone) alignés sur la gouttière.
+- Fond neige, six colonnes invisibles (quatre sur téléphone) entre gouttières.
 - Quatre voix typographiques à rôles stricts : condensée géante, capitales serif, italique didone, sans légère.
 - Une seule couleur chaude, réservée à l'action ; aucun aplat, aucun dégradé décoratif.
 - Coins carrés partout ; le cercle n'existe que pour les instruments (curseur, spinner).
@@ -131,7 +130,6 @@ Une palette de neige et d'encre, sans aplat : la couleur vient des films ; l'int
 - **Encre** (`ink`) : texte, sélection (fond encre, texte neige), boutons au survol, puce de suite choisie, champ de ton du chapitre spa (`data-header="ink"`). Opacités d'usage : 85 % pour les paragraphes, 70 % pour les libellés de formulaire, 60 % pour les légendes de chiffres.
 - **Gris de brume** (`mist`) : uniquement la part non encore lue d'un énoncé qui s'allume, et la barre de défilement. Sur fond sombre, la part non lue est la neige à 45 %.
 - **Filet** (`rule`) : bordures de l'en-tête sur neige, séparateurs de sections (`border-t`), lignes de listes.
-- **Filet de grille** (`grid-hairline`) : les six filets verticaux fixes ; gris moyen pour rester lisible sur la neige comme sur une photo.
 - **Nuit** (`night`) : fond de la séquence de départ (pied de page), voile à 35 % sur le film rejoué de nuit.
 - **Blanc** (`white`) : réserve, presque jamais visible ; la neige le remplace.
 
@@ -156,9 +154,9 @@ Toutes chargées et auto-hébergées par `next/font` avec `display: swap`.
 
 ### Hierarchy
 - **Display** (`.giant` : Barlow Condensed 300, capitales, interlignage 0.82, approche -0.01em) : le nom dans le hero (21vw ordinateur, 30vw téléphone), les chiffres de la maison (clamp(4.5rem, 11vw, 11rem)), l'adieu du pied de page (clamp(4rem, 15vw, 15rem)). Jamais pour un titre de section.
-- **Headline** (`.title` : Marcellus 400, capitales, interlignage 1.06, approche 0.01em, `text-wrap: balance`) : titres de chapitre de clamp(1.9rem, 3.4vw, 3.4rem) à clamp(2.5rem, 5.6vw, 5.5rem) ; l'énoncé du lieu clamp(2rem, 4.3vw, 4.4rem) ; les liens du menu clamp(2.2rem, 6.4vh, 4.5rem).
+- **Headline** (`.title` : Marcellus 400, capitales, interlignage 1.06, approche 0.01em, `text-wrap: balance`) : titres de chapitre de clamp(1.9rem, 3.4vw, 3.4rem) à clamp(2.5rem, 5.6vw, 5.5rem) ; les liens du menu clamp(2.2rem, 6.4vh, 4.5rem).
 - **Title** (`.title`, plus petit) : phrases posées sur le film, clamp(1.75rem, 3.6vw, 3.25rem) ; version à plat en mouvement réduit clamp(1.6rem, 2.6vw, 2.4rem).
-- **Label** (`.label` : Bodoni Moda italique 400) : noms des suites (clamp(2.4rem, 4.4vw, 4rem), interlignage 1.05, soulignés du trait `.swash`), titres d'expériences (clamp(1.8rem, 2.6vw, 2.6rem)), l'étiquette de deux lignes du hero (1.0625rem).
+- **Label** (`.label` : Bodoni Moda italique 400) : noms des suites (clamp(1.5rem, 2.6vw, 2.6rem), interlignage 1.05, soulignés du trait `.swash`), titres d'expériences (clamp(1.8rem, 2.6vw, 2.6rem)), l'étiquette de deux lignes du hero (1.0625rem).
 - **Body** (Jost 300, 1.0625rem / 1.65) : paragraphes, largeur 34 à 46ch, interlignage `relaxed` ; paragraphe d'introduction à 1.125rem.
 - **Caps** (`.caps` : Jost 400, 0.75rem, capitales, approche 0.2em, chiffres tabulaires) : navigation, libellés de formulaire, onglet, bouton, listes de prestations, mentions. Nom sous le monogramme à 0.6875rem ; bouton d'envoi à 0.8125rem.
 
@@ -169,11 +167,11 @@ Toutes chargées et auto-hébergées par `next/font` avec `display: swap`.
 
 ## Layout
 
-**Grille.** Six colonnes égales (quatre sous 768px) entre deux gouttières `gutter`, matérialisées par les filets fixes de `GridLines` (z-index 5, bord gauche de chaque colonne plus bord droit). Les contenus s'alignent sur ces colonnes : titres en colonnes 2 à 5, paragraphe en 3 et 4, formulaire en 4 à 6, chiffres en 2 à 5. Les images en pleine largeur restent entre les gouttières (`mx-[var(--gutter)]`), sauf les films en plein cadre.
+**Grille.** Six colonnes égales (quatre sous 768px) entre deux gouttières `gutter`, non matérialisées (le quadrillage fixe a été retiré à la demande du client). Les contenus s'alignent sur ces colonnes : titres en colonnes 2 à 5, paragraphe en 3 et 4, formulaire en 4 à 6, chiffres en 2 à 5. Les images en pleine largeur restent entre les gouttières (`mx-[var(--gutter)]`), sauf les films en plein cadre.
 
 **Rythme.** Chaque chapitre respire de `section-y` en haut et en bas ; à l'intérieur, les écarts vont de 4px (bandes d'expériences) à 64px (`gap-y-16`) entre blocs. Les sections plein écran utilisent `svh`.
 
-**Empilement.** filets 5 · barre de lecture 60 · menu 70 · onglet Réserver 75 · en-tête 80 · curseur 90 · préchargeur et lien d'évitement 100.
+**Empilement.** barre de lecture 60 · menu 70 · onglet Réserver 75 · en-tête 80 · curseur 90 · préchargeur et lien d'évitement 100.
 
 **En-tête.** Grille à trois colonnes, `py-5` : chapitres à gauche (cachés sur téléphone), monogramme 32px et nom au centre, « Menu » à droite. Son ton suit la section sous la barre (y = 40px) via `data-header` : `light` (transparent, texte neige sur film), `dark` (fond neige, filet, encre), `ink` (fond encre, texte neige) ; transition 500ms expo-out.
 
@@ -181,7 +179,7 @@ Toutes chargées et auto-hébergées par `next/font` avec `display: swap`.
 
 ## Elevation & Depth
 
-Le système est plat. La profondeur vient de la superposition : film, puis brume, puis filets, puis texte, et de deux voiles fonctionnels. Aucune ombre portée sur un élément d'interface.
+Le système est plat. La profondeur vient de la superposition : film, puis brume, puis texte, et de deux voiles fonctionnels. Aucune ombre portée sur un élément d'interface.
 
 ### Shadow Vocabulary
 - **Halo de lisibilité** (`text-shadow: 0 2px 30px rgba(21,25,29,.35)`) : seulement sur un titre neige posé sur un film clair (intro des suites).
@@ -219,6 +217,12 @@ Fixé au bord droit, centré verticalement, ambre, texte `caps` vertical (`verti
 ### Navigation
 En-tête décrit dans Layout ; liens de chapitres en `caps` avec `.link-line`. Le **menu** plein écran est un rideau de neige qui descend (`clip-path` inset 100 % → 0, 0.9s in-out) et remonte à la fermeture (0.55s in) ; ses liens en Marcellus montent de 105 % (0.9s expo-out, décalés de 0.05s à partir de 0.25s) et sortent vers le haut (0.3s in). Bas du menu : adresse et e-mail en `caps` sur un filet.
 
+### Suites en bloc de quatre cases (`Suites`)
+Un seul bloc 2 × 2 (`gap-x` 4px, 12px dès `sm`), sans épinglage ni scroll imposé. Chaque case : un film H.264 de 1600px (`/video/suite-*.mp4`, sans son, boucle, téléchargé à l'approche de l'écran) sous une affiche WebP ; en dessous, le nom en Bodoni italique souligné du trait `.swash`, la surface en `caps`, trois lignes d'équipements (masquées sous `sm`). Lecture : souris = survol (re-clic verrouille/déverrouille) ; tactile = maintenir appuyé (relâcher ou faire glisser pour défiler arrête) ; clavier = Entrée ou Espace. Une puce d'invitation (« Survoler pour visiter » / « Maintenir pour visiter ») disparaît pendant la lecture ; un trait de 3px en pied de case montre l'avancement.
+
+### Chiffres du lieu (`Counter`)
+Roulement `expo.inOut` de 1.3s à 1.3s + 0.18s par rang, décalé de 0.06s ; il rejoue à chaque apparition à l'écran (haut à 88 %), aller comme retour, et se remet à zéro dès que le bloc sort. Mouvement réduit : valeur finale.
+
 ### Énoncé qui s'allume (`ScrollWords`)
 Une phrase en Marcellus repose en gris de brume et passe à l'encre mot à mot quand elle traverse l'écran (du haut de la phrase à 85 % au bas à 45 %), dans les deux sens ; chaque mot change de couleur en 0.45s expo-out. Variante sur fond sombre : neige à 45 % puis neige. Un double `sr-only` porte la phrase entière.
 
@@ -226,10 +230,10 @@ Une phrase en Marcellus repose en gris de brume et passe à l'encre mot à mot q
 Une image ou un film découpé en six bandes (quatre sur téléphone) par un `clip-path` unique ; chaque bande s'ouvre depuis son axe en `power2.out`, la bande i démarrant à i/n × 0.55 du parcours et s'ouvrant sur 0.45. Scrubé de « haut à 85 % » à « haut à 15 % ».
 
 ### Accordéon de bandes (Expériences)
-Section épinglée (hauteur n × 70 + 40 vh) ; une rangée de 62svh, bandes séparées de 4px. L'expérience courante s'ouvre (`flex-grow` 7 contre 1, 900ms expo-out), les autres restent étroites sous un voile de neige à 45 % (700ms). Le scroll choisit la bande ; le survol volontaire (mouvement de plus de 4px, au plus une bascule par 900ms) et le clavier l'ouvrent directement. Titre en Bodoni italique et texte apparaissent 300ms après l'ouverture.
+Section NON épinglée (le scroll n'est jamais imposé) ; une rangée de 62svh, bandes séparées de 4px. L'expérience courante s'ouvre (`flex-grow` 7 contre 1, 900ms expo-out), les autres restent étroites sous un voile de neige à 45 % (700ms). Le survol volontaire (mouvement de plus de 4px, au plus une bascule par 700ms), le clic, le toucher et le clavier l'ouvrent. Titre en Bodoni italique et texte apparaissent 300ms après l'ouverture.
 
 ### Séquences de scroll (`ScrollSequence`)
-Les films de la maison (arrivée, suites, départ) défilent image par image avec le scroll. Le départ rejoue l'arrivée à l'envers, de nuit : multiplication bleu nuit puis voile `night` à 35 %, sur fond `night`. Les phrases s'y posent en `title` (entrée 24px vers 0 en `power2.out`, sortie -16px en `power2.in`).
+Les films de la maison (arrivée, départ) défilent image par image avec le scroll ; seul le hero est épinglé (le départ ne dure que 2,6 écrans). Images en WebP qualité 84, 1920 et 960 px, lissage canvas « high ». Le départ rejoue l'arrivée à l'envers, de nuit : multiplication bleu nuit puis voile `night` à 35 %, sur fond `night`. Les phrases s'y posent en `title` (entrée 24px vers 0 en `power2.out`, sortie -16px en `power2.in`).
 
 ### Curseur et instruments
 Curseur sur pointeur fin seulement : point ambre de 6px qui suit exactement, anneau ambre qui le rattrape (0.45s `power3.out`), s'élargit sur un lien et peut porter un mot. Barre de lecture : trait ambre d'un pixel, `scaleX` lié au scroll. Préchargeur : le monogramme se trace (pleins et déliés 0.7s, empattements 0.4s, barre 0.9s), compteur, puis rideau qui remonte (0.9s `expo.inOut`) ; une fois par session, ordinateur seulement.
@@ -243,12 +247,12 @@ Une seule famille de courbes, définie à la fois en CSS et dans `lib/motion.ts`
 - **Brume :** monte de 0 à 13 % du scroll du hero, se retire jusqu'à 24 % ; amorti exponentiel (constante 5/s) ; le nom s'efface entre 35 % et 85 % de couverture avec un flou jusqu'à 8px et une montée de 8 %.
 
 ### Mouvement réduit
-`prefers-reduced-motion` ramène toute animation et transition CSS à 0.01ms. En plus : pas de classe `intro` ni de préchargeur, pas de brume, les trois phrases du hero présentées à plat sur la neige, énoncés directement à l'encre, images en entier sans bandes, suites à plat (grille de deux avec images), expériences en rangée à faire défiler, menu sans animation, curseur sans retard.
+`prefers-reduced-motion` ramène toute animation et transition CSS à 0.01ms. En plus : pas de classe `intro` ni de préchargeur, pas de brume, les trois phrases du hero présentées à plat sur la neige, énoncés directement à l'encre, images en entier sans bandes, suites : la visite ne se lance que sur action explicite (clic ou clavier), jamais au survol, expériences en rangée à faire défiler, menu sans animation, curseur sans retard.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** poser toute nouvelle surface sur la neige (`snow`) et aligner ses blocs sur les six colonnes de `GridLines` (quatre sous 768px), entre gouttières `gutter`.
+- **Do** poser toute nouvelle surface sur la neige (`snow`) et aligner ses blocs sur les six colonnes (quatre sous 768px), entre gouttières `gutter`.
 - **Do** espacer les chapitres de `section-y` (clamp(112px, 18vh, 220px)).
 - **Do** réserver l'ambre à l'action de réserver et aux instruments (focus, caret, curseur, barre de lecture).
 - **Do** utiliser expo-out pour entrer, in-out pour les trajets scrubés, in pour sortir, avec les durées 160ms / 320ms / 1.1s du système.
