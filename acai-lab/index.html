@@ -76,6 +76,7 @@
           <img class="ritual-poster" src="./assets/img/frame-hero-start.jpg" alt="" width="1080" height="1080" fetchpriority="high">
           <canvas class="seq-canvas ritual-a" id="cv-blend"></canvas>
           <canvas class="seq-canvas ritual-b" id="cv-dispense"></canvas>
+          <canvas class="seq-canvas ritual-c" id="cv-toppings"></canvas>
         </div>
 
         <ol class="ritual-steps">
@@ -88,6 +89,11 @@
             <span class="step-num">02.</span>
             <span class="step-title">Precisión</span>
             <span class="step-text">Textura cremosa hecha al momento.</span>
+          </li>
+          <li class="ritual-step" data-step="3">
+            <span class="step-num">03.</span>
+            <span class="step-title">Carácter</span>
+            <span class="step-text">Fruta fresca, granola y peanut butter de la casa.</span>
           </li>
         </ol>
 
@@ -111,6 +117,8 @@
             <img class="carta-poster" id="carta-poster" src="./assets/img/frame-carta-latte.jpg" alt="Peanut Butter Latte de Açai Lab" width="1080" height="1080" loading="lazy">
             <canvas class="seq-canvas" id="cv-drink" aria-hidden="true"></canvas>
             <canvas class="seq-canvas is-hidden" id="cv-bowl" aria-hidden="true"></canvas>
+            <img class="flavour-photo" alt="" aria-hidden="true" decoding="async">
+            <img class="flavour-photo" alt="" aria-hidden="true" decoding="async">
             <p class="stage-label" id="stage-label" aria-live="polite">Peanut Butter Latte</p>
             <button class="replay" id="replay" type="button" hidden><span aria-hidden="true">↻</span> Reproducir</button>
           </div>
@@ -152,11 +160,11 @@
                 <h3>Matcha</h3>
               </header>
               <ul class="menu">
-                <li><button class="item" data-drink="matcha" type="button"><span class="item-name">Matcha Latte</span><span class="item-note">+ cold foam S/ 2</span></button></li>
-                <li><button class="item is-featured" data-drink="matcha" type="button"><span class="item-name">Mango Matcha</span><span class="badge badge-matcha">Fran’s choice</span><span class="item-desc">Coulis de mango.</span></button></li>
-                <li><button class="item" data-drink="matcha" type="button"><span class="item-name">Strawberry Matcha</span><span class="item-desc">Coulis de fresa.</span></button></li>
-                <li><button class="item" data-drink="matcha" type="button"><span class="item-name">Açai Matcha</span><span class="item-desc">Jelly y cold foam de açaí.</span></button></li>
-                <li><button class="item" data-drink="matcha" type="button"><span class="item-name">Pistacho Matcha</span><span class="item-desc">Cold foam de pistacho, pistacho crumble de la casa.</span></button></li>
+                <li><button class="item" data-drink="matcha" data-flavour="latte" type="button"><span class="item-name">Matcha Latte</span><span class="item-note">+ cold foam S/ 2</span></button></li>
+                <li><button class="item is-featured" data-drink="matcha" data-flavour="mango" type="button"><span class="item-name">Mango Matcha</span><span class="badge badge-matcha">Fran’s choice</span><span class="item-desc">Coulis de mango.</span></button></li>
+                <li><button class="item" data-drink="matcha" data-flavour="strawberry" type="button"><span class="item-name">Strawberry Matcha</span><span class="item-desc">Coulis de fresa.</span></button></li>
+                <li><button class="item" data-drink="matcha" data-flavour="acai" type="button"><span class="item-name">Açai Matcha</span><span class="item-desc">Jelly y cold foam de açaí.</span></button></li>
+                <li><button class="item" data-drink="matcha" data-flavour="pistacho" type="button"><span class="item-name">Pistacho Matcha</span><span class="item-desc">Cold foam de pistacho, pistacho crumble de la casa.</span></button></li>
               </ul>
             </div>
 
@@ -221,14 +229,14 @@
       </div>
 
       <div class="bento">
-        <figure class="tile t-piso reveal">
-          <div class="tile-media"><img src="./assets/img/social/social-1.jpg" alt="Matcha lattes sobre el azulejo violeta de Açai Lab" width="500" height="562" loading="lazy" decoding="async"></div>
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-1.jpg" alt="Matcha lattes helados sobre el azulejo violeta de Açai Lab" width="1000" height="1250" loading="lazy" decoding="async"></div>
           <figcaption><span>01</span>El azulejo violeta, nuestra firma.</figcaption>
         </figure>
 
-        <figure class="tile t-bandeja reveal">
-          <div class="tile-media"><img src="./assets/img/social/social-2.jpg" alt="PB&amp;J Bagels sobre bandeja de acero con papel monogramado" width="696" height="838" loading="lazy" decoding="async"></div>
-          <figcaption><span>02</span>Bandejas de acero y papel monogramado. PB&amp;J Bagel, peanut butter de la casa.</figcaption>
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-4.jpg" alt="Raspberry Pulp Matcha y la fragancia Alien Pulp en la activación Mugler × Açai Lab" width="1000" height="1250" loading="lazy" decoding="async"></div>
+          <figcaption><span>02</span>Mugler × Açai Lab: Raspberry Pulp Matcha, inspirado en Alien Pulp.</figcaption>
         </figure>
 
         <blockquote class="tile t-quote reveal">
@@ -236,24 +244,19 @@
           <footer>— Açai Lab</footer>
         </blockquote>
 
-        <figure class="tile t-bowl reveal">
-          <div class="tile-media"><img src="./assets/img/social/social-3.jpg" alt="Açai bowl con plátano, arándanos, fresa y peanut butter de la casa" width="696" height="836" loading="lazy" decoding="async"></div>
-          <figcaption><span>03</span>Açai bowl sin azúcar, con zigzag de peanut butter de la casa.</figcaption>
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-3.jpg" alt="Café y matcha para llevar con flores sobre una mesa blanca, junto a la banca violeta" width="1000" height="1249" loading="lazy" decoding="async"></div>
+          <figcaption><span>03</span>Mesas blancas, banca violeta y flores de temporada.</figcaption>
         </figure>
 
-        <figure class="tile t-mesa reveal">
-          <div class="tile-media"><img src="./assets/img/social/social-4.jpg" alt="Mesa blanca con el monograma de Açai Lab grabado y un matcha" width="678" height="846" loading="lazy" decoding="async"></div>
-          <figcaption><span>04</span>Mesas blancas con el monograma grabado. Luz de San Isidro.</figcaption>
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-2.jpg" alt="Açai bowl, matcha, café y cookie con sprinkles sobre bandeja de acero" width="1000" height="1250" loading="lazy" decoding="async"></div>
+          <figcaption><span>04</span>Bandejas de acero y rituales de colores.</figcaption>
         </figure>
 
-        <figure class="tile t-mugler reveal">
-          <div class="tile-media"><img src="./assets/img/social/social-5.jpg" alt="Raspberry Pulp Matcha de la colaboración Mugler × Açai Lab" width="696" height="360" loading="lazy" decoding="async"></div>
-          <figcaption><span>05</span>Mugler × Açai Lab: Raspberry Pulp Matcha.</figcaption>
-        </figure>
-
-        <figure class="tile t-booth reveal">
-          <div class="tile-media"><img src="./assets/img/social/social-6.jpg" alt="Bebidas con charms y tiras de fotos de The Charming Booth" width="512" height="440" loading="lazy" decoding="async"></div>
-          <figcaption><span>06</span>The Charming Booth: drinks, charms &amp; photobooth.</figcaption>
+        <figure class="tile reveal">
+          <div class="tile-media"><img src="./assets/img/social/social-5.jpg" alt="Bebidas con charms y tiras de fotos de The Charming Booth" width="1200" height="1006" loading="lazy" decoding="async"></div>
+          <figcaption><span>05</span>The Charming Booth: drinks, charms &amp; photobooth.</figcaption>
         </figure>
 
         <ul class="tile t-names reveal" aria-label="Colaboraciones">
@@ -274,6 +277,7 @@
       <div class="outro-stage" id="outro-stage" aria-hidden="true">
         <img class="outro-poster" src="./assets/img/frame-outro-box.jpg" alt="" width="1080" height="1080" loading="lazy">
         <canvas class="seq-canvas" id="cv-box"></canvas>
+        <img class="outro-still" src="./assets/img/carta/box-open.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">
       </div>
       <p class="outro-caption">Mango Matcha · Açai Bowl · PB&amp;J Bagel</p>
 
