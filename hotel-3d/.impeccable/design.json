@@ -351,7 +351,7 @@
       "refersTo": "scroll-words",
       "description": "Mots en gris de brume qui passent à l'encre (ici figé à mi-parcours).",
       "html": "<p class=\"ds-words\"><span class=\"on\">Là où la route s'arrête, </span><span>la maison commence.</span></p>",
-      "css": ".ds-words{font-family:Marcellus,serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em;line-height:1.06;font-size:2.25rem;margin:0}.ds-words span{color:#8a9096;transition:color .45s cubic-bezier(.16,1,.3,1)}.ds-words span.on,.ds-words:hover span{color:#15191d}"
+      "css": ".ds-words{font-family:Tenor Sans,serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em;line-height:1.06;font-size:2.25rem;margin:0}.ds-words span{color:#8a9096;transition:color .45s cubic-bezier(.16,1,.3,1)}.ds-words span.on,.ds-words:hover span{color:#15191d}"
     }
   ],
   "narrative": {
@@ -377,7 +377,7 @@
       },
       {
         "name": "La règle d'un nom géant",
-        "body": "La condensée géante est réservée au nom de la maison, aux chiffres et à l'adieu final. Un titre de section parle en Marcellus, jamais en condensée.",
+        "body": "La condensée géante est réservée au nom de la maison, aux chiffres et à l'adieu final. Un titre de section parle en Tenor Sans, jamais en condensée.",
         "section": "typography"
       },
       {

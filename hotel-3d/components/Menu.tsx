@@ -72,41 +72,61 @@ export default function Menu({ open, onClose }: Props) {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="fixed inset-0 z-[70] flex flex-col bg-snow px-[var(--gutter)] pb-10 pt-32 text-ink"
+          className="fixed inset-0 z-[70] flex flex-col overflow-y-auto bg-snow px-[var(--gutter)] pb-10 pt-36 text-ink"
           // la neige descend sur la page comme un rideau, et remonte à la fermeture
           initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
           animate={{ clipPath: "inset(0% 0% 0% 0%)", transition: { duration: reduce ? 0 : 0.9, ease: BEZIER.inOut } }}
           exit={{ clipPath: "inset(0% 0% 100% 0%)", transition: { duration: reduce ? 0 : 0.55, ease: BEZIER.in } }}
         >
-          <nav aria-label="Chapitres" className="relative flex-1">
-            <ol className="space-y-1">
-              {CHAPTERS.map((c, i) => (
-                <li key={c.href} className="-mt-[0.14em] overflow-hidden pt-[0.14em]">
-                  <motion.a
-                    href={c.href}
-                    onClick={(e) => (e.preventDefault(), go(c.href))}
-                    className="title inline-block text-[clamp(2.2rem,6.4vh,4.5rem)] text-ink/70 transition-colors hover:text-ink focus-visible:text-ink"
-                    initial={{ y: "105%" }}
-                    animate={{ y: 0, transition: { delay: reduce ? 0 : 0.25 + i * 0.05, duration: reduce ? 0 : 0.9, ease: BEZIER.outExpo } }}
-                    exit={{ y: "-105%", transition: { duration: reduce ? 0 : 0.3, ease: BEZIER.in } }}
-                  >
-                    {c.label}
-                  </motion.a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-          <motion.div
-            className="caps relative flex flex-wrap justify-between gap-6 border-t border-rule pt-6 text-ink/70"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { delay: reduce ? 0 : 0.6 } }}
-            exit={{ opacity: 0, transition: { duration: 0.15 } }}
-          >
-            <span>Jardin Alpin · Courchevel 1850</span>
-            <a href="mailto:sejour@larolle.example" className="link-line">
-              sejour@larolle.example
-            </a>
-          </motion.div>
+          <div className="grid flex-1 grid-cols-1 gap-x-[var(--gutter)] gap-y-12 md:grid-cols-6">
+            {/* Les chapitres : une ligne fine entre chaque, le nom en Tenor Sans, une flèche au survol */}
+            <nav aria-label="Chapitres" className="md:col-span-4">
+              <ol className="border-t border-rule">
+                {CHAPTERS.map((c, i) => (
+                  <li key={c.href} className="overflow-hidden border-b border-rule">
+                    <motion.a
+                      href={c.href}
+                      onClick={(e) => (e.preventDefault(), go(c.href))}
+                      className="group flex items-center justify-between py-[clamp(0.55rem,1.6vh,1.1rem)] text-ink/75 transition-colors hover:text-ink focus-visible:text-ink"
+                      initial={{ y: "105%" }}
+                      animate={{ y: 0, transition: { delay: reduce ? 0 : 0.25 + i * 0.05, duration: reduce ? 0 : 0.9, ease: BEZIER.outExpo } }}
+                      exit={{ y: "-105%", transition: { duration: reduce ? 0 : 0.3, ease: BEZIER.in } }}
+                    >
+                      <span className="title text-[clamp(1.6rem,4.6vh,3.4rem)] transition-[letter-spacing] duration-500 ease-out-expo group-hover:tracking-[0.09em]">
+                        {c.label}
+                      </span>
+                      <svg viewBox="0 0 24 12" className="h-3 w-6 shrink-0 -translate-x-2 opacity-0 transition-[opacity,transform] duration-300 ease-out-expo group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100" aria-hidden>
+                        <path d="M0 6h22M17 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1" />
+                      </svg>
+                    </motion.a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+
+            {/* Coordonnées et action */}
+            <motion.div
+              className="flex flex-col justify-between gap-10 md:col-span-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { delay: reduce ? 0 : 0.6 } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+            >
+              <div className="space-y-6">
+                <p className="caps text-ink/60">Courchevel 1850</p>
+                <address className="not-italic text-[1.125rem] font-light leading-relaxed">
+                  Jardin Alpin
+                  <br />
+                  73120 Courchevel, Savoie
+                </address>
+                <a href="mailto:sejour@larolle.example" className="link-line inline-block text-[1.0625rem] font-light">
+                  sejour@larolle.example
+                </a>
+              </div>
+              <a href="#reserver" onClick={(e) => (e.preventDefault(), go("#reserver"))} className="btn caps self-start">
+                Réserver un séjour
+              </a>
+            </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

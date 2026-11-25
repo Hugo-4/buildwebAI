@@ -9,9 +9,38 @@
  */
 import { useEffect, useRef } from "react";
 import LoopVideo from "@/components/ui/LoopVideo";
-import ScrollWords from "@/components/ui/ScrollWords";
 import StripReveal from "@/components/ui/StripReveal";
 import { registerGsap, gsap, prefersReducedMotion } from "@/lib/motion";
+
+/** CONTENU DE DÉMONSTRATION : la carte est un exemple, à remplacer par celle du chef (aucun prix affiché). */
+const CARTE = [
+  {
+    name: "Entrées",
+    dishes: [
+      { name: "Truite du lac, raifort et betterave", note: "Fumée au bois d’arolle, crème acidulée" },
+      { name: "Velouté de potimarron", note: "Châtaigne, huile de noisette" },
+      { name: "Tarte fine au beaufort", note: "Herbes des alpages, noix" },
+    ],
+  },
+  {
+    name: "Plats",
+    dishes: [
+      { name: "Gibier de saison", note: "Jus au genièvre, céleri rôti, airelles" },
+      { name: "Féra du lac, beurre blanc", note: "Polenta crémeuse, légumes racines" },
+      { name: "Risotto d’épeautre aux cèpes", note: "Vieux comté, pain cuit au feu de bois" },
+    ],
+  },
+  {
+    name: "Desserts",
+    dishes: [
+      { name: "Tarte aux myrtilles des alpages", note: "Crème de Tarentaise" },
+      { name: "Chocolat noir, noisette", note: "Glace au lait de montagne" },
+      { name: "Fromages de Tarentaise", note: "Plateau affiné, confiture de sapin" },
+    ],
+  },
+];
+
+const SPA = ["Piscine intérieure", "Sauna d’arolle", "Cabines de soin", "Hammam"];
 
 export default function TableSpa() {
   const spa = useRef<HTMLElement>(null);
@@ -39,7 +68,7 @@ export default function TableSpa() {
       <section id="table" data-header="dark" aria-labelledby="table-title" className="bg-snow py-[var(--section-y)] text-ink">
         <div className="grid grid-cols-4 px-[var(--gutter)] md:grid-cols-6">
           <h2 id="table-title" className="title col-span-4 text-[clamp(2.4rem,5vw,5rem)] md:col-span-4 md:col-start-2">
-            Une seule salle, face à la vallée
+            Notre restaurant vous attend
           </h2>
         </div>
 
@@ -51,8 +80,8 @@ export default function TableSpa() {
           />
         </StripReveal>
 
-        <div className="mt-16 grid grid-cols-4 gap-y-10 px-[var(--gutter)] md:grid-cols-6">
-          <p className="col-span-4 max-w-[46ch] text-[1.125rem] leading-relaxed text-ink/85 md:col-span-2 md:col-start-2">
+        <div className="mt-16 grid grid-cols-4 gap-y-10 px-[var(--gutter)] md:grid-cols-6 md:gap-x-[var(--gutter)]">
+          <p className="col-span-4 max-w-[46ch] text-[1.1875rem] font-light leading-[1.75] text-ink/85 md:col-span-2 md:col-start-2">
             Une longue table d&rsquo;arolle et des baies sur toute la largeur. Fromages de Tarentaise, truites du lac, gibier
             en saison, pain cuit au feu de bois : le menu change avec ce que la montagne donne.
           </p>
@@ -62,6 +91,26 @@ export default function TableSpa() {
             <dt className="text-ink/60">Bar</dt>
             <dd>16 h 00 – minuit</dd>
           </dl>
+        </div>
+
+        {/* La carte */}
+        <div className="mx-[var(--gutter)] mt-[calc(var(--section-y)*0.8)] border-t border-rule pt-12">
+          <h3 className="title text-[clamp(1.6rem,2.6vw,2.6rem)]">La carte</h3>
+          <div className="mt-12 grid grid-cols-1 gap-x-[var(--gutter)] gap-y-14 md:grid-cols-3">
+            {CARTE.map((g) => (
+              <section key={g.name} aria-label={g.name}>
+                <h4 className="caps border-b border-rule pb-4 text-ink/60">{g.name}</h4>
+                <ul className="mt-2 divide-y divide-[rgb(21_25_29/0.09)]">
+                  {g.dishes.map((d) => (
+                    <li key={d.name} className="py-5">
+                      <p className="dish text-[1.375rem]">{d.name}</p>
+                      <p className="mt-1.5 text-[0.9375rem] font-light leading-relaxed text-ink/65">{d.note}</p>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -77,18 +126,15 @@ export default function TableSpa() {
             />
           </StripReveal>
           <div className="col-span-4 md:col-span-3 md:col-start-4">
-            <ScrollWords
-              as="h2"
-              id="spa-title"
-              dark
-              className="title text-[clamp(1.9rem,3.4vw,3.4rem)]"
-              text="Un couloir de pierre, une lumière posée au plafond, puis le bassin, aligné sur la vallée. On y vient après le ski, on en repart à la nuit."
-            />
-            <ul className="caps mt-12 grid grid-cols-2 gap-x-8 gap-y-4 border-t border-snow/20 pt-8 text-snow/85">
-              <li>Piscine intérieure</li>
-              <li>Sauna d&rsquo;arolle</li>
-              <li>Hammam</li>
-              <li>Cabines de soin</li>
+            <h2 id="spa-title" className="title text-[clamp(2.4rem,5vw,5rem)]">
+              Le spa
+            </h2>
+            <ul className="mt-12 border-t border-snow/20">
+              {SPA.map((x) => (
+                <li key={x} className="dish border-b border-snow/20 py-6 text-[clamp(1.5rem,2.4vw,2.2rem)] tracking-[0.04em]">
+                  {x}
+                </li>
+              ))}
             </ul>
           </div>
         </div>

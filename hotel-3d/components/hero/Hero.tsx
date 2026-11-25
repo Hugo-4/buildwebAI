@@ -20,10 +20,10 @@ const NAME = "L’Arolle";
 
 /** Phrases calées sur le film : [début, fin] en fraction du scroll. */
 const CAPTIONS: { text: string; at: [number, number] }[] = [
-  // film 1080p de 15,3 s : approche (0 → 0,2), la porte (0,22 → 0,34), la chambre au feu (0,38 → 0,50), puis le salon
-  { text: "Les portes sont en arolle, comme le reste.", at: [0.23, 0.36] },
-  { text: "La neige reste dehors.", at: [0.39, 0.5] },
-  { text: "Le feu brûle depuis ce matin, les sommets restent aux fenêtres.", at: [0.62, 1] },
+  // film 1080p de 15,3 s : approche (0 → 0,2), la porte qui s'ouvre (0,22 → 0,36), la chambre au feu, puis le salon
+  { text: "Nous vous ouvrons les portes de l’Arolle.", at: [0.23, 0.4] },
+  // un seul texte pour tout le salon
+  { text: "La neige reste dehors, pour profiter d’un cadre idyllique au cœur des montagnes.", at: [0.55, 1] },
 ];
 
 // la brume : monte (0 → 0,13) jusqu'à couvrir le nom, puis se retire (0,13 → 0,24)
@@ -144,7 +144,7 @@ export default function Hero() {
     >
       {/* voiles fonctionnels : lisibilité de l'en-tête en haut, des phrases en bas (ordinateur) */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink/40 to-transparent" />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[45%] bg-gradient-to-t from-ink/45 to-transparent md:block" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[65%] bg-gradient-to-t from-ink/65 via-ink/25 to-transparent md:block" />
 
       <p data-hero-fade data-hero-label className="label absolute left-[var(--gutter)] top-[65svh] max-w-[16rem] text-[1.0625rem] leading-snug text-ink md:top-[22svh] md:text-snow">
         Vingt-quatre suites au-dessus

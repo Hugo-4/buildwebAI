@@ -11,3 +11,4 @@ Toutes sous licence Unsplash (gratuite). À remplacer par les photos de l'hôtel
 | placeholder-suite-salon-poele.webp | Clay Banks | https://unsplash.com/photos/79yk4XalXCM |
 | placeholder-nuit-chalet-foret.webp | Birk Enwald | https://unsplash.com/photos/nbMy5UrrJcQ |
 | placeholder-nuit-chalet-crepuscule.webp | Sean C Davis | https://unsplash.com/photos/EwwVAaxZ4DM |
+| histoire-trinquer.webp | gaspar zaldo | https://unsplash.com/photos/oup5VyIgnRg (photo provisoire de « Notre histoire » : à remplacer par une photo de la famille ou de l'équipe) |

@@ -84,12 +84,19 @@ html {
   line-height: 0.82;
 }
 .title {
-  font-family: var(--font-caps), serif;
+  font-family: var(--font-caps), sans-serif;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
-  line-height: 1.06;
+  letter-spacing: 0.045em;
+  line-height: 1.16;
   text-wrap: balance;
+}
+/* Plats de la carte : même police, casse normale */
+.dish {
+  font-family: var(--font-caps), sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
 }
 .label {
   font-family: var(--font-italic), serif;
@@ -167,21 +174,6 @@ html {
 .link-line:hover {
   background-size: 0% 1px;
   background-position: 100% 100%;
-}
-
-/* ---------------------------------------------- phrase qui s'allume (scroll) */
-.words .w {
-  color: var(--mist);
-  transition: color 0.45s var(--ease-out-expo);
-}
-.words .w.on {
-  color: var(--ink);
-}
-.words.on-dark .w {
-  color: rgb(247 247 245 / 0.45);
-}
-.words.on-dark .w.on {
-  color: var(--snow);
 }
 
 /* ------------------------------------------------------------- formulaire */

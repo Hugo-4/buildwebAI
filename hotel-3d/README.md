@@ -37,9 +37,9 @@ npm start
 | # | Chapitre | Fichier | Ce qui se passe |
 |---|---|---|---|
 | 1 | L'arrivée | `components/hero/Hero.tsx`, `Mist.tsx` | Film d'arrivée piloté par le scroll ; « L'AROLLE » avalé par la brume (shader WebGL) ; trois phrases sur le film |
-| 2 | Le lieu | `components/lieu/Lieu.tsx` | La maison révélée par bandes, trois chiffres qui roulent à chaque apparition |
+| 2 | Le lieu | `components/lieu/Lieu.tsx` | Notre histoire (photo et texte), la saison composée en éditorial, trois chiffres qui roulent à chaque apparition |
 | 3 | Les suites | `components/suites/Suites.tsx` | Bloc de 4 cases : survoler (souris) ou maintenir appuyé (tactile) lance la visite filmée ; aucun scroll imposé |
-| 4 | La table, le spa | `components/table/TableSpa.tsx` | Vidéos d'ambiance révélées par bandes ; le fond passe de la neige à l'encre |
+| 4 | La table, le spa | `components/table/TableSpa.tsx` | Restaurant (vidéo et carte d'exemple) ; le spa : piscine et quatre éléments, sur fond d'encre |
 | 5 | Expériences | `components/experiences/Experiences.tsx` | Accordéon de bandes verticales, non épinglé (survol ou clic) |
 | 6 | Réserver | `components/reservation/Reservation.tsx` | Dates, voyageurs, suite, e-mail ; validation et états d'envoi |
 | 7 | Le départ | `components/footer/Footer.tsx` | Le film d'arrivée rejoué à rebours, de nuit |
