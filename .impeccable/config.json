@@ -107,6 +107,60 @@
         ],
         "createdAt": "2026-11-24T15:23:17.262Z",
         "reason": "faux positif statique : sections pleine largeur avec enfant .wrap (max(20px,4vw)) ; détecteur au rendu propre en 390/1440"
+      },
+      {
+        "rule": "overused-font",
+        "value": "instrument serif",
+        "files": [
+          "acai-lab/index.html"
+        ],
+        "createdAt": "2026-11-25T10:21:28.971Z",
+        "reason": "brief client : Instrument Serif citée comme police des titres"
+      },
+      {
+        "rule": "italic-serif-display",
+        "value": "*",
+        "files": [
+          "acai-lab/index.html"
+        ],
+        "createdAt": "2026-11-25T10:21:28.980Z",
+        "reason": "registre éditorial demandé par le brief (serif fine) ; l'italique ne porte que la seconde ligne d'accent"
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "acai-lab/index.html"
+        ],
+        "createdAt": "2026-11-25T10:21:28.988Z",
+        "reason": "contenu réel (nom + quartier San Isidro), utile au référencement local et au visiteur venu d'Instagram"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "acai-lab/assets/css/style.css"
+        ],
+        "createdAt": "2026-11-25T10:21:29.003Z",
+        "reason": "citation en display 30-46px, interlignage 1.15 voulu pour un titre"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "acai-lab/index.html"
+        ],
+        "createdAt": "2026-11-25T10:21:29.011Z",
+        "reason": "citation en display 30-46px, interlignage 1.15 voulu pour un titre"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "acai-lab/index.html"
+        ],
+        "createdAt": "2026-11-25T10:21:37.031Z",
+        "reason": "brief client : fond #F7F5F0 imposé, les frames sont rendues sur ce fond exact"
       }
     ]
   }
