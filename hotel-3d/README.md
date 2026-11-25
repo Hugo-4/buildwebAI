@@ -6,7 +6,7 @@ Stack : Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 3 · G
 
 ## Lancer le projet en local
 
-Prérequis : Node.js 20 ou plus.
+Prérequis : Node.js 18.18 ou plus (20 conseillé) : `node -v` pour vérifier.
 
 ```bash
 cd hotel-3d
@@ -15,6 +15,15 @@ npm run dev
 ```
 
 Puis ouvrir http://localhost:3000.
+
+Si le site ne ressemble pas à la dernière version (ancien affichage, quadrillage encore visible, suites qui défilent au scroll) : mettre le code à jour (`git pull`, ou retélécharger le dossier), arrêter le serveur (Ctrl+C), puis :
+
+```bash
+npm install
+npm run fresh
+```
+
+`npm run fresh` vide le cache de Next (`.next`) avant de relancer. Dans le navigateur, recharger sans cache (Ctrl+Maj+R, ou Cmd+Maj+R sur Mac).
 
 Version de production :
 
