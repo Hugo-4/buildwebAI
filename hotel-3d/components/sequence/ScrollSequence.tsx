@@ -35,6 +35,8 @@ type Props = {
   reverse?: boolean;
   /** Fond visible autour de l'image cadrée (portrait). */
   bg?: string;
+  /** Charge les images dès que la page est au repos (sans attendre un premier geste) : défilement fluide d'emblée. */
+  eager?: boolean;
   /** Description de la séquence pour les lecteurs d'écran. */
   label: string;
   id?: string;
@@ -63,6 +65,7 @@ export default function ScrollSequence({
   label,
   portraitBox = 1,
   night = false,
+  eager = false,
   reverse = false,
   bg = "#16245a",
   id,
@@ -193,10 +196,16 @@ export default function ScrollSequence({
     const io = new IntersectionObserver(([e]) => ((near = e.isIntersecting), maybeStart()), { rootMargin: "150% 0px" });
     io.observe(el);
     const onFirst = () => ((interacted = true), maybeStart());
+    // Hero sur ordinateur : on n'attend pas le premier geste, on charge au repos
+    // (sauf connexion lente ou mode économie de données : alors on attend le premier geste)
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const slow = !!conn && (conn.saveData === true || /(^|-)2g|3g/.test(conn.effectiveType ?? ""));
+    const idle = eager && !slow ? window.setTimeout(onFirst, 1200) : 0;
     const evts = ["wheel", "touchstart", "pointerdown", "keydown", "scroll"] as const;
     evts.forEach((ev) => window.addEventListener(ev, onFirst, { once: true, passive: true }));
 
     const cleanupLoad = () => {
+      clearTimeout(idle);
       io.disconnect();
       evts.forEach((ev) => window.removeEventListener(ev, onFirst));
     };
@@ -236,7 +245,7 @@ export default function ScrollSequence({
       cleanupLoad();
       gctx.revert();
     };
-  }, [manifest, reduced, stillFrame, timeline, portraitBox, night, reverse, bg]);
+  }, [manifest, reduced, stillFrame, timeline, portraitBox, night, reverse, bg, eager]);
 
   return (
     <section

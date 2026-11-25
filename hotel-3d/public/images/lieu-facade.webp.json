@@ -1,4 +1,4 @@
 {
-  "prompt": "Origin: still frame extracted with ffmpeg (lanczos, 1920px, WebP q90) from a client-supplied AI-generated video (entrée.mp4, t=0.2s, letterbox cropped). Not a photograph of a real building.",
-  "createdAt": "2026-11-25T10:17:00.440Z"
+  "prompt": "Origin: still frame (t=0.2s, letterbox cropped to 1920x796, WebP q92, native 1080p) of client-supplied AI-generated video (Camera approaching chalet entrance, 1080p). Not a photograph of a real building.",
+  "createdAt": "2026-11-25T19:02:26.987Z"
 }

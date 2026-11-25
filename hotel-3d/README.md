@@ -6,7 +6,7 @@ Stack : Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 3 · G
 
 ## Lancer le projet en local
 
-Prérequis : Node.js 20 ou plus.
+Prérequis : Node.js 18.18 ou plus (20 conseillé) : `node -v` pour vérifier.
 
 ```bash
 cd hotel-3d
@@ -15,6 +15,15 @@ npm run dev
 ```
 
 Puis ouvrir http://localhost:3000.
+
+Si le site ne ressemble pas à la dernière version (ancien affichage, quadrillage encore visible, suites qui défilent au scroll) : mettre le code à jour (`git pull`, ou retélécharger le dossier), arrêter le serveur (Ctrl+C), puis :
+
+```bash
+npm install
+npm run fresh
+```
+
+`npm run fresh` vide le cache de Next (`.next`) avant de relancer. Dans le navigateur, recharger sans cache (Ctrl+Maj+R, ou Cmd+Maj+R sur Mac).
 
 Version de production :
 
@@ -47,7 +56,7 @@ npm run frames -- chemin/vers/arrivee.mp4 hero --frames 200
 
 Le script écrit `public/sequences/<nom>/1920/`, `960/` et `manifest.json` ; le site lit le manifest, rien d'autre à changer.
 
-- `hero` : l'approche, les portes, l'entrée, le salon. Les phrases sont calées dans `Hero.tsx` (tableau `CAPTIONS`, en fraction du scroll).
+- `hero` : l'approche, les portes, la chambre au feu, le salon (film actuel : entrée + salon en 1080p natif, assemblés en 1920×796 avec un fondu de 0,5 s ; 280 images). Les phrases sont calées dans `Hero.tsx` (tableau `CAPTIONS`, en fraction du scroll).
 - Suites : quatre vidéos lues directement, `public/video/suite-arete.mp4`, `suite-lauze.mp4`, `suite-combe.mp4`, `suite-cembro.mp4`, avec leur affiche `*-poster.webp` (noms et surfaces dans `Suites.tsx`, tableau `SUITES`). Pour une qualité maximale, fournir des vidéos en 1080p ou plus : la qualité d'origine est la limite.
 - Vidéos d'ambiance (restaurant, piscine) : `public/video/*.mp4`, en aller-retour pour boucler sans saut, avec leur affiche `*-poster.webp`.
 
@@ -73,7 +82,7 @@ Le choix est mémorisé par le navigateur. Pour l'annuler : `http://localhost:30
 
 - `prefers-reduced-motion` : pas de préchargeur, ni de brume, ni de Lenis ; images fixes à la place des films ; suites et expériences à plat.
 - Téléphone : pas de préchargeur ni de WebGL ; films cadrés en haut de l'écran.
-- Les séquences ne se téléchargent qu'à l'approche de leur section et après une première interaction ; les images proches de la position courante passent devant.
+- Sur ordinateur, les 280 images du hero (24 Mo) se chargent au repos dès l'entrée terminée, pour un défilement fluide d'emblée (sauf connexion lente ou économie de données : alors au premier geste). Ailleurs, les séquences se chargent à l'approche de leur section ; les images proches de la position courante passent devant.
 - Mesures locales (Lighthouse, simulation) : ordinateur 98 / 100 / 100 / 100, mobile 87–89 / 100 / 100 / 100.
 
 Le système visuel (couleurs, typographies, durées, courbes) est décrit dans `DESIGN.md`.

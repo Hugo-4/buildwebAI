@@ -20,9 +20,10 @@ const NAME = "L’Arolle";
 
 /** Phrases calées sur le film : [début, fin] en fraction du scroll. */
 const CAPTIONS: { text: string; at: [number, number] }[] = [
-  { text: "Les portes sont en arolle, comme le reste.", at: [0.27, 0.42] },
-  { text: "La neige reste dehors.", at: [0.46, 0.6] },
-  { text: "Le feu brûle depuis ce matin, les sommets restent aux fenêtres.", at: [0.7, 1] },
+  // film 1080p de 15,3 s : approche (0 → 0,2), la porte (0,22 → 0,34), la chambre au feu (0,38 → 0,50), puis le salon
+  { text: "Les portes sont en arolle, comme le reste.", at: [0.23, 0.36] },
+  { text: "La neige reste dehors.", at: [0.39, 0.5] },
+  { text: "Le feu brûle depuis ce matin, les sommets restent aux fenêtres.", at: [0.62, 1] },
 ];
 
 // la brume : monte (0 → 0,13) jusqu'à couvrir le nom, puis se retire (0,13 → 0,24)
@@ -135,6 +136,7 @@ export default function Hero() {
       manifest={SEQUENCES.hero}
       length={6}
       portraitBox={0.62}
+      eager={!lite}
       bg="#f7f7f5"
       timeline={heroTimeline(target)}
       label="Approche du chalet L’Arolle dans la neige, ouverture des portes, puis le salon et ses baies face aux sommets"
