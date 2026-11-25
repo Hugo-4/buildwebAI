@@ -13,7 +13,7 @@ import { useLenis } from "@/components/SmoothScroll";
 const LINKS = [
   { href: "#suites", label: "Suites" },
   { href: "#table", label: "Table" },
-  { href: "#spa", label: "Spa" },
+  { href: "#detente", label: "Détente" },
 ];
 
 export default function Header() {

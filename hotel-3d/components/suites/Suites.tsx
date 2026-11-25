@@ -181,21 +181,20 @@ function SuiteCard({ suite, reduced }: { suite: Suite; reduced: boolean }) {
 export default function Suites() {
   const reduced = useReducedMotion();
   return (
-    <section id="suites" data-header="dark" aria-labelledby="suites-title" className="bg-snow py-[var(--section-y)] text-ink">
-      <div className="grid grid-cols-4 gap-y-6 px-[var(--gutter)] md:grid-cols-6">
+    <section id="suites" data-header="dark" aria-labelledby="suites-title" className="bg-snow pb-[var(--section-y)] pt-36 text-ink">
+      <div className="flex flex-col gap-3 px-[var(--gutter)] md:flex-row md:items-baseline md:justify-between md:gap-10">
         <RevealLines
           as="h2"
           id="suites-title"
-          lines={["Vingt-quatre suites,", "aucune pareille"]}
-          className="title col-span-4 text-[clamp(2.4rem,5vw,5rem)] md:col-span-4 md:col-start-2"
+          lines={["Vingt-quatre suites, aucune pareille"]}
+          className="title text-[clamp(1.05rem,1.9vw,1.9rem)] md:!whitespace-nowrap"
         />
-        <p className="col-span-4 max-w-[46ch] text-[1.0625rem] leading-relaxed text-ink/75 md:col-span-3 md:col-start-2">
-          Quatre d’entre elles, à visiter : survolez une image, ou gardez le doigt dessus. La page continue de défiler
-          normalement.
+        <p className="max-w-[40ch] text-[0.9375rem] leading-relaxed text-ink/70 md:text-right">
+          Survolez une image, ou gardez le doigt dessus, pour visiter la suite.
         </p>
       </div>
 
-      <div className="mx-[var(--gutter)] mt-14 grid grid-cols-2 gap-x-1 gap-y-12 sm:gap-x-3">
+      <div className="mx-[var(--gutter)] mt-8 grid grid-cols-2 gap-x-1 gap-y-12 sm:gap-x-3">
         {SUITES.map((s) => (
           <SuiteCard key={s.id} suite={s} reduced={reduced} />
         ))}

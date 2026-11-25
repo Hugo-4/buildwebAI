@@ -17,7 +17,7 @@ export const CHAPTERS = [
   { href: "#contenu", label: "Le lieu" },
   { href: "#suites", label: "Les suites" },
   { href: "#table", label: "La table" },
-  { href: "#spa", label: "Le spa" },
+  { href: "#detente", label: "L’espace détente" },
   { href: "#experiences", label: "Expériences" },
   { href: "#reserver", label: "Réserver" },
 ];

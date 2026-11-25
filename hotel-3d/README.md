@@ -1,6 +1,6 @@
 # L'Arolle — site vitrine (démonstration BuildWebAI)
 
-Hôtel fictif de vingt-quatre suites à Courchevel 1850. Le scroll raconte un séjour, de l'arrivée au départ, dans l'esprit éditorial de white-desert.com (référence choisie par le client) : fond neige sans quadrillage, nom géant qui se dissout dans une brume WebGL, phrases qui s'allument mot à mot, images révélées par bandes.
+Hôtel fictif de vingt-quatre suites à Courchevel 1850. Le scroll raconte un séjour, de l'arrivée au départ, dans l'esprit éditorial de white-desert.com (référence choisie par le client) : fond pierre chaude sans quadrillage, brume WebGL sur le film d'arrivée, phrases qui s'allument mot à mot, images révélées par bandes.
 
 Stack : Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 3 · GSAP + ScrollTrigger · Lenis · Framer Motion · React Three Fiber (brume du hero).
 
@@ -36,10 +36,10 @@ npm start
 
 | # | Chapitre | Fichier | Ce qui se passe |
 |---|---|---|---|
-| 1 | L'arrivée | `components/hero/Hero.tsx`, `Mist.tsx` | Film d'arrivée piloté par le scroll ; « L'AROLLE » avalé par la brume (shader WebGL) ; trois phrases sur le film |
-| 2 | Le lieu | `components/lieu/Lieu.tsx` | Notre histoire (photo et texte), la saison composée en éditorial, trois chiffres qui roulent à chaque apparition |
+| 1 | L'arrivée | `components/hero/Hero.tsx`, `Mist.tsx` | Film d'arrivée piloté par le scroll ; brume (shader WebGL) ; une phrase sur le film |
+| 2 | Le lieu | `components/lieu/Lieu.tsx` | Notre histoire (photo et texte), la saison en bandeau plein écran, trois chiffres qui roulent à chaque apparition |
 | 3 | Les suites | `components/suites/Suites.tsx` | Bloc de 4 cases : survoler (souris) ou maintenir appuyé (tactile) lance la visite filmée ; aucun scroll imposé |
-| 4 | La table, le spa | `components/table/TableSpa.tsx` | Restaurant (vidéo et carte d'exemple) ; le spa : piscine et quatre éléments, sur fond d'encre |
+| 4 | La table, l'espace détente | `components/table/TableSpa.tsx` | Restaurant (vidéo et carte d'exemple) ; l'espace détente : piscine et quatre éléments, sur fond vert sapin |
 | 5 | Expériences | `components/experiences/Experiences.tsx` | Accordéon de bandes verticales, non épinglé (survol ou clic) |
 | 6 | Réserver | `components/reservation/Reservation.tsx` | Dates, voyageurs, suite, e-mail ; validation et états d'envoi |
 | 7 | Le départ | `components/footer/Footer.tsx` | Le film d'arrivée rejoué à rebours, de nuit |

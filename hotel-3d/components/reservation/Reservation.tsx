@@ -101,7 +101,7 @@ export default function Reservation() {
             as="h2"
             id="res-title"
             lines={["Votre séjour", "commence ici"]}
-            className="title text-[clamp(2.4rem,4.6vw,4.6rem)]"
+            className="display text-[clamp(2.6rem,4.8vw,4.8rem)]"
           />
           <p className="mt-8 max-w-[34ch] text-[1.125rem] leading-relaxed text-ink/85">
             Dites-nous vos dates : la réception vous répond dans l&rsquo;heure avec la disponibilité et le tarif de la suite.

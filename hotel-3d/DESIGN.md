@@ -1,19 +1,19 @@
 ---
 name: L'Arolle
-description: Neige et brume. Une feuille de neige réglée comme un plan d'architecte, l'encre, un gris de brume et une seule note ambrée pour réserver.
+description: Pierre et laiton. Une feuille de pierre chaude réglée comme un plan d'architecte, l'encre chaude, un vert sapin pour la détente et une seule note de laiton pour réserver.
 colors:
-  snow: "#f7f7f5"
+  snow: "#ebe5d9"
   white: "#ffffff"
-  ink: "#15191d"
+  ink: "#1c1915"
   mist: "#8a9096"
   rule: "rgb(21 25 29 / 0.09)"
-  amber: "#c8873a"
+  amber: "#b8955a"
   amber-hover: "#d4964d"
   night: "#0c1424"
   error: "#9b2c1f"
 typography:
   display:
-    fontFamily: "Barlow Condensed, sans-serif"
+    fontFamily: "Bodoni Moda, serif"
     fontSize: "21vw"
     fontWeight: 300
     lineHeight: 0.82
@@ -107,7 +107,7 @@ components:
 
 Le site est une feuille de neige (`snow`) réglée comme un plan d'architecte sur six colonnes (quatre sur téléphone), sans quadrillage visible : la grille ne se lit que dans l'alignement des blocs et des bandes. Tout ce qui n'est pas le film de la maison est blanc, calme et exact : l'encre pour le texte, un gris de brume pour la part encore « non lue » des phrases, et une seule note chaude, l'ambre d'arolle, pour l'action de réserver et les instruments qui l'accompagnent (focus, curseur, barre de lecture).
 
-Le geste signature est le nom « L'AROLLE », en capitales condensées géantes, qui se dissout dans une brume de montagne WebGL montant du bas de l'écran au premier scroll, au-dessus du film d'arrivée. Ensuite le récit avance par énoncés qui s'allument mot à mot, images qui s'ouvrent par bandes verticales calées sur les colonnes, et un onglet ambré toujours fixé au bord droit. Le mouvement est lent et doux : entrées en expo-out d'environ 1,1 à 1,6 s, tout ce qui est lié au scroll est scrubé, rien ne rebondit, rien n'est incliné.
+Le geste signature est une brume de montagne WebGL qui monte du bas de l'écran au premier scroll, au-dessus du film d'arrivée, sous une seule ligne italique. Ensuite le récit avance par énoncés qui s'allument mot à mot, images qui s'ouvrent par bandes verticales calées sur les colonnes, et un onglet ambré toujours fixé au bord droit. Le mouvement est lent et doux : entrées en expo-out d'environ 1,1 à 1,6 s, tout ce qui est lié au scroll est scrubé, rien ne rebondit, rien n'est incliné.
 
 Densité basse, beaucoup d'air (`section-y` jusqu'à 220px), coins carrés, filets d'un pixel, aucun aplat de couleur. Historique : ce monde a remplacé, à la demande de l'utilisateur, un premier monde « Photomontage alpin » (champs bleus coupés à 12°, Bodoni en display) ; seuls le monogramme A-pente, l'ambre d'action, les films et la mécanique de scroll ont été conservés.
 
@@ -126,8 +126,8 @@ Une palette de neige et d'encre, sans aplat : la couleur vient des films ; l'int
 - **Ambre d'arolle** (`amber`) : l'onglet « Réserver » fixé au bord droit, le bouton principal du formulaire, l'anneau de focus (1.5px, décalage 4px), le caret, le point et l'anneau du curseur, la barre de lecture d'un pixel en haut. Au survol d'une surface ambrée : **Ambre éclairé** (`amber-hover`).
 
 ### Neutral
-- **Neige** (`snow`) : fond de toute la page, du menu plein écran, du panneau des suites ; aussi la couleur du texte posé sur film ou sur encre. `themeColor` du navigateur.
-- **Encre** (`ink`) : texte, sélection (fond encre, texte neige), boutons au survol, puce de suite choisie, champ de ton du chapitre spa (`data-header="ink"`). Opacités d'usage : 85 % pour les paragraphes, 70 % pour les libellés de formulaire, 60 % pour les légendes de chiffres.
+- **Pierre** (`snow`, #ebe5d9) : fond de toute la page, du menu plein écran, du panneau des suites ; aussi la couleur du texte posé sur film ou sur encre. `themeColor` du navigateur.
+- **Encre** (`ink`) : texte, sélection (fond encre, texte neige), boutons au survol, puce de suite choisie, champ de ton du chapitre espace détente (`data-header="ink"`). Opacités d'usage : 85 % pour les paragraphes, 70 % pour les libellés de formulaire, 60 % pour les légendes de chiffres.
 - **Gris de brume** (`mist`) : uniquement la part non encore lue d'un énoncé qui s'allume, et la barre de défilement. Sur fond sombre, la part non lue est la neige à 45 %.
 - **Filet** (`rule`) : bordures de l'en-tête sur neige, séparateurs de sections (`border-t`), lignes de listes.
 - **Nuit** (`night`) : fond de la séquence de départ (pied de page), voile à 35 % sur le film rejoué de nuit.
@@ -143,7 +143,7 @@ Une palette de neige et d'encre, sans aplat : la couleur vient des films ; l'int
 
 ## Typography
 
-**Display Font:** Barlow Condensed 300 (repli sans-serif), variable `--font-condensed`
+**Display Font:** Bodoni Moda 400, droit et italique (repli serif), variable `--font-italic`
 **Headline Font:** Tenor Sans 400 (repli serif), variable `--font-caps`
 **Label Font:** Bodoni Moda italique 400 (repli serif), variable `--font-italic`
 **Body Font:** Jost 300 et 400 (repli sans-serif), variable `--font-sans`
@@ -153,7 +153,7 @@ Toutes chargées et auto-hébergées par `next/font` avec `display: swap`.
 **Character:** une condensée très fine et géante pour le seul nom, des capitales lapidaires pour parler, une italique didone pour nommer, une sans légère pour tout le reste. Le contraste vient de l'échelle, jamais de la graisse.
 
 ### Hierarchy
-- **Display** (`.giant` : Barlow Condensed 300, capitales, interlignage 0.82, approche -0.01em) : le nom dans le hero (21vw ordinateur, 30vw téléphone), les chiffres de la maison (clamp(4.5rem, 11vw, 11rem)), l'adieu du pied de page (clamp(4rem, 15vw, 15rem)). Jamais pour un titre de section.
+- **Display** (`.display` : Bodoni Moda 400, casse normale, interlignage 0.95, approche -0.02em, chiffres alignés) : « Décembre — Avril » en italique, les chiffres de la maison, « Votre séjour commence ici », l'adieu du pied de page. Le nom géant du hero a été retiré : le hero ne porte plus qu'une ligne italique et une phrase.
 - **Headline** (`.title` : Tenor Sans 400, capitales, interlignage 1.16, approche 0.045em, `text-wrap: balance`) : titres de chapitre de clamp(1.9rem, 3.4vw, 3.4rem) à clamp(2.5rem, 5.6vw, 5.5rem) ; les liens du menu clamp(2.2rem, 6.4vh, 4.5rem).
 - **Title** (`.title`, plus petit) : phrases posées sur le film, clamp(1.75rem, 3.6vw, 3.25rem) ; version à plat en mouvement réduit clamp(1.6rem, 2.6vw, 2.4rem).
 - **Label** (`.label` : Bodoni Moda italique 400) : noms des suites (clamp(1.5rem, 2.6vw, 2.6rem), interlignage 1.05, soulignés du trait `.swash`), titres d'expériences (clamp(1.8rem, 2.6vw, 2.6rem)), l'étiquette de deux lignes du hero (1.0625rem).
@@ -175,7 +175,7 @@ Toutes chargées et auto-hébergées par `next/font` avec `display: swap`.
 
 **En-tête.** Grille à trois colonnes, `py-5` : chapitres à gauche (cachés sur téléphone), monogramme 32px et nom au centre, « Menu » à droite. Son ton suit la section sous la barre (y = 40px) via `data-header` : `light` (transparent, texte neige sur film), `dark` (fond neige, filet, encre), `ink` (fond encre, texte neige) ; transition 500ms expo-out.
 
-**Téléphone et mode allégé.** Le mode allégé s'active sous 768px ou sur pointeur grossier : pas de brume WebGL, accordéon d'expériences remplacé par une rangée à défilement horizontal aimanté (cartes 78vw, max 22rem, ratio 3/4), bandes limitées à quatre, préchargeur sauté. Le film du hero est cadré dans une boîte portrait (62 % de la hauteur) et le nom (30vw) comme les phrases passent à l'encre sur la neige sous le film. L'onglet Réserver devient une barre horizontale pleine largeur en pied d'écran.
+**Téléphone et mode allégé.** Le mode allégé s'active sous 768px ou sur pointeur grossier : pas de brume WebGL, accordéon d'expériences remplacé par une rangée à défilement horizontal aimanté (cartes 78vw, max 22rem, ratio 3/4), bandes limitées à quatre, préchargeur sauté. Le film du hero est cadré dans une boîte portrait (62 % de la hauteur) et la ligne de présentation et la phrase passent à l'encre sur la neige sous le film. L'onglet Réserver devient une barre horizontale pleine largeur en pied d'écran.
 
 ## Elevation & Depth
 
@@ -187,7 +187,7 @@ Le système est plat. La profondeur vient de la superposition : film, puis brume
 - **Voile de neige** (neige à 45 % d'opacité) : éteint les bandes d'expériences fermées.
 
 ### Named Rules
-**La règle de la brume.** La seule matière atmosphérique est la brume : bruit fbm à cinq octaves, couleur proche de la neige (0.965, 0.97, 0.975), rendue à 75 % de densité de pixels. Elle ne recouvre que le hero.
+**La règle de la brume.** La seule matière atmosphérique est la brume : bruit fbm à cinq octaves, couleur pierre chaude (0.90, 0.875, 0.83), densité réduite de 20 %, rendue à 75 % de densité de pixels. Elle ne recouvre que le hero.
 
 ## Shapes
 
@@ -247,7 +247,7 @@ Une seule famille de courbes, définie à la fois en CSS et dans `lib/motion.ts`
 - **Brume :** monte de 0 à 13 % du scroll du hero, se retire jusqu'à 24 % ; amorti exponentiel (constante 5/s) ; le nom s'efface entre 35 % et 85 % de couverture avec un flou jusqu'à 8px et une montée de 8 %.
 
 ### Mouvement réduit
-`prefers-reduced-motion` ramène toute animation et transition CSS à 0.01ms. En plus : pas de classe `intro` ni de préchargeur, pas de brume, les trois phrases du hero présentées à plat sur la neige, énoncés directement à l'encre, images en entier sans bandes, suites : la visite ne se lance que sur action explicite (clic ou clavier), jamais au survol, expériences en rangée à faire défiler, menu sans animation, curseur sans retard.
+`prefers-reduced-motion` ramène toute animation et transition CSS à 0.01ms. En plus : pas de classe `intro` ni de préchargeur, pas de brume, la phrase du hero présentée à plat sur la neige, énoncés directement à l'encre, images en entier sans bandes, suites : la visite ne se lance que sur action explicite (clic ou clavier), jamais au survol, expériences en rangée à faire défiler, menu sans animation, curseur sans retard.
 
 ## Do's and Don'ts
 
@@ -266,3 +266,13 @@ Une seule famille de courbes, définie à la fois en CSS et dans `lib/motion.ts`
 - **Don't** incliner une mise en page, une image ou un bloc : la seule oblique du système est la traverse du monogramme.
 - **Don't** arrondir un bouton, une carte, un champ ou une image ; le cercle est réservé au curseur et au spinner.
 - **Don't** ajouter d'ombre portée à un élément d'interface ni de rebond au mouvement.
+
+
+## Mise à jour (ronde Pierre et laiton)
+
+- Palette : fond pierre `#ebe5d9` (jeton `snow`, aussi la couleur du texte sur film : plus de blanc franc), encre chaude `#1c1915`, laiton `#b8955a` (jeton `amber`), vert sapin `#1f2b26` (`pine`, champ de l'espace détente), nuit `#0e1218`.
+- Typographie : Barlow Condensed supprimée ; Bodoni Moda (droit et italique) pour les chiffres, « Décembre — Avril », le titre de réservation et l'adieu ; Tenor Sans pour les titres ; Jost pour le texte.
+- Hero : plus de nom géant ni de phrase du salon ; seule « Nous vous ouvrons les portes de l'Arolle. » reste.
+- La saison : bandeau plein écran sur la terrasse de nuit, voile sombre, filets laiton, chiffres en Bodoni.
+- Restaurant : vidéo sur la moitié gauche, texte et horaires à droite, titre sur une ligne. Spa renommé « L'espace détente » (`#detente`).
+- Suites : titre d'une ligne, réduit, pour que les images apparaissent sur le premier écran.
