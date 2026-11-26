@@ -679,6 +679,10 @@
 
   /* ---------- Formulaire audit ---------- */
   const form = $('#auditForm');
+  // Pré-sélection du métier depuis une page secteur : index.html?metier=Garage%20ou%20atelier#audit
+  const metier = new URLSearchParams(location.search).get('metier');
+  const fType = $('#fType');
+  if (metier && fType && [...fType.options].some((o) => o.value === metier || o.text === metier)) fType.value = metier;
   const mailLink = $('#mailLink');
   if (mailLink) { mailLink.href = `mailto:${CONTACT_EMAIL}`; mailLink.textContent = CONTACT_EMAIL; }
   form?.addEventListener('submit', (e) => {

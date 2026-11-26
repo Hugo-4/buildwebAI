@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="Demande de devis · BuildWebAI">
-  <meta property="og:description" content="Trois minutes pour décrire votre établissement et recevoir une proposition sur mesure.">
+  <meta property="og:description" content="Trois minutes pour décrire votre activité et recevoir une proposition sur mesure.">
   <meta property="og:url" content="https://buildwebia.com/devis.html">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23081426'/%3E%3Cpath fill='%23fff' d='M8 6h8v36H8zM16 6h11a8.5 8.5 0 0 1 0 17H16zM16 23h13a9.5 9.5 0 0 1 0 19H16z'/%3E%3Crect x='40' y='36' width='6' height='6' fill='%23E62E2D'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +45,7 @@
     <div class="relative mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 pt-28 lg:pt-32 pb-24 grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
       <div class="lg:col-span-4 lg:sticky lg:top-28">
         <h1 class="display text-[2.6rem] sm:text-5xl lg:text-[3.4rem] leading-[0.95]">Parlons de votre projet<span class="text-ember">.</span></h1>
-        <p class="mt-6 text-lg leading-relaxed text-white/72 max-w-[30rem]">Trois minutes pour décrire votre établissement. Plus vos réponses sont précises, plus notre proposition et notre devis seront justes.</p>
+        <p class="mt-6 text-lg leading-relaxed text-white/72 max-w-[30rem]">Trois minutes pour décrire votre activité. Plus vos réponses sont précises, plus notre proposition et notre devis seront justes.</p>
         <ul class="dv-promise mt-8">
           <li>Réponse sous 48&nbsp;h ouvrées</li>
           <li>Devis détaillé, sans engagement</li>
@@ -58,30 +58,30 @@
           <!-- Progression -->
           <div class="dv-progress" aria-hidden="true">
             <ol class="dv-steps">
-              <li class="dv-step is-current" data-step-dot="1"><span>1</span><b>Établissement</b></li>
+              <li class="dv-step is-current" data-step-dot="1"><span>1</span><b>Activité</b></li>
               <li class="dv-step" data-step-dot="2"><span>2</span><b>Formule</b></li>
               <li class="dv-step" data-step-dot="3"><span>3</span><b>Votre projet</b></li>
               <li class="dv-step" data-step-dot="4"><span>4</span><b>Écosystème</b></li>
             </ol>
             <div class="dv-bar"><span id="dvBar"></span></div>
           </div>
-          <p class="dv-progress-text" id="dvProgressText" aria-live="polite">Étape 1 sur 4 : Identité et établissement</p>
+          <p class="dv-progress-text" id="dvProgressText" aria-live="polite">Étape 1 sur 4 : Identité et activité</p>
 
           <!-- Champ anti-robot, jamais envoyé -->
           <div class="dv-hp" aria-hidden="true"><label for="dvHp">Ne pas remplir</label><input id="dvHp" type="text" tabindex="-1" autocomplete="off"></div>
 
           <!-- ÉTAPE 1 -->
           <section class="dv-panel" data-step="1" aria-labelledby="dvT1">
-            <h2 id="dvT1" class="dv-title" tabindex="-1">Votre établissement</h2>
+            <h2 id="dvT1" class="dv-title" tabindex="-1">Votre activité</h2>
             <div class="dv-grid">
               <div class="f">
-                <label for="nom_etablissement">Nom de l'établissement</label>
+                <label for="nom_etablissement">Nom de l'établissement ou de l'entreprise</label>
                 <input id="nom_etablissement" name="nom_etablissement" type="text" autocomplete="organization" required>
                 <p class="f-err" hidden></p>
               </div>
               <div class="f">
                 <label for="role">Votre rôle</label>
-                <input id="role" name="role" type="text" placeholder="Gérant, chef, directeur d'hôtel…" autocomplete="organization-title" required>
+                <input id="role" name="role" type="text" placeholder="Gérant, chef, artisan, président de club…" autocomplete="organization-title" required>
                 <p class="f-err" hidden></p>
               </div>
             </div>
@@ -123,7 +123,7 @@
             </fieldset>
             <div class="f dv-reveal" id="urlWrap" hidden>
               <label for="url_site">Adresse de votre site actuel</label>
-              <input id="url_site" name="url_site" type="text" inputmode="url" placeholder="www.votre-restaurant.fr" autocomplete="url">
+              <input id="url_site" name="url_site" type="text" inputmode="url" placeholder="www.votre-site.fr" autocomplete="url">
               <p class="f-err" hidden></p>
             </div>
           </section>
@@ -160,7 +160,7 @@
             <h2 id="dvT3a" class="dv-title" tabindex="-1">Votre projet sur mesure</h2>
             <div class="f">
               <label for="noms_logiciels">Quels logiciels utilisez-vous aujourd'hui&nbsp;?</label>
-              <input id="noms_logiciels" name="noms_logiciels" type="text" placeholder="Ex. Zelty pour la caisse, TheFork pour les réservations">
+              <input id="noms_logiciels" data-k-ph="ph_logiciels" name="noms_logiciels" type="text" placeholder="Ex. votre caisse, votre agenda, votre plateforme de réservation">
             </div>
             <div class="f">
               <label for="frustration">Quelle est votre plus grande frustration avec vos outils actuels&nbsp;?</label>
@@ -170,8 +170,8 @@
             <fieldset class="f" data-required="objectif">
               <legend>Votre objectif n°1</legend>
               <div class="opts">
-                <label class="opt"><input type="radio" name="objectif" value="reservation"><span>Plus de réservations directes</span></label>
-                <label class="opt"><input type="radio" name="objectif" value="click_and_collect"><span>Vendre en Click &amp; Collect</span></label>
+                <label class="opt"><input type="radio" name="objectif" value="reservation"><span data-k="obj_resa">Plus de réservations ou de rendez-vous en direct</span></label>
+                <label class="opt"><input type="radio" name="objectif" value="click_and_collect"><span data-k="obj_cc">Vendre en ligne (Click &amp; Collect, boutique)</span></label>
                 <label class="opt"><input type="radio" name="objectif" value="automatisation_ia"><span>Automatiser avec l'IA</span></label>
                 <label class="opt"><input type="radio" name="objectif" value="visibilite"><span>Être plus visible</span></label>
               </div>
@@ -230,13 +230,13 @@
             <h2 id="dvT3b" class="dv-title" tabindex="-1">Opération Starter 48&nbsp;h</h2>
             <p class="dv-note">Pour tenir les 48&nbsp;h, nous avons besoin de vos éléments dès maintenant.</p>
             <div class="f">
-              <label for="starter_description">Décrivez votre établissement et ce que la page doit faire</label>
-              <textarea id="starter_description" name="starter_description" rows="3" placeholder="Ex. Bistrot de quartier, 40 couverts : présenter la carte du midi et un bouton pour réserver." required></textarea>
+              <label for="starter_description">Décrivez votre activité et ce que la page doit faire</label>
+              <textarea id="starter_description" data-k-ph="ph_starter" name="starter_description" rows="3" placeholder="Ex. ce que vous faites, pour qui, et ce que la page doit permettre (réserver, commander, appeler…)" required></textarea>
               <p class="f-err" hidden></p>
             </div>
             <div class="f">
               <label for="starter_domaine">Nom de domaine</label>
-              <input id="starter_domaine" name="starter_domaine" type="text" placeholder="Déjà acheté : www.mon-bistrot.fr · Sinon : le nom souhaité">
+              <input id="starter_domaine" name="starter_domaine" type="text" placeholder="Déjà acheté : www.mon-entreprise.fr · Sinon : le nom souhaité">
             </div>
             <div class="dv-grid">
               <div class="f">
@@ -254,7 +254,7 @@
             </div>
             <div class="f">
               <label for="starter_structure">Sections souhaitées sur la page</label>
-              <textarea id="starter_structure" name="starter_structure" rows="3" placeholder="Ex. 1. Accueil, 2. La carte, 3. Notre histoire, 4. Infos pratiques et réservation"></textarea>
+              <textarea id="starter_structure" data-k-ph="ph_structure" name="starter_structure" rows="3" placeholder="Ex. 1. Accueil, 2. Nos services et tarifs, 3. Qui sommes-nous, 4. Contact et rendez-vous"></textarea>
             </div>
             <div class="f">
               <label for="commentaires_starter">Une précision, une question&nbsp;?</label>
@@ -268,8 +268,8 @@
             <fieldset class="f">
               <legend>Les outils que vous utilisez au quotidien</legend>
               <div class="opts">
-                <label class="opt"><input type="checkbox" name="outils" value="caisse"><span>Logiciel de caisse</span></label>
-                <label class="opt"><input type="checkbox" name="outils" value="reservation"><span>Plateforme de réservation</span></label>
+                <label class="opt"><input type="checkbox" name="outils" value="caisse"><span data-k="out_caisse">Logiciel de caisse ou de facturation</span></label>
+                <label class="opt"><input type="checkbox" name="outils" value="reservation"><span data-k="out_resa">Plateforme de réservation ou de rendez-vous</span></label>
                 <label class="opt"><input type="checkbox" name="outils" value="maison"><span>Outils maison (Excel, cahier)</span></label>
               </div>
             </fieldset>
@@ -286,8 +286,8 @@
               <legend>Ce qui vous ferait gagner le plus de temps</legend>
               <div class="opts opts--stack">
                 <label class="opt"><input type="checkbox" name="reves" value="chatbot"><span>Un assistant IA qui répond aux clients 24&nbsp;h/24 sur le site</span></label>
-                <label class="opt"><input type="checkbox" name="reves" value="voice_bot"><span>Une IA qui décroche le téléphone pendant le service</span></label>
-                <label class="opt"><input type="checkbox" name="reves" value="anti_no_show"><span>Des rappels SMS qui évitent les tables vides</span></label>
+                <label class="opt"><input type="checkbox" name="reves" value="voice_bot"><span data-k="rev_voice">Une IA qui décroche le téléphone quand vous êtes occupé</span></label>
+                <label class="opt"><input type="checkbox" name="reves" value="anti_no_show"><span data-k="rev_sms">Des rappels SMS qui évitent les rendez-vous manqués</span></label>
                 <label class="opt"><input type="checkbox" name="reves" value="crm"><span>Un fichier clients qui se remplit tout seul</span></label>
                 <label class="opt"><input type="checkbox" name="reves" value="fid"><span>Des relances qui font revenir les clients</span></label>
               </div>
@@ -309,7 +309,7 @@
           <section class="dv-done" id="dvDone" aria-labelledby="dvDoneT" hidden>
             <span class="dv-done-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="34" height="34"><path d="M5 12.5 10 17 19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             <h2 id="dvDoneT" class="display text-3xl sm:text-4xl leading-[0.95]" tabindex="-1">Demande bien reçue<span class="text-ember">.</span></h2>
-            <p class="dv-done-txt" id="dvDoneTxt">Nous revenons vers vous sous 48&nbsp;h ouvrées avec une proposition adaptée à votre établissement.</p>
+            <p class="dv-done-txt" id="dvDoneTxt">Nous revenons vers vous sous 48&nbsp;h ouvrées avec une proposition adaptée à votre activité.</p>
             <a href="index.html" class="btn btn-outline">Revenir au site</a>
           </section>
         </form>

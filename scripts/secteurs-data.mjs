@@ -39,7 +39,7 @@ export const MODULES = {
 
 export const SECTORS = [
   {
-    slug: 'restaurants', short: 'Restaurants & bars', ex: 'Bistrot, gastronomique, fast-food, bar', activite: 'Bistrot',
+    slug: 'restaurants', audit: 'Restaurant', short: 'Restaurants & bars', ex: 'Bistrot, gastronomique, fast-food, bar', activite: 'Bistrot',
     title: 'Site, Click & Collect et IA pour restaurants et bars',
     desc: 'Click & Collect sans commission, standardiste vocal IA pendant le coup de feu et rappels SMS anti-no-show pour restaurants, bistrots, fast-foods et bars.',
     h1: ['Remplissez la salle', 'encaissez en direct'],
@@ -60,7 +60,7 @@ export const SECTORS = [
     ],
   },
   {
-    slug: 'hotels', short: 'Hôtels', ex: 'Hôtel, maison d’hôtes, résidence', activite: 'Hôtel',
+    slug: 'hotels', audit: 'Hôtel', short: 'Hôtels', ex: 'Hôtel, maison d’hôtes, résidence', activite: 'Hôtel',
     title: 'Site et réservation directe pour hôtels',
     desc: 'Réservation directe sans commission, conciergerie IA 24 h/24 et ventes additionnelles (table, spa) pour hôtels et maisons d’hôtes.',
     h1: ['Vos chambres', 'réservées en direct'],
@@ -80,7 +80,7 @@ export const SECTORS = [
     ],
   },
   {
-    slug: 'commerces', short: 'Commerces de bouche', ex: 'Épicerie, boulangerie, caviste', activite: 'Commerce de bouche',
+    slug: 'commerces', audit: 'Commerce de bouche', short: 'Commerces de bouche', ex: 'Épicerie, boulangerie, caviste', activite: 'Commerce de bouche',
     title: 'Site et Click & Collect pour épiceries, boulangeries et cavistes',
     desc: 'Vitrine en ligne, Click & Collect avec créneaux, paniers et abonnements pour épiceries, boulangeries et cavistes.',
     h1: ['Votre comptoir', 'ouvert en ligne'],
@@ -100,7 +100,7 @@ export const SECTORS = [
     ],
   },
   {
-    slug: 'artisans', short: 'Artisans du bâtiment', ex: 'Plombier, électricien, chauffagiste', activite: 'Artisan du bâtiment',
+    slug: 'artisans', audit: 'Artisan du bâtiment', short: 'Artisans du bâtiment', ex: 'Plombier, électricien, chauffagiste', activite: 'Artisan du bâtiment',
     title: 'Site, devis et rendez-vous en ligne pour artisans',
     desc: 'Estimateur de prix, prise de rendez-vous, devis signé en ligne et contrats d’entretien pour plombiers, électriciens et chauffagistes.',
     h1: ['Moins de téléphone', 'plus de chantiers'],
@@ -120,7 +120,7 @@ export const SECTORS = [
     ],
   },
   {
-    slug: 'garages-ateliers', short: 'Garages & ateliers', ex: 'Garage, réparation de vélos', activite: 'Garage ou atelier',
+    slug: 'garages-ateliers', audit: 'Garage ou atelier', short: 'Garages & ateliers', ex: 'Garage, réparation de vélos', activite: 'Garage ou atelier',
     title: 'Site, rendez-vous et devis en ligne pour garages et ateliers',
     desc: 'Pré-diagnostic en ligne, rendez-vous par type d’intervention, devis validé par SMS et rappels de contrôle technique pour garages et ateliers vélo.',
     h1: ['Un atelier plein', 'un téléphone calme'],
@@ -140,7 +140,7 @@ export const SECTORS = [
     ],
   },
   {
-    slug: 'clubs', short: 'Clubs & associations', ex: 'Rugby, handball, club amateur', activite: 'Club ou association',
+    slug: 'clubs', audit: 'Club ou association', short: 'Clubs & associations', ex: 'Rugby, handball, club amateur', activite: 'Club ou association',
     title: 'Site, billetterie et licences en ligne pour clubs sportifs',
     desc: 'Billetterie en ligne, licences payables en plusieurs fois, boutique, partenaires et dons pour clubs sportifs et associations.',
     h1: ['Votre club', 'financé en ligne'],

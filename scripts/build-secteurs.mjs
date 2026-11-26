@@ -301,7 +301,7 @@ ${mods}
         </div>
         <div class="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3">
           <a href="${devis}" class="btn btn-primary">Demander un devis</a>
-          <a href="index.html#audit" class="btn btn-outline">Recevoir l'audit vidéo gratuit</a>
+          <a href="index.html?metier=${encodeURIComponent(s.audit)}#audit" class="btn btn-outline">Recevoir l'audit vidéo gratuit</a>
         </div>
       </div>
     </section>

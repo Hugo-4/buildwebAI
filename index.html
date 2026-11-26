@@ -635,9 +635,9 @@
       <div class="relative mx-auto max-w-wrap px-4 sm:px-6 lg:px-8 py-24 lg:py-28 min-h-[100svh] grid lg:grid-cols-12 gap-12 items-start content-center">
         <div class="lg:col-span-6">
           <h2 class="display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[0.95]">90 secondes pour voir ce que vous perdez<span class="text-ember">.</span></h2>
-          <p class="mt-6 text-lg leading-relaxed text-white/70 max-w-[32rem]">Nous filmons votre site actuel à côté d'une ébauche refaite pour votre établissement, et nous chiffrons le manque à gagner. Vous la recevez par email ou sur Instagram, sans rendez-vous.</p>
+          <p class="mt-6 text-lg leading-relaxed text-white/70 max-w-[32rem]">Nous filmons votre site actuel à côté d'une ébauche refaite pour votre métier, et nous chiffrons le manque à gagner. Vous la recevez par email ou sur Instagram, sans rendez-vous.</p>
           <ol class="mt-8 flex flex-col gap-3 text-[15px] text-white/80">
-            <li class="step"><span>1</span>Vous laissez le nom et le lien de votre établissement.</li>
+            <li class="step"><span>1</span>Vous laissez le nom et le lien de votre établissement ou de votre entreprise.</li>
             <li class="step"><span>2</span>Vous recevez la vidéo sous 48&nbsp;h ouvrées.</li>
             <li class="step"><span>3</span>On en parle 15 minutes, seulement si le chiffre vous parle.</li>
           </ol>
@@ -646,12 +646,12 @@
           <form id="auditForm" class="form-card" novalidate>
             <div class="grid sm:grid-cols-2 gap-4">
               <div class="f">
-                <label for="fName">Nom de l'établissement</label>
+                <label for="fName">Nom de l'établissement ou de l'entreprise</label>
                 <input id="fName" name="etablissement" type="text" autocomplete="organization" required>
-                <p class="f-err" id="fName-err" hidden>Indiquez le nom de l'établissement.</p>
+                <p class="f-err" id="fName-err" hidden>Indiquez le nom de votre établissement ou de votre entreprise.</p>
               </div>
               <div class="f">
-                <label for="fType">Type</label>
+                <label for="fType">Votre métier</label>
                 <select id="fType" name="type">
                   <option>Restaurant</option>
                   <option>Hôtel</option>
@@ -666,7 +666,7 @@
             </div>
             <div class="f">
               <label for="fUrl">Site web ou compte Instagram</label>
-              <input id="fUrl" name="lien" type="text" placeholder="votre-restaurant.fr ou @votrerestaurant" required>
+              <input id="fUrl" name="lien" type="text" placeholder="votre-site.fr ou @votrecompte" required>
               <p class="f-err" id="fUrl-err" hidden>Ajoutez un lien pour que l'on puisse filmer votre site.</p>
             </div>
             <div class="f">

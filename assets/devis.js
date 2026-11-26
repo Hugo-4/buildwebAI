@@ -18,7 +18,7 @@
     sur_mesure: ['noms_logiciels', 'frustration', 'objectif', 'taille_site', 'temps_perdu', 'delai', 'budget', 'exemples', 'commentaires_sur_mesure'],
     starter: ['starter_description', 'starter_domaine', 'starter_couleurs', 'starter_style', 'starter_drive', 'starter_structure', 'commentaires_starter'],
   };
-  const STEP_NAMES = ['Identité et établissement', 'Choix de la formule', 'Votre projet', 'Écosystème et ambitions'];
+  const STEP_NAMES = ['Identité et activité', 'Choix de la formule', 'Votre projet', 'Écosystème et ambitions'];
   const REQUIRED = {
     1: ['nom_etablissement', 'role', 'activite', 'localisation', 'email', 'deja_site'],
     2: ['type_offre'],
@@ -27,8 +27,8 @@
     4: [],
   };
   const MESSAGES = {
-    nom_etablissement: 'Indiquez le nom de votre établissement.',
-    role: 'Indiquez votre rôle dans l’établissement.',
+    nom_etablissement: 'Indiquez le nom de votre établissement ou de votre entreprise.',
+    role: 'Indiquez votre rôle, par exemple gérant ou artisan.',
     activite: 'Choisissez votre type d’activité.',
     localisation: 'Indiquez votre ville ou votre quartier.',
     email: 'Entrez une adresse email valide, par exemple nom@domaine.fr.',
@@ -39,7 +39,7 @@
     objectif: 'Choisissez votre objectif principal.',
     delai: 'Choisissez un délai de lancement.',
     budget: 'Choisissez une fourchette de budget.',
-    starter_description: 'Décrivez votre établissement en une ou deux phrases.',
+    starter_description: 'Décrivez votre activité en une ou deux phrases.',
   };
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -224,7 +224,7 @@
     parts.forEach((p) => { p.hidden = true; });
     $('.dv-nav').style.display = 'none';
     const nom = val('nom_etablissement');
-    $('#dvDoneTxt').textContent = `Merci${nom ? ` pour ${nom}` : ''}. Nous revenons vers vous à ${val('email')} sous 48 h ouvrées avec une proposition adaptée à votre établissement.`;
+    $('#dvDoneTxt').textContent = `Merci${nom ? ` pour ${nom}` : ''}. Nous revenons vers vous à ${val('email')} sous 48 h ouvrées avec une proposition adaptée à votre activité.`;
     done.hidden = false;
     $('h2', done).focus({ preventScroll: true });
     const top = card.getBoundingClientRect().top;
@@ -249,11 +249,77 @@
     const input = $(`input[name="type_offre"][value="${pre}"]`);
     if (input) input.checked = true;
   }
+  /* ---------- Libellés adaptés au métier (les valeurs envoyées à Airtable ne changent pas) ---------- */
+  const FAMILY = {
+    'Bistrot': 'resto', 'Restaurant gastronomique': 'resto', 'Cave à manger': 'resto', 'Bar à vins': 'resto', 'Fast-Food': 'resto',
+    'Hôtel': 'hotel', 'Commerce de bouche': 'commerce', 'Artisan du bâtiment': 'artisan', 'Garage ou atelier': 'garage', 'Club ou association': 'club',
+  };
+  const WORDS = {
+    resto: {
+      obj_resa: 'Plus de réservations directes', obj_cc: 'Vendre en Click & Collect',
+      out_caisse: 'Logiciel de caisse', out_resa: 'Plateforme de réservation (TheFork, Zenchef…)',
+      rev_voice: 'Une IA qui décroche le téléphone pendant le service', rev_sms: 'Des rappels SMS qui évitent les tables vides',
+      ph_logiciels: 'Ex. Zelty pour la caisse, TheFork pour les réservations',
+      ph_starter: 'Ex. Bistrot de quartier, 40 couverts : présenter la carte du midi et un bouton pour réserver.',
+      ph_structure: 'Ex. 1. Accueil, 2. La carte, 3. Notre histoire, 4. Infos pratiques et réservation',
+    },
+    hotel: {
+      obj_resa: 'Plus de réservations directes', obj_cc: 'Vendre la table et le spa en ligne',
+      out_caisse: 'Logiciel hôtelier (PMS)', out_resa: 'Booking, Expedia ou moteur de réservation',
+      rev_voice: 'Une IA qui répond à la réception de nuit comme de jour', rev_sms: 'Des messages avant l\u2019arrivée et après le départ',
+      ph_logiciels: 'Ex. Mews ou Cloudbeds, Booking et Expedia',
+      ph_starter: 'Ex. Hôtel de 18 chambres au bord du lac : présenter les chambres et réserver en direct.',
+      ph_structure: 'Ex. 1. Accueil, 2. Les chambres, 3. Table et spa, 4. Réservation',
+    },
+    commerce: {
+      obj_resa: 'Plus de commandes en direct', obj_cc: 'Vendre en Click & Collect et en paniers',
+      out_caisse: 'Logiciel de caisse', out_resa: 'Site de commande ou plateforme anti-gaspi',
+      rev_voice: 'Une IA qui répond aux questions de stock et d\u2019horaires', rev_sms: 'Des SMS quand la commande est prête',
+      ph_logiciels: 'Ex. caisse Lightspeed, page Facebook, Too Good To Go',
+      ph_starter: 'Ex. Boulangerie de quartier : montrer la vitrine du jour et réserver sa baguette.',
+      ph_structure: 'Ex. 1. Accueil, 2. Nos produits, 3. Commander, 4. Horaires et accès',
+    },
+    artisan: {
+      obj_resa: 'Plus de rendez-vous et de devis en ligne', obj_cc: 'Vendre des contrats d\u2019entretien',
+      out_caisse: 'Logiciel de devis et de facturation', out_resa: 'Agenda en ligne',
+      rev_voice: 'Une IA qui décroche quand vous êtes sur un chantier', rev_sms: 'Des rappels SMS qui évitent les rendez-vous manqués',
+      ph_logiciels: 'Ex. Obat ou Tolteck pour les devis, Google Agenda',
+      ph_starter: 'Ex. Plombier à Lyon : afficher les tarifs, les urgences et un bouton pour appeler.',
+      ph_structure: 'Ex. 1. Accueil, 2. Nos services et tarifs, 3. Zone d\u2019intervention, 4. Contact et urgences',
+    },
+    garage: {
+      obj_resa: 'Plus de rendez-vous et de devis en ligne', obj_cc: 'Vendre des forfaits en ligne',
+      out_caisse: 'Logiciel d\u2019atelier ou de facturation', out_resa: 'Agenda ou prise de rendez-vous en ligne',
+      rev_voice: 'Une IA qui répond aux appels « c\u2019est prêt ? »', rev_sms: 'Des rappels SMS qui évitent les rendez-vous manqués',
+      ph_logiciels: 'Ex. logiciel d\u2019atelier, Google Agenda, Excel',
+      ph_starter: 'Ex. Garage toutes marques : afficher les forfaits et prendre rendez-vous.',
+      ph_structure: 'Ex. 1. Accueil, 2. Forfaits et tarifs, 3. Prendre rendez-vous, 4. Accès et horaires',
+    },
+    club: {
+      obj_resa: 'Plus de licences et de billets en ligne', obj_cc: 'Vendre en ligne (boutique, billetterie)',
+      out_caisse: 'Logiciel de gestion du club', out_resa: 'Plateforme d\u2019inscription (HelloAsso…)',
+      rev_voice: 'Une IA qui répond aux parents et aux joueurs', rev_sms: 'Des rappels pour les inscriptions et les matchs',
+      ph_logiciels: 'Ex. HelloAsso, Excel, groupe WhatsApp',
+      ph_starter: 'Ex. Club de rugby : présenter les équipes, le calendrier et les inscriptions.',
+      ph_structure: 'Ex. 1. Accueil, 2. Les équipes, 3. Calendrier et billets, 4. Inscriptions et partenaires',
+    },
+  };
+  const DEFAULTS = {};
+  $$('[data-k]').forEach((el) => { DEFAULTS[el.dataset.k] = el.textContent; });
+  $$('[data-k-ph]').forEach((el) => { DEFAULTS[el.dataset.kPh] = el.placeholder; });
+  function adapt() {
+    const w = WORDS[FAMILY[val('activite')]] || DEFAULTS;
+    $$('[data-k]').forEach((el) => { el.textContent = w[el.dataset.k] || DEFAULTS[el.dataset.k]; });
+    $$('[data-k-ph]').forEach((el) => { el.placeholder = w[el.dataset.kPh] || DEFAULTS[el.dataset.kPh]; });
+  }
+  $$('input[name="activite"]').forEach((i) => i.addEventListener('change', adapt));
+
   // Pré-sélection de l'activité depuis les pages secteurs : devis.html?activite=Hôtel
   const act = new URLSearchParams(location.search).get('activite');
   if (act) {
     const input = [...document.querySelectorAll('input[name="activite"]')].find((i) => i.value === act);
     if (input) input.checked = true;
   }
+  adapt();
   paintProgress();
 })();
